@@ -1,29 +1,25 @@
-import type { InferGetStaticPropsType} from "next"
-import getAllProducts from "@ecommerce/product/get-all-products"
-import { getCommerceConfig } from "@ecommerce/api/config"
+import type { InferGetStaticPropsType } from "next";
+import getAllProducts from "@ecommerce/product/get-all-products";
+import { getCommerceConfig } from "@ecommerce/api/config";
+import { Layout } from "@components/common";
 
+export async function getStaticProps() {
+  const config = getCommerceConfig();
 
-export async function getStaticProps(){
-  const config = getCommerceConfig()
-
-  const products = await getAllProducts(config)
+  const products = await getAllProducts(config);
 
   return {
     props: {
-      products
+      products,
     },
-    revalidate: 4 * 60 * 60 // Every 4 hours
-  }
+    revalidate: 4 * 60 * 60, // Every 4 hours
+  };
 }
-
 
 export default function Home({
-  products
+  products,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-
-  return (
-    <div>
-      {JSON.stringify(products)}
-    </div>
-  )
+  return <div>{JSON.stringify(products)}</div>;
 }
+
+Home.Layout = Layout;

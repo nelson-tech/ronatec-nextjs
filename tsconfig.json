@@ -18,7 +18,9 @@
       "@common": ["ecommerce/common"],
       "@common/*": ["ecommerce/common/*"],
       "@ecommerce": ["ecommerce/shopify"],
-      "@ecommerce/*": ["ecommerce/shopify/*"]
+      "@ecommerce/*": ["ecommerce/shopify/*"],
+      "@components": ["components"],
+      "@components/*": ["components/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
