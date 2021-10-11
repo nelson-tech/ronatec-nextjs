@@ -1,11 +1,23 @@
-import { ReactNode } from "react";
+import { FC } from "react"
+import { css, theme } from "twin.macro"
+import Button from "../Button"
 
-interface Props {
-  children?: ReactNode[] | ReactNode;
+const base = css`
+  color: black;
+  background-color: ${theme`colors.blue.200`};
+`
+
+const Layout: FC = ({ children }) => {
+  return (
+    <div
+      css={css`
+        ${base};
+      `}
+    >
+      <Button isSmall>Button</Button>
+      <main className="fit">{children}</main>
+    </div>
+  )
 }
 
-const Layout = ({ children }: Props) => {
-  return <div className="layout">{children}</div>;
-};
-
-export default Layout;
+export default Layout

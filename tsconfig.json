@@ -14,15 +14,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
     "paths": {
       "@common": ["ecommerce/common"],
       "@common/*": ["ecommerce/common/*"],
       "@ecommerce": ["ecommerce/shopify"],
       "@ecommerce/*": ["ecommerce/shopify/*"],
-      "@components": ["components"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@assets/*": ["assets/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "types": ["types"]
 }
