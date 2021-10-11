@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pm2-dev": "pm2 start npm --name \"Ronatec Next.js Dev\" -- run dev",
+    "pm2-dev-stop": "pm2 stop \"Ronatec Next.js Dev\" && pm2 delete \"Ronatec Next.js Dev\"",
+    "pm2-dev-restart": "pm2 restart \"Ronatec Next.js Dev\""
   },
   "dependencies": {
     "next": "11.1.2",
@@ -15,8 +18,10 @@
   },
   "devDependencies": {
     "@types/react": "^17.0.27",
+    "deepmerge": "^4.2.2",
     "eslint": "8.0.0",
     "eslint-config-next": "11.1.2",
+    "prettier": "^2.4.1",
     "typescript": "^4.4.3"
   }
 }

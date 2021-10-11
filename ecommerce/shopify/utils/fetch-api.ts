@@ -1,18 +1,11 @@
-type FetchAPIParams = {
-    query: string
-}
-
-type FetchAPIResult<T> = { data: T }
-
+import { APIFetcherOptions, APIFetcherResults } from "@common/types/api"
 
 const fetchAPI = async <T>({
-  query}: FetchAPIParams
-): Promise<FetchAPIResult<T>> => {
-  const shopifyDevURL = "https://shopify.dev/graphiql/storefront-graphiql"
+  url,
+  query}: APIFetcherOptions
+): Promise<APIFetcherResults<T>> => {
 
-  const localDevURL = "http://localhost:4000/graphql"
-
-  const res = await fetch(localDevURL, {
+  const res = await fetch(url, {
       method: "POST",
       headers: {
           "Content-Type": "application/json"

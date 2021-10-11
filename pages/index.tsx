@@ -1,8 +1,12 @@
 import type { InferGetStaticPropsType} from "next"
-import getAllProducts from "@shopify/product/get-all-products"
+import getAllProducts from "@ecommerce/product/get-all-products"
+import { getCommerceConfig } from "@ecommerce/api/config"
+
 
 export async function getStaticProps(){
-  const products = await getAllProducts()
+  const config = getCommerceConfig()
+
+  const products = await getAllProducts(config)
 
   return {
     props: {
