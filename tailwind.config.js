@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      maxWidth: {
+        "8xl": "1920px",
+      },
       colors: {
         electric: "#db00ff",
         ribbon: "#0047ff",

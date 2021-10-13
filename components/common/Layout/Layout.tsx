@@ -14,7 +14,7 @@ const Layout: FC = ({ children }) => {
         ${base};
       `}
     >
-      <Button isSmall>Button</Button>
+      {/* <Button isSmall>Button</Button> */}
       <main className="fit">{children}</main>
     </div>
   )
