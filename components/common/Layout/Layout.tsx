@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { css, theme } from "twin.macro"
+import { Footer, Navbar } from ".."
 import Button from "../Button"
 
 const base = css`
@@ -15,7 +16,9 @@ const Layout: FC = ({ children }) => {
       `}
     >
       {/* <Button isSmall>Button</Button> */}
+      <Navbar />
       <main className="fit">{children}</main>
+      <Footer />
     </div>
   )
 }

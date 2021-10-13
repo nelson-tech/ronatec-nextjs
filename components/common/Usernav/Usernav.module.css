@@ -1,0 +1,15 @@
+.root {
+}
+
+.list {
+  @apply flex;
+}
+
+.item {
+  @apply mr-6 cursor-pointer transition duration-500
+    flex items-center outline-none text-black;
+
+  &:hover {
+    @apply text-gray-500 scale-110;
+  }
+}
