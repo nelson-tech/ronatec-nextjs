@@ -24,7 +24,12 @@
       "@assets/*": ["assets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "components/cart/CartItem/CartItem.s.js"
+  ],
   "exclude": ["node_modules"],
   "types": ["types"]
 }

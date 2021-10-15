@@ -3,28 +3,28 @@ import Link from "next/link"
 import { FC } from "react"
 import tw from "twin.macro"
 import { Usernav } from "@components/common"
-import s from "./Navbar.module.css"
+import { rootS, linkS, logoS } from "./Navbar.style"
 
 const Navbar: FC = () => {
   return (
     <Container>
-      <div className={s.root}>
+      <div css={rootS()}>
         <div css={tw`flex flex-1 items-center`}>
           <Link href="/">
-            <a className={s.logo}>HELLO</a>
+            <a css={logoS()}>HELLO</a>
           </Link>
           <nav css={tw`ml-6 space-x-6`}>
             <Link href="/">
-              <a className={s.link}>All</a>
+              <a css={linkS()}>All</a>
             </Link>
             <Link href="/">
-              <a className={s.link}>Clothes</a>
+              <a css={linkS()}>Clothes</a>
             </Link>
             <Link href="/">
-              <a className={s.link}>Accessories</a>
+              <a css={linkS()}>Accessories</a>
             </Link>
             <Link href="/">
-              <a className={s.link}>Shoes</a>
+              <a css={linkS()}>Shoes</a>
             </Link>
           </nav>
           <div css={tw`flex flex-1 justify-end space-x-8`}>

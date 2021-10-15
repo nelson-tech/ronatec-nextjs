@@ -1,8 +1,10 @@
-// import '@assets/main.css'
+import "@assets/main.css"
 
 import { AppProps } from "next/app"
+import { ThemeProvider } from "@emotion/react"
 import { GlobalStyles } from "twin.macro"
 import { FC } from "react"
+import { emotionTheme } from "styles/theme"
 
 const Noop: FC = ({ children }) => <>{children}</>
 
@@ -12,10 +14,12 @@ function RonatecWebsite({
 }: AppProps & { Component: { Layout: FC } }) {
   const Layout = Component.Layout ?? Noop
   return (
-    <Layout>
-      <GlobalStyles />
-      <Component {...pageProps} />
-    </Layout>
+    <ThemeProvider theme={emotionTheme}>
+      <Layout>
+        <GlobalStyles />
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
   )
 }
 
