@@ -5,6 +5,7 @@ import { ThemeProvider } from "@emotion/react"
 import { GlobalStyles } from "twin.macro"
 import { FC } from "react"
 import { emotionTheme } from "styles/theme"
+import { UIProvider } from "@components/ui/context"
 
 const Noop: FC = ({ children }) => <>{children}</>
 
@@ -14,12 +15,14 @@ function RonatecWebsite({
 }: AppProps & { Component: { Layout: FC } }) {
   const Layout = Component.Layout ?? Noop
   return (
-    <ThemeProvider theme={emotionTheme}>
-      <Layout>
-        <GlobalStyles />
-        <Component {...pageProps} />
-      </Layout>
-    </ThemeProvider>
+    <UIProvider>
+      <ThemeProvider theme={emotionTheme}>
+        <Layout>
+          <GlobalStyles />
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </UIProvider>
   )
 }
 
