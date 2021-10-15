@@ -1,22 +1,31 @@
+import { Sidebar } from "@components/ui"
 import { FC } from "react"
-import { css, theme } from "twin.macro"
 import { Footer, Navbar } from ".."
 import Button from "../Button"
-
-const base = css`
-  color: black;
-  background-color: ${theme`colors.blue.200`};
-`
+import { CartSidebar } from "@components/cart"
+import { css, useTheme } from "@emotion/react"
+import { useUI } from "@components/ui/context"
 
 const Layout: FC = ({ children }) => {
+  const t = useTheme()
+
+  const { isSidebarOpen, closeSidebar } = useUI()
+
   return (
     <div
       css={css`
-        ${base};
+        --tw-bg-opacity: 1;
+        background-color: ${t.colors.primary};
+        height: 100%;
+        margin-left: auto;
+        margin-right: auto;
       `}
     >
       {/* <Button isSmall>Button</Button> */}
       <Navbar />
+      <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar}>
+        <CartSidebar />
+      </Sidebar>
       <main className="fit">{children}</main>
       <Footer />
     </div>

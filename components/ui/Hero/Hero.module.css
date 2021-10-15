@@ -8,13 +8,13 @@
 
 .headline {
   @apply flex-1 max-w-xl text-4xl leading-10 font-extrabold text-white sm:text-5xl sm:leading-none
-    sm:tracking-tight lg:text-6xl mr-2;
+         sm:tracking-tight lg:text-6xl;
 }
 
 .description {
-  @apply flex-1 mt-5 text-xl leading-7 text-white;
+  @apply mt-5 text-xl leading-7 text-white;
 }
 
 .link {
-  @apply text-white pt-4 font-bold hover:underline cursor-pointer block;
+  @apply block text-white pt-3 font-bold hover:underline cursor-pointer;
 }

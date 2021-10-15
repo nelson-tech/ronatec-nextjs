@@ -13,11 +13,24 @@
   }
 
   &:nth-child(6n + 1) .productBg {
-    @apply bg-pink-400;
+    @apply bg-violet-main;
   }
+
   &:nth-child(6n + 3) .productBg {
-    @apply bg-purple-400;
+    @apply bg-pink-main;
   }
+
+  &:nth-child(6n + 5) .productBg {
+    @apply bg-blue-main;
+  }
+
+  &:nth-child(6n + 6) .productBg {
+    @apply bg-cyan-main;
+  }
+}
+
+.productImage {
+  @apply transition-transform duration-500 block;
 }
 
 .productBg {
@@ -45,16 +58,12 @@
   line-height: 2.2em;
 
   & span {
-    @apply py-4 px-6 bg-white;
+    @apply py-4 px-6 bg-primary;
     box-decoration-break: clone;
   }
 }
 
-.productImage {
-  @apply transition-transform duration-500;
-}
-
 .productPrice {
-  @apply pb-4 pt-2 px-6 text-black font-semibold text-sm bg-white;
+  @apply bg-primary pb-4 pt-2 px-6 font-semibold text-sm;
   letter-spacing: 0.4px;
 }
