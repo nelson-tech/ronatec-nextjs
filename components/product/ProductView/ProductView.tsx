@@ -8,6 +8,7 @@ import tw from "twin.macro"
 import { ProductSlider, Swatch } from "@components/product"
 import { Choices, getVariant } from "@lib/helpers"
 import { useUI } from "@components/ui/context"
+import useAddItem from "@common/cart/use-add-item"
 
 interface Props {
   product: Product
@@ -15,7 +16,10 @@ interface Props {
 
 const ProductView: FC<Props> = ({ product }) => {
   const [choices, setChoices] = useState<Choices>({})
+
   const { openSidebar } = useUI()
+  const addItem = useAddItem()
+
   const variant = getVariant(product, choices)
 
   const addToCart = async () => {
@@ -26,7 +30,7 @@ const ProductView: FC<Props> = ({ product }) => {
         variantOptions: variant?.options,
       }
 
-      alert(JSON.stringify(item))
+      addItem(item)
       openSidebar()
     } catch (error) {
       console.log(error)
