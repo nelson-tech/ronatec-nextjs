@@ -1,11 +1,11 @@
 import { APIFetcherOptions, APIFetcherResults } from "@common/types/api"
+import { API_URL } from "@ecommerce/const"
 
 const fetchAPI = async <T>({
-  url,
   query,
   variables,
 }: APIFetcherOptions): Promise<APIFetcherResults<T>> => {
-  const res = await fetch(url, {
+  const res = await fetch(API_URL!, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

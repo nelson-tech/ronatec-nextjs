@@ -1,7 +1,6 @@
-export type Variables = { [key: string]: string | undefined }
+export type Variables = { [key: string]: string | undefined | any }
 
 export type APIFetcherOptions = {
-  url: string
   query: string
   variables?: Variables
 }
@@ -15,8 +14,7 @@ export type APIFetcher<T = any> = (
 ) => Promise<APIFetcherResults<T>>
 
 export interface APIConfig {
-  apiUrl: string
-  fetch: APIFetcher
+  fetch<T>(options: APIFetcherOptions): Promise<APIFetcherResults<T>>
 }
 
 export interface APIHooks {
@@ -27,5 +25,5 @@ export interface APIHooks {
 
 export interface APIProviderContext {
   hooks: APIHooks
-  fetcher: APIFetcher
+  fetcher<T>(options: APIFetcherOptions): Promise<APIFetcherResults<T>>
 }
