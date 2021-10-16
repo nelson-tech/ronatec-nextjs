@@ -34,7 +34,7 @@ const ProductView: FC<Props> = ({ product }) => {
       alert(JSON.stringify(output))
       openSidebar()
     } catch (error) {
-      console.log(error)
+      throw error
     }
   }
 

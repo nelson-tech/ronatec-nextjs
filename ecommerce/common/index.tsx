@@ -1,5 +1,6 @@
 import { createContext, FC, ReactNode, useContext, useMemo } from "react"
-import { APIConfig, APIHooks, APIProviderContext } from "./types/api"
+import { APIConfig, APIProviderContext } from "./types/api"
+import { APIHooks } from "./types/hooks"
 
 interface APIProviderProps {
   children: ReactNode | ReactNode[]
@@ -18,6 +19,7 @@ export const CoreAPIProvider = ({
     return {
       fetcher: config.fetch,
       hooks,
+      checkoutId: config.checkoutCookie,
     }
   }, [config.fetch, hooks])
   return (

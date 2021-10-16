@@ -15,8 +15,6 @@ export const handler: MutationHook = {
       lineItems: [{ variantId: input.variantId, quantity: 1 }],
     }
 
-    debugger
-
     const response = await fetch({
       ...options,
       variables,
@@ -24,8 +22,8 @@ export const handler: MutationHook = {
     return response
   },
   useHook: ({ fetch }) => {
-    return async (input: any) => {
-      const response = await fetch(input)
+    return (input: any) => {
+      const response = fetch(input)
 
       return { output: response }
     }

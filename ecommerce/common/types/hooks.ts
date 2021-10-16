@@ -1,5 +1,12 @@
 import { APIFetcher, APIFetcherOptions } from "./api"
 
+export interface APIHooks {
+  cart: {
+    useAddItem: any
+    useCart: any
+  }
+}
+
 export type MutationHookContext = {
   fetch: (input: any) => any
 }
