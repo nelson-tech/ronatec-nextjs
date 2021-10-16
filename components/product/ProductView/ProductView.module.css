@@ -81,7 +81,6 @@
   text-align: center;
   width: 100%;
   max-width: 300px;
-  color: blue;
 
   @screen sm {
     min-width: 300px;

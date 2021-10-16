@@ -21,7 +21,8 @@
       "@ecommerce": ["ecommerce/shopify"],
       "@ecommerce/*": ["ecommerce/shopify/*"],
       "@components/*": ["components/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@lib/*": ["lib/*"]
     }
   },
   "include": [

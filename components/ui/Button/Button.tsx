@@ -7,8 +7,6 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button: FC<Props> = ({ children, className, ...rest }) => {
-  console.log(rest)
-
   return (
     <button className={cn(s.root, className)} type="button" {...rest}>
       {children}
