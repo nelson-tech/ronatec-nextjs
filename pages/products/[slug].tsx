@@ -1,4 +1,5 @@
 import { Layout } from "@components/common"
+import { ProductView } from "@components/product"
 import { getCommerceConfig } from "@ecommerce/api/config"
 import { getAllProductPaths, getProduct } from "@ecommerce/product"
 import {
@@ -37,7 +38,7 @@ export const getStaticProps = async ({
 export default function ProductDetail({
   product,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  return <div>{JSON.stringify(product, null, 2)}</div>
+  return <>{product && <ProductView product={product} />}</>
 }
 
 ProductDetail.Layout = Layout
