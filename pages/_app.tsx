@@ -1,4 +1,5 @@
 import "@assets/main.css"
+import 'keen-slider/keen-slider.min.css'
 
 import { AppProps } from "next/app"
 import { ThemeProvider } from "@emotion/react"
