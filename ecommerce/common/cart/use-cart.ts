@@ -1,10 +1,12 @@
 import { useCoreAPIProvider } from "@common"
-import { APIHooks } from "@common/types/hooks"
+import { APIHooks, SWRHook } from "@common/types/hooks"
 import { useHook, useSWRHook } from "@common/utils/use-hook"
 import { SHOPIFY_CHECKOUT_ID_COOKIE } from "@ecommerce/const"
 import Cookies from "js-cookie"
 
-const useCart = () => {
+export type UseCart<H extends SWRHook = SWRHook<any>> = ReturnType<H["useHook"]>
+
+const useCart: UseCart = () => {
   const hook = useHook((hooks: APIHooks) => hooks.cart.useCart)
   const { checkoutCookie } = useCoreAPIProvider()
 
@@ -13,7 +15,7 @@ const useCart = () => {
     return hook.fetcher(context)
   }
 
-  return useSWRHook({ ...hook, fetcher: fetcherWrapper })
+  return useSWRHook({ ...hook, fetcher: fetcherWrapper })()
 }
 
 export default useCart
