@@ -5,13 +5,21 @@ import { isDark } from "@lib/colors"
 import s from "./Swatch.module.css"
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: "s" | "m" | "l"
   color?: string
   label?: string
   variant: "size" | "color" | string
   active: boolean
 }
 
-const Swatch: FC<Props> = ({ color, label, variant, active, ...rest }) => {
+const Swatch: FC<Props> = ({
+  color,
+  label,
+  variant,
+  active,
+  size = "m",
+  ...rest
+}) => {
   label = label?.toLowerCase()
   variant = variant?.toLowerCase()
 
@@ -20,6 +28,7 @@ const Swatch: FC<Props> = ({ color, label, variant, active, ...rest }) => {
     [s.color]: color,
     [s.size]: variant === "size",
     [s.dark]: color && isDark(color),
+    [s.sm]: size === "s",
   })
 
   return (

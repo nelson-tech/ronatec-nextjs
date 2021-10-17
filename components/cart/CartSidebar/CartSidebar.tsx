@@ -4,14 +4,14 @@ import cn from "classnames"
 import tw from "twin.macro"
 import { useUI } from "@components/ui/context"
 import useCart from "@ecommerce/cart/use-cart"
+import { LineItem } from "@common/types/cart"
+import { CartItem } from ".."
 
 const CartSidebar: FC = () => {
   const { closeSidebar } = useUI()
-  const { data } = useCart()
+  const { data, isEmpty } = useCart()
 
   console.log("CartSidebar_cart", data)
-
-  const isEmpty = true
 
   const rootClass = cn("h-full flex flex-col", {
     "bg-secondary text-text-secondary": isEmpty,
@@ -57,7 +57,13 @@ const CartSidebar: FC = () => {
             <ul
               css={tw`py-6 space-y-6 sm:py-0 sm:space-y-0 sm:divide-y sm:divide-accents-3 border-t border-accents-3`}
             >
-              Product
+              {data?.lineItems.map((item: LineItem) => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  currencyCode={data.currency.code}
+                />
+              ))}
             </ul>
           </div>
           <div css={tw`flex-shrink-0 px-4  py-5 sm:px-6`}>
@@ -65,7 +71,9 @@ const CartSidebar: FC = () => {
               <ul css={tw`py-3`}>
                 <li css={tw`flex justify-between py-1`}>
                   <span>Subtotal</span>
-                  <span>Subtotal</span>
+                  <span>
+                    {data?.lineItemsSubtotalPrice} {data?.currency.code}
+                  </span>
                 </li>
                 <li css={tw`flex justify-between py-1`}>
                   <span>Taxes</span>
@@ -80,7 +88,9 @@ const CartSidebar: FC = () => {
                 css={tw`flex justify-between border-t border-accents-3 py-3 font-bold mb-10`}
               >
                 <span>Total</span>
-                <span>Total</span>
+                <span>
+                  {data?.totalPrice} {data?.currency.code}
+                </span>
               </div>
             </div>
             <button>Proceed to Checkout</button>

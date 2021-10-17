@@ -57,7 +57,7 @@ export const quantityStyle = (): SerializedStyles => {
   const t = useTheme()
 
   return css`
-    width: 2rem;
+    width: 3rem;
     border-color: ${t.colors["accents-2"]};
 
     &::-webkit-outer-spin-button,

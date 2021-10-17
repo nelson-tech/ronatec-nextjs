@@ -10,6 +10,7 @@ import {
   productImageS,
   quantityStyle,
 } from "./CartItem.style"
+import { Swatch } from "@components/product"
 
 const CartItem = ({
   item,
@@ -36,13 +37,36 @@ const CartItem = ({
       <div css={linkContainerS()}>
         <Link href={`/`}>
           <span
-            css={tw`font-bold text-lg cursor-pointer leading-6`}
+            css={tw`font-bold text-lg cursor-pointer leading-6 pl-2`}
             onClick={() => {}}
           >
             {item.name}
           </span>
         </Link>
-        <div css={tw`flex p-1`}>Swatch</div>
+        <div css={tw`flex p-1`}>
+          {options &&
+            options.length > 0 &&
+            options.map(option => {
+              const value = option.values[0]
+              return (
+                <Swatch
+                  key={`${item.id}-${option.displayName}`}
+                  onClick={() => {}}
+                  label={value.label}
+                  color={value.hexColor}
+                  variant={option.displayName}
+                  size="s"
+                  active={false}
+                />
+                // <span
+                //   key={`${item.id}-${option.displayName}`}
+                //   css={tw`text-sm font-semibold text-accents-7`}
+                // >
+                //   {option.values[0].label}
+                // </span>
+              )
+            })}
+        </div>
         <div css={tw`flex items-center mt-3`}>
           <button type="button">
             <Minus onClick={() => {}} />
@@ -53,7 +77,7 @@ const CartItem = ({
               max={99}
               min={0}
               css={quantityStyle()}
-              value={1}
+              value={item.quantity}
               onChange={() => {}}
             />
           </label>
