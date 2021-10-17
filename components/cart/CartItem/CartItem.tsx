@@ -11,6 +11,8 @@ import {
   quantityStyle,
 } from "./CartItem.style"
 import { Swatch } from "@components/product"
+import { useUpdateItem, useRemoveItem } from "@ecommerce/cart"
+import { ChangeEvent, useState } from "react"
 
 const CartItem = ({
   item,
@@ -19,8 +21,36 @@ const CartItem = ({
   item: LineItem
   currencyCode: string
 }) => {
+  const [quantity, setQuantity] = useState(item.quantity)
+
+  const updateItem = useUpdateItem()
+  const removeItem = useRemoveItem()
+
   const price = item.variant.price! * item.quantity || 0
+
   const { options } = item
+
+  const handleQuantityChange = async (val: number) => {
+    if (Number.isInteger(val) && val >= 0) {
+      setQuantity(val)
+
+      const data = await updateItem({
+        id: item.id,
+        quantity: val,
+        variantId: item.variantId,
+      })
+    }
+  }
+
+  const handleQuantity = (e: ChangeEvent<HTMLInputElement>) => {
+    const val = Number(e.target.value)
+    handleQuantityChange(val)
+  }
+
+  const incrementQuantity = async (n = 1) => {
+    const val = Number(quantity) + n
+    handleQuantityChange(val)
+  }
 
   return (
     <li css={itemS({ hasItem: false })}>
@@ -69,7 +99,7 @@ const CartItem = ({
         </div>
         <div css={tw`flex items-center mt-3`}>
           <button type="button">
-            <Minus onClick={() => {}} />
+            <Minus onClick={() => incrementQuantity(-1)} />
           </button>
           <label>
             <input
@@ -77,12 +107,12 @@ const CartItem = ({
               max={99}
               min={0}
               css={quantityStyle()}
-              value={item.quantity}
-              onChange={() => {}}
+              value={quantity}
+              onChange={handleQuantity}
             />
           </label>
           <button type="button">
-            <Plus onClick={() => {}} />
+            <Plus onClick={() => incrementQuantity(1)} />
           </button>
         </div>
       </div>
@@ -90,7 +120,12 @@ const CartItem = ({
         <span>
           {price} {currencyCode}
         </span>
-        <button onClick={() => {}} css={tw`flex justify-end outline-none`}>
+        <button
+          onClick={async () => {
+            const cart = await removeItem({ id: item.id })
+          }}
+          css={tw`flex justify-end outline-none`}
+        >
           <Trash />
         </button>
       </div>

@@ -36,7 +36,6 @@ export const handler: MutationHook<AddItemHookDescriptor> = {
     })
 
     const cart = checkoutToCart(data.checkoutLineItemsAdd.checkout)
-    console.log("use-add-item_cart", cart)
 
     return cart
   },
