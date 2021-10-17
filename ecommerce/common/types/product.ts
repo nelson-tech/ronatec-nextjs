@@ -23,7 +23,7 @@ export interface ProductVariant {
   id: string
   name: string
   sku: string
-  image?: ProductImage
+  image: ProductImage
   requiresShipping: boolean
   price: number
   listPrice: number
