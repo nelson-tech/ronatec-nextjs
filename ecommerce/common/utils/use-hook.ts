@@ -2,7 +2,7 @@ import { useCoreAPIProvider } from "@common"
 import { APIFetcher } from "@common/types/api"
 import { APIHooks } from "@common/types/hooks"
 import { MutationHook } from "@common/types/hooks"
-import { useState } from "react"
+import useSWR from "swr"
 
 export const useHook = (fn: (apiHooks: APIHooks) => MutationHook) => {
   const { hooks } = useCoreAPIProvider()
@@ -23,14 +23,12 @@ export const useMutationHook = (hook: MutationHook) => {
   })
 }
 
-const useData = (hook: any, fetcher: APIFetcher) => {
-  const [data, setData] = useState(null)
-
-  const hookFetcher = async () => {
+const useData = (hook: any, fetcher: APIFetcher, context: any) => {
+  const hookFetcher = async (query: string) => {
     try {
       return await hook.fetcher({
         fetch: fetcher,
-        options: hook.fetchOptions,
+        options: { query },
         input: {},
       })
     } catch (error) {
@@ -38,20 +36,21 @@ const useData = (hook: any, fetcher: APIFetcher) => {
     }
   }
 
-  if (!data) {
-    hookFetcher().then(data => {
-      setData(data)
-    })
-  }
+  const response = useSWR(
+    hook.fetchOptions.query,
+    hookFetcher,
+    context.swrOptions,
+  )
 
-  return data
+  return response
 }
 
 export const useSWRHook = (hook: any) => {
   const { fetcher } = useCoreAPIProvider()
+
   return hook.useHook({
-    useData() {
-      const data = useData(hook, fetcher)
+    useData(context: any) {
+      const data = useData(hook, fetcher, context)
       return data
     },
   })

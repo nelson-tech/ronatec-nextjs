@@ -1,15 +1,21 @@
 import useCart from "@common/cart/use-cart"
-import { createCheckout } from "@ecommerce/utils"
+import { createCheckout, getCheckoutQuery } from "@ecommerce/utils"
+import { useMemo } from "react"
 
 export const handler = {
   fetchOptions: {
-    query: ` query { hello }`,
+    query: getCheckoutQuery,
   },
   fetcher: async ({ fetch, options, input: { checkoutId } }: any) => {
     let checkout
 
     if (checkoutId) {
-      const { data } = await fetch({ ...options })
+      const { data } = await fetch({
+        ...options,
+        variables: {
+          checkoutId,
+        },
+      })
 
       checkout = data.node
     } else {
@@ -19,10 +25,15 @@ export const handler = {
     return checkout
   },
   useHook: ({ useData }: any) => {
-    const data = useData()
-    return {
-      data,
-    }
+    const data = useData({
+      swrOptions: {
+        revalidateOnFocus: false,
+      },
+    })
+
+    return useMemo(() => {
+      return data
+    }, [data])
   },
 }
 

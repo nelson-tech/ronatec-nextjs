@@ -7,9 +7,9 @@ import useCart from "@ecommerce/cart/use-cart"
 
 const CartSidebar: FC = () => {
   const { closeSidebar } = useUI()
-  const cart = useCart()
+  const { data } = useCart()
 
-  console.log("CartSidebar_cart", cart)
+  console.log("CartSidebar_cart", data)
 
   const isEmpty = true
 

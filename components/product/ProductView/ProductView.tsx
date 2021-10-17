@@ -8,7 +8,7 @@ import tw from "twin.macro"
 import { ProductSlider, Swatch } from "@components/product"
 import { Choices, getVariant } from "@lib/helpers"
 import { useUI } from "@components/ui/context"
-import useAddItem from "@common/cart/use-add-item"
+import useAddItem from "@ecommerce/cart/use-add-item"
 
 interface Props {
   product: Product
