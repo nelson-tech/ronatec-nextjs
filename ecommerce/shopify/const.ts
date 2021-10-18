@@ -16,3 +16,8 @@ export const SHOPIFY_CHECKOUT_ID_COOKIE =
 
 export const SHOPIFY_CHECKOUT_URL_COOKIE = "shopify_checkoutUrl"
 export const SHOPIFY_COOKIE_EXPIRE = 90
+
+export const SHOPIFY_ACCESS_TOKEN =
+  platform === "shopify_live"
+    ? process.env.NEXT_PUBLIC_DEV_SHOPIFY_LIVE_ACCESS_TOKEN
+    : process.env.NEXT_PUBLIC_DEV_SHOPIFY_DEV_ACCESS_TOKEN

@@ -6,8 +6,11 @@ import { useUI } from "@components/ui/context"
 import useCart from "@ecommerce/cart/use-cart"
 import { LineItem } from "@common/types/cart"
 import { CartItem } from ".."
+import { Button } from "@components/ui"
+import { useRouter } from "next/router"
 
 const CartSidebar: FC = () => {
+  const router = useRouter()
   const { closeSidebar } = useUI()
   const { data, isEmpty } = useCart()
 
@@ -93,7 +96,14 @@ const CartSidebar: FC = () => {
                 </span>
               </div>
             </div>
-            <button>Proceed to Checkout</button>
+            <Button
+              onClick={() => {
+                router.push("/api/checkout")
+                closeSidebar()
+              }}
+            >
+              Proceed to Checkout
+            </Button>
           </div>
         </>
       )}

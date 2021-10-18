@@ -2,7 +2,7 @@ import { checkoutDetailFragment } from "../common"
 
 const checkoutLineItemsAdd = `
   mutation(
-    $checkoutId: ID,
+    $checkoutId: ID!,
     $lineItems: [CheckoutLineItemInput!]! ) {
     checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {
       checkoutUserErrors {

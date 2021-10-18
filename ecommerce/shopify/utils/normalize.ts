@@ -59,7 +59,10 @@ export const normalizeCart = (checkout: Checkout): Cart => {
 
 const normalizeProductImages = ({ edges }: { edges: ImageEdge[] }) =>
   edges.map(({ node: { originalSrc: url, ...rest } }) => ({
-    url: `/images/${url}`,
+    url:
+      process.env.NEXT_PUBLIC_ECOMMERCE_PLATFORM === "shopify_local"
+        ? `/images/${url}`
+        : url ?? "/product-image-placeholder.svg",
     ...rest,
   }))
 

@@ -13,7 +13,7 @@ export const getVariant = (product: Product, choices: Choices) =>
 
       return (
         optionName in choices &&
-        choices[optionName] === varOption.values[0].label
+        choices[optionName] === varOption.values[0].label.toLowerCase()
       )
     }),
   )

@@ -1,5 +1,5 @@
 import { APIFetcherOptions, APIFetcherResults } from "@common/types/api"
-import { API_URL } from "@ecommerce/const"
+import { API_URL, SHOPIFY_ACCESS_TOKEN } from "@ecommerce/const"
 
 const fetchAPI = async <T>({
   query,
@@ -9,6 +9,7 @@ const fetchAPI = async <T>({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "X-Shopify-Storefront-Access-Token": SHOPIFY_ACCESS_TOKEN!,
     },
     body: JSON.stringify({
       query,
