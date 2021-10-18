@@ -19,7 +19,7 @@ export interface LineItem {
 export interface Cart {
   id: string
   createdAt: string
-  // completedAt: string
+  completedAt: string
   currency: { code: string }
   taxesIncluded: boolean
   // taxes, discounts exluded
