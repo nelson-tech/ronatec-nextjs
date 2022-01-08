@@ -14,16 +14,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "jsxImportSource": "@emotion/react",
     "paths": {
-      "@common": ["ecommerce/common"],
-      "@common/*": ["ecommerce/common/*"],
-      "@ecommerce": ["ecommerce/shopify"],
-      "@ecommerce/*": ["ecommerce/shopify/*"],
+      "@api": ["lib/api"],
+      "@api/*": ["lib/api/*"],
+      "@components": ["components"],
       "@components/*": ["components/*"],
       "@assets/*": ["assets/*"],
       "@lib/*": ["lib/*"]
-    }
+    },
+    "incremental": false
   },
   "include": [
     "next-env.d.ts",

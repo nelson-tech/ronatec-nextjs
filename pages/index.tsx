@@ -1,44 +1,134 @@
 import type { InferGetStaticPropsType } from "next"
-import { getAllProducts } from "@ecommerce/product"
-import { getCommerceConfig } from "@ecommerce/api/config"
-import { Layout } from "@components/common"
-import { ProductCard } from "@components/product"
-import { Grid, Hero, Marquee } from "@components/ui"
+import Image from "next/image"
+import tw from "twin.macro"
 
-export async function getStaticProps() {
-  const config = getCommerceConfig()
+import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { getHomeData } from "@api/queries/pages"
+import { normalize } from "@api/utils"
 
-  const products = await getAllProducts(config)
+import { LoadingDots } from "@components/ui"
+import { Slider, VideoCard } from "@components"
+import { IconCard, SupplierCard } from "@components/Cards"
+import { PageReturnType } from "@api/queries/types"
 
-  return {
-    props: {
-      products,
-    },
-    revalidate: 4 * 60 * 60, // Every 4 hours
-  }
-}
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+// ####
+// #### Component
+// ####
 
 export default function Home({
-  products,
+  page: home,
+  menuItems,
+  loading,
+  error,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  if (loading) return <LoadingDots />
+  menuItemsVar(menuItems)
+
+  const slides = home.page_home?.acf?.slides
+  const cards = home.page_home?.acf?.cards
+  const supplier = home.page_home?.acf?.featuredSupplier
+  const videoLink = home.page_home?.acf?.videoLink
+
   return (
     <>
-      <Grid>
-        {products.slice(0, 3).map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </Grid>
-      <Hero
-        headline="Drones, watercooling, and metal finishing."
-        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-      />
-      <Grid layout="B">
-        {products.slice(0, 3).map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </Grid>
+      <div className="relative aspect-3 -mx-5 w-screen h-full mb-8 mt-0">
+        <div className="w-full absolute bg-opacity-80 h-full z-10 bg-white">
+          <div className="w-2/3 lg:w-1/2 h-full relative mx-auto my-auto">
+            <Image
+              src={`https://ronatec.us/wp-content/uploads/2015/11/ronatec_retina.png`}
+              layout="fill"
+              alt="Ronatec Logo"
+              objectFit="contain"
+            />
+          </div>
+        </div>
+      </div>
+      {/* 
+        <video
+          autoPlay
+          muted
+          loop
+          className="absolute w-full h-full object-cover z-0"
+        >
+          <source
+            src="https://cdn.ronatec.us/ronatec/20220102201608/can-capping.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div> */}
+
+      {slides && (
+        <Slider
+          slides={slides}
+          containerClassName="responsivePadding relative -mx-5 w-screen h-full mb-8 mt-0"
+          imageFit="cover"
+        />
+      )}
+
+      {cards && (
+        <div className="relative bg-white pb-16 py-8">
+          <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {cards.map(card => {
+                if (card) {
+                  return <IconCard card={card} key={card.title} />
+                }
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {videoLink && (
+        <VideoCard
+          videoLink={videoLink}
+          cardStyle={tw`pb-12 w-full md:w-4/5 lg:w-2/3 mx-auto`}
+        />
+      )}
+
+      {supplier && (
+        <div className="mx-auto w-full md:w-2/3 lg:w-1/2">
+          <SupplierCard headerText="Featured Supplier" supplier={supplier} />
+        </div>
+      )}
     </>
   )
 }
 
-Home.Layout = Layout
+// ####
+// #### Data Fetching
+// ####
+
+export async function getStaticProps() {
+  const client = initializeApollo({})
+
+  const {
+    data: { page, menu },
+    loading,
+    error,
+  }: PageReturnType = await client.query({
+    query: getHomeData,
+  })
+
+  const menuItems = normalize.menu(menu)
+
+  const staticProps = {
+    props: {
+      loading,
+      page,
+      menuItems,
+      error: error || null,
+    },
+    revalidate: 4 * 60 * 60, // Every 4 hours
+  }
+
+  addApolloState(client, staticProps)
+
+  return staticProps
+}

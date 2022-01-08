@@ -1,6 +1,5 @@
 import { FC, ReactNode } from "react"
-import s from "./Grid.module.css"
-import cn from "classnames"
+import { Container } from "./style"
 
 interface Props {
   children: ReactNode[]
@@ -8,11 +7,7 @@ interface Props {
 }
 
 const Grid: FC<Props> = ({ children, layout = "A" }) => {
-  const rootClassName = cn(s.root, {
-    [s.layoutA]: layout === "A",
-    [s.layoutB]: layout === "B",
-  })
-  return <div className={rootClassName}>{children}</div>
+  return <Container layout={layout}>{children}</Container>
 }
 
 export default Grid

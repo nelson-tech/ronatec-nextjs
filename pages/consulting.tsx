@@ -1,0 +1,184 @@
+import { InferGetStaticPropsType } from "next"
+import { css } from "@emotion/react"
+import tw from "twin.macro"
+
+// import { initializeApollo } from "@lib/apollo"
+import { addApolloState, menuItemsVar } from "@lib/apollo"
+import { getConsultingData } from "@api/queries/pages"
+import { PageReturnType } from "@api/queries/types"
+import { normalize } from "@api/utils"
+import { parseNewLines } from "@lib/utils"
+
+// import { Layout, LoadingDots } from "@components/ui"
+// import { IconCard, Slider } from "@components"
+
+import { LoadingDots } from "@components/ui"
+import { Post_Common_Cards } from "@api/gql/types"
+import { IconCard } from "@components/Cards"
+import { Slider } from "@components"
+import styled from "@emotion/styled"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const responsivePadding = css`
+  padding-top: 52.25%;
+  // medium
+  @media (min-width: 768px) {
+    padding-top: 40%;
+  }
+  // large
+  @media (min-width: 1024px) {
+    padding-top: 32.5%;
+  }
+`
+
+const ParsedDiv = styled.div`
+  & > .parsed-block {
+    ${tw`flex flex-row`}
+    > .parsed-p {
+      padding-left: 10px;
+    }
+  }
+`
+
+// ####
+// #### Component
+// ####
+
+const Consulting = ({
+  page,
+  loading,
+  error,
+  menuItems,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  if (loading) return <LoadingDots />
+  menuItemsVar(menuItems)
+
+  const { title, slug } = page
+
+  if (page.page_consulting && page.page_consulting.acf) {
+    const { content, callout, certificates, cards, slides, ...consulting } =
+      page.page_consulting.acf
+    return (
+      <>
+        <div>
+          <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
+            <h2>{title}</h2>
+          </div>
+
+          <div className="mt-8 flex flex-col md:flex-row pb-8 items-center">
+            {slides && slides.length > 0 && (
+              <Slider
+                slides={slides}
+                imageFit="cover"
+                rounded
+                sliderStyle={[
+                  tw`relative w-full h-full m-4`,
+                  responsivePadding,
+                ]}
+              />
+            )}
+            <div className="px-4 w-full h-full text-sm text-gray-700">
+              {content && parseNewLines(content)}
+            </div>
+          </div>
+
+          {/* Certifications */}
+          {certificates && certificates.cards && (
+            <div className="relative bg-white py-8">
+              <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  {certificates.cards.map(card => {
+                    if (card) {
+                      return (
+                        <IconCard
+                          card={card}
+                          key={"consultingIconCard" + card?.title}
+                          contentStyle={tw`text-sm`}
+                        />
+                      )
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Info Cards */}
+          {cards && cards.cards && (
+            <div className="relative bg-white py-8">
+              <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                  {cards.cards.map(card => {
+                    if (card) {
+                      return <Card card={card} key={card.title} />
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </>
+    )
+  }
+  return <div>Error</div>
+}
+
+const Card = ({ card }: { card: Post_Common_Cards }) => {
+  return (
+    <div
+      className={`flow-root rounded-lg px-6 pb-8 md:pt-0 h-full${
+        false && " text-center"
+      }`}
+    >
+      {card.title && (
+        <h3 className="mt-8 text-2xl font-medium text-black tracking-tight border-b-2">
+          {card.title}
+        </h3>
+      )}
+      <div className="mt-5 text-sm text-gray-500">
+        {card.content && parseNewLines(card.content)}
+      </div>
+    </div>
+  )
+}
+
+// ####
+// #### Data Fetching
+// ####
+
+export async function getStaticProps() {
+  const initializeApollo = (await import("@lib/apollo/client")).initializeApollo
+  const client = initializeApollo({})
+
+  const {
+    data: { page, menu },
+    loading,
+    error,
+  }: PageReturnType = await client.query({
+    query: getConsultingData,
+  })
+
+  const menuItems = normalize.menu(menu)
+
+  const staticProps = {
+    props: {
+      loading,
+      page,
+      menuItems,
+      error: error || null,
+    },
+    revalidate: 4 * 60 * 60, // Every 4 hours
+  }
+
+  addApolloState(client, staticProps)
+
+  return staticProps
+}
+
+export default Consulting

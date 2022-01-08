@@ -1,0 +1,17 @@
+overwrite: true
+schema: "https://api.ronatec.us/gql"
+generates:
+  lib/api/gql/fragment-matcher.ts:
+    plugins:
+      - fragment-matcher
+  lib/api/gql/types.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "fragment-matcher"
+  lib/api/gql/graphql.schema.json:
+    plugins:
+      - "introspection"
+config:
+  skipTypename: true

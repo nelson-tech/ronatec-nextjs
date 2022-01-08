@@ -17,7 +17,7 @@ const Button: FC<Props> = ({
   ...rest
 }) => {
   const rootClassName = cn(s.root, className, { [s.loading]: isLoading })
-  console.log("DISABLED", isLoading || disabled)
+
   // TODO - Disable hover and pointer stylings when button is disabled
   return (
     <button

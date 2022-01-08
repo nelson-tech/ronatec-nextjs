@@ -1,6 +1,9 @@
 module.exports = {
-  purge: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  darkMode: "media", // or 'media' or 'class'
   theme: {
     extend: {
       maxWidth: {
@@ -33,14 +36,44 @@ module.exports = {
         violet: { main: "var(--violet)", light: "var(--violet-light)" },
         pink: { main: "var(--pink)" },
         cyan: { main: "var(--cyan)" },
-        blue: { main: "var(--blue)" },
+        blue: {
+          dark: "#485D7D",
+          light: "#6B82A6",
+          main: "#5375A0",
+        },
+        teal: "#32de8a",
         green: { main: "var(--green)" },
-        red: { main: "var(--red)" },
+        red: { main: "#d72638" },
       },
+      fontFamily: {
+        exo: ["Exo", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
+      },
+    },
+    aspectRatio: {
+      auto: "auto",
+      square: "1 / 1",
+      video: "16 / 9",
+      1: "1",
+      2: "2",
+      3: "3",
+      4: "4",
+      5: "5",
+      6: "6",
+      7: "7",
+      8: "8",
+      9: "9",
+      10: "10",
+      11: "11",
+      12: "12",
+      13: "13",
+      14: "14",
+      15: "15",
+      16: "16",
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: ["@tailwindcss/aspect-ratio"],
 }

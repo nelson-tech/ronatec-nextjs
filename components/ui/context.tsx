@@ -14,7 +14,12 @@ const stateModifiers = {
   closeSidebar: () => {},
 }
 
-const initialState = { isSidebarOpen: false }
+const initialState = {
+  isSidebarOpen: false,
+  mainMenu: [
+    { label: "Home", path: "/", icon: undefined, children: undefined },
+  ],
+}
 
 type State = StateValues & StateModifiers
 
@@ -56,7 +61,7 @@ export const UIProvider: FC = ({ children }) => {
       openSidebar,
       closeSidebar,
     }
-  }, [state.isSidebarOpen])
+  }, [state])
 
   return <UIContext.Provider value={value}>{children}</UIContext.Provider>
 }
