@@ -1084,6 +1084,8 @@ export enum CommentsConnectionOrderbyEnum {
 export type ContentNode = {
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The ID of the node in the database. */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -3949,6 +3951,8 @@ export type Employee = ContentNode & DatabaseIdentifier & MenuItemLinkable & Nod
   contact?: Maybe<Employee_Contact>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -4343,6 +4347,8 @@ export type ExternalProduct = ContentNode & DatabaseIdentifier & Node & NodeWith
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The ID of the product in the database */
   databaseId: Scalars['Int'];
   /** Date product created */
@@ -4903,6 +4909,8 @@ export type GroupProduct = ContentNode & DatabaseIdentifier & Node & NodeWithCom
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The ID of the product in the database */
   databaseId: Scalars['Int'];
   /** Date product created */
@@ -5631,6 +5639,8 @@ export type MediaItem = ContentNode & DatabaseIdentifier & HierarchicalContentNo
   comments?: Maybe<MediaItemToCommentConnection>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -6434,6 +6444,8 @@ export type NodeWithExcerptExcerptArgs = {
 export type NodeWithFeaturedImage = {
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -7516,6 +7528,8 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -7583,6 +7597,8 @@ export type Page = ContentNode & DatabaseIdentifier & HierarchicalContentNode & 
   page_consulting?: Maybe<Page_PageConsulting>;
   /** Added to the GraphQL Schema because the ACF Field Group &quot;Page: Home&quot; was set to Show in GraphQL. */
   page_home?: Maybe<Page_PageHome>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Page: Ronatank&quot; was set to Show in GraphQL. */
+  page_ronatank?: Maybe<Page_PageRonatank>;
   /** The parent of the node. The parent object can be of various types */
   parent?: Maybe<HierarchicalContentNodeToParentContentNodeConnectionEdge>;
   /** Database id of the parent node */
@@ -8298,6 +8314,19 @@ export type Page_PageHome_Acf_Slides = AcfFieldGroup & {
   image?: Maybe<MediaItem>;
 };
 
+/** Field Group */
+export type Page_PageRonatank = AcfFieldGroup & {
+  acf?: Maybe<Page_PageRonatank_Acf>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+};
+
+/** Field Group */
+export type Page_PageRonatank_Acf = AcfFieldGroup & {
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+};
+
 /** A payment gateway object */
 export type PaymentGateway = {
   /** gateway&#039;s description */
@@ -8354,6 +8383,8 @@ export type Post = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -10002,6 +10033,8 @@ export type ProductCategory = DatabaseIdentifier & HierarchicalTermNode & MenuIt
    * @deprecated Deprecated in favor of databaseId
    */
   productCategoryId?: Maybe<Scalars['Int']>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Product Category&quot; was set to Show in GraphQL. */
+  product_category?: Maybe<ProductCategory_ProductCategory>;
   /** Connection between the ProductCategory type and the Product type */
   products?: Maybe<ProductCategoryToProductConnection>;
   /** An alphanumeric identifier for the object unique to its type. */
@@ -10345,6 +10378,20 @@ export type ProductCategoryToProductConnectionWhereArgs = {
 export type ProductCategoryToTaxonomyConnectionEdge = {
   /** The node of the connection, without the edges */
   node?: Maybe<Taxonomy>;
+};
+
+/** Field Group */
+export type ProductCategory_ProductCategory = AcfFieldGroup & {
+  acf?: Maybe<ProductCategory_ProductCategory_Acf>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+};
+
+/** Field Group */
+export type ProductCategory_ProductCategory_Acf = AcfFieldGroup & {
+  description?: Maybe<Scalars['String']>;
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
 };
 
 /** A product object */
@@ -11631,6 +11678,8 @@ export type ProductVariation = ContentNode & DatabaseIdentifier & Node & NodeWit
   catalogVisibility?: Maybe<CatalogVisibilityEnum>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The ID of the refund in the database */
   databaseId: Scalars['Int'];
   /** Date variation created */
@@ -15939,6 +15988,8 @@ export type SimpleProduct = ContentNode & DatabaseIdentifier & Node & NodeWithCo
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** Connection between the SimpleProduct type and the Product type */
   crossSell?: Maybe<SimpleProductToProductConnection>;
   /** The ID of the product in the database */
@@ -16439,6 +16490,8 @@ export type Supplier = ContentNode & DatabaseIdentifier & MenuItemLinkable & Nod
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** The unique resource identifier path */
   databaseId: Scalars['Int'];
   /** Post publishing date. */
@@ -18640,6 +18693,8 @@ export type VariableProduct = ContentNode & DatabaseIdentifier & Node & NodeWith
   content?: Maybe<Scalars['String']>;
   /** Connection between the ContentNode type and the ContentType type */
   contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String'];
   /** Connection between the VariableProduct type and the Product type */
   crossSell?: Maybe<VariableProductToProductConnection>;
   /** The ID of the product in the database */
@@ -19510,6 +19565,8 @@ export type WritingSettings = {
       "Page_PageHome_Acf_cards_Icon",
       "Page_PageHome_Acf_cards_Link",
       "Page_PageHome_Acf_slides",
+      "Page_PageRonatank",
+      "Page_PageRonatank_Acf",
       "Post_Common",
       "Post_Common_Callout",
       "Post_Common_Icon",
@@ -19532,6 +19589,8 @@ export type WritingSettings = {
       "Post_Maps_markers_Center",
       "Post_Maps_markers_Icon",
       "Post_Regions",
+      "ProductCategory_ProductCategory",
+      "ProductCategory_ProductCategory_Acf",
       "Supplier_Supplier"
     ],
     "Attribute": [

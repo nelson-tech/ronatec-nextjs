@@ -17,3 +17,5 @@ export const getProductLink = (product: Product) => {
 
   return linkUrl
 }
+
+export const getCategories = (products: Product[]) => {}

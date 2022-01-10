@@ -3,6 +3,7 @@ import { ImageContainer } from "./style"
 
 type Props = {
   src: string
+  alt?: string
   layout?: "fixed" | "fill" | "intrinsic" | "responsive" | undefined
   objectFit?:
     | "contain"
@@ -24,6 +25,7 @@ const Image = ({
   src,
   layout = "fill",
   objectFit = "contain",
+  alt,
   height,
   width,
   rounded,
@@ -32,6 +34,7 @@ const Image = ({
     <ImageContainer rounded={rounded}>
       <NextImage
         src={src}
+        alt={alt}
         layout={layout}
         objectFit={objectFit}
         height={height || 250}

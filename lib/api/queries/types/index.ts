@@ -60,8 +60,14 @@ export type ProductsReturnType = ApolloReturnInfoType & {
   }
 }
 
-export type ProductCategoriesReturnType = ApolloReturnInfoType & {
-  data: {
-    products: { nodes: Product[] }
+export type CategoryReturnType = ApolloReturnInfoType & {
+  data: ApolloGenericReturnDataType & {
+    productCategory: ProductCategory
+  }
+}
+
+export type CategoriesReturnType = ApolloReturnInfoType & {
+  data: ApolloGenericReturnDataType & {
+    productCategories: { nodes: ProductCategory[] }
   }
 }

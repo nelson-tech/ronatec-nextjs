@@ -20,7 +20,7 @@ import {
   HTMLReactParserOptions,
 } from "html-react-parser"
 import styled from "@emotion/styled"
-import { Image } from "@components/Image"
+import { Image } from "@components"
 import { ProductCategory } from "@api/gql/types"
 import { useRouter } from "next/router"
 import Link from "next/link"

@@ -1,9 +1,14 @@
 import { imageFragment } from "."
 
-export const productBaseFragment = `
+export const productMinBaseFragment = `
+id
 name
-type
 slug
+type
+`
+
+export const productBaseFragment = `
+${productMinBaseFragment}
 metaData(keysIn: "_product_addons") {
   key
   value
@@ -52,6 +57,19 @@ export const variableProductFragment = `
 ... on VariableProduct {
   ${productBaseFragment}
   ${variationsFragment}
+}
+`
+
+export const productCategoryFragment = `
+name
+slug
+id
+count
+description
+product_category {
+  acf {
+    description
+  }
 }
 `
 

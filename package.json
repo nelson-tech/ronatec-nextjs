@@ -23,6 +23,9 @@
     "@heroicons/react": "^1.0.5",
     "@react-google-maps/api": "^2.7.0",
     "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@types/jwt-decode": "^3.1.0",
+    "@types/uuid": "^8.3.4",
+    "apollo-link-token-refresh": "^0.3.3",
     "apollo3-cache-persist": "^0.13.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "classnames": "^2.3.1",
@@ -30,6 +33,7 @@
     "html-react-parser": "^1.4.4",
     "isomorphic-unfetch": "^3.1.0",
     "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
     "keen-slider": "^6.6.2",
     "next": "12.0.7",
     "react": "17.0.2",
@@ -37,7 +41,8 @@
     "react-player": "^2.9.0",
     "react-simple-maps": "^2.3.0",
     "react-use": "^17.3.1",
-    "swr": "^1.0.1"
+    "swr": "^1.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",

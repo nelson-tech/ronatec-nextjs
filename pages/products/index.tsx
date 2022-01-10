@@ -3,10 +3,14 @@ import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 import Link from "next/link"
 
 import { getGeneralPageData } from "@api/queries/pages"
-import { getProducts } from "@api/queries/pages/products"
-import { ProductsReturnType } from "@api/queries/types"
+import { getProductCategories, getProducts } from "@api/queries/pages/products"
+import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
 import { getProductLink } from "@api/utils/products"
 import { normalize } from "@api/utils"
+
+import decode from "jwt-decode"
+
+import { Image, SignIn } from "@components"
 import {
   Dialog,
   Disclosure,
@@ -30,6 +34,7 @@ import {
   PlusSmIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid"
+import { ProductCategory } from "@api/gql/types"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
@@ -113,13 +118,18 @@ const products = [
 ]
 
 const Products = ({
-  products,
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   menuItems && menuItemsVar(menuItems)
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+
+  console.log(
+    decode(
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnJvbmF0ZWMudXMiLCJpYXQiOjE2NDE4MjcyNDksIm5iZiI6MTY0MTgyNzI0OSwiZXhwIjoxNjQzMDM2ODQ5LCJkYXRhIjp7ImN1c3RvbWVyX2lkIjoxfX0.6pDOOD_snHPNFvTEGTDzRRp6L3xf7MTbHj3vRhIl61Q",
+    ),
+  )
 
   return (
     <div>
@@ -206,11 +216,13 @@ const Products = ({
                 role="list"
                 className="text-sm font-medium text-gray-900 space-y-4 pb-6 border-b border-gray-200"
               >
-                {subCategories.map(category => (
-                  <li key={category.name}>
-                    <a href={category.href}>{category.name}</a>
-                  </li>
-                ))}
+                {subCategories.map(category => {
+                  return (
+                    <li key={category.name}>
+                      <a href={category.href}>{category.name}</a>
+                    </li>
+                  )
+                })}
               </ul>
 
               {filters.map(section => (
@@ -273,63 +285,41 @@ const Products = ({
             </form>
 
             {/* Product grid */}
-            <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:col-span-3 lg:gap-x-8">
+            {/* <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:col-span-3 lg:gap-x-8">
               {products &&
-                products.map(product => (
-                  <a
-                    key={product.id}
-                    href={getProductLink(product)}
-                    className="group text-sm"
-                  >
-                    <div className="w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden bg-gray-100 group-hover:opacity-75">
-                      <img
-                        src={product.image?.sourceUrl || ""}
-                        alt={product.image?.altText || ""}
-                        className="w-full h-full object-center object-cover"
-                      />
-                    </div>
-                    <h3 className="mt-4 font-medium text-gray-900">
-                      {product.name}
-                    </h3>
-                    <p className="text-gray-500 italic">
-                      {product.availability}
-                    </p>
-                    <p className="mt-2 font-medium text-gray-900">
-                      {product.price}
-                    </p>
-                  </a>
-                ))}
-            </div>
+                products.map(product => {
+                  console.log(product)
+                  return (
+                    <a
+                      key={product.id}
+                      href={getProductLink(product)}
+                      className="group text-sm"
+                    >
+                      {product.image && (
+                        <div className="w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden bg-gray-100 group-hover:opacity-75">
+                          <Image
+                            src={product.image?.sourceUrl || ""}
+                            alt={product.image?.altText || ""}
+                          />
+                        </div>
+                      )}
+                      <h3 className="mt-4 font-medium text-gray-900">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-500 italic">
+                        {product.availability}
+                      </p>
+                      <p className="mt-2 font-medium text-gray-900">
+                        {product.price}
+                      </p>
+                    </a>
+                  )
+                })}
+            </div> */}
           </div>
         </section>
+        <SignIn />
       </main>
-      {products &&
-        products.map(product => {
-          let categories: string[] = []
-
-          if (product.productCategories?.nodes) {
-            product.productCategories.nodes.map(category => {
-              if (category?.ancestors?.nodes) {
-                category.ancestors.nodes.map(parent => {
-                  parent?.slug && categories.push(parent.slug)
-                })
-              }
-              category?.slug && categories.push(category.slug)
-            })
-          }
-          const linkUrl: string = `products/${categories.join("/")}/${
-            product.slug
-          }`
-          return (
-            <div>
-              <Link href={linkUrl} passHref>
-                <a>
-                  {product.name} - {categories.join("/")}
-                </a>
-              </Link>
-            </div>
-          )
-        })}
     </div>
   )
 }
@@ -339,13 +329,25 @@ export default Products
 export async function getStaticProps(context: GetStaticPropsContext) {
   const client = initializeApollo({})
 
-  const { data, loading, error }: ProductsReturnType = await client.query({
-    query: getProducts,
+  const {
+    data: { productCategories },
+    loading,
+    error,
+  }: CategoriesReturnType = await client.query({
+    query: getProductCategories,
     errorPolicy: "all",
   })
 
-  const products =
-    data && data.products && data.products.nodes ? data.products.nodes : null
+  let rootCategories: ProductCategory[] =
+    productCategories && productCategories.nodes
+      ? productCategories.nodes.filter(productCategory => {
+          if (!productCategory.ancestors) {
+            return true
+          } else {
+            return false
+          }
+        })
+      : []
 
   const {
     data: { menu },
@@ -358,7 +360,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const menuItems = normalize.menu(menu)
 
   const staticProps = {
-    props: { menuItems, products },
+    props: { menuItems },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 

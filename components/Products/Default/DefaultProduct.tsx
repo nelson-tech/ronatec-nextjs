@@ -5,8 +5,7 @@ import {
   SimpleProduct,
   VariableProduct,
 } from "@api/gql/types"
-import { HTML } from "@components"
-import { Image } from "@components/Image"
+import { HTML, Image } from "@components"
 import {
   Container,
   ProductMainContainer,

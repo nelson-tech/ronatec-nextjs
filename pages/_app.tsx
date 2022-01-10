@@ -10,6 +10,7 @@ import { UIProvider } from "@components/ui/context"
 import { initializeApollo, useApollo } from "../lib/apollo"
 import ProgressBar from "@lib/progressBar"
 import { Layout } from "@components/ui"
+import { AuthProvider } from "@lib/hooks"
 
 const Noop: FC = ({ children }) => <>{children}</>
 
@@ -31,11 +32,13 @@ function RonatecWebsite({
   const { client: apolloClient } = useApollo(pageProps)
   return (
     <ApolloProvider client={apolloClient || initializeApollo({})}>
-      <UIProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </UIProvider>
+      <AuthProvider>
+        <UIProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </UIProvider>
+      </AuthProvider>
     </ApolloProvider>
   )
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { AppProps } from "next/app"
-import { GetServerSidePropsResult, GetStaticPropsResult } from "next"
 import {
   ApolloCache,
   ApolloClient,
@@ -18,6 +17,19 @@ import { useEffectOnce, usePrevious } from "react-use"
 
 import { cache as defaultCache } from "."
 import { isEqual } from "lodash"
+import { isServer } from "@lib/utils"
+import {
+  getAuthToken,
+  getClientMutationId,
+  getRefreshToken,
+  getSessionToken,
+  isTokenExpired,
+  refreshMutation,
+  setAuthToken,
+  setWooSession,
+  WOO_SESSION_KEY,
+} from "./auth"
+import { v4 as uuid } from "uuid"
 
 export const PERSISTOR_CACHE_KEY =
   process.env.NEXT_PUBLIC_PERSISTOR_CACHE_KEY || "missing-cache-key"
@@ -25,7 +37,6 @@ export const PERSISTOR_CACHE_KEY =
 export const APOLLO_STATE_PROP_NAME =
   process.env.NEXT_PUBLIC_APOLLO_STATE_PROP_NAME || "__APOLLO_STATE__"
 
-const isServer = (): boolean => typeof window === "undefined"
 const isDev = (): boolean => process.env.NODE_ENV === "development"
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
@@ -56,6 +67,79 @@ const createApolloClient = ({
     fetch: enhancedFetch,
   })
 
+  /**
+   * Middleware operation
+   * Check for expired tokens, set headers.
+   */
+  const middleware = new ApolloLink((operation, forward) => {
+    if (!isServer()) {
+      //
+
+      const refreshToken = getRefreshToken()
+
+      if (isTokenExpired() && refreshToken) {
+        // Refresh Token
+
+        const clientMutation = uuid()
+        apolloClient
+          .mutate({
+            mutation: refreshMutation,
+            variables: { input: { clientMutation, refreshToken } },
+          })
+          .then(response => {
+            console.log("silentRefresh", response)
+            const authToken = response.data.refreshJwtAuthToken
+              ? response.data.refreshJwtAuthToken.authToken
+              : null
+            if (authToken) {
+              setAuthToken(authToken)
+            }
+          })
+      }
+
+      const authToken = getAuthToken()?.authToken
+
+      // If session data exist in local storage, set value as session header.
+      operation.setContext(({ headers = {} }) => ({
+        headers: {
+          authorization: authToken ? `Bearer: ${authToken}` : "",
+          "woocommerce-session": `Session ${getSessionToken()}`,
+        },
+      }))
+    }
+
+    return forward(operation)
+  })
+
+  /**
+   * Afterware operation
+   * This catches the incoming session token and stores it in localStorage, for future GraphQL requests.
+   */
+  const afterware = new ApolloLink((operation, forward) => {
+    console.log("OPERATION", operation)
+
+    return forward(operation).map(response => {
+      console.log("RESPONSE", response)
+      /**
+       * Check for session header and update session in local storage accordingly.
+       */
+      if (!isServer()) {
+        const context = operation.getContext()
+        const {
+          response: { headers },
+        } = context
+        const session = headers.get("woocommerce-session")
+        if (session) {
+          if (getSessionToken() !== session) {
+            setWooSession(session)
+          }
+        }
+      }
+
+      return response
+    })
+  })
+
   const apolloLink = ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
@@ -70,6 +154,8 @@ const createApolloClient = ({
         )
     }),
     // this uses apollo-link-http under the hood, so all the options here come from that package
+    middleware,
+    afterware,
     httpLink,
   ])
 

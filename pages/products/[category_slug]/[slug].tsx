@@ -1,10 +1,9 @@
 import { getGeneralPageData } from "@api/queries/pages"
-import { getProductCategories } from "@api/queries/pages/products"
-import { getProductDataFromSlug } from "@api/queries/pages/products"
 import {
-  ProductCategoriesReturnType,
-  ProductReturnType,
-} from "@api/queries/types"
+  getProductDataFromSlug,
+  getProductsWithCategories,
+} from "@api/queries/pages/products"
+import { ProductsReturnType, ProductReturnType } from "@api/queries/types"
 import { normalize } from "@api/utils"
 import { DefaultProduct } from "@components"
 import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
@@ -14,51 +13,50 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import { useRouter } from "next/router"
+// import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
 
 const SKUProduct = ({
   product,
   menuItems,
-  categories,
+  category,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   menuItems && menuItemsVar(menuItems)
 
-  const router = useRouter()
+  // const router = useRouter()
+
+  console.log(product)
 
   if (product) {
     return <DefaultProduct product={product} />
   }
-  if (typeof window !== "undefined") {
-    router.push("/products")
-  }
+  // if (typeof window !== "undefined") {
+  //   router.push("/products")
+  // }
   return <>Category</>
 }
 
 export default SKUProduct
 
 interface IParams extends ParsedUrlQuery {
-  slug: string[]
-  sku: string
+  slug: string
+  category_slug: string
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { slug, sku } = context.params as IParams
-  const skuId = slug[slug.length - 1]
+  const { slug, category_slug } = context.params as IParams
 
   const client = initializeApollo({})
 
   const { data, loading, error }: ProductReturnType = await client.query({
     query: getProductDataFromSlug,
     variables: {
-      id: skuId,
+      id: slug,
     },
     errorPolicy: "all",
   })
 
   const product = data && data.product ? data.product : null
-
-  let categories = slug.slice(0, slug.length - 1)
 
   const {
     data: { menu },
@@ -71,7 +69,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const menuItems = normalize.menu(menu)
 
   const staticProps = {
-    props: { menuItems, product, categories },
+    props: { menuItems, product, category: category_slug },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 
@@ -88,34 +86,28 @@ export const getStaticPaths: GetStaticPaths = async () => {
     },
     loading,
     error,
-  }: ProductCategoriesReturnType = await client.query({
-    query: getProductCategories,
+  }: ProductsReturnType = await client.query({
+    query: getProductsWithCategories,
   })
   type Path = {
     params: IParams
   }
-  const paths = products
-    .map(product => {
-      if (product.slug) {
-        let slugs = []
+  const paths: Path[] = []
 
-        if (product.productCategories?.nodes) {
-          product.productCategories.nodes.map(category => {
-            if (category?.ancestors?.nodes) {
-              category.ancestors.nodes.map(parent => {
-                parent?.slug && slugs.push(parent.slug)
-              })
+  products.map(product => {
+    if (product.slug) {
+      if (product.productCategories?.nodes) {
+        product.productCategories.nodes.map(category => {
+          if (category && category.slug) {
+            const path = {
+              params: { slug: product.slug!, category_slug: category.slug },
             }
-            category?.slug && slugs.push(category.slug)
-          })
-        }
-
-        slugs.push(product.slug)
-
-        return { params: { slug: slugs, sku: product.sku || "" } }
+            paths.push(path)
+          }
+        })
       }
-    })
-    .filter((path): path is Path => !!path)
+    }
+  })
 
   return {
     paths,

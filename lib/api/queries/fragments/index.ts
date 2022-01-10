@@ -13,9 +13,11 @@ export { supplierBaseFragment } from "./suppliers"
 export { suppliersFragment } from "./suppliers"
 export { featuredSupplierFragment } from "./suppliers"
 
+export { productMinBaseFragment } from "./products"
 export { productBaseFragment } from "./products"
 export { variableProductFragment } from "./products"
 export { featuredProductsFragment } from "./products"
+export { productCategoryFragment } from "./products"
 
 export { mapFragment } from "./maps"
 export { markersFragment } from "./maps"

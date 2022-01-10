@@ -1,5 +1,10 @@
 import { gql } from "@apollo/client"
-import { variableProductFragment } from "@api/queries/fragments"
+import {
+  imageFragment,
+  productCategoryFragment,
+  productMinBaseFragment,
+  variableProductFragment,
+} from "@api/queries/fragments"
 
 export const getProducts = gql`
   query GetProductCategoriesQuery {
@@ -19,20 +24,20 @@ export const getProducts = gql`
             }
           }
         }
+        ${imageFragment}
       }
     }
   }
 `
 
-export const getProductCategories = gql`
+export const getProductsWithCategories = gql`
   query GetProductCategoriesQuery {
     products {
       nodes {
         slug
         productCategories {
           nodes {
-            name
-            slug
+            ${productCategoryFragment}
             ancestors {
               nodes {
                 name
@@ -41,6 +46,64 @@ export const getProductCategories = gql`
             }
           }
         }
+      }
+    }
+  }
+`
+
+export const getCategoryFromSlug = gql`
+  query GetCategoryFromSlugQuery($id: ID!) {
+    productCategory(id: $id, idType: SLUG) {
+      ${productCategoryFragment}
+      children(where: {hideEmpty: true}) {
+        nodes {
+          ${productCategoryFragment}
+          products {
+            nodes {
+              ${productMinBaseFragment}
+            }
+          }
+          children(where: {hideEmpty: true}) {
+            nodes {
+              ${productCategoryFragment}
+              products {
+                nodes {
+                  ${productMinBaseFragment}
+                }
+              }
+            }
+          }
+        }
+      }
+      products {
+        nodes {
+          ${productMinBaseFragment}
+        }
+      }
+    }
+  }
+`
+
+export const getProductCategories = gql`
+  query GetProductCategoriesQuery {
+    productCategories(where: { childless: true, hideEmpty: true }, first: 99) {
+      nodes {
+        ${productCategoryFragment}
+        ancestors {
+          nodes {
+            ${productCategoryFragment}
+          }
+        }
+      }
+    }
+  }
+`
+
+export const getCategorySlugs = gql`
+  query GetCategorySlugsQuery {
+    productCategories {
+      nodes {
+        slug
       }
     }
   }

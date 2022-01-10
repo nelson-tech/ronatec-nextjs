@@ -62,6 +62,8 @@
       "Page_PageHome_Acf_cards_Icon",
       "Page_PageHome_Acf_cards_Link",
       "Page_PageHome_Acf_slides",
+      "Page_PageRonatank",
+      "Page_PageRonatank_Acf",
       "Post_Common",
       "Post_Common_Callout",
       "Post_Common_Icon",
@@ -84,6 +86,8 @@
       "Post_Maps_markers_Center",
       "Post_Maps_markers_Icon",
       "Post_Regions",
+      "ProductCategory_ProductCategory",
+      "ProductCategory_ProductCategory_Acf",
       "Supplier_Supplier"
     ],
     "Attribute": [
