@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://api.ronatec.us/gql"
+schema: "https://api.ronatec.us/graphql"
 generates:
   lib/api/gql/fragment-matcher.ts:
     plugins:

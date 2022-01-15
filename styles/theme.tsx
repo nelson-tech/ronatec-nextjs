@@ -33,7 +33,7 @@ declare module "@emotion/react" {
       }
       pink: string
       cyan: string
-      blue: string
+      blue: { dark: string; main: string; light: string }
       green: string
       red: string
       selection: string
@@ -71,7 +71,11 @@ export const emotionTheme = {
     violet: { main: "#5f3dc4", light: "#7048e8" },
     pink: "#e64980",
     cyan: "#22b8cf",
-    blue: "#0070f3",
+    blue: {
+      dark: "#485D7D",
+      light: "#6B82A6",
+      main: "#5375A0",
+    },
     green: "#37b679",
     red: "#da3c3c",
     selection: "#22b8cf",

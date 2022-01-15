@@ -3,6 +3,8 @@ import { imageFragment } from "."
 export const supplierBaseFragment = `
 title
 slug
+id
+databaseId
 supplier {
   url
   text

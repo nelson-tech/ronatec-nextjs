@@ -21,13 +21,46 @@ export const cache: InMemoryCache = new InMemoryCache({
 export type NormalizedMenuItem = {
   path: string
   label: string
+  id: string
   children: NormalizedMenuItem[] | null
+  mega?: boolean
 }
 
 export const initialMenu: NormalizedMenuItem[] = [
   {
+    id: "Home",
     path: "/",
     label: "Home",
+    children: null,
+  },
+  {
+    id: "Products",
+    path: "/products",
+    label: "Products",
+    children: null,
+  },
+  {
+    id: "RonaBev",
+    path: "/products/ronabev",
+    label: "Ronabev",
+    children: null,
+  },
+  {
+    id: "RonaTank",
+    path: "/products/ronatank",
+    label: "RonaTank",
+    children: null,
+  },
+  {
+    id: "Consulting",
+    path: "/consulting",
+    label: "Consulting",
+    children: null,
+  },
+  {
+    id: "Company",
+    path: "/about",
+    label: "Company",
     children: null,
   },
 ]

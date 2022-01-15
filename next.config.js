@@ -7,10 +7,6 @@ module.exports = module.exports = withBundleAnalyzer({
   ecommerce: {
     platform: process.env.NEXT_PUBLIC_ECOMMERCE_PLATFORM,
   },
-  i18n: {
-    locales: ["en-US"],
-    defaultLocale: "en-US",
-  },
   images: {
     domains: ["cdn.ronatec.us", "ronatec.us"],
   },

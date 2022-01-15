@@ -21,10 +21,10 @@ const MobileMenu = dynamic(
   () => import("@components/ui/Layout/Navbar/MobileMenu"),
   importOpts,
 )
-const Usernav = dynamic(
-  () => import("@components/ui/Layout/Navbar/Usernav"),
-  importOpts,
-)
+// const Usernav = dynamic(
+//   () => import("@components/ui/Layout/Navbar/Usernav"),
+//   importOpts,
+// )
 const MenuDropdown = dynamic(
   () => import("@components/ui/Layout/Navbar/MenuDropdown"),
   importOpts,
@@ -37,11 +37,6 @@ const SearchModal = dynamic(
 // ####
 // #### Types
 // ####
-
-export interface UserMenuItem {
-  name: string
-  href: string
-}
 
 // ####
 // #### Component
@@ -64,12 +59,6 @@ const Navbar: FC = () => {
 
   const linkStyle =
     "text-accents-6 leading-6 font-medium transition hover:text-accents-9 hover:cursor-pointer"
-
-  const userNavigation: UserMenuItem[] = [
-    { name: "Your Profile", href: "#" },
-    { name: "Settings", href: "#" },
-    { name: "Sign out", href: "#" },
-  ]
 
   const [searchOpen, setSearchOpen] = useState(false)
 
@@ -184,13 +173,11 @@ const Navbar: FC = () => {
                   <SearchModal isOpen={searchOpen} setIsOpen={setSearchOpen} />
                 </div>
 
-                <Usernav
+                {/* <Usernav
                   iconSize={iconSize}
                   mobileMenuOpen={open}
-                  userMenuItems={userNavigation}
                   searchOpen={searchOpen}
-                  getNavLinkClasses={getNavLinkClasses}
-                />
+                /> */}
 
                 {/* Mobile menu button */}
                 <div className="flex lg:hidden">
@@ -216,7 +203,7 @@ const Navbar: FC = () => {
             logo={logo}
             menuItems={menuItems}
             currentPath={router.pathname}
-            userMenuItems={userNavigation}
+            userMenuItems={[]}
             iconSize={iconSize}
             closeMenu={close}
           />

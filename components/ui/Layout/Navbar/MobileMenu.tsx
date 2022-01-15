@@ -7,7 +7,7 @@ import tw from "twin.macro"
 import { NormalizedMenuItem } from "@lib/apollo/cache"
 
 // Remove after fetching dynamic data
-import { UserMenuItem } from "./Navbar"
+// import { UserMenuItem } from "./Navbar"
 import { LoadingDots } from "@components/ui"
 
 // ####
@@ -26,7 +26,7 @@ export interface MobileMenuPropsType {
   iconSize: string
   menuItems: NormalizedMenuItem[]
   currentPath: string
-  userMenuItems: UserMenuItem[]
+  userMenuItems: []
   closeMenu: (
     focusableElement?:
       | HTMLElement
@@ -114,7 +114,7 @@ const MobileMenu: FC<MobileMenuPropsType> = ({
                 </div>
                 <div className="pb-2">
                   <div className="mt-3 px-2 space-y-1">
-                    {userMenuItems.map(item => (
+                    {/* {userMenuItems.map(item => (
                       <a
                         key={item.name}
                         href={item.href}
@@ -122,7 +122,7 @@ const MobileMenu: FC<MobileMenuPropsType> = ({
                       >
                         {item.name}
                       </a>
-                    ))}
+                    ))} */}
                   </div>
                 </div>
               </div>

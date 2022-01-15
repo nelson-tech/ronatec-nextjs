@@ -1,13 +1,20 @@
-import { FC, Fragment, useEffect, useRef, useState } from "react"
-import dynamic from "next/dynamic"
+import { Dispatch, FC, Fragment, SetStateAction } from "react"
 import { Menu, Transition } from "@headlessui/react"
-import classNames from "classnames"
 
 import { Underlined, underSelect } from "styles/utils"
 
 // Remove after fetching dynamic data
-import { UserMenuItem } from "./Navbar"
-import { LoadingDots } from "@components/ui"
+import {
+  ClipboardCheckIcon,
+  LoginIcon,
+  LogoutIcon,
+  UserIcon,
+} from "@heroicons/react/outline"
+import { useAuth } from "@lib/hooks"
+import Link from "next/link"
+import { logout } from "@lib/apollo/auth"
+import { useRouter } from "next/router"
+import { MenuLink } from "@components/ui"
 
 // ####
 // #### Dynamic Imports
@@ -15,103 +22,46 @@ import { LoadingDots } from "@components/ui"
 
 const importOpts = {}
 
-const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
-
 // ####
 // #### Types
 // ####
 
+export interface UserMenuItem {
+  name: string
+  href: string
+}
+
 interface UsernavPropsType {
   iconSize: string
-  userMenuItems: UserMenuItem[]
-  searchOpen: boolean
+  setSignInOpen: Dispatch<SetStateAction<boolean>>
   mobileMenuOpen: boolean
-  getNavLinkClasses: (path: string, classes?: string | undefined) => string
 }
 
 // ####
 // #### Component
 // ####
 
-const Usernav: FC<UsernavPropsType> = ({
-  iconSize,
-  searchOpen,
-  userMenuItems,
-  mobileMenuOpen,
-  getNavLinkClasses,
-}) => {
-  let timeout: NodeJS.Timeout
-  const timeoutDuration = 300
+const userNavigation: UserMenuItem[] = [
+  // { name: "Your Profile", href: "/dashboard" },
+  { name: "Orders", href: "/dashboard/orders" },
+]
 
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const [openState, setOpenState] = useState(false)
-
-  const toggleMenu = (open: boolean) => {
-    // log the current open state in React (toggle open state)
-    setOpenState(openState => !openState)
-    // toggle the menu by clicking on buttonRef
-    buttonRef?.current?.click() // eslint-disable-line
-  }
-
-  // Open the menu after a delay of timeoutDuration
-  const onHover = (open: boolean, action: string) => {
-    // if the modal is currently closed, we need to open it
-    // OR
-    // if the modal is currently open, we need to close it
-    if (
-      (!open && !openState && action === "onMouseEnter") ||
-      (open && openState && action === "onMouseLeave")
-    ) {
-      // clear the old timeout, if any
-      clearTimeout(timeout)
-      // open the modal after a timeout
-      timeout = setTimeout(() => toggleMenu(open), timeoutDuration)
-    }
-    // else: don't click! 😁
-  }
-
-  const handleClick = (open: boolean) => {
-    setOpenState(!open) // toggle open state in React state
-    clearTimeout(timeout) // stop the hover timer if it's running
-  }
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      buttonRef.current &&
-      !buttonRef.current.contains(event.target as Node)
-    ) {
-      event.stopPropagation()
-    }
-  }
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside)
-
-    if (mobileMenuOpen || searchOpen) {
-      // Close menu if other menu/modal open
-      setOpenState(false)
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [mobileMenuOpen, searchOpen])
+const Usernav: FC<UsernavPropsType> = ({ iconSize, setSignInOpen }) => {
+  const router = useRouter()
+  const auth = useAuth()
 
   return (
     <Menu as="div" className="hidden lg:block relative lg:flex-shrink-0 h-full">
       {({ open }) => (
-        <div
-          onMouseEnter={() => onHover(open, "onMouseEnter")}
-          onMouseLeave={() => onHover(open, "onMouseLeave")}
-        >
-          <div>
+        <div>
+          <div className="h-full">
             <Menu.Button
-              onClick={() => handleClick(open)}
-              ref={buttonRef}
-              className={getNavLinkClasses("#")}
+              className={`font-bold text-sm rounded-md py-2 outline-none ${
+                auth?.isLoggedIn() ? "text-green-main" : "text-gray-400"
+              } hover:text-gray-500`}
             >
               <span className="sr-only">Open user menu</span>
-              <Icon name="user-astronaut" className={iconSize} type="regular" />
+              <UserIcon className={" " + iconSize} />
             </Menu.Button>
           </div>
           <Transition
@@ -121,23 +71,53 @@ const Usernav: FC<UsernavPropsType> = ({
             leaveTo="transform opacity-0 scale-95"
           >
             <div className="origin-top-right z-20 absolute -right-2 pt-2 w-48">
-              <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5">
-                {userMenuItems.map(item => (
-                  <Menu.Item key={"usernav" + item.name}>
-                    {({ active }) => (
-                      <a
-                        href={item.href}
-                        className={classNames(
-                          "transition",
-                          active ? "bg-blue-main text-white" : "text-blue-dark",
-                          "block px-4 py-2 text-sm",
-                        )}
+              <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
+                {auth && auth.isLoggedIn() ? (
+                  <>
+                    {userNavigation.map(item => (
+                      <Menu.Item key={"usernav" + item.name}>
+                        <MenuLink
+                          href={item.href}
+                          className="transition hover:bg-blue-main hover:text-white text-blue-dark block px-4 py-2 text-sm"
+                        >
+                          {item.name}
+                        </MenuLink>
+                      </Menu.Item>
+                    ))}
+
+                    <Menu.Item>
+                      <div
+                        className="transition flex cursor-pointer items-center text-red-600 px-4 py-2 text-sm hover:bg-red-600 hover:text-white"
+                        onClick={() => logout(() => router.push("/"))}
                       >
-                        <Underlined className="target">{item.name}</Underlined>
-                      </a>
-                    )}
-                  </Menu.Item>
-                ))}
+                        <LogoutIcon className="h-4 w-4 mr-1.5" />
+                        <Underlined className="target">Sign out</Underlined>
+                      </div>
+                    </Menu.Item>
+                  </>
+                ) : (
+                  <>
+                    <Menu.Item>
+                      <div
+                        onClick={() => setSignInOpen(true)}
+                        className="transition cursor-pointer flex items-center outline-none ring-transparent text-green-main px-4 py-2 text-sm hover:bg-green-main hover:text-white"
+                      >
+                        <LoginIcon className="h-4 w-4 mr-1.5" />
+                        <div className="target">Sign in</div>
+                      </div>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <div className="group">
+                        <MenuLink href="/register">
+                          <a className="transition flex items-center text-blue-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-blue-main hover:text-white">
+                            <ClipboardCheckIcon className="h-4 w-4 mr-2" />
+                            <div className="target">Register</div>
+                          </a>
+                        </MenuLink>
+                      </div>
+                    </Menu.Item>
+                  </>
+                )}
               </Menu.Items>
             </div>
           </Transition>

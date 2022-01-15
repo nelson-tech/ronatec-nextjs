@@ -1,22 +1,62 @@
-/*
-  This example requires Tailwind CSS v2.0+ 
-  
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import { Dispatch, FormEventHandler, SetStateAction, useState } from "react"
+import { useRouter } from "next/router"
+import Link from "next/link"
+import { useMutation } from "@apollo/client"
+import { v4 as uuid } from "uuid"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
-const SignIn = () => {
+import { loginMutation, setAuthToken, setRefreshToken } from "@lib/apollo/auth"
+import { useFormFields } from "@lib/hooks"
+import { User } from "@api/gql/types"
+
+type SignInProps = {
+  modalRef?: string
+  setOpen?: Dispatch<SetStateAction<boolean>>
+}
+
+const SignIn = ({ modalRef, setOpen }: SignInProps) => {
+  const router = useRouter()
+  const [error, setError] = useState<string | null>(null)
+
+  const [loginMutationFunc, { loading }] = useMutation(loginMutation)
+
+  const [fields, handleFieldChange] = useFormFields({
+    email: "",
+    password: "",
+  })
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    event.preventDefault()
+    setError(null)
+
+    if (fields.email && fields.password) {
+      const input = {
+        clientMutationId: uuid(),
+        username: fields.email,
+        password: fields.password,
+      }
+
+      await loginMutationFunc({
+        variables: { input },
+        onCompleted({ login }) {
+          if (login?.user) {
+            const user: User = login.user
+            user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
+            user.jwtRefreshToken &&
+              setRefreshToken(user.jwtRefreshToken, () => {
+                router.replace(router.asPath)
+                setOpen && setOpen(false)
+              })
+          }
+        },
+        onError({ message }) {
+          ;["invalid_email", "incorrect_password"].includes(message) &&
+            setError("Email or password incorrect.")
+        },
+      })
+    }
+  }
+
   return (
     <>
       {/*
@@ -30,26 +70,34 @@ const SignIn = () => {
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            <img
+            {/* <img
               className="mx-auto h-12 w-auto"
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
-            />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            /> */}
+            <h2 className="text-center text-3xl font-extrabold text-gray-700">
               Sign in to your account
             </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Or{" "}
-              <a
-                href="#"
-                className="font-medium text-blue-main hover:text-indigo-500"
-              >
-                click here to register
-              </a>
-              .
-            </p>
+            <div className="mt-2 flex justify-center text-sm text-gray-600">
+              <div>
+                <span className="pr-0.5">Or</span>
+              </div>
+              <div onClick={() => setOpen && setOpen(false)}>
+                <Link href={"/register"} passHref>
+                  <a className="font-medium text-blue-main hover:text-green-main">
+                    click here to register
+                  </a>
+                </Link>
+              </div>
+              <span>.</span>
+            </div>
           </div>
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form
+            className="mt-8 space-y-6"
+            action="#"
+            method="post"
+            onSubmit={handleSubmit}
+          >
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -59,10 +107,12 @@ const SignIn = () => {
                 <input
                   id="email-address"
                   name="email"
-                  type="email"
+                  type="username"
+                  ref={modalRef}
                   autoComplete="email"
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  onChange={handleFieldChange}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -75,47 +125,39 @@ const SignIn = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  minLength={8}
+                  maxLength={32}
                   required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                  onChange={handleFieldChange}
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-main focus:ring-indigo-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
+            <div>
+              <div className="text-sm text-center text-red-600">
+                {error}&nbsp;
               </div>
+            </div>
 
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-blue-main hover:text-indigo-500"
-                >
-                  Forgot your password?
-                </a>
-              </div>
+            <div className="text-sm text-center">
+              <a
+                href="/reset"
+                className="font-medium text-blue-main hover:text-green-main"
+              >
+                Forgot your password?
+              </a>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-main"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <LockClosedIcon
-                    className="h-5 w-5 text-blue-light group-hover:text-indigo-400"
+                    className="h-5 w-5 text-gray-300 group-hover:text-white"
                     aria-hidden="true"
                   />
                 </span>

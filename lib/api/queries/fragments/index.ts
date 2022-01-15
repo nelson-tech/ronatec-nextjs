@@ -18,6 +18,7 @@ export { productBaseFragment } from "./products"
 export { variableProductFragment } from "./products"
 export { featuredProductsFragment } from "./products"
 export { productCategoryFragment } from "./products"
+export { productPriceFragment } from "./products"
 
 export { mapFragment } from "./maps"
 export { markersFragment } from "./maps"

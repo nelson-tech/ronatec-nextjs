@@ -30,7 +30,7 @@ export const SVGUrl = ({
 
         setLoading(false)
       })
-  }, [uri])
+  }, [uri, iconKey])
 
   return { loading, svgEl: Comp }
 }

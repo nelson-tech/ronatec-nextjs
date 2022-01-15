@@ -25,8 +25,6 @@ const SKUProduct = ({
 
   // const router = useRouter()
 
-  console.log(product)
-
   if (product) {
     return <DefaultProduct product={product} />
   }

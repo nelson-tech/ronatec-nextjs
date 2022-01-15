@@ -11,6 +11,7 @@
       "Employee_Contact_Contact",
       "Employee_Position",
       "Employee_Regions",
+      "MenuItem_Menufields",
       "Page_PageAbout",
       "Page_PageAboutContact",
       "Page_PageAboutContact_Acf",
@@ -118,7 +119,9 @@
       "Post"
     ],
     "ContentTemplate": [
-      "DefaultTemplate"
+      "CoverTemplate",
+      "DefaultTemplate",
+      "FullWidthTemplate"
     ],
     "DatabaseIdentifier": [
       "Category",
@@ -165,7 +168,6 @@
       "Employee",
       "Page",
       "Post",
-      "PostFormat",
       "ProductCategory",
       "ProductTag",
       "Supplier",
@@ -177,7 +179,6 @@
       "Employee",
       "Page",
       "Post",
-      "PostFormat",
       "ProductCategory",
       "ProductTag",
       "Supplier",

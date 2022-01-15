@@ -1,5 +1,4 @@
 import jwt_decode, { JwtPayload } from "jwt-decode"
-import { TokenRefreshLink } from "apollo-link-token-refresh"
 import { isServer } from "@lib/utils"
 import { gql } from "@apollo/client"
 
@@ -49,13 +48,24 @@ let inMemoryAuthToken = inMemoryAuthTokenDefault
 //   data: { customer_id: 1 }
 // }
 
+export const userAuthFragment = `
+user {
+  jwtAuthToken
+  jwtRefreshToken
+}
+`
+
 export const registerMutation = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
     registerUser(input: $input) {
-      user {
-        jwtAuthToken
-        jwtRefreshToken
-      }
+      ${userAuthFragment}
+    }
+  }
+`
+export const loginMutation = gql`
+  mutation LoginUser($input: LoginInput!) {
+    login(input: $input) {
+      ${userAuthFragment}
     }
   }
 `
@@ -131,6 +141,8 @@ export const setAuthToken = (authToken: string) => {
 
 export const setRefreshToken = (refreshToken: string, callback: any) => {
   if (!isServer()) {
+    console.log("REFRESH", jwt_decode<JwtPayload>(refreshToken))
+
     localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
     localStorage.removeItem(LOGGED_OUT_KEY)
 
@@ -142,6 +154,8 @@ export const setRefreshToken = (refreshToken: string, callback: any) => {
 
 export const setWooSession = (wooSession: string) => {
   if (!isServer()) {
+    console.log("WOO", jwt_decode<JwtPayload>(wooSession))
+
     localStorage.setItem(WOO_SESSION_KEY, wooSession)
   }
 }
@@ -168,38 +182,3 @@ export const logout = (callback: () => any) => {
     callback()
   }
 }
-
-// const refreshLink = new TokenRefreshLink<{ token; refreshToken }>({
-//   isTokenValidOrUndefined: (token: string) =>
-//     !isTokenExpired(token) || typeof getRefreshToken() !== "string",
-//   fetchAccessToken: () => {
-//     return fetch(getEndpoint("getAccessTokenPath"), {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer ${getAccessToken()}`,
-//         "refresh-token": getRefreshToken(),
-//       },
-//     })
-//   },
-//   handleFetch: accessToken => {
-//     const accessTokenDecrypted = jwtDecode(accessToken)
-//     setAccessToken(accessToken)
-//     setExpiresIn(parseExp(accessTokenDecrypted.exp).toString())
-//   },
-//   handleResponse: (operation, accessTokenField) => response => {
-//     // here you can parse response, handle errors, prepare returned token to
-//     // further operations
-//     // returned object should be like this:
-//     // {
-//     //    access_token: 'token string here'
-//     // }
-//   },
-//   handleError: err => {
-//     // full control over handling token fetch Error
-//     console.warn("Your refresh token is invalid. Try to relogin")
-//     console.error(err)
-
-//     // your custom action here
-//     user.logout()
-//   },
-// })

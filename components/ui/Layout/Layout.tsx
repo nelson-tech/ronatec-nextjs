@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react"
+import { FC, ReactNode, useState } from "react"
 import dynamic from "next/dynamic"
 import { ThemeProvider } from "@emotion/react"
 
@@ -9,6 +9,7 @@ import GlobalStyles from "styles/GlobalStyles"
 // import { useUI } from "@components/ui/context"
 // import { Footer, Navbar } from "./"
 import { LoadingDots } from "@components/ui"
+import Header from "./Header"
 
 // ####
 // #### Dynamic Imports
@@ -40,7 +41,8 @@ const Layout: FC<Props> = ({ children }) => {
       <GlobalStyles />
       <div className="font-family flex flex-col h-screen">
         <div className="header-section">
-          <Navbar />
+          <Header />
+          {/* <Navbar /> */}
         </div>
         {/* <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar}>
           <CartSidebar />

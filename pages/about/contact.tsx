@@ -35,13 +35,17 @@ const About = ({
         containerClassNames="responsivePadding"
       />
 
-      <div className="relative bg-white py-16">
+      <div className="relative bg-white py-8">
         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 pt-4">
             {cards &&
               cards.map(card => {
                 if (card) {
-                  return <IconCard card={card} key={"contact" + card.title} />
+                  return (
+                    <div className="pt-8">
+                      <IconCard card={card} key={"contact" + card.title} />
+                    </div>
+                  )
                 }
                 return null
               })}
@@ -51,11 +55,11 @@ const About = ({
 
       <div className="w-full">
         <div className="w-full pl-5 py-4 border-t-2">
-          <h2 className="text-2xl font-bold">Sales Reps</h2>
+          <h2 className="text-2xl font-extrabold">Sales Reps</h2>
         </div>
         {salesReps && (
           <div className="relative bg-white pt-8 pb-16">
-            <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+            <div className="mx-auto max-w-md px-4 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                 {salesReps.map(salesRep => {
                   if (salesRep) {
@@ -85,7 +89,7 @@ const EmployeeCard = ({ employee }: { employee: Employee }) => {
       }`}
     >
       {employee.title && (
-        <h2 className="mt-0 text-xl font-medium text-black tracking-tight border-b-2">
+        <h2 className="mt-0 text-xl font-bold text-black tracking-tight border-b-2">
           {employee.title}
         </h2>
       )}

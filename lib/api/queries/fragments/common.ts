@@ -14,6 +14,8 @@ link {
 
 export const imageFragment = `
 image {
+  id
+  databaseId
   altText
   sourceUrl
   mimeType

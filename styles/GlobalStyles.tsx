@@ -19,12 +19,22 @@ export const customStyles = css`
   }
 
   body {
-    -webkit-tap-highlight-color: ${theme`colors.purple.500`};
+    -webkit-tap-highlight-color: ${theme`colors.blue.main`};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
     .font-family {
       font-family: Montserrat, sans-serif;
+    }
+  }
+
+  .progress-bar {
+    @media (min-width: 768px) {
+      height: 4px !important;
+    }
+
+    @media (min-width: 1024px) {
+      height: 4px !important;
     }
   }
 

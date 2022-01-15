@@ -4,6 +4,7 @@ import { LoadingDots } from "@components/ui"
 import twConfig from "../../tailwind.config"
 import { css } from "@emotion/react"
 import { Maybe, Post_Maps_MapOptions, Post_Maps_Markers } from "@api/gql/types"
+import { useMobileDetect } from "@lib/hooks"
 
 const colors = twConfig.theme.extend.colors
 
@@ -58,12 +59,16 @@ const Map = ({
   })
 
   const [map, setMap] = useState<google.maps.Map | null>(null)
+  const { isMobile, isDesktop, isSSR } = useMobileDetect()
 
   const onLoad = useCallback((map: google.maps.Map) => {
     const bounds = new window.google.maps.LatLngBounds()
 
     setMap(map)
   }, [])
+
+  console.log("SSR", isSSR())
+  console.log("Desktop", isDesktop())
 
   const onUnmount = useCallback(map => {}, [])
 
@@ -72,7 +77,7 @@ const Map = ({
   if (options) {
     mapOptions = {
       mapTypeId: options.mapType,
-      zoom: options.zoom,
+      zoom: isMobile() ? (options.zoom || 4) - 1 : options.zoom,
       styles: options.mapTypeStyle?.map<google.maps.MapTypeStyle>(style => {
         let givenStyle: google.maps.MapTypeStyle = { stylers: [] }
         if (style?.featureType) {

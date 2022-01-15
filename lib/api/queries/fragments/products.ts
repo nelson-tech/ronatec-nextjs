@@ -2,6 +2,7 @@ import { imageFragment } from "."
 
 export const productMinBaseFragment = `
 id
+databaseId
 name
 slug
 type
@@ -35,8 +36,41 @@ productCategories {
 ${imageFragment}
 `
 
+const priceFragment = `
+price
+salePrice
+onSale
+`
+
+export const productPriceFragment = `
+... on SimpleProduct {
+  ${priceFragment}
+}
+... on VariableProduct {
+  ${priceFragment}
+}
+`
+
+export const attributeBaseFragment = `
+id
+attributeId
+name
+label
+value
+`
+
+export const attributesFragment = `
+attributes {
+  nodes {
+    ${attributeBaseFragment}
+  }
+}
+`
+
 export const variationBaseFragment = `
 sku
+id
+databaseId
 description
 price
 salePrice
@@ -44,6 +78,7 @@ onSale
 dateOnSaleFrom
 dateOnSaleTo
 ${imageFragment}
+${attributesFragment}
 `
 
 export const variationsFragment = `
@@ -66,6 +101,7 @@ slug
 id
 count
 description
+${imageFragment}
 product_category {
   acf {
     description
@@ -74,3 +110,37 @@ product_category {
 `
 
 export const featuredProductsFragment = ``
+
+export const cartBaseFragment = `
+contentsTotal
+isEmpty
+subtotal
+total
+contents {
+  itemCount
+  productCount
+  nodes {
+    quantity
+    subtotal
+    total
+    variation {
+      attributes {
+        ${attributeBaseFragment}
+      }
+    }
+    key
+    product {
+      node {
+        ${productMinBaseFragment}
+        ${imageFragment}
+        productCategories {
+          nodes {
+            slug
+          }
+        }
+      }
+     
+    }
+  }
+}
+`

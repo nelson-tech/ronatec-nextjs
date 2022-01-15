@@ -1331,8 +1331,6 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   ProductVariation = 'PRODUCT_VARIATION',
   /** The Type of Content object */
-  ShopCoupon = 'SHOP_COUPON',
-  /** The Type of Content object */
   ShopOrder = 'SHOP_ORDER',
   /** The Type of Content object */
   ShopOrderRefund = 'SHOP_ORDER_REFUND',
@@ -2069,6 +2067,8 @@ export type CouponToExcludedProductsConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -2227,6 +2227,8 @@ export type CouponToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -2237,6 +2239,12 @@ export type CouponToProductConnectionWhereArgs = {
   typeNotIn?: InputMaybe<Array<InputMaybe<ProductTypesEnum>>>;
   /** Limit result set to products with a specific visibility level. */
   visibility?: InputMaybe<CatalogVisibilityEnum>;
+};
+
+/** The template assigned to the node */
+export type CoverTemplate = ContentTemplate & {
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
 };
 
 /** Customer account credentials */
@@ -2789,8 +2797,12 @@ export type CreateUserInput = {
   nickname?: InputMaybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
   password?: InputMaybe<Scalars['String']>;
+  /** If true, this will refresh the users JWT secret. */
+  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: InputMaybe<Scalars['String']>;
+  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
+  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: InputMaybe<Scalars['String']>;
   /** An array of roles to be assigned to the user. */
@@ -2855,10 +2867,20 @@ export type Customer = Node & {
   hasCalculatedShipping?: Maybe<Scalars['Boolean']>;
   /** The globally unique identifier for the customer */
   id: Scalars['ID'];
+  /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
+  isJwtAuthSecretRevoked: Scalars['Boolean'];
   /** Return the date customer was last updated */
   isPayingCustomer?: Maybe<Scalars['Boolean']>;
   /** Is customer VAT exempt? */
   isVatExempt?: Maybe<Scalars['Boolean']>;
+  /** The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting */
+  jwtAuthExpiration?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests for authentication/authorization */
+  jwtAuthToken?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  jwtRefreshToken?: Maybe<Scalars['String']>;
+  /** A unique secret tied to the users JWT token that can be revoked or refreshed. Revoking the secret prevents JWT tokens from being issued to the user. Refreshing the token invalidates previously issued tokens, but allows new tokens to be issued. */
+  jwtUserSecret?: Maybe<Scalars['String']>;
   /** Return the customer&#039;s last name. */
   lastName?: Maybe<Scalars['String']>;
   /** Gets the customers last order. */
@@ -4769,6 +4791,12 @@ export type FillCartPayload = {
   clientMutationId?: Maybe<Scalars['String']>;
 };
 
+/** The template assigned to the node */
+export type FullWidthTemplate = ContentTemplate & {
+  /** The name of the template */
+  templateName?: Maybe<Scalars['String']>;
+};
+
 /** The general setting type */
 export type GeneralSettings = {
   /** A date format for all date strings. */
@@ -5310,6 +5338,8 @@ export type GroupProductToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -5594,6 +5624,66 @@ export type LocalProductAttribute = ProductAttribute & {
   visible: Scalars['Boolean'];
 };
 
+/** Input for the login mutation */
+export type LoginInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** The plain-text password for the user logging in. */
+  password: Scalars['String'];
+  /** The username used for login. Typically a unique or email address depending on specific configuration */
+  username: Scalars['String'];
+};
+
+/** The payload for the login mutation */
+export type LoginPayload = {
+  /** JWT Token that can be used in future requests for Authentication */
+  authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Customer object of authenticated user. */
+  customer?: Maybe<Customer>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  refreshToken?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests to for WooCommerce session identification */
+  sessionToken?: Maybe<Scalars['String']>;
+  /** The user that was logged in */
+  user?: Maybe<User>;
+};
+
+/** Input for the loginWithCookies mutation */
+export type LoginWithCookiesInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** Input your user/e-mail. */
+  login: Scalars['String'];
+  /** Input your password. */
+  password: Scalars['String'];
+  /** Whether to "remember" the user. Increases the time that the cookie will be kept. Default false. */
+  rememberMe?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** The payload for the loginWithCookies mutation */
+export type LoginWithCookiesPayload = {
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Login operation status */
+  status?: Maybe<Scalars['String']>;
+};
+
+/** Input for the logout mutation */
+export type LogoutInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+};
+
+/** The payload for the logout mutation */
+export type LogoutPayload = {
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** Logout operation status */
+  status?: Maybe<Scalars['String']>;
+};
+
 /** Product manage stock enumeration */
 export enum ManageStockEnum {
   False = 'FALSE',
@@ -5862,8 +5952,24 @@ export enum MediaItemSizeEnum {
   Medium = 'MEDIUM',
   /** MediaItem with the medium_large size */
   MediumLarge = 'MEDIUM_LARGE',
+  /** MediaItem with the post-thumbnail size */
+  PostThumbnail = 'POST_THUMBNAIL',
+  /** MediaItem with the shop_catalog size */
+  ShopCatalog = 'SHOP_CATALOG',
+  /** MediaItem with the shop_single size */
+  ShopSingle = 'SHOP_SINGLE',
+  /** MediaItem with the shop_thumbnail size */
+  ShopThumbnail = 'SHOP_THUMBNAIL',
   /** MediaItem with the thumbnail size */
   Thumbnail = 'THUMBNAIL',
+  /** MediaItem with the twentytwenty-fullscreen size */
+  TwentytwentyFullscreen = 'TWENTYTWENTY_FULLSCREEN',
+  /** MediaItem with the woocommerce_gallery_thumbnail size */
+  WoocommerceGalleryThumbnail = 'WOOCOMMERCE_GALLERY_THUMBNAIL',
+  /** MediaItem with the woocommerce_single size */
+  WoocommerceSingle = 'WOOCOMMERCE_SINGLE',
+  /** MediaItem with the woocommerce_thumbnail size */
+  WoocommerceThumbnail = 'WOOCOMMERCE_THUMBNAIL',
   /** MediaItem with the 1536x1536 size */
   '1536X1536' = '_1536X1536',
   /** MediaItem with the 2048x2048 size */
@@ -6044,6 +6150,8 @@ export type MenuItem = DatabaseIdentifier & Node & {
   locations?: Maybe<Array<Maybe<MenuLocationEnum>>>;
   /** The Menu a MenuItem is part of */
   menu?: Maybe<MenuItemToMenuConnectionEdge>;
+  /** Added to the GraphQL Schema because the ACF Field Group &quot;Menu Fields&quot; was set to Show in GraphQL. */
+  menuFields?: Maybe<MenuItem_Menufields>;
   /**
    * WP ID of the menu item.
    * @deprecated Deprecated in favor of the databaseId field
@@ -6094,7 +6202,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Category | Department | Employee | Page | Post | PostFormat | ProductCategory | ProductTag | Supplier | Tag;
+export type MenuItemObjectUnion = Category | Department | Employee | Page | Post | ProductCategory | ProductTag | Supplier | Tag;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = {
@@ -6138,12 +6246,25 @@ export type MenuItemToMenuItemLinkableConnectionEdge = {
   node?: Maybe<MenuItemLinkable>;
 };
 
+/** Field Group */
+export type MenuItem_Menufields = AcfFieldGroup & {
+  /** The name of the ACF Field Group */
+  fieldGroupName?: Maybe<Scalars['String']>;
+  mega?: Maybe<Scalars['Boolean']>;
+};
+
 /** Registered menu locations */
 export enum MenuLocationEnum {
+  /** Put the menu in the expanded location */
+  Expanded = 'EXPANDED',
   /** Put the menu in the footer location */
   Footer = 'FOOTER',
+  /** Put the menu in the mobile location */
+  Mobile = 'MOBILE',
   /** Put the menu in the primary location */
-  Primary = 'PRIMARY'
+  Primary = 'PRIMARY',
+  /** Put the menu in the social location */
+  Social = 'SOCIAL'
 }
 
 /** The Type of Identifier used to fetch a single node. Default is "ID". To be used along with the "id" field. */
@@ -7392,6 +7513,8 @@ export type PaColorToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -7488,6 +7611,8 @@ export type PaColorToProductVariationConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -8593,12 +8718,12 @@ export type PostCategoriesNodeInput = {
 };
 
 /** The postFormat type */
-export type PostFormat = DatabaseIdentifier & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
+export type PostFormat = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
   /** Connection between the postFormat type and the ContentNode type */
   contentNodes?: Maybe<PostFormatToContentNodeConnection>;
   /** The number of objects connected to the object */
   count?: Maybe<Scalars['Int']>;
-  /** The unique resource identifier path */
+  /** The unique identifier stored in the database */
   databaseId: Scalars['Int'];
   /** The description of the object */
   description?: Maybe<Scalars['String']>;
@@ -10362,6 +10487,8 @@ export type ProductCategoryToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -10667,6 +10794,8 @@ export type ProductTagToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -11145,6 +11274,8 @@ export type ProductToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -11427,6 +11558,8 @@ export type ProductToUpsellConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -12079,6 +12212,22 @@ export type ReadingSettings = {
   postsPerPage?: Maybe<Scalars['Int']>;
 };
 
+/** Input for the refreshJwtAuthToken mutation */
+export type RefreshJwtAuthTokenInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  /** A valid, previously issued JWT refresh token. If valid a new Auth token will be provided. If invalid, expired, revoked or otherwise invalid, a new AuthToken will not be provided. */
+  jwtRefreshToken: Scalars['String'];
+};
+
+/** The payload for the refreshJwtAuthToken mutation */
+export type RefreshJwtAuthTokenPayload = {
+  /** JWT Token that can be used in future requests for Authentication */
+  authToken?: Maybe<Scalars['String']>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId?: Maybe<Scalars['String']>;
+};
+
 /** A refund object */
 export type Refund = Node & {
   /** Refunded amount */
@@ -12163,9 +12312,13 @@ export type RegisterCustomerInput = {
 
 /** The payload for the registerCustomer mutation */
 export type RegisterCustomerPayload = {
+  /** JWT Token that can be used in future requests for Authentication */
+  authToken?: Maybe<Scalars['String']>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   customer?: Maybe<Customer>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  refreshToken?: Maybe<Scalars['String']>;
   viewer?: Maybe<User>;
 };
 
@@ -12195,8 +12348,12 @@ export type RegisterUserInput = {
   nickname?: InputMaybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
   password?: InputMaybe<Scalars['String']>;
+  /** If true, this will refresh the users JWT secret. */
+  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: InputMaybe<Scalars['String']>;
+  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
+  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: InputMaybe<Scalars['String']>;
   /** A string that contains the user's username. */
@@ -12428,6 +12585,14 @@ export type RootMutation = {
   fillCart?: Maybe<FillCartPayload>;
   /** Increase the count. */
   increaseCount?: Maybe<Scalars['Int']>;
+  /** The payload for the login mutation */
+  login?: Maybe<LoginPayload>;
+  /** The payload for the loginWithCookies mutation */
+  loginWithCookies?: Maybe<LoginWithCookiesPayload>;
+  /** The payload for the logout mutation */
+  logout?: Maybe<LogoutPayload>;
+  /** The payload for the refreshJwtAuthToken mutation */
+  refreshJwtAuthToken?: Maybe<RefreshJwtAuthTokenPayload>;
   /** The payload for the registerCustomer mutation */
   registerCustomer?: Maybe<RegisterCustomerPayload>;
   /** The payload for the registerUser mutation */
@@ -12788,6 +12953,30 @@ export type RootMutationIncreaseCountArgs = {
 
 
 /** The root mutation */
+export type RootMutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+/** The root mutation */
+export type RootMutationLoginWithCookiesArgs = {
+  input: LoginWithCookiesInput;
+};
+
+
+/** The root mutation */
+export type RootMutationLogoutArgs = {
+  input: LogoutInput;
+};
+
+
+/** The root mutation */
+export type RootMutationRefreshJwtAuthTokenArgs = {
+  input: RefreshJwtAuthTokenInput;
+};
+
+
+/** The root mutation */
 export type RootMutationRegisterCustomerArgs = {
   input: RegisterCustomerInput;
 };
@@ -13020,8 +13209,6 @@ export type RootQuery = {
   coupon?: Maybe<Coupon>;
   /** Connection between the RootQuery type and the Coupon type */
   coupons?: Maybe<RootQueryToCouponConnection>;
-  /** Describe what the field should be used for */
-  customField?: Maybe<Scalars['String']>;
   /** A customer object */
   customer?: Maybe<Customer>;
   /** Connection between the RootQuery type and the Customer type */
@@ -15031,6 +15218,8 @@ export type RootQueryToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -16447,6 +16636,8 @@ export type SimpleProductToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -17395,9 +17586,13 @@ export type UpdateCustomerInput = {
 
 /** The payload for the updateCustomer mutation */
 export type UpdateCustomerPayload = {
+  /** JWT Token that can be used in future requests for Authentication */
+  authToken?: Maybe<Scalars['String']>;
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: Maybe<Scalars['String']>;
   customer?: Maybe<Customer>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  refreshToken?: Maybe<Scalars['String']>;
 };
 
 /** Input for the UpdateDepartment mutation */
@@ -17981,8 +18176,12 @@ export type UpdateUserInput = {
   nickname?: InputMaybe<Scalars['String']>;
   /** A string that contains the plain text password for the user. */
   password?: InputMaybe<Scalars['String']>;
+  /** If true, this will refresh the users JWT secret. */
+  refreshJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** The date the user registered. Format is Y-m-d H:i:s. */
   registered?: InputMaybe<Scalars['String']>;
+  /** If true, this will revoke the users JWT secret. If false, this will unrevoke the JWT secret AND issue a new one. To revoke, the user must have proper capabilities to edit users JWT secrets. */
+  revokeJwtUserSecret?: InputMaybe<Scalars['Boolean']>;
   /** A string for whether to enable the rich editor or not. False if not empty. */
   richEditing?: InputMaybe<Scalars['String']>;
   /** An array of roles to be assigned to the user. */
@@ -18053,10 +18252,20 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   id: Scalars['ID'];
   /** Whether the node is a Content Node */
   isContentNode: Scalars['Boolean'];
+  /** Whether the JWT User secret has been revoked. If the secret has been revoked, auth tokens will not be issued until an admin, or user with proper capabilities re-issues a secret for the user. */
+  isJwtAuthSecretRevoked: Scalars['Boolean'];
   /** Whether the object is restricted from the current viewer */
   isRestricted?: Maybe<Scalars['Boolean']>;
   /** Whether the node is a Term */
   isTermNode: Scalars['Boolean'];
+  /** The expiration for the JWT Token for the user. If not set custom for the user, it will use the default sitewide expiration setting */
+  jwtAuthExpiration?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests for authentication/authorization */
+  jwtAuthToken?: Maybe<Scalars['String']>;
+  /** A JWT token that can be used in future requests to get a refreshed jwtAuthToken. If the refresh token used in a request is revoked or otherwise invalid, a valid Auth token will NOT be issued in the response headers. */
+  jwtRefreshToken?: Maybe<Scalars['String']>;
+  /** A unique secret tied to the users JWT token that can be revoked or refreshed. Revoking the secret prevents JWT tokens from being issued to the user. Refreshing the token invalidates previously issued tokens, but allows new tokens to be issued. */
+  jwtUserSecret?: Maybe<Scalars['String']>;
   /** Last name of the user. This is equivalent to the WP_User-&gt;user_last_name property. */
   lastName?: Maybe<Scalars['String']>;
   /** The preferred language locale set for the user. Value derived from get_user_locale(). */
@@ -19154,6 +19363,8 @@ export type VariableProductToProductConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -19250,6 +19461,8 @@ export type VariableProductToProductVariationConnectionWhereArgs = {
   tagIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   /** Limit result set to products not assigned to a specific group of tags by name. */
   tagNotIn?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  /** Limit result set to products with a specific tax class. */
+  taxClass?: InputMaybe<TaxClassEnum>;
   /** Limit result set with complex set of taxonomy filters. */
   taxonomyFilter?: InputMaybe<ProductTaxonomyInput>;
   /** Limit result set to products assigned a specific type. */
@@ -19514,6 +19727,7 @@ export type WritingSettings = {
       "Employee_Contact_Contact",
       "Employee_Position",
       "Employee_Regions",
+      "MenuItem_Menufields",
       "Page_PageAbout",
       "Page_PageAboutContact",
       "Page_PageAboutContact_Acf",
@@ -19621,7 +19835,9 @@ export type WritingSettings = {
       "Post"
     ],
     "ContentTemplate": [
-      "DefaultTemplate"
+      "CoverTemplate",
+      "DefaultTemplate",
+      "FullWidthTemplate"
     ],
     "DatabaseIdentifier": [
       "Category",
@@ -19668,7 +19884,6 @@ export type WritingSettings = {
       "Employee",
       "Page",
       "Post",
-      "PostFormat",
       "ProductCategory",
       "ProductTag",
       "Supplier",
@@ -19680,7 +19895,6 @@ export type WritingSettings = {
       "Employee",
       "Page",
       "Post",
-      "PostFormat",
       "ProductCategory",
       "ProductTag",
       "Supplier",

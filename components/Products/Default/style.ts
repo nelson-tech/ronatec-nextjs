@@ -3,17 +3,17 @@ import tw from "twin.macro"
 
 export const Container = styled.div`
   // Quick Edits Below
-  ${tw`container text-gray-700`}
+  ${tw`text-gray-700 w-full`}
 `
 
 export const TopContainer = styled.div`
   // Quick edits below
-  ${tw`grid grid-cols-2 gap-16 my-8 mx-8`}
+  ${tw`flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 my-8 mx-auto px-8 w-full`}
 `
 
 export const ProductTopContainer = styled.div`
   // Quick edits below
-  ${tw`w-full h-full`}
+  ${tw`w-full h-full mx-auto`}
 `
 
 export const ProductMainContainer = styled.div`

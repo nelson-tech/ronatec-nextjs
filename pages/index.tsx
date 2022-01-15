@@ -38,7 +38,7 @@ export default function Home({
   return (
     <>
       <div className="relative aspect-3 -mx-5 w-screen h-full mb-8 mt-0">
-        <div className="w-full absolute bg-opacity-80 h-full z-10 bg-white">
+        <div className="w-full absolute bg-opacity-80 h-full z-9 bg-white">
           <div className="w-2/3 lg:w-1/2 h-full relative mx-auto my-auto">
             <Image
               src={`https://ronatec.us/wp-content/uploads/2015/11/ronatec_retina.png`}

@@ -35,10 +35,7 @@ import {
   ViewGridIcon,
 } from "@heroicons/react/solid"
 import { ProductCategory } from "@api/gql/types"
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ")
-}
+import classNames from "classnames"
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -91,31 +88,6 @@ const filters = [
     ],
   },
 ]
-const products = [
-  {
-    id: 1,
-    name: "Nomad Pouch",
-    href: "#",
-    price: "$50",
-    availability: "White and Black",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-07-product-01.jpg",
-    imageAlt:
-      "White fabric pouch with white zipper, black zipper pull, and black elastic loop.",
-  },
-  {
-    id: 2,
-    name: "Zip Tote Basket",
-    href: "#",
-    price: "$140",
-    availability: "Washed Black",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-07-product-02.jpg",
-    imageAlt:
-      "Front of tote bag with washed black canvas body, black straps, and tan leather handles and accents.",
-  },
-  // More products...
-]
 
 const Products = ({
   menuItems,
@@ -124,12 +96,6 @@ const Products = ({
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-
-  console.log(
-    decode(
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnJvbmF0ZWMudXMiLCJpYXQiOjE2NDE4MjcyNDksIm5iZiI6MTY0MTgyNzI0OSwiZXhwIjoxNjQzMDM2ODQ5LCJkYXRhIjp7ImN1c3RvbWVyX2lkIjoxfX0.6pDOOD_snHPNFvTEGTDzRRp6L3xf7MTbHj3vRhIl61Q",
-    ),
-  )
 
   return (
     <div>

@@ -4,7 +4,7 @@ import { initialMenu, NormalizedMenuItem } from "@lib/apollo/cache"
 import { removeTrailingSlash } from "@lib/utils"
 
 const error = (field: string): void => {
-  console.log(`Slider ${field} not supplied`)
+  console.log(`Menu ${field} not supplied`)
 }
 
 const normalizeMenuItems = (menuItems: MenuItem[]): NormalizedMenuItem[] => {
@@ -13,6 +13,12 @@ const normalizeMenuItems = (menuItems: MenuItem[]): NormalizedMenuItem[] => {
     if (!label) {
       label = "Missing"
       error("label")
+    }
+
+    let id = menuItem?.id
+    if (!id) {
+      id = label
+      error("ID")
     }
 
     let path = menuItem?.path
@@ -31,7 +37,13 @@ const normalizeMenuItems = (menuItems: MenuItem[]): NormalizedMenuItem[] => {
       const childItems = menuItem.childItems.nodes as MenuItem[]
       children = normalizeMenuItems(childItems)
     }
-    return { label, path, children }
+    return {
+      id,
+      label,
+      path,
+      children,
+      mega: menuItem.menuFields?.mega || false,
+    }
   })
 
   return noramlizedMenuItems

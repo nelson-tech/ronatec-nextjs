@@ -7,6 +7,7 @@ import { normalize } from "@api/utils"
 import Map from "@components/Map"
 
 import { Icon, LoadingDots } from "@components/ui"
+import { OfficeBuildingIcon } from "@heroicons/react/outline"
 
 const About = ({
   page,
@@ -32,18 +33,18 @@ const About = ({
         options={warehouses?.mapOptions || undefined}
       />
 
-      <div className="relative bg-white py-16">
-        <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      <div className="relative bg-white py-8 px-2">
+        <div className="mx-auto max-w-md w-2/3 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 text-sm font-medium">
             {warehouses &&
               warehouses.markers &&
               warehouses.markers.map(warehouse => {
                 return (
                   <div
-                    className="flex py-4"
+                    className="flex py-4 items-center text-center"
                     key={"warehouse" + warehouse?.label}
                   >
-                    <Icon name="box" type="regular" className="h-6 w-6 mr-2" />
+                    <OfficeBuildingIcon className="h-5 w-5 mr-2" />
                     {warehouse?.label}
                   </div>
                 )

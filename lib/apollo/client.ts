@@ -20,16 +20,14 @@ import { isEqual } from "lodash"
 import { isServer } from "@lib/utils"
 import {
   getAuthToken,
-  getClientMutationId,
   getRefreshToken,
   getSessionToken,
   isTokenExpired,
   refreshMutation,
   setAuthToken,
   setWooSession,
-  WOO_SESSION_KEY,
 } from "./auth"
-import { v4 as uuid } from "uuid"
+import jwtDecode from "jwt-decode"
 
 export const PERSISTOR_CACHE_KEY =
   process.env.NEXT_PUBLIC_PERSISTOR_CACHE_KEY || "missing-cache-key"
@@ -54,7 +52,6 @@ const createApolloClient = ({
       ...init,
       headers: {
         ...init.headers,
-        "Access-Control-Allow-Origin": "*",
         // here we pass the cookie along for each request
         Cookie: headers?.cookie ?? "",
       },
@@ -73,39 +70,25 @@ const createApolloClient = ({
    */
   const middleware = new ApolloLink((operation, forward) => {
     if (!isServer()) {
-      //
+      const authToken = getAuthToken()?.authToken
+      const wooSession = getSessionToken()
 
-      const refreshToken = getRefreshToken()
+      if (authToken || wooSession) {
+        let headers: {
+          authorization?: string
+          "woocommerce-session"?: string
+        } = {}
+        authToken && (headers.authorization = `Bearer ${authToken}`)
+        wooSession && (headers["woocommerce-session"] = `Session ${wooSession}`)
 
-      if (isTokenExpired() && refreshToken) {
-        // Refresh Token
-
-        const clientMutation = uuid()
-        apolloClient
-          .mutate({
-            mutation: refreshMutation,
-            variables: { input: { clientMutation, refreshToken } },
-          })
-          .then(response => {
-            console.log("silentRefresh", response)
-            const authToken = response.data.refreshJwtAuthToken
-              ? response.data.refreshJwtAuthToken.authToken
-              : null
-            if (authToken) {
-              setAuthToken(authToken)
-            }
-          })
+        // If session data exist in local storage, set value as session header.
+        operation.setContext(({}) => ({
+          headers,
+        }))
       }
 
-      const authToken = getAuthToken()?.authToken
-
-      // If session data exist in local storage, set value as session header.
-      operation.setContext(({ headers = {} }) => ({
-        headers: {
-          authorization: authToken ? `Bearer: ${authToken}` : "",
-          "woocommerce-session": `Session ${getSessionToken()}`,
-        },
-      }))
+      // console.log("AUTH TOKEN", jwtDecode(authToken))
+      // console.log("WOO SESSION", jwtDecode(wooSession))
     }
 
     return forward(operation)
@@ -116,19 +99,19 @@ const createApolloClient = ({
    * This catches the incoming session token and stores it in localStorage, for future GraphQL requests.
    */
   const afterware = new ApolloLink((operation, forward) => {
-    console.log("OPERATION", operation)
-
     return forward(operation).map(response => {
-      console.log("RESPONSE", response)
       /**
        * Check for session header and update session in local storage accordingly.
        */
       if (!isServer()) {
         const context = operation.getContext()
+
         const {
           response: { headers },
         } = context
+
         const session = headers.get("woocommerce-session")
+
         if (session) {
           if (getSessionToken() !== session) {
             setWooSession(session)
@@ -143,11 +126,15 @@ const createApolloClient = ({
   const apolloLink = ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
       if (graphQLErrors)
-        graphQLErrors.forEach(({ message, locations, path }) =>
+        graphQLErrors.forEach(({ message, locations, path }) => {
           console.log(
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-          ),
-        )
+          )
+          locations &&
+            locations.map(location => {
+              console.log("LOCATION: ", location)
+            })
+        })
       if (networkError)
         console.log(
           `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,

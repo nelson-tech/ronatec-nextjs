@@ -1,4 +1,6 @@
 export const employeeCommonFragment = `
+id
+databaseId
 slug
 title
 position {
