@@ -11,6 +11,9 @@
     "pm2-dev": "pm2 start npm --name \"Ronatec Next.js Dev\" -- run dev",
     "pm2-dev-stop": "pm2 stop \"Ronatec Next.js Dev\" && pm2 delete \"Ronatec Next.js Dev\"",
     "pm2-dev-restart": "pm2 restart \"Ronatec Next.js Dev\"",
+    "pm2-start": "pm2 start npm --name \"Ronatec Next.js Production\" -- run start",
+    "pm2-stop": "pm2 stop \"Ronatec Next.js Production\" && pm2 delete \"Ronatec Next.js Production\"",
+    "pm2-restart": "pm2 restart \"Ronatec Next.js Production\"",
     "build:css": "postcss assets/main.css -o assets/main_browser.css",
     "schema-gen": "graphql-codegen --config codegen.yml"
   },
