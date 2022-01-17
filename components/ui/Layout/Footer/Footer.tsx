@@ -75,6 +75,7 @@ const Footer = () => {
                     height={596}
                     objectFit="cover"
                     layout="responsive"
+                    alt="ISO 9001 Certificate"
                   />
                 </div>
               </div>
@@ -89,6 +90,7 @@ const Footer = () => {
                     height={300}
                     objectFit="cover"
                     layout="responsive"
+                    alt="ISO 17025 Certificate"
                   />
                 </div>
               </div>
