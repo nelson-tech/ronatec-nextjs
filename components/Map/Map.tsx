@@ -34,6 +34,7 @@ const DEFAULT_OPTIONS: google.maps.MapOptions = {
   zoom: 4,
   disableDefaultUI: true,
   keyboardShortcuts: false,
+  fullscreenControl: false,
 }
 
 type CoordinatesType = {
@@ -58,18 +59,21 @@ const Map = ({
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API as string,
+    preventGoogleFontsLoading: true,
   })
 
   const [map, setMap] = useState<google.maps.Map | null>(null)
   const { isMobile } = useMobileDetect()
 
   const onLoad = useCallback((map: google.maps.Map) => {
-    const bounds = new window.google.maps.LatLngBounds()
+    // const bounds = new window.google.maps.LatLngBounds()
 
     setMap(map)
   }, [])
 
-  const onUnmount = useCallback(map => {}, [])
+  const onUnmount = useCallback(map => {
+    setMap(null)
+  }, [])
 
   let mapOptions: google.maps.MapOptions = {}
 
@@ -131,6 +135,7 @@ const Map = ({
           options={mapOptions}
           onLoad={onLoad}
           onUnmount={onUnmount}
+          id="google-map-script"
         >
           {markers &&
             markers.map(marker => {

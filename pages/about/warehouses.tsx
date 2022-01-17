@@ -29,7 +29,7 @@ const About = ({
       </div>
       <Map
         markers={markers}
-        containerClassNames="responsivePadding"
+        containerClassNames="aspect-3"
         options={warehouses?.mapOptions || undefined}
       />
 

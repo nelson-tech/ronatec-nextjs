@@ -53,7 +53,7 @@ export const initialMenu: NormalizedMenuItem[] = [
   },
   {
     id: "Consulting",
-    path: "/consulting",
+    path: "/services/consulting",
     label: "Consulting",
     children: null,
   },

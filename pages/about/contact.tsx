@@ -32,7 +32,8 @@ const About = ({
       <Map
         markers={map?.markers}
         options={map?.mapOptions || undefined}
-        containerClassNames="responsivePadding"
+        containerClassNames="aspect-3"
+        key={map?.fieldGroupName + "map_contact"}
       />
 
       <div className="relative bg-white py-8">

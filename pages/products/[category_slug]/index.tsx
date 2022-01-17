@@ -113,7 +113,6 @@ const CategoryPage = ({
           setViewMode={setViewMode}
           handleSort={handleSort}
           selectedSort={selectedSort}
-          withFilter
         />
 
         {loading ? (
