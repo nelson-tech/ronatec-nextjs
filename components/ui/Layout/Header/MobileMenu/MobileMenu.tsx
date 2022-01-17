@@ -215,11 +215,12 @@ const MobileMenu = ({ open, setOpen, menuItems }: MobileMenuProps) => {
               ) : (
                 <>
                   <div className="group" onClick={() => setOpen(false)}>
-                    <MenuLink href="/register">
-                      <a className="transition flex items-center outline-none ring-transparent px-3.5 py-2 hover:bg-blue-main hover:text-white">
-                        <ClipboardCheckIcon className="h-6 w-6 mr-4" />
-                        <div>Register</div>
-                      </a>
+                    <MenuLink
+                      href="/register"
+                      className="transition flex items-center outline-none ring-transparent px-3.5 py-2 hover:bg-blue-main hover:text-white"
+                    >
+                      <ClipboardCheckIcon className="h-6 w-6 mr-4" />
+                      <div>Register</div>
                     </MenuLink>
                   </div>
                   <div

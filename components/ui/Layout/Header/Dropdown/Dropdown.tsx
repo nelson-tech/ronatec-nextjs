@@ -43,8 +43,8 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="z-20 origin-top absolute -left-1/2 pt-2 w-64">
-              <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
+            <div className="z-40 origin-top absolute -left-1/2 pt-2 w-64">
+              <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-40">
                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 
                 {menuItem.children &&
@@ -52,11 +52,9 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
                     <Menu.Item key={item.id}>
                       <MenuLink
                         href={item.path}
-                        className="ring-transparent outline-none"
+                        className="transition hover:bg-blue-main hover:text-white text-blue-dark block px-4 py-2 text-sm ring-transparent outline-none"
                       >
-                        <a className="transition hover:bg-blue-main hover:text-white text-blue-dark block px-4 py-2 text-sm outline-none ring-transparent">
-                          {item.label}
-                        </a>
+                        {item.label}
                       </MenuLink>
                     </Menu.Item>
                   ))}

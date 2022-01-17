@@ -80,7 +80,7 @@ const Header = ({ promo = false }: HeaderProps) => {
   )
 
   return (
-    <div>
+    <div className="font-family">
       <MobileMenu
         open={mobileMenuOpen}
         setOpen={setMobileMenuOpen}
@@ -138,6 +138,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                                 <MegaMenu
                                   megaItem={menuItem}
                                   getStyle={getDesktopLinkStyle}
+                                  key={menuItem.id}
                                 />
                               )
                             } else {
@@ -145,6 +146,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                                 <Dropdown
                                   menuItem={menuItem}
                                   getStyle={getDesktopLinkStyle}
+                                  key={menuItem.id}
                                 />
                               )
                             }

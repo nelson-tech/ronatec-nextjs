@@ -25,6 +25,8 @@ contact {
 export const salesRepsFragment = `
 salesReps {
   ... on Employee {
+    id
+    databaseId
     ${employeeCommonFragment}
     regions {
       regions

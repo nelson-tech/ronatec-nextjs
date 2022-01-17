@@ -1,7 +1,7 @@
-import { DetailsHTMLAttributes, FC, HTMLAttributes, HTMLProps } from "react"
+import { HTMLProps } from "react"
 import Link from "next/link"
 
-const MyLink = (props: HTMLProps<HTMLAnchorElement>) => {
+const MenuLink = (props: HTMLProps<HTMLAnchorElement>) => {
   let { href, title, target, className, children, ...rest } = props
   return (
     <Link href={href || ""} passHref>
@@ -12,4 +12,4 @@ const MyLink = (props: HTMLProps<HTMLAnchorElement>) => {
   )
 }
 
-export default MyLink
+export default MenuLink

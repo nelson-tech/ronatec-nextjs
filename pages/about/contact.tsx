@@ -1,15 +1,15 @@
 import { InferGetStaticPropsType } from "next"
 
 import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
-import { getContactData } from "@api/queries/pages/about"
-import { normalize } from "@api/utils"
 import { parseNewLines } from "@lib/utils"
-import Map from "@components/Map"
-
-import { Icon, LoadingDots } from "@components/ui"
-import { IconCard } from "@components/Cards"
+import { getContactData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 import { Employee } from "@api/gql/types"
+import { normalize } from "@api/utils"
+
+import Map from "@components/Map"
+import { Icon, LoadingDots } from "@components/ui"
+import { IconCard } from "@components/Cards"
 
 const About = ({
   page,
@@ -64,10 +64,7 @@ const About = ({
                 {salesReps.map(salesRep => {
                   if (salesRep) {
                     return (
-                      <EmployeeCard
-                        employee={salesRep}
-                        key={"employee" + salesRep?.title}
-                      />
+                      <EmployeeCard employee={salesRep} key={salesRep.id} />
                     )
                   }
                 })}
@@ -87,6 +84,7 @@ const EmployeeCard = ({ employee }: { employee: Employee }) => {
       className={`flow-root rounded-lg px-6 pb-0 md:pt-0 h-full${
         false && " text-center"
       }`}
+      key={employee.id}
     >
       {employee.title && (
         <h2 className="mt-0 text-xl font-bold text-black tracking-tight border-b-2">

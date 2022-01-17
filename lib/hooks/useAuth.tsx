@@ -65,7 +65,6 @@ const useProvideAuth = () => {
             variables: { input },
           })
           .then(response => {
-            console.log("silentRefresh", response)
             const authToken = response.data.refreshJwtAuthToken
               ? response.data.refreshJwtAuthToken.authToken
               : null
@@ -85,7 +84,6 @@ const useProvideAuth = () => {
     } else {
       // Token is valid
       !loggedIn && setLoggedIn(true)
-      console.log("Valid User")
     }
   }, [loggedIn])
 

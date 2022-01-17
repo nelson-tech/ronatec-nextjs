@@ -73,7 +73,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                             {column.children &&
                               column.children.map(item => (
                                 <li
-                                  key={item.label + item.path}
+                                  key={item.id}
                                   className="flex w-full group"
                                   onClick={() => close()}
                                 >

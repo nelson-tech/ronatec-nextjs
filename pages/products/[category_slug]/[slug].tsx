@@ -1,20 +1,25 @@
-import { getGeneralPageData } from "@api/queries/pages"
-import {
-  getProductDataFromSlug,
-  getProductsWithCategories,
-} from "@api/queries/pages/products"
-import { ProductsReturnType, ProductReturnType } from "@api/queries/types"
-import { normalize } from "@api/utils"
-import { DefaultProduct } from "@components"
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
-import { parseNewLines } from "@lib/utils"
 import {
   GetStaticPaths,
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-// import { useRouter } from "next/router"
 import { ParsedUrlQuery } from "querystring"
+
+import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { getGeneralPageData } from "@api/queries/pages"
+import {
+  getCategoryFromSlug,
+  getProductDataFromSlug,
+  getProductsWithCategories,
+} from "@api/queries/pages/products"
+import {
+  ProductsReturnType,
+  ProductReturnType,
+  CategoryReturnType,
+} from "@api/queries/types"
+import { normalize } from "@api/utils"
+
+import { Breadcrumbs, DefaultProduct } from "@components"
 
 const SKUProduct = ({
   product,
@@ -26,7 +31,12 @@ const SKUProduct = ({
   // const router = useRouter()
 
   if (product) {
-    return <DefaultProduct product={product} />
+    return (
+      <div>
+        <Breadcrumbs category={category} product />
+        <DefaultProduct product={product} />
+      </div>
+    )
   }
   // if (typeof window !== "undefined") {
   //   router.push("/products")
@@ -57,6 +67,16 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const product = data && data.product ? data.product : null
 
   const {
+    data: { productCategory: category },
+  }: CategoryReturnType = await client.query({
+    query: getCategoryFromSlug,
+    variables: {
+      id: category_slug,
+    },
+    errorPolicy: "all",
+  })
+
+  const {
     data: { menu },
     loading: menuLoading,
     error: menuError,
@@ -67,7 +87,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const menuItems = normalize.menu(menu)
 
   const staticProps = {
-    props: { menuItems, product, category: category_slug },
+    props: { menuItems, product, category },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 

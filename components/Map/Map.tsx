@@ -1,10 +1,12 @@
-import { useCallback, useEffect, useState } from "react"
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
-import { LoadingDots } from "@components/ui"
-import twConfig from "../../tailwind.config"
+import { useCallback, useState } from "react"
 import { css } from "@emotion/react"
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
+
+import twConfig from "../../tailwind.config"
 import { Maybe, Post_Maps_MapOptions, Post_Maps_Markers } from "@api/gql/types"
 import { useMobileDetect } from "@lib/hooks"
+
+import { LoadingDots } from "@components/ui"
 
 const colors = twConfig.theme.extend.colors
 
@@ -59,16 +61,13 @@ const Map = ({
   })
 
   const [map, setMap] = useState<google.maps.Map | null>(null)
-  const { isMobile, isDesktop, isSSR } = useMobileDetect()
+  const { isMobile } = useMobileDetect()
 
   const onLoad = useCallback((map: google.maps.Map) => {
     const bounds = new window.google.maps.LatLngBounds()
 
     setMap(map)
   }, [])
-
-  console.log("SSR", isSSR())
-  console.log("Desktop", isDesktop())
 
   const onUnmount = useCallback(map => {}, [])
 
@@ -170,22 +169,3 @@ const Map = ({
 }
 
 export default Map
-
-{
-  /* <img
-        css={css`
-          width: 256px;
-          height: 256px;
-          -webkit-user-select: none;
-          border: 0px;
-          padding: 0px;
-          margin: 0px;
-          max-width: none;
-        `}
-        draggable="false"
-        alt=""
-        role="presentation"
-        src="https://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i4!2i2!3i6!4i256!2m3!1e0!2sm!3i585311270!3m17!2sen!3sUS!5e18!12m4!1e68!2m2!1sset!2sRoadmap!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5oOiM4MWQ3NDJ8cC5sOjEwfHAuczozMCxzLnQ6M3xzLmU6Z3xwLnY6c2ltcGxpZmllZCxzLnQ6M3xzLmU6bA!4e0!5m1!5f2&amp;key=AIzaSyBpfR6rYtbHQRyZeDbvQPTJ_gAIv_dkedY&amp;token=30809"
-        className="__WebInspectorHideElement__"
-      ></img> */
-}
