@@ -17,22 +17,19 @@ const useAuth = () => {
 
   // Setters
 
-  const setAuthToken = useCallback(
-    (serverAuthToken: string) => {
-      if (!isServer) {
-        const authToken = {
-          authToken: serverAuthToken,
-          authExpiration: jwt_decode<JwtPayload>(serverAuthToken).exp || null,
-        }
-
-        localStorage.setItem(
-          authConstants.AUTH_TOKEN_KEY,
-          JSON.stringify(authToken),
-        )
+  const setAuthToken = useCallback((serverAuthToken: string) => {
+    if (!isServer) {
+      const authToken = {
+        authToken: serverAuthToken,
+        authExpiration: jwt_decode<JwtPayload>(serverAuthToken).exp || null,
       }
-    },
-    [isServer],
-  )
+
+      localStorage.setItem(
+        authConstants.AUTH_TOKEN_KEY,
+        JSON.stringify(authToken),
+      )
+    }
+  }, [])
 
   const setLoggedIn = (loggedIn: boolean) => {
     const currentAuth = loggedInVar()
@@ -61,7 +58,7 @@ const useAuth = () => {
         return JSON.parse(authToken)
       }
     }
-  }, [isServer])
+  }, [])
 
   const getClientMutationId = useCallback(() => {
     if (!isServer) {
@@ -77,7 +74,7 @@ const useAuth = () => {
       }
       return uuid()
     }
-  }, [isServer])
+  }, [])
 
   const getClientShopId = () => {
     if (!isServer) {
@@ -97,7 +94,7 @@ const useAuth = () => {
       return localStorage.getItem(authConstants.REFRESH_TOKEN_KEY)
     }
     return null
-  }, [isServer])
+  }, [])
 
   const getWooSession = () => {
     if (!isServer) {
@@ -118,7 +115,7 @@ const useAuth = () => {
       }
     }
     return true
-  }, [isServer, getAuthToken])
+  }, [getAuthToken])
 
   // Refresh Token
 

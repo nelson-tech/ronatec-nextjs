@@ -3,9 +3,8 @@ import { ThemeProvider } from "@emotion/react"
 
 import { emotionTheme } from "styles/theme"
 import GlobalStyles from "styles/GlobalStyles"
-import { Footer } from "./"
+import { Header, Footer } from "./"
 import { Alerts, LoadingDots } from "@components/ui"
-import Header from "./Header"
 
 // ####
 // #### Types

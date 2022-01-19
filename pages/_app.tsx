@@ -6,11 +6,9 @@ import { AppProps } from "next/app"
 import Router from "next/router"
 import { ApolloProvider } from "@apollo/client"
 
-import { UIProvider } from "@components/ui/context"
 import { initializeApollo, useApollo } from "../lib/apollo"
 import { ProgressBar } from "@lib"
 import { Layout } from "@components/ui"
-import { AuthProvider } from "@lib/hooks"
 
 const Noop: FC = ({ children }) => <>{children}</>
 
