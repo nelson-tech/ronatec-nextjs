@@ -9,8 +9,7 @@ import {
 } from "@heroicons/react/outline"
 import { ChevronUpIcon } from "@heroicons/react/solid"
 
-import { NormalizedMenuItem } from "@lib/apollo/cache"
-import { logout } from "@lib/apollo/auth"
+import { NormalizedMenuItem } from "@lib/types"
 import { useAuth } from "@lib/hooks"
 
 import { MenuLink } from "@components/ui"
@@ -20,14 +19,14 @@ import userMenu from "../userMenu"
 type MobileMenuProps = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  menuItems: NormalizedMenuItem[]
+  menu: NormalizedMenuItem[]
 }
 
-const MobileMenu = ({ open, setOpen, menuItems }: MobileMenuProps) => {
+const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
   const router = useRouter()
-  const auth = useAuth()
+  const { loggedIn, logout } = useAuth()
 
-  const sideMenu = menuItems.filter(
+  const sideMenu = menu.filter(
     item => !["Home", "RonaBev", "RonaTank"].includes(item.label),
   )
 
@@ -180,7 +179,7 @@ const MobileMenu = ({ open, setOpen, menuItems }: MobileMenuProps) => {
             </div>
 
             <div className="border-t border-gray-200 py-6 text-sm font-bold text-gray-600">
-              {auth && auth.isLoggedIn() ? (
+              {loggedIn ? (
                 <>
                   {userMenu.map(item => (
                     <div

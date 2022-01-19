@@ -1,13 +1,9 @@
 import { Dispatch, FormEventHandler, SetStateAction, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
-import { useMutation } from "@apollo/client"
-import { v4 as uuid } from "uuid"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
-import { loginMutation, setAuthToken, setRefreshToken } from "@lib/apollo/auth"
-import { useFormFields } from "@lib/hooks"
-import { User } from "@api/gql/types"
+import { useAuth, useFormFields } from "@lib/hooks"
 
 type SignInProps = {
   modalRef?: string
@@ -15,10 +11,9 @@ type SignInProps = {
 }
 
 const SignIn = ({ modalRef, setOpen }: SignInProps) => {
+  const { login } = useAuth()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
-
-  const [loginMutationFunc, { loading }] = useMutation(loginMutation)
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -30,30 +25,19 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
     setError(null)
 
     if (fields.email && fields.password) {
-      const input = {
-        clientMutationId: uuid(),
+      const userLogin = {
         username: fields.email,
         password: fields.password,
       }
 
-      await loginMutationFunc({
-        variables: { input },
-        onCompleted({ login }) {
-          if (login?.user) {
-            const user: User = login.user
-            user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
-            user.jwtRefreshToken &&
-              setRefreshToken(user.jwtRefreshToken, () => {
-                router.replace(router.asPath)
-                setOpen && setOpen(false)
-              })
-          }
-        },
-        onError({ message }) {
-          ;["invalid_email", "incorrect_password"].includes(message) &&
-            setError("Email or password incorrect.")
-        },
+      const { errors } = await login(userLogin, () => {
+        router.replace(router.asPath)
+        setOpen && setOpen(false)
       })
+
+      if (errors) {
+        setError(errors)
+      }
     }
   }
 

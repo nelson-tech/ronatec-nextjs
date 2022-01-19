@@ -7,11 +7,6 @@ import {
 import Link from "next/link"
 import { useApolloClient } from "@apollo/client"
 import { ParsedUrlQuery } from "querystring"
-import {
-  default as parse,
-  Element,
-  HTMLReactParserOptions,
-} from "html-react-parser"
 
 import { Maybe, Product } from "@api/gql/types"
 import { getGeneralPageData } from "@api/queries/pages"
@@ -22,16 +17,18 @@ import {
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 import { normalize } from "@api/utils"
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
 
-import { Breadcrumbs, Image, ProductCard, Sort } from "@components"
+import { Breadcrumbs, ProductCard, Sort } from "@components"
 import { LoadingDots } from "@components/ui"
+import { useMainMenu } from "@lib/hooks"
 
 const CategoryPage = ({
   category,
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  menuItems && menuItemsVar(menuItems)
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
 
   const apolloClient = useApolloClient()
 
@@ -119,7 +116,7 @@ const CategoryPage = ({
           <div className="pt-12 pb-24">
             <div className="flex items-center flex-col space-y-8">
               <div className="font-bold">Fetching products...</div>
-              <div>
+              <div className="w-16 h-16">
                 <LoadingDots />
               </div>
             </div>

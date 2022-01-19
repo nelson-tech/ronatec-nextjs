@@ -3,14 +3,13 @@ import router from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { Dialog, Transition } from "@headlessui/react"
 import { XIcon } from "@heroicons/react/outline"
-import jwtDecode from "jwt-decode"
 
-import { getSessionToken } from "@lib/apollo/auth"
 import { Cart } from "@api/gql/types"
 
 import { Image } from "@components"
 import { CartPane } from "./style"
 import { MenuLink } from "@components/ui"
+import { useAuth } from "@lib/hooks"
 
 type CartProps = {
   open: boolean
@@ -39,13 +38,16 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
   const [removeItemMutation] = useMutation(removeItem)
   const apolloClient = useApolloClient()
 
+  const { getClientShopId } = useAuth()
+
   const handleCheckout = () => {
-    const sessionToken = getSessionToken()
-    if (sessionToken) {
-      const session =
-        jwtDecode<{ data: { customer_id: string } }>(sessionToken).data
-          .customer_id
-      router.push(`https://api.ronatec.us/checkout?session_id=${session}`)
+    const clientShopId = getClientShopId()
+    if (clientShopId) {
+      console.log("ClientShopId", clientShopId)
+
+      router.push(
+        `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}?session_id=${clientShopId}`,
+      )
     } else {
       setError("Shopping Session not found.")
     }
@@ -57,8 +59,12 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
     }
     await removeItemMutation({
       variables: { input },
-      onCompleted({ removeItemsFromCart }) {
-        apolloClient.refetchQueries({ include: ["CartQuery"] })
+      onCompleted(res) {
+        if (res.removeItemsFromCart) {
+          apolloClient.refetchQueries({ include: ["CartQuery"] })
+        } else if (res.error) {
+          console.log(res.errors)
+        }
       },
       onError({ message }) {
         console.log("REMOVE ERROR", message)

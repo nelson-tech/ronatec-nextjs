@@ -4,7 +4,7 @@ import Link from "next/link"
 import classNames from "classnames"
 import { Menu, Transition } from "@headlessui/react"
 
-import { NormalizedMenuItem } from "@lib/apollo/cache"
+import { NormalizedMenuItem } from "@lib/types"
 import { Underlined, underSelect } from "styles/utils"
 
 // import { LoadingDots } from "@components/ui"

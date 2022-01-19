@@ -11,7 +11,6 @@ import {
   UserIcon,
 } from "@heroicons/react/outline"
 import { useAuth } from "@lib/hooks"
-import { logout } from "@lib/apollo/auth"
 import { useRouter } from "next/router"
 import { MenuLink } from "@components/ui"
 import userMenu from "../userMenu"
@@ -38,7 +37,8 @@ interface UsernavPropsType {
 
 const Usernav: FC<UsernavPropsType> = ({ iconSize, setSignInOpen }) => {
   const router = useRouter()
-  const auth = useAuth()
+
+  const { loggedIn, logout } = useAuth()
 
   return (
     <Menu as="div" className="hidden lg:block relative lg:flex-shrink-0 h-full">
@@ -47,7 +47,7 @@ const Usernav: FC<UsernavPropsType> = ({ iconSize, setSignInOpen }) => {
           <div className="h-full">
             <Menu.Button
               className={`font-bold text-sm rounded-md py-2 outline-none ${
-                auth?.isLoggedIn() ? "text-green-main" : "text-gray-400"
+                loggedIn ? "text-green-main" : "text-gray-400"
               } hover:text-gray-500`}
             >
               <span className="sr-only">Open user menu</span>
@@ -62,13 +62,13 @@ const Usernav: FC<UsernavPropsType> = ({ iconSize, setSignInOpen }) => {
           >
             <div className="origin-top-right z-20 absolute -right-2 pt-2 w-48">
               <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
-                {auth && auth.isLoggedIn() ? (
+                {loggedIn ? (
                   <>
                     {userMenu.map(item => (
                       <Menu.Item key={"usernav" + item.name}>
                         <MenuLink
                           href={item.href}
-                          className="transition flex items-center hover:bg-blue-main hover:text-white text-blue-dark px-4 py-2 text-sm"
+                          className="transition flex items-center hover:bg-blue-main outline-none ring-transparent hover:text-white text-blue-dark px-4 py-2 text-sm"
                         >
                           {item.icon({ className: "h-4 w-4 mr-2" })}
                           {item.name}
@@ -78,11 +78,11 @@ const Usernav: FC<UsernavPropsType> = ({ iconSize, setSignInOpen }) => {
 
                     <Menu.Item>
                       <div
-                        className="transition flex cursor-pointer items-center text-red-main px-4 py-2 text-sm hover:bg-red-main hover:text-white"
+                        className="transition flex cursor-pointer items-center outline-none ring-transparent text-red-main px-4 py-2 text-sm hover:bg-red-main hover:text-white"
                         onClick={() => logout(() => router.push("/"))}
                       >
                         <LogoutIcon className="h-4 w-4 mr-1.5" />
-                        <Underlined className="target">Sign out</Underlined>
+                        <div className="target">Sign out</div>
                       </div>
                     </Menu.Item>
                   </>

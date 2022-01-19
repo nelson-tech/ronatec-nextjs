@@ -56,7 +56,6 @@ id
 attributeId
 name
 label
-value
 `
 
 export const attributesFragment = `
@@ -72,6 +71,7 @@ sku
 id
 databaseId
 description
+name
 price
 salePrice
 onSale
@@ -92,6 +92,7 @@ export const variableProductFragment = `
 ... on VariableProduct {
   ${productBaseFragment}
   ${variationsFragment}
+  ${attributesFragment}
 }
 `
 
@@ -126,6 +127,7 @@ contents {
     variation {
       attributes {
         ${attributeBaseFragment}
+        value
       }
     }
     key

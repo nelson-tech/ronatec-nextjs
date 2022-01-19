@@ -1,22 +1,19 @@
 import { InferGetStaticPropsType } from "next"
 import { css } from "@emotion/react"
+import styled from "@emotion/styled"
 import tw from "twin.macro"
 
-// import { initializeApollo } from "@lib/apollo"
-import { addApolloState, menuItemsVar } from "@lib/apollo"
-import { getConsultingData } from "@api/queries/pages"
-import { PageReturnType } from "@api/queries/types"
-import { normalize } from "@api/utils"
+import { addApolloState } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
 import { parseNewLines } from "@lib/utils"
-
-// import { Layout, LoadingDots } from "@components/ui"
-// import { IconCard, Slider } from "@components"
-
-import { LoadingDots } from "@components/ui"
+import { normalize } from "@api/utils"
+import { getConsultingData } from "@api/queries/pages"
 import { Post_Common_Cards } from "@api/gql/types"
-import { IconCard } from "@components/Cards"
+import { PageReturnType } from "@api/queries/types"
+
 import { Slider } from "@components"
-import styled from "@emotion/styled"
+import { LoadingDots } from "@components/ui"
+import { IconCard } from "@components/Cards"
 
 // ####
 // #### Dynamic Imports
@@ -55,8 +52,10 @@ const Consulting = ({
   error,
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
+
   if (loading) return <LoadingDots />
-  menuItemsVar(menuItems)
 
   const { title, slug } = page
 

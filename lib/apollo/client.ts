@@ -12,22 +12,12 @@ import merge from "deepmerge"
 import fetch from "isomorphic-unfetch"
 import { IncomingHttpHeaders } from "http2"
 import { CachePersistor, LocalStorageWrapper } from "apollo3-cache-persist"
-import { isDeepStrictEqual } from "util"
 import { useEffectOnce, usePrevious } from "react-use"
+import isEqual from "lodash.isequal"
 
 import { cache as defaultCache } from "."
-import { isEqual } from "lodash"
 import { isServer } from "@lib/utils"
-import {
-  getAuthToken,
-  getRefreshToken,
-  getSessionToken,
-  isTokenExpired,
-  refreshMutation,
-  setAuthToken,
-  setWooSession,
-} from "./auth"
-import jwtDecode from "jwt-decode"
+import { authConstants } from "@lib"
 
 export const PERSISTOR_CACHE_KEY =
   process.env.NEXT_PUBLIC_PERSISTOR_CACHE_KEY || "missing-cache-key"
@@ -47,6 +37,7 @@ const createApolloClient = ({
   cache: ApolloCache<NormalizedCacheObject> | undefined
 }) => {
   // isomorphic fetch for passing the cookies along with each GraphQL request
+
   const enhancedFetch = (url: RequestInfo, init: RequestInit) => {
     return fetch(url, {
       ...init,
@@ -69,16 +60,21 @@ const createApolloClient = ({
    * Check for expired tokens, set headers.
    */
   const middleware = new ApolloLink((operation, forward) => {
-    if (!isServer()) {
-      const authToken = getAuthToken()?.authToken
-      const wooSession = getSessionToken()
+    if (!isServer) {
+      const wooSession = localStorage.getItem(authConstants.WOO_SESSION_KEY)
+      const rawAuthToken = localStorage.getItem(authConstants.AUTH_TOKEN_KEY)
 
-      if (authToken || wooSession) {
+      if (rawAuthToken || wooSession) {
+        const authToken = rawAuthToken && JSON.parse(rawAuthToken || "")
+
         let headers: {
           authorization?: string
           "woocommerce-session"?: string
         } = {}
-        authToken && (headers.authorization = `Bearer ${authToken}`)
+        authToken &&
+          authToken.authToken &&
+          (headers.authorization = `Bearer ${authToken.authToken}`)
+
         wooSession && (headers["woocommerce-session"] = `Session ${wooSession}`)
 
         // If session data exist in local storage, set value as session header.
@@ -103,7 +99,7 @@ const createApolloClient = ({
       /**
        * Check for session header and update session in local storage accordingly.
        */
-      if (!isServer()) {
+      if (!isServer) {
         const context = operation.getContext()
 
         const {
@@ -111,10 +107,11 @@ const createApolloClient = ({
         } = context
 
         const session = headers.get("woocommerce-session")
+        const localSession = localStorage.getItem(authConstants.WOO_SESSION_KEY)
 
         if (session) {
-          if (getSessionToken() !== session) {
-            setWooSession(session)
+          if (localSession !== session) {
+            localStorage.setItem(authConstants.WOO_SESSION_KEY, session)
           }
         }
       }
@@ -147,7 +144,7 @@ const createApolloClient = ({
   ])
 
   return new ApolloClient({
-    ssrMode: isServer(),
+    ssrMode: isServer,
     link: apolloLink,
     cache: cache || defaultCache,
   })
@@ -162,7 +159,7 @@ export const initializeApollo = ({ headers, cache }: InitializeApollo) => {
   const _apolloClient = apolloClient ?? createApolloClient({ headers, cache })
 
   // For SSG and SSR always create a new Apollo Client
-  if (isServer()) return _apolloClient
+  if (isServer) return _apolloClient
 
   // Create the Apollo Client once in the client
   if (!apolloClient) apolloClient = _apolloClient

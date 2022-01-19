@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef } from "react"
 import tw from "twin.macro"
-import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
+// import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
 
 interface Props {
   children: any
@@ -11,18 +11,18 @@ interface Props {
 const Sidebar: FC<Props> = ({ children, isOpen, onClose }) => {
   const ref = useRef() as React.MutableRefObject<HTMLDivElement>
 
-  useEffect(() => {
-    // TODO - Find better package and/or fix zoom bug when locking scroll.
-    if (ref.current) {
-      if (isOpen) {
-        disableBodyScroll(ref.current)
-      }
-    }
+  // useEffect(() => {
+  //   // TODO - Find better package and/or fix zoom bug when locking scroll.
+  //   if (ref.current) {
+  //     if (isOpen) {
+  //       disableBodyScroll(ref.current)
+  //     }
+  //   }
 
-    return () => {
-      clearAllBodyScrollLocks()
-    }
-  }, [isOpen])
+  //   return () => {
+  //     clearAllBodyScrollLocks()
+  //   }
+  // }, [isOpen])
 
   return (
     <>

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Popover, Transition } from "@headlessui/react"
 import tw from "twin.macro"
 
-import { NormalizedMenuItem } from "@lib/apollo/cache"
+import { NormalizedMenuItem } from "@lib/types"
 
 // Remove after fetching dynamic data
 // import { UserMenuItem } from "./Navbar"

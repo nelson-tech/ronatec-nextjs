@@ -6,9 +6,8 @@ import { useReactiveVar } from "@apollo/client"
 import { Popover } from "@headlessui/react"
 import classNames from "classnames"
 
-import { menuItemsVar } from "@lib/apollo/cache"
-
 import { LoadingDots } from "@components/ui"
+import { useGlobalState } from "@lib/hooks"
 
 // ####
 // #### Dynamic Imports
@@ -44,7 +43,7 @@ const SearchModal = dynamic(
 
 const Navbar: FC = () => {
   const router = useRouter()
-  const menuItems = useReactiveVar(menuItemsVar)
+  const { menu: menuItems } = useGlobalState()
 
   const logo = (
     <Fragment>

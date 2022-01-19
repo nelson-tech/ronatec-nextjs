@@ -1,4 +1,5 @@
 import { ApolloError } from "@apollo/client"
+
 import { Maybe, Scalars } from "@api/gql/types"
 
 export type ApolloGenericReturnDataType = {

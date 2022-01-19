@@ -1,11 +1,12 @@
 import { InferGetStaticPropsType } from "next"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
 import { parseNewLines } from "@lib/utils"
+import { normalize } from "@api/utils"
 import { getContactData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 import { Employee } from "@api/gql/types"
-import { normalize } from "@api/utils"
 
 import Map from "@components/Map"
 import { Icon, LoadingDots } from "@components/ui"
@@ -17,8 +18,10 @@ const About = ({
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
+
   if (loading) return <LoadingDots />
-  menuItemsVar(menuItems)
 
   const cards = page.page_about_contact?.acf?.cards
   const salesReps = page.page_about_contact?.acf?.salesReps
@@ -32,7 +35,7 @@ const About = ({
       <Map
         markers={map?.markers}
         options={map?.mapOptions || undefined}
-        containerClassNames="aspect-3"
+        containerClassNames="aspect-2 md:aspect-3"
         key={map?.fieldGroupName + "map_contact"}
       />
 

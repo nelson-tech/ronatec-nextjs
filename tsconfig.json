@@ -20,6 +20,7 @@
       "@components": ["components"],
       "@components/*": ["components/*"],
       "@assets/*": ["assets/*"],
+      "@lib": ["lib"],
       "@lib/*": ["lib/*"]
     },
     "incremental": false

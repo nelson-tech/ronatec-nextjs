@@ -66,6 +66,7 @@ const SupplierCard = ({
                 name="external-link"
                 className="text-gray-700 w-4 ml-4"
                 type="regular"
+                iconKey={supplier.url + "--open-new-window"}
               />
             </div>
           </a>

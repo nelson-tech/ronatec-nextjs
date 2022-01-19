@@ -38,7 +38,7 @@ export const customStyles = css`
     }
   }
 
-  .responsivePadding {
+  /* .responsivePadding {
     padding-top: 52.25%;
     // medium
     @media (min-width: 768px) {
@@ -64,7 +64,7 @@ export const customStyles = css`
 
   .padding16x9 {
     padding-top: 56.25%;
-  }
+  } */
 
   .danger {
     ul {

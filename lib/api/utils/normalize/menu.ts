@@ -1,7 +1,8 @@
-import { MainMenuReturnType } from "@api/queries/types"
-import { MenuItem } from "@api/gql/types"
-import { initialMenu, NormalizedMenuItem } from "@lib/apollo/cache"
 import { removeTrailingSlash } from "@lib/utils"
+import { NormalizedMenuItem } from "@lib/types"
+import { MenuItem } from "@api/gql/types"
+import { MainMenuReturnType } from "@api/queries/types"
+import { initialMenu } from "@lib/hooks/useMainMenu"
 
 const error = (field: string): void => {
   console.log(`Menu ${field} not supplied`)

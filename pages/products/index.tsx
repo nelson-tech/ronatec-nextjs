@@ -1,16 +1,6 @@
 import { Fragment, useState } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 import Link from "next/link"
-
-import { getGeneralPageData } from "@api/queries/pages"
-import { getProductCategories, getProducts } from "@api/queries/pages/products"
-import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
-import { getProductLink } from "@api/utils/products"
-import { normalize } from "@api/utils"
-
-import decode from "jwt-decode"
-
-import { Image, SignIn } from "@components"
 import {
   Dialog,
   Disclosure,
@@ -19,8 +9,6 @@ import {
   Tab,
   Transition,
 } from "@headlessui/react"
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
-
 import {
   MenuIcon,
   SearchIcon,
@@ -34,8 +22,18 @@ import {
   PlusSmIcon,
   ViewGridIcon,
 } from "@heroicons/react/solid"
-import { ProductCategory } from "@api/gql/types"
 import classNames from "classnames"
+
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { normalize } from "@api/utils"
+import { getProductLink } from "@api/utils/products"
+import { getGeneralPageData } from "@api/queries/pages"
+import { getProductCategories, getProducts } from "@api/queries/pages/products"
+import { ProductCategory } from "@api/gql/types"
+import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
+
+import { Image, SignIn } from "@components"
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -92,7 +90,8 @@ const filters = [
 const Products = ({
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  menuItems && menuItemsVar(menuItems)
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)

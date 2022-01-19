@@ -1,3 +1,4 @@
+import { FC } from "react"
 import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
 
@@ -28,13 +29,14 @@ const LoaderDiv = styled.div`
 
 type Props = {
   color?: string
+  className?: string
 }
 
-const LoadingDots: React.FC<Props> = ({ color = "#32de8a" }) => {
+const LoadingDots: FC<Props> = ({ color = "#32de8a", className }) => {
   return (
-    <div className="relative mx-auto">
+    <div className="relative aspect-square max-h-full">
       <LoaderDiv
-        className="loader ease-linear rounded-full border-2 border-t-2 border-gray-200 h-4 w-4"
+        className="w-full h-full rounded-full border-2 border-t-2 border-gray-200"
         color={color}
       />
       {/* <LoadingContainer className="">

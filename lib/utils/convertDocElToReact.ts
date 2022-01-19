@@ -20,8 +20,6 @@ const innerFunction = (
   }
 
   if (element.getAttribute("iconKey")) {
-    console.log("IT'S HERE!")
-
     element.removeAttribute("iconKey")
   }
 

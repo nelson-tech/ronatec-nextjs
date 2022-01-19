@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
-import { gql, useQuery, useReactiveVar } from "@apollo/client"
+import { gql, useQuery } from "@apollo/client"
 import { Popover } from "@headlessui/react"
 import {
   MenuIcon,
@@ -9,11 +9,11 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/outline"
 
-import { menuItemsVar } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
 import { Cart } from "@api/gql/types"
 import { cartBaseFragment } from "@api/queries/fragments/products"
 
-import { Icon, MenuLink, Modal, SearchModal } from "@components/ui"
+import { Icon, MenuLink, Modal } from "@components/ui"
 import { SearchForm, SignIn } from "@components"
 import Promo from "./Promo"
 import MobileMenu from "./MobileMenu"
@@ -52,11 +52,13 @@ const Header = ({ promo = false }: HeaderProps) => {
 
   const router = useRouter()
 
-  const menuItems = useReactiveVar(menuItemsVar)
+  const { menu } = useMainMenu()
 
   const [cart, setCart] = useState<Cart | null>()
 
   const { data, error, loading } = useQuery(getCartQuery)
+
+  error && console.log("CART ERROR", error.graphQLErrors)
 
   useEffect(() => {
     data && setCart(data.cart)
@@ -84,7 +86,7 @@ const Header = ({ promo = false }: HeaderProps) => {
       <MobileMenu
         open={mobileMenuOpen}
         setOpen={setMobileMenuOpen}
-        menuItems={menuItems}
+        menu={menu}
       />
 
       <Modal open={signInOpen} setOpen={setSignInOpen}>
@@ -131,7 +133,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                     {/* Mega menus */}
                     <Popover.Group className="ml-8">
                       <div className="h-full flex items-center space-x-2 text-sm font-medium text-gray-600">
-                        {menuItems.map(menuItem => {
+                        {menu.map(menuItem => {
                           if (menuItem.children) {
                             if (menuItem.mega) {
                               return (

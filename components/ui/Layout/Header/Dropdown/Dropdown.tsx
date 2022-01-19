@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
 
-import { NormalizedMenuItem } from "@lib/apollo/cache"
+import { NormalizedMenuItem } from "@lib/types"
 import { GetDesktopLinkStyleType } from "../Header"
 
 import { MenuLink } from "@components/ui"

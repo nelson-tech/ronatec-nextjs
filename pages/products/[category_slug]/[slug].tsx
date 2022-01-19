@@ -5,28 +5,33 @@ import {
 } from "next"
 import { ParsedUrlQuery } from "querystring"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { AttributeType, FullProduct } from "@lib/types"
+import { normalize } from "@api/utils"
 import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
   getProductDataFromSlug,
   getProductsWithCategories,
 } from "@api/queries/pages/products"
+import { ProductVariation } from "@api/gql/types"
 import {
   ProductsReturnType,
   ProductReturnType,
   CategoryReturnType,
 } from "@api/queries/types"
-import { normalize } from "@api/utils"
 
 import { Breadcrumbs, DefaultProduct } from "@components"
 
 const SKUProduct = ({
   product,
+  attributes,
   menuItems,
   category,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  menuItems && menuItemsVar(menuItems)
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
 
   // const router = useRouter()
 
@@ -34,7 +39,7 @@ const SKUProduct = ({
     return (
       <div>
         <Breadcrumbs category={category} product />
-        <DefaultProduct product={product} />
+        <DefaultProduct product={product} attributes={attributes} />
       </div>
     )
   }
@@ -64,7 +69,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     errorPolicy: "all",
   })
 
-  const product = data && data.product ? data.product : null
+  const product = data && data.product ? (data.product as FullProduct) : null
 
   const {
     data: { productCategory: category },
@@ -86,8 +91,40 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   const menuItems = normalize.menu(menu)
 
+  const getAttributes = (product: FullProduct) => {
+    let allAttributes: AttributeType[] = []
+
+    product.variations?.nodes &&
+      product.variations.nodes.map(variation => {
+        if (variation) {
+          const { attributes } = variation as ProductVariation
+          attributes?.nodes &&
+            attributes.nodes.map(attribute => {
+              if (attribute && attribute.name) {
+                if (!allAttributes.some(a => a.name === attribute.label)) {
+                  allAttributes.push({
+                    name: attribute.label,
+                    variations: [variation],
+                    id: attribute.id,
+                  })
+                } else {
+                  const attIndex = allAttributes.findIndex(
+                    a => a.name === attribute.label,
+                  )
+                  allAttributes[attIndex].variations.push(variation)
+                }
+              }
+            })
+        }
+      })
+
+    return allAttributes
+  }
+
+  const attributes = product ? getAttributes(product) : null
+
   const staticProps = {
-    props: { menuItems, product, category },
+    props: { menuItems, product, attributes, category },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 

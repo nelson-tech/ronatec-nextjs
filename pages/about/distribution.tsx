@@ -1,16 +1,18 @@
-import { getDistributionData } from "@api/queries/pages/about"
-
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
-import { PageReturnType, SuppliersReturnType } from "@api/queries/types"
-import { normalize } from "@api/utils"
-import { InferGetStaticPropsType } from "next"
-import { Icon, LoadingDots } from "@components/ui"
-import { IconCard, SupplierCard } from "@components/Cards"
-import { Disclosure, Transition } from "@headlessui/react"
-import Image from "next/image"
 import { Fragment, useState } from "react"
+import { InferGetStaticPropsType } from "next"
+import Image from "next/image"
 import styled from "@emotion/styled"
 import tw from "twin.macro"
+import { Disclosure, Transition } from "@headlessui/react"
+
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { normalize } from "@api/utils"
+import { getDistributionData } from "@api/queries/pages/about"
+import { PageReturnType, SuppliersReturnType } from "@api/queries/types"
+
+import { Icon, LoadingDots } from "@components/ui"
+import { IconCard, SupplierCard } from "@components/Cards"
 
 // ####
 // #### Component
@@ -38,7 +40,8 @@ export default function Distribution({
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  menuItemsVar(menuItems)
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
 
   const [openDisclosureKey, setOpenDisclosureKey] = useState("")
 
@@ -46,10 +49,6 @@ export default function Distribution({
     setOpenDisclosureKey(prev => (prev !== key ? key : ""))
   }
   if (loading) return <LoadingDots />
-
-  suppliers.map(supplier => {
-    console.log(supplier)
-  })
 
   const sortedSuppliers = [...suppliers].sort((a, b) => {
     return a.title! < b.title! ? -1 : a.title! < b.title! ? 1 : 0

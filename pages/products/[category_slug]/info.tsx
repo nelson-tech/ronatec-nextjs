@@ -12,15 +12,16 @@ import {
   HTMLReactParserOptions,
 } from "html-react-parser"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { isServer } from "@lib/utils"
+import { normalize } from "@api/utils"
+import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
   getCategorySlugs,
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
-import { getGeneralPageData } from "@api/queries/pages"
-import { normalize } from "@api/utils"
-import { isServer } from "@lib/utils"
 
 import { Image } from "@components"
 
@@ -28,12 +29,13 @@ const CategoryInfo = ({
   category,
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  menuItems && menuItemsVar(menuItems)
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
 
   if (category) {
     const content = category.product_category?.acf?.description
 
-    const options: HTMLReactParserOptions = isServer()
+    const options: HTMLReactParserOptions = isServer
       ? {}
       : {
           replace: domNode => {

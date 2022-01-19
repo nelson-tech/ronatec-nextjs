@@ -1,15 +1,18 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { normalize } from "@api/utils"
+import { getGeneralPageData } from "@api/queries/pages"
 
 import { SignUp } from "@components"
-import { getGeneralPageData } from "@api/queries/pages"
-import { normalize } from "@api/utils"
 
 const Register = ({
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  menuItems && menuItemsVar(menuItems)
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
+
   return (
     <div>
       <SignUp />
@@ -29,8 +32,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   } = await client.query({
     query: getGeneralPageData,
   })
-
-  console.log("MENU", menuError)
 
   const menuItems = normalize.menu(menu)
 

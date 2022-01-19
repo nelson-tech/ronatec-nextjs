@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
 
-import { NormalizedMenuItem } from "@lib/apollo/cache"
+import { NormalizedMenuItem } from "@lib/types"
 import { GetDesktopLinkStyleType } from "../Header"
 import { MenuLink } from "@components/ui"
 
@@ -82,11 +82,9 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                     title={item.label}
                                     className="w-full hover:text-gray-800"
                                   >
-                                    <a className=" w-full">
-                                      <div className="py-2 w-full">
-                                        {item.label}
-                                      </div>
-                                    </a>
+                                    <div className="py-2 w-full">
+                                      {item.label}
+                                    </div>
                                   </MenuLink>
                                 </li>
                               ))}

@@ -4,25 +4,23 @@ import { useMutation } from "@apollo/client"
 import { v4 as uuid } from "uuid"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
-import {
-  registerMutation,
-  setAuthToken,
-  setRefreshToken,
-} from "@lib/apollo/auth"
 import { useAuth, useFormFields } from "@lib/hooks"
 import { LoadingDots } from "@components/ui"
+import { registerMutation } from "@api/mutations"
 
 const SignUpForm = () => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
+
   const router = useRouter()
-  const auth = useAuth()
+
+  const { loggedIn, setAuthToken, setRefreshToken } = useAuth()
 
   useEffect(() => {
-    if (auth && auth.isLoggedIn()) {
+    if (loggedIn) {
       router.push("/dashboard/")
     }
-  }, [auth, router])
+  }, [loggedIn, router])
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",

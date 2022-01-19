@@ -1,13 +1,14 @@
 import { InferGetStaticPropsType } from "next"
 import Image from "next/image"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
-import { getAboutData } from "@api/queries/pages/about"
-import { normalize } from "@api/utils"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
 import { parseNewLines } from "@lib/utils"
+import { normalize } from "@api/utils"
+import { getAboutData } from "@api/queries/pages/about"
+import { PageReturnType } from "@api/queries/types"
 
 import { LoadingDots } from "@components/ui"
-import { PageReturnType } from "@api/queries/types"
 
 const About = ({
   page,
@@ -15,8 +16,10 @@ const About = ({
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
+
   if (loading) return <LoadingDots />
-  menuItemsVar(menuItems)
 
   const { title, slug } = page
   const cards = page.page_about?.acf?.cards

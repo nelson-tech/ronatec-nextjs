@@ -1,15 +1,16 @@
 import type { InferGetStaticPropsType } from "next"
-import Image from "next/image"
+import { Image } from "@components"
 import tw from "twin.macro"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { PageReturnType } from "@api/queries/types"
 import { getHomeData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
 import { LoadingDots } from "@components/ui"
 import { Slider, VideoCard } from "@components"
 import { IconCard, SupplierCard } from "@components/Cards"
-import { PageReturnType } from "@api/queries/types"
 
 // ####
 // #### Dynamic Imports
@@ -27,8 +28,10 @@ export default function Home({
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
+
   if (loading) return <LoadingDots />
-  menuItemsVar(menuItems)
 
   const slides = home.page_home?.acf?.slides
   const cards = home.page_home?.acf?.cards
@@ -37,18 +40,18 @@ export default function Home({
 
   return (
     <>
-      <div className="relative aspect-3 -mx-5 w-screen h-full mb-8 mt-0">
-        <div className="w-full absolute bg-opacity-80 h-full z-9 bg-white">
-          <div className="w-2/3 lg:w-1/2 h-full relative mx-auto my-auto">
+      {/* <div className="relative aspect-1 -mx-5 w-screen mb-8 mt-0">
+        <div className="w-full absolute aspect-video bg-white flex">
+          <div className="w-2/3 lg:w-1/3 relative mx-auto">
             <Image
-              src={`https://ronatec.us/wp-content/uploads/2015/11/ronatec_retina.png`}
-              layout="fill"
+              src="https://ronatec.us/wp-content/uploads/2015/11/ronatec_retina.png"
+              layout="responsive"
               alt="Ronatec Logo"
               objectFit="contain"
             />
           </div>
         </div>
-      </div>
+      </div> */}
       {/* 
         <video
           autoPlay
@@ -66,7 +69,7 @@ export default function Home({
       {slides && (
         <Slider
           slides={slides}
-          containerClassName="responsivePadding relative -mx-5 w-screen h-full mb-8 mt-0"
+          containerClassName="aspect-3 relative -mx-5 w-screen h-full mb-8 mt-0"
           imageFit="cover"
         />
       )}
@@ -77,7 +80,12 @@ export default function Home({
             <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
               {cards.map(card => {
                 if (card) {
-                  return <IconCard card={card} key={card.title} />
+                  return (
+                    <IconCard
+                      card={card}
+                      key={card.title || "" + card.icon || ""}
+                    />
+                  )
                 }
               })}
             </div>

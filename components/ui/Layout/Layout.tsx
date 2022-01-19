@@ -3,9 +3,8 @@ import { ThemeProvider } from "@emotion/react"
 
 import { emotionTheme } from "styles/theme"
 import GlobalStyles from "styles/GlobalStyles"
-// import { useUI } from "@components/ui/context"
 import { Footer } from "./"
-import { LoadingDots } from "@components/ui"
+import { Alerts, LoadingDots } from "@components/ui"
 import Header from "./Header"
 
 // ####
@@ -21,8 +20,6 @@ interface Props {
 // ####
 
 const Layout: FC<Props> = ({ children }) => {
-  // const { isSidebarOpen, closeSidebar } = useUI()
-
   return (
     <ThemeProvider theme={emotionTheme}>
       <GlobalStyles />
@@ -31,6 +28,7 @@ const Layout: FC<Props> = ({ children }) => {
         {children}
       </main>
       <Footer />
+      <Alerts />
     </ThemeProvider>
   )
 }

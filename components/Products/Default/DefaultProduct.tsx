@@ -1,51 +1,50 @@
-import { FormEventHandler, useEffect, useState } from "react"
+import { FormEventHandler, useState } from "react"
+import { useRouter } from "next/router"
+import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/solid"
-import { v4 as uuid } from "uuid"
+import { default as parse } from "html-react-parser"
 
+import { htmlParserOptions, isServer } from "@lib/utils"
+import { useAlert, useAuth } from "@lib/hooks"
 import {
   AddToCartInput,
-  Cart,
-  ExternalProduct,
-  GroupProduct,
-  Product,
   ProductAttributeInput,
   ProductVariation,
-  SimpleProduct,
-  VariableProduct,
 } from "@api/gql/types"
+import { AttributeType, FullProduct } from "@lib/types"
 
-import { HTML, Image } from "@components"
+import { Image } from "@components"
 import {
   Container,
   ProductMainContainer,
   ProductTopContainer,
   TopContainer,
 } from "./style"
-import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client"
-import { useRouter } from "next/router"
-import jwtDecode from "jwt-decode"
-import { getSessionToken } from "@lib/apollo/auth"
+import { LoadingDots } from "@components/ui"
+import ScrollArrow from "@components/ui/ScrollArrow/ScrollArrow"
 
-type Props = {
-  product: Product &
-    VariableProduct &
-    SimpleProduct &
-    GroupProduct &
-    ExternalProduct
+type DefaultProductProps = {
+  product: FullProduct
+  attributes: AttributeType[] | null
 }
 
-const DefaultProduct = ({ product }: Props) => {
+const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
   const router = useRouter()
   const apolloClient = useApolloClient()
 
+  const { getClientMutationId, getClientShopId } = useAuth()
+
+  const { showAlert } = useAlert()
+
   const firstVariation =
-    product.variations?.nodes && product.variations?.nodes[0]
+    attributes && attributes?.length > 0 ? attributes[0].variations[0] : null
   const [selectedVariation, setSelectedVariation] =
-    useState<ProductVariation | null>(firstVariation || null)
+    useState<ProductVariation | null>(firstVariation)
 
   const [error, setError] = useState<string | null>(null)
-  const [cart, setCart] = useState<Cart | null>(null)
+  const [addLoading, setAddLoading] = useState(false)
+  const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   const ADD_MUTATION = gql`
     mutation addCart($input: AddToCartInput!) {
@@ -68,48 +67,17 @@ const DefaultProduct = ({ product }: Props) => {
     }
   `
 
-  const [addToCartMutation, { data, error: mutationError, loading }] =
-    useMutation(ADD_MUTATION, { errorPolicy: "all" })
-
-  const getCartQuery = gql`
-    query MyQuery {
-      cart {
-        contentsTotal
-        isEmpty
-        total
-        contents {
-          nodes {
-            subtotal
-            quantity
-            product {
-              node {
-                name
-                sku
-              }
-            }
-          }
-          itemCount
-        }
-      }
-    }
-  `
-
-  const { data: cartData, error: queryError } = useQuery(getCartQuery)
-
-  useEffect(() => {
-    if (mutationError) {
-      setError(mutationError.message)
-    }
-  }, [mutationError])
+  const [addToCartMutation] = useMutation(ADD_MUTATION, { errorPolicy: "all" })
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+    setAddLoading(true)
     event.preventDefault()
     setError(null)
 
     const { databaseId: productId } = product
-    if (productId && selectedVariation) {
+    if (productId) {
       let input: AddToCartInput = {
-        clientMutationId: uuid(),
+        clientMutationId: getClientMutationId(),
         productId,
         quantity: 1,
       }
@@ -130,42 +98,55 @@ const DefaultProduct = ({ product }: Props) => {
         }
       }
 
-      console.log(input)
+      await addToCartMutation({
+        variables: { input },
+        onCompleted(res) {
+          const { addToCart } = res
 
-      console.log(getSessionToken())
+          if (addToCart && addToCart.cart) {
+            apolloClient.refetchQueries({ include: ["CartQuery"] }).then(r => {
+              if (!isServer) {
+                window.scrollTo({ top: 0, behavior: "smooth" })
+                showAlert({
+                  open: true,
+                  primary: "Success",
+                  secondary: "Product has been added to the cart.",
+                  type: "info",
+                })
+              }
+              setAddLoading(false)
+            })
+          } else {
+            setError("Error adding to the shopping cart.")
+            setAddLoading(false)
+          }
+        },
+        onError(error) {
+          console.log("ERROR", error)
 
-      await addToCartMutation({ variables: { input } }).then(response => {
-        console.log(response)
-        const { data } = response
-        if (data && data.addToCart && data.addToCart.cart) {
-          setCart(data.addToCart.cart)
-          apolloClient.refetchQueries({ include: ["CartQuery"] })
-          console.log("SETTING CART")
-        }
+          setError(error.message)
+        },
       })
-      return
+    } else {
+      setError("Product ID not found.")
+      setAddLoading(false)
     }
-    setError("Product ID not found.")
   }
 
   const handleCheckout = () => {
-    const sessionToken = getSessionToken()
-    if (sessionToken) {
-      const session =
-        jwtDecode<{ data: { customer_id: string } }>(sessionToken).data
-          .customer_id
-      router.push(`https://api.ronatec.us/checkout?session_id=${session}`)
+    const clientShopId = getClientShopId()
+    if (clientShopId) {
+      router.push(
+        `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}?session_id=${clientShopId}`,
+      )
     } else {
       setError("Shopping Session not found.")
     }
   }
 
-  useEffect(() => {
-    cartData && setCart(cartData.cart)
-  }, [cartData])
-
   return (
     <>
+      <ScrollArrow />
       <Container>
         <TopContainer>
           <div className="w-full">
@@ -187,70 +168,79 @@ const DefaultProduct = ({ product }: Props) => {
               <span>{product.price}</span>
             </div>
             <form className="" onSubmit={handleSubmit}>
-              {firstVariation && (
-                <RadioGroup
-                  value={selectedVariation}
-                  onChange={setSelectedVariation}
-                  className="mt-4"
-                >
-                  <RadioGroup.Label className="sr-only">
-                    Choose a variation
-                  </RadioGroup.Label>
-                  <div className="flex flex-wrap items-center justify-center space-x-4">
-                    {product.variations?.nodes?.map(variation => {
-                      if (variation) {
-                        return (
-                          <RadioGroup.Option
-                            key={variation.sku}
-                            value={variation}
-                            className={({ active, checked }) =>
-                              `${""}
-                  ${checked ? "bg-blue-main text-white" : "bg-white"}
-                    relative rounded-lg shadow-md px-5 py-4 mb-4 cursor-pointer flex outline-none`
-                            }
-                          >
-                            {({ active, checked }) => (
-                              <>
-                                <div className="flex items-center justify-between w-full outline-none">
-                                  <div className="flex items-center outline-none">
-                                    <div className="text-sm outline-none">
-                                      <RadioGroup.Label
-                                        as="p"
-                                        className={`font-medium ring-transparent  ${
-                                          checked
-                                            ? "text-white"
-                                            : "text-gray-900"
-                                        }`}
-                                      >
-                                        {variation.description}
-                                      </RadioGroup.Label>
-                                      <RadioGroup.Description
-                                        as="span"
-                                        className={`inline focus:ring-transparent ${
-                                          checked
-                                            ? "text-sky-100"
-                                            : "text-gray-500"
-                                        }`}
-                                      >
-                                        <span>{variation.price}</span>
-                                      </RadioGroup.Description>
+              {attributes &&
+                attributes.map(attribute => {
+                  return (
+                    <RadioGroup
+                      value={selectedVariation}
+                      onChange={setSelectedVariation}
+                      className="mt-4"
+                      key={attribute.id}
+                    >
+                      <RadioGroup.Label className="sr-only">
+                        Choose a variation
+                      </RadioGroup.Label>
+                      <div key={attribute.id} className="text-base font-bold">
+                        {attribute.name}
+                      </div>
+                      <div className="flex flex-wrap items-center justify-center space-x-4">
+                        {attribute.variations.map(variation => {
+                          if (variation) {
+                            return (
+                              <RadioGroup.Option
+                                key={variation.sku}
+                                value={variation}
+                                className={({ active, checked }) =>
+                                  `${""}
+                              ${
+                                checked ? "bg-blue-main text-white" : "bg-white"
+                              }
+                                relative rounded-lg shadow-md px-5 py-4 mb-4 cursor-pointer flex outline-none`
+                                }
+                              >
+                                {({ active, checked }) => (
+                                  <>
+                                    <div className="flex items-center justify-between w-full outline-none">
+                                      <div className="flex items-center outline-none">
+                                        <div className="text-sm outline-none">
+                                          <RadioGroup.Label
+                                            as="p"
+                                            className={`font-medium ring-transparent  ${
+                                              checked
+                                                ? "text-white"
+                                                : "text-gray-900"
+                                            }`}
+                                          >
+                                            {variation.description}
+                                          </RadioGroup.Label>
+                                          <RadioGroup.Description
+                                            as="span"
+                                            className={`inline focus:ring-transparent ${
+                                              checked
+                                                ? "text-sky-100"
+                                                : "text-gray-500"
+                                            }`}
+                                          >
+                                            <span>{variation.price}</span>
+                                          </RadioGroup.Description>
+                                        </div>
+                                      </div>
+                                      {checked && (
+                                        <div className="flex-shrink-0 text-white">
+                                          <CheckIcon className="w-6 h-6" />
+                                        </div>
+                                      )}
                                     </div>
-                                  </div>
-                                  {checked && (
-                                    <div className="flex-shrink-0 text-white">
-                                      <CheckIcon className="w-6 h-6" />
-                                    </div>
-                                  )}
-                                </div>
-                              </>
-                            )}
-                          </RadioGroup.Option>
-                        )
-                      }
-                    })}
-                  </div>
-                </RadioGroup>
-              )}
+                                  </>
+                                )}
+                              </RadioGroup.Option>
+                            )
+                          }
+                        })}
+                      </div>
+                    </RadioGroup>
+                  )
+                })}
               {error && (
                 <div className="my-4 text-sm text-red-600">
                   <span>{error}</span>
@@ -258,9 +248,14 @@ const DefaultProduct = ({ product }: Props) => {
               )}
               <button
                 type="submit"
-                className="mt-8 w-full bg-blue-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
+                className="mt-8 relative w-full bg-blue-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
               >
-                Add to cart
+                {addLoading && (
+                  <div className="h-6 w-6 absolute left-0 ml-4">
+                    <LoadingDots />
+                  </div>
+                )}
+                <span>Add to cart</span>
               </button>
             </form>
             <button
@@ -273,7 +268,7 @@ const DefaultProduct = ({ product }: Props) => {
           </ProductTopContainer>
         </TopContainer>
         <ProductMainContainer>
-          <HTML html={product.description} />
+          {product.description && parse(product.description, htmlParserOptions)}
         </ProductMainContainer>
       </Container>
     </>

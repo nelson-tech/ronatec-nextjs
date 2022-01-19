@@ -1,13 +1,14 @@
 import { InferGetStaticPropsType } from "next"
+import { OfficeBuildingIcon } from "@heroicons/react/outline"
 
-import { addApolloState, initializeApollo, menuItemsVar } from "@lib/apollo"
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useMainMenu } from "@lib/hooks"
+import { normalize } from "@api/utils"
 import { getWarehousesData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
-import { normalize } from "@api/utils"
-import Map from "@components/Map"
 
-import { Icon, LoadingDots } from "@components/ui"
-import { OfficeBuildingIcon } from "@heroicons/react/outline"
+import { LoadingDots } from "@components/ui"
+import Map from "@components/Map"
 
 const About = ({
   page,
@@ -15,8 +16,10 @@ const About = ({
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const { setMenu } = useMainMenu()
+  menuItems && setMenu(menuItems)
+
   if (loading) return <LoadingDots />
-  menuItemsVar(menuItems)
 
   const warehouses = page.page_about_warehouses?.acf?.map
 
@@ -29,7 +32,7 @@ const About = ({
       </div>
       <Map
         markers={markers}
-        containerClassNames="aspect-3"
+        containerClassNames="aspect-2 md:aspect-3"
         options={warehouses?.mapOptions || undefined}
       />
 
