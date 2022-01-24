@@ -14,7 +14,7 @@ import { Cart } from "@api/gql/types"
 import { cartBaseFragment } from "@api/queries/fragments/products"
 
 import { Icon, MenuLink, Modal } from "@components/ui"
-import { SearchForm, SignIn } from "@components"
+import { SearchForm, SignIn, Image } from "@components"
 import Promo from "./Promo"
 import MobileMenu from "./MobileMenu"
 import Usernav from "./Usernav"
@@ -71,13 +71,22 @@ const Header = ({ promo = false }: HeaderProps) => {
     const current =
       router.pathname.slice(0, path.length) === path && path !== "/"
     return `transition-colors ease-out duration-200 py-2 px-3 rounded-md outline-none ${
-      open || current ? "bg-gray-100" : "hover:bg-gray-50"
+      open || current ? "bg-gray-100" : "hover:bg-gray-100"
     } text-gray-900 font-medium inline-flex items-center`
   }
 
   const logo = (
     <Fragment>
       <Icon name="globe-americas" type="regular" />
+      {/* <div className="w-32">
+        <Image
+          src={`${process.env.NEXT_PUBLIC_CDN_BASE_URL}/ronatec/ronatec-logo.svg`}
+          height={201}
+          width={780}
+          layout="responsive"
+          objectFit="cover"
+        />
+      </div> */}
     </Fragment>
   )
 
@@ -100,12 +109,12 @@ const Header = ({ promo = false }: HeaderProps) => {
       <CartSlider open={cartOpen} setOpen={setCartOpen} cart={cart} />
 
       <header className="sticky z-10 top-0 font-family">
-        <nav aria-label="Top" className="border-b border-gray-200">
+        <nav aria-label="Top" className="border-b bg-white border-gray-200">
           {/* Top navigation */}
           {promo && <Promo />}
 
           {/* Secondary navigation */}
-          <div className="bg-white">
+          <div className="bg-white mx-auto lg:max-w-7xl">
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
               <div className="">
                 <div className="h-16 flex items-center justify-between">

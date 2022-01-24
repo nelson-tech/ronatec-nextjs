@@ -64,12 +64,12 @@ const Consulting = ({
       page.page_consulting.acf
     return (
       <>
-        <div>
+        <div className="">
           <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
             <h2>{title}</h2>
           </div>
 
-          <div className="mt-8 flex flex-col md:flex-row pb-8 items-center">
+          <div className="mt-8 flex flex-col md:flex-row pb-8 items-center mx-auto lg:max-w-7xl">
             {slides && slides.length > 0 && (
               <Slider
                 slides={slides}

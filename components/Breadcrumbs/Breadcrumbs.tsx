@@ -9,8 +9,11 @@ type BreadcrumbsProps = {
 
 const Breadcrumbs = ({ category, product = false }: BreadcrumbsProps) => {
   return (
-    <div className="border-b border-gray-200">
-      <nav aria-label="Breadcrumb" className="mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="border-b border-gray-200 -ml-5 w-screen">
+      <nav
+        aria-label="Breadcrumb"
+        className="mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl"
+      >
         <ol role="list" className="flex items-center space-x-4 py-4">
           <li>
             <div className="flex items-center">

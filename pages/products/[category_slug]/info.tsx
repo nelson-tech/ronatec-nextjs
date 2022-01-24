@@ -65,7 +65,7 @@ const CategoryInfo = ({
       </div>
     )
   }
-  return <div>No category found.</div>
+  return <div className=" mx-auto lg:max-w-7xl">No category found.</div>
 }
 
 export default CategoryInfo
@@ -162,5 +162,5 @@ const Container = styled.div`
     }
   }
   // Quick edits below
-  ${tw`pt-8 px-6 mr-8 text-gray-700`}
+  ${tw`pt-8 px-6 mr-8 mb-8 text-gray-700 mx-auto lg:max-w-7xl`}
 `

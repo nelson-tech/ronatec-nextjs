@@ -24,7 +24,7 @@ const ProductCard = ({
     return (
       <div
         key={product.id}
-        className="group relative bg-white border border-gray-200 rounded-lg flex flex-col overflow-hidden"
+        className="group relative bg-white border border-gray-200 rounded-lg w-full flex flex-col overflow-hidden"
       >
         {product.image && product.image.sourceUrl && (
           <div className="bg-gray-200 group-hover:opacity-75">
@@ -40,8 +40,8 @@ const ProductCard = ({
             </div>
           </div>
         )}
-        <div className="flex-1 p-4 space-y-2 flex flex-col">
-          <h3 className="font-bold text-gray-900 group-hover:text-blue-main text-xl">
+        <div className="flex-1 space-y-2 flex flex-col w-full">
+          <h3 className="font-bold px-4 pt-4 text-gray-900 group-hover:text-blue-main text-xl">
             <Link href={`/products/${category_slug}/${product.slug}`} passHref>
               <a title={product.name || ""} className="flex flex-col">
                 <span aria-hidden="true" className="absolute inset-0" />
@@ -49,14 +49,17 @@ const ProductCard = ({
               </a>
             </Link>
           </h3>
-          {product.shortDescription && (
+          {/* {product.shortDescription && (
             <div className="text-sm text-gray-600 py-2">
               {parse(product.shortDescription)}
             </div>
-          )}
-          <div className="flex-1 flex flex-col justify-end">
+          )} */}
+          <div className="px-4 pb-2 flex-1 flex flex-col justify-end">
             {/* <p className="text-sm italic text-gray-500">{product.options}</p> */}
             <p className="text-sm font-medium text-gray-400">{product.price}</p>
+          </div>
+          <div className="bg-green-main w-full text-white py-2 text-center">
+            View more
           </div>
         </div>
       </div>

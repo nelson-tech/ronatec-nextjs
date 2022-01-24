@@ -25,7 +25,7 @@ const IconCard = ({
       <div className="-mt-6">
         {card.icon && card.icon.name && (
           <div>
-            <span className="inline-flex items-center justify-center p-3 bg-teal rounded-md shadow-md">
+            <span className="inline-flex items-center justify-center p-3 bg-green-main rounded-md shadow-md">
               <Icon
                 name={card.icon.name}
                 className="h-6 w-6 text-white"

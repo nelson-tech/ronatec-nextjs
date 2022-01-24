@@ -122,7 +122,7 @@ const CategoryPage = ({
     return (
       <>
         <Breadcrumbs category={category} />
-        <div className="pt-16 pb-8 px-8">
+        <div className="pt-16 pb-8 px-8 mx-auto lg:max-w-7xl">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
             {category.name}
           </h1>
@@ -142,7 +142,7 @@ const CategoryPage = ({
         {/* Sub-categories */}
 
         {category.children?.nodes && category.children.nodes.length > 0 && (
-          <div className="px-8 text-gray-500 pb-8">
+          <div className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl">
             <h2 className="font-bold text-gray-900">Sub-Categories:</h2>
             <div className="text-sm pl-4">
               <ul>
@@ -174,7 +174,7 @@ const CategoryPage = ({
         />
 
         {loading ? (
-          <div className="pt-12 pb-24">
+          <div className="pt-12 pb-24 mx-auto lg:max-w-7xl">
             <div className="flex items-center flex-col space-y-8">
               <div className="font-bold">Fetching products...</div>
               <div className="w-16 h-16">
@@ -183,11 +183,8 @@ const CategoryPage = ({
             </div>
           </div>
         ) : (
-          <div className="pt-12 pb-24">
-            <section
-              aria-labelledby="product-heading"
-              className="mt-6 lg:mt-0 lg:col-span-2 xl:col-span-3"
-            >
+          <div className="pt-6 pb-24 mx-auto lg:max-w-7xl">
+            <section aria-labelledby="product-heading" className="">
               <h2 id="product-heading" className="sr-only">
                 Products
               </h2>
@@ -195,7 +192,7 @@ const CategoryPage = ({
               <div
                 className={
                   viewMode === "grid"
-                    ? "grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 lg:grid-cols-3 px-4"
+                    ? "grid grid-cols-2 gap-y-4 gap-x-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 lg:grid-cols-3"
                     : "px-4"
                 }
               >

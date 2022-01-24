@@ -59,7 +59,9 @@ const About = ({
 
       <div className="w-full">
         <div className="w-full pl-5 py-4 border-t-2">
-          <h2 className="text-2xl font-extrabold">Sales Reps</h2>
+          <h2 className="text-2xl font-extrabold mx-auto lg:max-w-7xl">
+            Sales Reps
+          </h2>
         </div>
         {salesReps && (
           <div className="relative bg-white pt-8 pb-16">
