@@ -239,7 +239,6 @@ const Header = ({ promo = false }: HeaderProps) => {
                         <button
                           type="button"
                           className="group -m-2 p-2 flex items-center"
-                          disabled={cart ? cart.isEmpty! : true}
                           onClick={() => setCartOpen(true)}
                         >
                           <ShoppingCartIcon

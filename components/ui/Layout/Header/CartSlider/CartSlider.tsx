@@ -2,7 +2,7 @@ import { Dispatch, Fragment, SetStateAction } from "react"
 import router from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { Dialog, Transition } from "@headlessui/react"
-import { XIcon } from "@heroicons/react/outline"
+import { ArrowRightIcon, XIcon } from "@heroicons/react/outline"
 
 import { Cart } from "@api/gql/types"
 
@@ -112,7 +112,7 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                       <div className="ml-3 h-7 flex items-center">
                         <button
                           type="button"
-                          className="-m-2 p-2 text-gray-400 hover:text-gray-500 outline-none ring-transparent"
+                          className="-m-2 p-2 text-gray-400 hover:text-red-main outline-none ring-transparent"
                           onClick={() => setOpen(false)}
                         >
                           <span className="sr-only">Close panel</span>
@@ -121,9 +121,10 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                       </div>
                     </div>
 
-                    <div className="mt-8">
-                      <div className="flow-root">
-                        {cart ? (
+                    <div className="mt-8 h-full">
+                      <div className="flow-root h-full">
+                        {cart?.contents?.nodes &&
+                        cart.contents.nodes?.length > 0 ? (
                           <ul
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
@@ -140,7 +141,7 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                                   return (
                                     <li
                                       key={product.id}
-                                      className="py-6 flex items-center md:items-start"
+                                      className="py-6 flex items-center"
                                     >
                                       {product.image && (
                                         <div className="flex-shrink-0 w-16 h-16 md:w-24 md:h-24 border border-gray-200 rounded-md overflow-hidden">
@@ -159,7 +160,7 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                                         </div>
                                       )}
 
-                                      <div className="ml-4 flex-1 flex flex-col">
+                                      <div className="ml-4 flex-1 flex flex-col mb-1">
                                         <div className="flex justify-between items-center ">
                                           <h3 onClick={() => setOpen(false)}>
                                             <MenuLink
@@ -182,7 +183,7 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                                             .join(" - ")}
                                         </p>
 
-                                        <div className="flex-1 flex items-end justify-between text-sm">
+                                        <div className="flex-1 flex items-end justify-between text-sm mt-1">
                                           <p className="text-gray-500">
                                             Qty {lineItem.quantity}
                                           </p>
@@ -205,7 +206,21 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                               })}
                           </ul>
                         ) : (
-                          <div>Your cart is empty</div>
+                          <div className="text-gray-600 h-full">
+                            <div className=" font-bold">
+                              Your cart is empty...
+                            </div>
+                            <div className="mt-8 h-full">
+                              <MenuLink
+                                href="/products"
+                                className="text-gray-800 h-full transition hover:text-green-main font-bold flex justify-center items-center"
+                                onClick={() => setOpen(false)}
+                              >
+                                Visit our shop!
+                                <ArrowRightIcon className="h-4 w-4 text-green-main ml-2" />
+                              </MenuLink>
+                            </div>
+                          </div>
                         )}
                       </div>
                     </div>
