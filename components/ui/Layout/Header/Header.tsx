@@ -82,7 +82,7 @@ const Header = ({ promo = false }: HeaderProps) => {
   )
 
   return (
-    <div className="font-family">
+    <>
       <MobileMenu
         open={mobileMenuOpen}
         setOpen={setMobileMenuOpen}
@@ -99,15 +99,15 @@ const Header = ({ promo = false }: HeaderProps) => {
 
       <CartSlider open={cartOpen} setOpen={setCartOpen} cart={cart} />
 
-      <header className="relative">
-        <nav aria-label="Top">
+      <header className="sticky z-10 top-0 font-family">
+        <nav aria-label="Top" className="border-b border-gray-200">
           {/* Top navigation */}
           {promo && <Promo />}
 
           {/* Secondary navigation */}
           <div className="bg-white">
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="border-b border-gray-200">
+              <div className="">
                 <div className="h-16 flex items-center justify-between">
                   {/* Logo (lg+) */}
                   {/* <div className="hidden lg:flex lg:items-center">
@@ -272,7 +272,7 @@ const Header = ({ promo = false }: HeaderProps) => {
           </div>
         </nav>
       </header>
-    </div>
+    </>
   )
 }
 

@@ -1,6 +1,5 @@
 import gql from "graphql-tag"
 import {
-  generalPageQuery,
   pageCommonFragment,
   featuredSupplierFragment,
   cardsFragment,
@@ -26,6 +25,5 @@ export const getHomeData = gql`
         }
       }
     }
-  ${generalPageQuery}
   }
 `

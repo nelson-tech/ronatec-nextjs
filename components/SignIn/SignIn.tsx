@@ -1,9 +1,16 @@
-import { Dispatch, FormEventHandler, SetStateAction, useState } from "react"
+import {
+  Dispatch,
+  FormEventHandler,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
 import { useAuth, useFormFields } from "@lib/hooks"
+import { ParsedUrlQuery } from "querystring"
 
 type SignInProps = {
   modalRef?: string
@@ -11,7 +18,7 @@ type SignInProps = {
 }
 
 const SignIn = ({ modalRef, setOpen }: SignInProps) => {
-  const { login } = useAuth()
+  const { loggedIn, login } = useAuth()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
 
@@ -30,16 +37,21 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
         password: fields.password,
       }
 
-      const { errors } = await login(userLogin, () => {
-        router.replace(router.asPath)
-        setOpen && setOpen(false)
-      })
+      const { errors } = await login(userLogin, () => {})
 
       if (errors) {
         setError(errors)
       }
     }
   }
+
+  useEffect(() => {
+    if (loggedIn) {
+      const rederict = (router.query?.redirect as string) || undefined
+      router.push(rederict || "/dashboard")
+      setOpen && setOpen(false)
+    }
+  }, [loggedIn, router, setOpen])
 
   return (
     <>

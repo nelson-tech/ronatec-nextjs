@@ -23,8 +23,8 @@ const LoaderDiv = styled.div`
   width: 20%; */
   border-top-color: ${props => props.color};
   /* border-radius: 50%; */
-  -webkit-animation: ${LoaderKeyframes} 1.5s linear infinite;
-  animation: ${LoaderKeyframes} 1.5s linear infinite;
+  -webkit-animation: ${LoaderKeyframes} 1s linear infinite;
+  animation: ${LoaderKeyframes} 1s linear infinite;
 `
 
 type Props = {
@@ -34,9 +34,9 @@ type Props = {
 
 const LoadingDots: FC<Props> = ({ color = "#32de8a", className }) => {
   return (
-    <div className="relative aspect-square max-h-full">
+    <div className="relative aspect-square max-h-full m-auto">
       <LoaderDiv
-        className="w-full h-full rounded-full border-2 border-t-2 border-gray-200"
+        className="w-full h-full rounded-full border-2 border-t-2 border-gray-400"
         color={color}
       />
       {/* <LoadingContainer className="">

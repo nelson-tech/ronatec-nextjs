@@ -64,11 +64,11 @@ const Footer = () => {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
+              <div className="">
                 <h3 className="text-sm font-semibold text-gray-200 tracking-wider uppercase">
                   ISO 9001 Certified
                 </h3>
-                <div className="mr-16 mt-4 p-8">
+                <div className="p-16 md:mr-8 lg:mr-16 md:p-8">
                   <Image
                     src="https://cdn.ronatec.us/ronatec/iso9001.png"
                     width={593}
@@ -83,7 +83,7 @@ const Footer = () => {
                 <h3 className="text-sm font-semibold text-gray-200 tracking-wider uppercase">
                   ISO 17025 Certified
                 </h3>
-                <div className="mr-16 mt-4 p-8">
+                <div className="p-16 md:mr-8 lg:mr-16 md:p-8">
                   <Image
                     src="https://cdn.ronatec.us/ronatec/iso17025.png"
                     width={218}

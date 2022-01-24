@@ -119,46 +119,53 @@ const useAuth = () => {
 
   // Refresh Token
 
+  const refreshAuthToken = useCallback(async () => {
+    const clientMutationId = getClientMutationId()
+
+    const refreshToken = getRefreshToken()
+
+    if (refreshToken) {
+      // Refresh Token
+      const clientMutationId = getClientMutationId()
+
+      const client = initializeApollo({})
+
+      const input = { clientMutationId, jwtRefreshToken: refreshToken }
+
+      if (client) {
+        await client
+          .mutate({
+            mutation: refreshMutation,
+            variables: { input },
+          })
+          .then(response => {
+            const authToken = response.data.refreshJwtAuthToken
+              ? response.data.refreshJwtAuthToken.authToken
+              : null
+            if (authToken) {
+              // Refresh successful
+              setAuthToken(authToken)
+              !loggedIn && setLoggedIn(true)
+              console.log("silentRefresh #3!")
+            } else {
+              // Refresh failed. User must login
+              loggedIn && setLoggedIn(false)
+            }
+          })
+      }
+    } else {
+      // No authentication method. User must login.
+      loggedIn && setLoggedIn(false)
+    }
+  }, [getClientMutationId, getRefreshToken, loggedIn, setAuthToken])
+
   useEffect(() => {
     const tokenExpired = isTokenExpired()
 
     if (tokenExpired) {
       // Invalid Token
-      const refreshToken = getRefreshToken()
 
-      if (refreshToken) {
-        // Refresh Token
-        const clientMutationId = getClientMutationId()
-
-        const client = initializeApollo({})
-
-        const input = { clientMutationId, jwtRefreshToken: refreshToken }
-
-        if (client) {
-          client
-            .mutate({
-              mutation: refreshMutation,
-              variables: { input },
-            })
-            .then(response => {
-              const authToken = response.data.refreshJwtAuthToken
-                ? response.data.refreshJwtAuthToken.authToken
-                : null
-              if (authToken) {
-                // Refresh successful
-                setAuthToken(authToken)
-                !loggedIn && setLoggedIn(true)
-                console.log("silentRefresh #3!")
-              } else {
-                // Refresh failed. User must login
-                loggedIn && setLoggedIn(false)
-              }
-            })
-        }
-      } else {
-        // No authentication method. User must login.
-        loggedIn && setLoggedIn(false)
-      }
+      refreshAuthToken()
     } else {
       // Token is valid
       !loggedIn && setLoggedIn(true)
@@ -169,6 +176,7 @@ const useAuth = () => {
     getRefreshToken,
     isTokenExpired,
     setAuthToken,
+    refreshAuthToken,
   ])
 
   // const syncLoginStatus = (event: any) => {
@@ -255,6 +263,7 @@ const useAuth = () => {
     getClientShopId,
     login,
     logout,
+    refreshAuthToken,
     setAuthToken,
     setRefreshToken,
   }

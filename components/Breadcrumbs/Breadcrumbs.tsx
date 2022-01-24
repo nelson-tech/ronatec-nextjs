@@ -10,10 +10,7 @@ type BreadcrumbsProps = {
 const Breadcrumbs = ({ category, product = false }: BreadcrumbsProps) => {
   return (
     <div className="border-b border-gray-200">
-      <nav
-        aria-label="Breadcrumb"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-      >
+      <nav aria-label="Breadcrumb" className="mx-auto px-4 sm:px-6 lg:px-8">
         <ol role="list" className="flex items-center space-x-4 py-4">
           <li>
             <div className="flex items-center">

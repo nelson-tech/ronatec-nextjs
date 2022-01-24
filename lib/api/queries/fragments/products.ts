@@ -1,4 +1,5 @@
 import { imageFragment } from "."
+import { imageBaseFragment } from "./common"
 
 export const productMinBaseFragment = `
 id
@@ -8,15 +9,19 @@ slug
 type
 `
 
+const priceFragment = `
+price
+salePrice
+onSale
+`
+
 export const productBaseFragment = `
 ${productMinBaseFragment}
 metaData(keysIn: "_product_addons") {
   key
   value
 }
-price
-salePrice
-onSale
+${priceFragment}
 dateOnSaleFrom
 dateOnSaleTo
 description
@@ -34,12 +39,11 @@ productCategories {
   }
 }
 ${imageFragment}
-`
-
-const priceFragment = `
-price
-salePrice
-onSale
+galleryImages {
+  nodes {
+    ${imageBaseFragment}
+  }
+}
 `
 
 export const productPriceFragment = `
@@ -48,6 +52,12 @@ export const productPriceFragment = `
 }
 ... on VariableProduct {
   ${priceFragment}
+}
+`
+
+export const simpleProductFragment = `
+... on SimpleProduct {
+  ${productBaseFragment}
 }
 `
 

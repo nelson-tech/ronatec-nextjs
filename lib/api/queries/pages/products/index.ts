@@ -6,6 +6,7 @@ import {
   productPriceFragment,
   variableProductFragment,
 } from "@api/queries/fragments"
+import { simpleProductFragment } from "@api/queries/fragments/products"
 
 export const getProducts = gql`
   query GetProductCategoriesQuery {
@@ -64,7 +65,7 @@ export const getCategoryFromSlug = gql`
           slug
         }
       }
-      children(where: {hideEmpty: true}) {
+      children(where: {hideEmpty: false}) {
         nodes {
           ${productCategoryFragment}
           products {
@@ -99,6 +100,19 @@ export const getCategoryFromSlug = gql`
 export const getProductsByCategory = gql`
 query GetProductsByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $category: String) {
   products(where: {orderby: {field: $field, order: $order}, category: $category}) {
+    nodes {
+      ${productMinBaseFragment}
+      ${imageFragment}
+      ${productPriceFragment}
+      shortDescription
+    }
+  }
+}
+`
+
+export const getProductsByCategories = gql`
+query GetProductsByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $categories: [String]) {
+  products(where: {orderby: {field: $field, order: $order}, categoryIn: $categories}) {
     nodes {
       ${productMinBaseFragment}
       ${imageFragment}
@@ -146,6 +160,7 @@ export const getProductDataFromSlug = gql`
 query GetProductDataFromSlug($id: ID!) {
   product(id: $id, idType: SLUG) {
     ${variableProductFragment}
+    ${simpleProductFragment}
   }
 }
 `

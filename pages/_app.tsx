@@ -9,6 +9,7 @@ import { ApolloProvider } from "@apollo/client"
 import { initializeApollo, useApollo } from "../lib/apollo"
 import { ProgressBar } from "@lib"
 import { Layout } from "@components/ui"
+import { RouteGuard } from "@components"
 
 const Noop: FC = ({ children }) => <>{children}</>
 
@@ -31,7 +32,9 @@ function RonatecWebsite({
   return (
     <ApolloProvider client={apolloClient || initializeApollo({})}>
       <Layout>
+        {/* <RouteGuard> */}
         <Component {...pageProps} />
+        {/* </RouteGuard> */}
       </Layout>
     </ApolloProvider>
   )

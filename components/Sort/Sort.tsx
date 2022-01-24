@@ -7,13 +7,14 @@ import {
 } from "@heroicons/react/solid"
 
 import { Filters } from "@components"
+import { ProductCategory } from "@api/gql/types"
 
-type OptionType = {
+export type SortOptionType = {
   name: string
   id: { field: string; order: string }
 }
 
-const sortOptions: OptionType[] = [
+export const sortOptions: SortOptionType[] = [
   { name: "Default", id: { field: "MENU_ORDER", order: "ASC" } },
   { name: "Price: Low to High", id: { field: "PRICE", order: "ASC" } },
   { name: "Price: High to Low", id: { field: "PRICE", order: "DESC" } },
@@ -23,20 +24,38 @@ const sortOptions: OptionType[] = [
   { name: "Oldest", id: { field: "DATE", order: "ASC" } },
 ]
 
-type SortProps = {
+type SortBaseProps = {
   viewMode: "grid" | "list"
   setViewMode: Dispatch<SetStateAction<"grid" | "list">>
-  selectedSort: string
-  handleSort: (option: OptionType) => Promise<void>
-  withFilter?: boolean
+  selectedSort: SortOptionType
+  handleSort: (option: SortOptionType) => Promise<void>
 }
+
+type FilterProps = SortBaseProps & {
+  withFilter: true
+  category: ProductCategory
+  filteredCategories: string[]
+  setFilteredCategories: Dispatch<SetStateAction<string[]>>
+}
+
+type SortProps =
+  | (SortBaseProps & {
+      withFilter?: false
+      category?: never
+      filteredCategories?: never
+      setFilteredCategories?: never
+    })
+  | FilterProps
 
 const Sort = ({
   viewMode,
   setViewMode,
   selectedSort,
   handleSort,
-  withFilter = false,
+  withFilter,
+  category,
+  filteredCategories,
+  setFilteredCategories,
 }: SortProps) => {
   const sectionClasses =
     "w-screen -ml-5 z-10 border-t border-b border-gray-200 grid items-center"
@@ -46,7 +65,10 @@ const Sort = ({
       <div className="flex justify-end max-w-7xl mx-auto px-8 sm:px-6 lg:px-8">
         <Menu as="div" className="relative flex">
           <div className="flex">
-            <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 outline-none ring-transparent">
+            <Menu.Button
+              className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 outline-none ring-transparent"
+              disabled={filteredCategories && filteredCategories.length === 0}
+            >
               <span className="sr-only">Sort options</span>Sort
               <ChevronDownIcon
                 className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
@@ -64,7 +86,7 @@ const Sort = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="">
                 {sortOptions.map(option => (
                   <Menu.Item
@@ -74,7 +96,7 @@ const Sort = ({
                     {({ active }) => (
                       <a
                         className={`outline-none ring-transparent ${
-                          selectedSort === option.name
+                          selectedSort.name === option.name
                             ? "bg-blue-main text-white"
                             : "text-gray-700 bg-white cursor-pointer hover:bg-gray-100"
                         } block px-4 py-2 text-sm font-medium`}
@@ -118,8 +140,15 @@ const Sort = ({
     </div>
   )
 
-  return withFilter ? (
-    <Filters>
+  return withFilter &&
+    category &&
+    filteredCategories &&
+    setFilteredCategories ? (
+    <Filters
+      category={category}
+      filteredCategories={filteredCategories}
+      setFilteredCategories={setFilteredCategories}
+    >
       <BaseSort />
     </Filters>
   ) : (

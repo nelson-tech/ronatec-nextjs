@@ -12,18 +12,22 @@ link {
 }
 `
 
+export const imageBaseFragment = `
+id
+databaseId
+altText
+sourceUrl
+mimeType
+mediaDetails {
+  height
+  width
+}
+fileSize
+`
+
 export const imageFragment = `
 image {
-  id
-  databaseId
-  altText
-  sourceUrl
-  mimeType
-  mediaDetails {
-    height
-    width
-  }
-  fileSize
+  ${imageBaseFragment}
 }
 `
 

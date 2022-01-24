@@ -5,7 +5,7 @@ import tw from "twin.macro"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { PageReturnType } from "@api/queries/types"
-import { getHomeData } from "@api/queries/pages"
+import { getGeneralPageData, getHomeData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
 import { LoadingDots } from "@components/ui"
@@ -117,11 +117,19 @@ export async function getStaticProps() {
   const client = initializeApollo({})
 
   const {
-    data: { page, menu },
+    data: { page },
     loading,
     error,
   }: PageReturnType = await client.query({
     query: getHomeData,
+  })
+
+  const {
+    data: { menu },
+    loading: menuLoading,
+    error: menuError,
+  } = await client.query({
+    query: getGeneralPageData,
   })
 
   const menuItems = normalize.menu(menu)

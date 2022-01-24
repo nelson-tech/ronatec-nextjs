@@ -1,11 +1,9 @@
-import { FormEventHandler, useState } from "react"
+import { FormEventHandler, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
 import { CheckIcon } from "@heroicons/react/solid"
-import { default as parse } from "html-react-parser"
 
-import { htmlParserOptions, isServer } from "@lib/utils"
 import { useAlert, useAuth } from "@lib/hooks"
 import {
   AddToCartInput,
@@ -23,6 +21,7 @@ import {
 } from "./style"
 import { LoadingDots } from "@components/ui"
 import ScrollArrow from "@components/ui/ScrollArrow/ScrollArrow"
+import { htmlParserOptions, isServer, parse } from "@lib/utils"
 
 type DefaultProductProps = {
   product: FullProduct
@@ -44,7 +43,16 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
 
   const [error, setError] = useState<string | null>(null)
   const [addLoading, setAddLoading] = useState(false)
+  const [itemAdded, setItemAdded] = useState(false)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
+
+  useEffect(() => {
+    if (itemAdded) {
+      setTimeout(() => {
+        setItemAdded(false)
+      }, 2000)
+    }
+  })
 
   const ADD_MUTATION = gql`
     mutation addCart($input: AddToCartInput!) {
@@ -107,13 +115,14 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
             apolloClient.refetchQueries({ include: ["CartQuery"] }).then(r => {
               if (!isServer) {
                 window.scrollTo({ top: 0, behavior: "smooth" })
-                showAlert({
-                  open: true,
-                  primary: "Success",
-                  secondary: "Product has been added to the cart.",
-                  type: "info",
-                })
+                // showAlert({
+                //   open: true,
+                //   primary: "Success",
+                //   secondary: "Product has been added to the cart.",
+                //   type: "info",
+                // })
               }
+              setItemAdded(true)
               setAddLoading(false)
             })
           } else {
@@ -225,11 +234,6 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                                           </RadioGroup.Description>
                                         </div>
                                       </div>
-                                      {checked && (
-                                        <div className="flex-shrink-0 text-white">
-                                          <CheckIcon className="w-6 h-6" />
-                                        </div>
-                                      )}
                                     </div>
                                   </>
                                 )}
@@ -252,16 +256,21 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
               >
                 {addLoading && (
                   <div className="h-6 w-6 absolute left-0 ml-4">
-                    <LoadingDots />
+                    <LoadingDots color="white" />
                   </div>
                 )}
                 <span>Add to cart</span>
+                {itemAdded && (
+                  <div className="absolute left-1/2 ml-16 text-green-main">
+                    <CheckIcon className="w-6 h-6" />
+                  </div>
+                )}
               </button>
             </form>
             <button
               type="submit"
               onClick={handleCheckout}
-              className="mt-8 w-full bg-blue-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
+              className="mt-8 w-full bg-green-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
             >
               Add & Checkout
             </button>

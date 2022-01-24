@@ -41,7 +41,7 @@ const ProductCard = ({
           </div>
         )}
         <div className="flex-1 p-4 space-y-2 flex flex-col">
-          <h3 className="text-sm font-medium text-gray-900">
+          <h3 className="font-bold text-gray-900 group-hover:text-blue-main text-xl">
             <Link href={`/products/${category_slug}/${product.slug}`} passHref>
               <a title={product.name || ""} className="flex flex-col">
                 <span aria-hidden="true" className="absolute inset-0" />
@@ -50,22 +50,20 @@ const ProductCard = ({
             </Link>
           </h3>
           {product.shortDescription && (
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-600 py-2">
               {parse(product.shortDescription)}
             </div>
           )}
           <div className="flex-1 flex flex-col justify-end">
             {/* <p className="text-sm italic text-gray-500">{product.options}</p> */}
-            <p className="text-base font-medium text-gray-900">
-              {product.price}
-            </p>
+            <p className="text-sm font-medium text-gray-400">{product.price}</p>
           </div>
         </div>
       </div>
     )
   } else {
     return (
-      <div className="group relative" key={product.id}>
+      <div className="group relative py-4 border-b" key={product.id}>
         <Link href={`/products/${category_slug}/${product.slug}`} passHref>
           <a title={product.name || ""} className="flex flex-col">
             <div className="font-bold text-gray-900 group-hover:text-blue-main text-xl">

@@ -167,8 +167,10 @@ const Map = ({
             })}
         </GoogleMap>
       ) : (
-        <div className="aspect-3 mx-auto w-full">
-          <LoadingDots />
+        <div className="w-full flex items-center justify-center">
+          <div className="aspect-3 w-2/3">
+            <LoadingDots />
+          </div>
         </div>
       )}
     </div>

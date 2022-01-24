@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -13,15 +13,16 @@ import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
   getCategorySlugs,
-  getProductsByCategory,
+  getProductsByCategories,
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 import { normalize } from "@api/utils"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 
 import { Breadcrumbs, ProductCard, Sort } from "@components"
-import { LoadingDots } from "@components/ui"
+import { LoadingDots, MenuLink } from "@components/ui"
 import { useMainMenu } from "@lib/hooks"
+import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 const CategoryPage = ({
   category,
@@ -32,18 +33,26 @@ const CategoryPage = ({
 
   const apolloClient = useApolloClient()
 
-  const [products, setProducts] = useState<Maybe<Product>[] | null | undefined>(
-    null,
+  const [products, setProducts] = useState(
+    category && category.products ? category.products.nodes : undefined,
   )
   const [loading, setLoading] = useState(false)
-  const [selectedSort, setSelectedSort] = useState("Default")
+  const [selectedSort, setSelectedSort] = useState<SortOptionType>(
+    sortOptions[0],
+  )
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [currentCategory, setCurrentCategory] = useState("")
+  const [currentCategory, setCurrentCategory] = useState(
+    category && category.slug ? category.slug : "",
+  )
+  const [initComplete, setInitComplete] = useState(false)
+  const [filteredCategories, setFilteredCategories] = useState<string[]>([
+    currentCategory,
+  ])
 
   useEffect(() => {
     if (currentCategory !== category.slug) {
       setProducts(category.products?.nodes)
-      setCurrentCategory(category.slug!)
+      category.slug && setCurrentCategory(category.slug)
     }
     return () => {
       // setProducts(null)
@@ -51,32 +60,59 @@ const CategoryPage = ({
     }
   }, [category, products, currentCategory])
 
-  const handleSort = async (option: {
-    name: string
-    id: { field: string; order: string }
-  }) => {
+  const fetchProducts = useCallback(
+    async (option: SortOptionType, categories: string[]) => {
+      if (filteredCategories.length != 0) {
+        const { field, order } = option.id
+
+        const { data, error, loading } = await apolloClient.query({
+          query: getProductsByCategories,
+          variables: { field, order, categories },
+          errorPolicy: "all",
+        })
+
+        if (data && data.products) {
+          data.products?.nodes && setProducts(data.products.nodes)
+        }
+
+        if (error) {
+          console.log("ERROR", error)
+          // setProducts(category.products?.nodes)
+          // TODO - Add alert on front-end
+        }
+      }
+    },
+    [filteredCategories, apolloClient, setProducts, category],
+  )
+
+  useEffect(() => {
+    if (filteredCategories.length === 0 && currentCategory !== "") {
+      setFilteredCategories([currentCategory])
+      console.log("FILLLL", filteredCategories)
+    }
+    if (filteredCategories.length === 0) {
+      setProducts(null)
+    }
+    if (initComplete) {
+      fetchProducts(selectedSort, filteredCategories)
+    } else {
+      setInitComplete(true)
+    }
+  }, [
+    filteredCategories,
+    currentCategory,
+    fetchProducts,
+    initComplete,
+    selectedSort,
+  ])
+
+  const handleSort = async (option: SortOptionType) => {
     setLoading(true)
 
-    if (selectedSort !== option.name) {
-      setSelectedSort(option.name)
+    if (selectedSort.name !== option.name) {
+      setSelectedSort(option)
 
-      const { field, order } = option.id
-
-      const { data, error, loading } = await apolloClient.query({
-        query: getProductsByCategory,
-        variables: { field, order, category: category.slug },
-        errorPolicy: "all",
-      })
-      console.log(data)
-      if (data) {
-        data.products?.nodes && setProducts(data.products.nodes)
-      }
-
-      if (error) {
-        console.log("ERROR", error)
-        setProducts(category.products?.nodes)
-        // TODO - Add alert on front-end
-      }
+      await fetchProducts(option, filteredCategories)
     }
 
     setLoading(false)
@@ -103,6 +139,27 @@ const CategoryPage = ({
           </p>
         </div>
 
+        {/* Sub-categories */}
+
+        {category.children?.nodes && category.children.nodes.length > 0 && (
+          <div className="px-8 text-gray-500 pb-8">
+            <h2 className="font-bold text-gray-900">Sub-Categories:</h2>
+            <div className="text-sm pl-4">
+              <ul>
+                {category.children.nodes.map(subCategory => {
+                  return (
+                    <li key={subCategory?.id}>
+                      <MenuLink href={`/products/${subCategory?.slug}`}>
+                        {subCategory?.name}
+                      </MenuLink>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
+
         {/* Filters */}
 
         <Sort
@@ -110,6 +167,10 @@ const CategoryPage = ({
           setViewMode={setViewMode}
           handleSort={handleSort}
           selectedSort={selectedSort}
+          withFilter
+          category={category}
+          filteredCategories={filteredCategories}
+          setFilteredCategories={setFilteredCategories}
         />
 
         {loading ? (
@@ -122,7 +183,7 @@ const CategoryPage = ({
             </div>
           </div>
         ) : (
-          <div className="pt-12 pb-24 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+          <div className="pt-12 pb-24">
             <section
               aria-labelledby="product-heading"
               className="mt-6 lg:mt-0 lg:col-span-2 xl:col-span-3"
@@ -131,7 +192,13 @@ const CategoryPage = ({
                 Products
               </h2>
 
-              <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3 px-4">
+              <div
+                className={
+                  viewMode === "grid"
+                    ? "grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 lg:grid-cols-3 px-4"
+                    : "px-4"
+                }
+              >
                 {products &&
                   products.map(baseProduct => {
                     const product = baseProduct as Product & { price?: string }
