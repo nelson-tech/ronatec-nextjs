@@ -52,7 +52,7 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
                     <Menu.Item key={item.id}>
                       <MenuLink
                         href={item.path}
-                        className="transition hover:bg-blue-main hover:text-white text-blue-dark block px-4 py-2 text-sm ring-transparent outline-none"
+                        className="transition hover:bg-blue-main hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
                       >
                         {item.label}
                       </MenuLink>

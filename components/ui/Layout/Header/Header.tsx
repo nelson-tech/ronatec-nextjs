@@ -9,7 +9,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/outline"
 
-import { useMainMenu } from "@lib/hooks"
+import { useAuth, useMainMenu } from "@lib/hooks"
 import { Cart } from "@api/gql/types"
 import { cartBaseFragment } from "@api/queries/fragments/products"
 
@@ -58,7 +58,13 @@ const Header = ({ promo = false }: HeaderProps) => {
 
   const { data, error, loading } = useQuery(getCartQuery)
 
-  error && console.log("CART ERROR", error.graphQLErrors)
+  const { logout } = useAuth()
+
+  useEffect(() => {
+    if (error && error.message === "Internal server error") {
+      logout()
+    }
+  }, [error, logout])
 
   useEffect(() => {
     data && setCart(data.cart)

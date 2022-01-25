@@ -2,7 +2,7 @@ import { FormEventHandler, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
-import { CheckIcon } from "@heroicons/react/solid"
+import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/solid"
 
 import { useAlert, useAuth } from "@lib/hooks"
 import {
@@ -44,6 +44,7 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
   const [error, setError] = useState<string | null>(null)
   const [addLoading, setAddLoading] = useState(false)
   const [itemAdded, setItemAdded] = useState(false)
+  const [quantity, setQuantity] = useState(1)
   const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   useEffect(() => {
@@ -87,7 +88,7 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
       let input: AddToCartInput = {
         clientMutationId: getClientMutationId(),
         productId,
-        quantity: 1,
+        quantity,
       }
 
       if (product.type === "VARIABLE" && selectedVariation) {
@@ -250,6 +251,30 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                   <span>{error}</span>
                 </div>
               )}
+              <div className="mt-8 flex items-center">
+                <div className="pr-4">Quantity: </div>
+                <form>
+                  <div className="flex items-center space-x-2">
+                    <MinusIcon
+                      className="h-4 w-4 cursor-pointer"
+                      onClick={() => setQuantity(quantity - 1)}
+                    />
+                    <input
+                      className="w-16 text-center border py-1 text-sm rounded outline-none focus:bg-white ring-transparent"
+                      value={quantity}
+                      onChange={e => {
+                        if (Number(e.target.value)) {
+                          setQuantity(Number(e.target.value))
+                        }
+                      }}
+                    />
+                    <PlusIcon
+                      className="h-4 w-4 cursor-pointer"
+                      onClick={() => setQuantity(quantity + 1)}
+                    />
+                  </div>
+                </form>
+              </div>
               <button
                 type="submit"
                 className="mt-8 relative w-full bg-blue-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
