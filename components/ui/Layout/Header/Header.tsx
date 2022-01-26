@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useCallback, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { gql, useQuery } from "@apollo/client"
@@ -21,6 +21,7 @@ import Usernav from "./Usernav"
 import MegaMenu from "./MegaMenu"
 import Dropdown from "./Dropdown"
 import CartSlider from "./CartSlider"
+import { StyledHeader } from "./style"
 
 const getCartQuery = gql`
   query CartQuery {
@@ -45,10 +46,13 @@ type HeaderProps = {
 }
 
 const Header = ({ promo = false }: HeaderProps) => {
+  const [sticky, setSticky] = useState({ isSticky: false, offset: 0 })
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
   const [signInOpen, setSignInOpen] = useState<boolean>(false)
   const [cartOpen, setCartOpen] = useState<boolean>(false)
   const [searchOpen, setSearchOpen] = useState<boolean>(false)
+
+  const headerRef = useRef(null)
 
   const router = useRouter()
 
@@ -59,6 +63,34 @@ const Header = ({ promo = false }: HeaderProps) => {
   const { data, error, loading } = useQuery(getCartQuery)
 
   const { logout } = useAuth()
+
+  const handleScroll = useCallback(
+    (elTopOffset: number, elHeight: number) => {
+      if (window.pageYOffset > elTopOffset + elHeight) {
+        setSticky({ isSticky: true, offset: elHeight })
+      } else {
+        setSticky({ isSticky: false, offset: 0 })
+      }
+    },
+    [setSticky],
+  )
+
+  useEffect(() => {
+    let header: { [key: string]: number } = { top: 0, height: 0 }
+    if (headerRef && headerRef.current) {
+      header = headerRef.current.getBoundingClientRect()
+    }
+
+    const handleScrollEvent = () => {
+      handleScroll(header.top, header.height)
+    }
+
+    window.addEventListener("scroll", handleScrollEvent)
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollEvent)
+    }
+  }, [headerRef, handleScroll])
 
   useEffect(() => {
     if (error && error.message === "Internal server error") {
@@ -114,7 +146,12 @@ const Header = ({ promo = false }: HeaderProps) => {
 
       <CartSlider open={cartOpen} setOpen={setCartOpen} cart={cart} />
 
-      <header className="sticky z-10 top-0 font-family">
+      <StyledHeader
+        className={`navbar ${
+          sticky.isSticky ? "sticky transition-all scroll-smooth " : ""
+        }z-10 top-0 font-family h-26`}
+        ref={headerRef}
+      >
         <nav aria-label="Top" className="border-b bg-white border-gray-200">
           {/* Top navigation */}
           {promo && <Promo />}
@@ -285,7 +322,7 @@ const Header = ({ promo = false }: HeaderProps) => {
             </div>
           </div>
         </nav>
-      </header>
+      </StyledHeader>
     </>
   )
 }

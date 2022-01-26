@@ -5,11 +5,16 @@ import { ProductCategory } from "@api/gql/types"
 type BreadcrumbsProps = {
   category: ProductCategory
   product?: boolean
+  info?: boolean
 }
 
-const Breadcrumbs = ({ category, product = false }: BreadcrumbsProps) => {
+const Breadcrumbs = ({
+  category,
+  product = false,
+  info = false,
+}: BreadcrumbsProps) => {
   return (
-    <div className="border-b border-gray-200 -ml-5 w-screen">
+    <div className="border-b border-gray-200 -ml-5 px-5 w-screen">
       <nav
         aria-label="Breadcrumb"
         className="mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl"
@@ -90,6 +95,20 @@ const Breadcrumbs = ({ category, product = false }: BreadcrumbsProps) => {
                       </a>
                     </Link>
                   </div>
+                </>
+              ) : info ? (
+                <>
+                  <Link href={`/products/${category.slug}`}>
+                    <a
+                      title={`View all ${category.name} products`}
+                      className="transition hover:text-green-main"
+                    >
+                      {category.name}
+                      <span className="text-green-main pl-4">
+                        View products
+                      </span>
+                    </a>
+                  </Link>
                 </>
               ) : (
                 <>

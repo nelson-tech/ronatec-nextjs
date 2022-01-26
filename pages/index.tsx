@@ -1,5 +1,4 @@
 import type { InferGetStaticPropsType } from "next"
-import { Image } from "@components"
 import tw from "twin.macro"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
@@ -9,7 +8,7 @@ import { getGeneralPageData, getHomeData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
 import { LoadingDots, MenuLink } from "@components/ui"
-import { Slider, VideoCard } from "@components"
+import { Slider, VideoCard, Image } from "@components"
 import { IconCard, SupplierCard } from "@components/Cards"
 
 // ####
@@ -74,7 +73,7 @@ export default function Home({
   return (
     <div className=" mx-auto lg:max-w-7xl pb-4">
       <div className="lg:relative mb-8">
-        <div className="mx-auto max-w-7xl w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
+        <div className="mx-auto max-w-7xl px-2 w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
           <div className="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
               <span className="block xl:inline">Ronatec C2C, Inc.</span>{" "}
@@ -106,11 +105,13 @@ export default function Home({
             </div>
           </div>
         </div>
-        <div className="relative hidden lg:block -ml-5 w-screen h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
-          <img
-            className="absolute inset-0 w-full h-full object-cover"
+        <div className="relative hidden lg:block w-screen h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
+          <Image
+            // className="absolute inset-0 w-full h-full object-cover"
             src="https://cdn.ronatec.us/ronatec/20211130031916/san-diego.jpg"
-            alt=""
+            alt="Image"
+            objectFit="fill"
+            layout="responsive"
           />
         </div>
       </div>
@@ -150,7 +151,7 @@ export default function Home({
 
       <div className="bg-white">
         <div className="py-16 sm:py-24 xl:max-w-7xl xl:mx-auto xl:px-8">
-          <div className="px-4 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
+          <div className="px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
             <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
               Shop by Category
             </h2>
@@ -165,12 +166,12 @@ export default function Home({
           <div className="mt-4 flow-root">
             <div className="-my-2">
               <div className="box-content py-2 relative h-80 overflow-x-auto xl:overflow-visible">
-                <div className="absolute min-w-screen-xl px-4 flex space-x-8 sm:px-6 lg:px-8 xl:relative xl:px-0 xl:space-x-0 xl:grid xl:grid-cols-5 xl:gap-x-8">
+                <div className="absolute px-8 min-w-screen-xl flex space-x-8 sm:px-6 lg:px-8 xl:relative xl:px-0 xl:space-x-0 xl:grid xl:grid-cols-5 xl:gap-x-8">
                   {categories.map(category => (
                     <a
                       key={category.name}
                       href={category.href}
-                      className="relative w-56 h-80 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75 xl:w-auto"
+                      className="relative w-56 h-72 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75 xl:w-auto"
                     >
                       <span aria-hidden="true" className="absolute inset-0">
                         <img
@@ -193,7 +194,7 @@ export default function Home({
             </div>
           </div>
 
-          <div className="mt-6 px-4 sm:hidden">
+          <div className="mt-6 px-8 sm:hidden">
             <a
               href="#"
               className="block text-sm font-semibold text-blue-main hover:text-blue-dark"
@@ -226,12 +227,12 @@ export default function Home({
       {videoLink && (
         <VideoCard
           videoLink={videoLink}
-          cardStyle={tw`pb-12 w-full md:w-4/5 lg:w-2/3 mx-auto`}
+          cardStyle={tw`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
         />
       )}
 
       {supplier && (
-        <div className="mx-auto w-full md:w-2/3 lg:w-1/2">
+        <div className="mx-auto w-full px-5 md:w-2/3 lg:w-1/2">
           <SupplierCard headerText="Featured Supplier" supplier={supplier} />
         </div>
       )}

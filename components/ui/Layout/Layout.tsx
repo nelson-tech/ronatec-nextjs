@@ -22,8 +22,8 @@ const Layout: FC<Props> = ({ children }) => {
   return (
     <ThemeProvider theme={emotionTheme}>
       <GlobalStyles />
-      <Header />
-      <main className="flex-1 overflow-y-auto px-5 bg-white  max-w-full relative overflow-x-hidden font-family min-h-screen">
+      <Header promo />
+      <main className="flex-1 overflow-y-auto bg-white  max-w-full relative overflow-x-hidden font-family min-h-screen">
         {children}
       </main>
       <Footer />

@@ -77,7 +77,9 @@ const CategoryPage = ({
 
         if (error) {
           console.log("ERROR", error)
-          // setProducts(category.products?.nodes)
+          category.products &&
+            category.products.nodes &&
+            setProducts(category.products.nodes)
           // TODO - Add alert on front-end
         }
       }

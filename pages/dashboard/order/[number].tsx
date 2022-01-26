@@ -103,7 +103,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
       ? new Date(order.date).toLocaleDateString()
       : null
     return (
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:pb-24 lg:px-8">
+      <div className="max-w-7xl mx-auto py-16 px-8 sm:px-6 lg:pb-24 lg:px-8">
         <div className="max-w-xl">
           <div className="w-full relative flex items-center">
             <h1 className="text-2xl uppercase font-extrabold tracking-tight text-gray-900 sm:text-3xl">

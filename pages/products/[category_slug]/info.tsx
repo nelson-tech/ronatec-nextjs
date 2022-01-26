@@ -23,7 +23,7 @@ import {
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 
-import { Image } from "@components"
+import { Breadcrumbs, Image } from "@components"
 
 const CategoryInfo = ({
   category,
@@ -57,12 +57,15 @@ const CategoryInfo = ({
           },
         }
     return (
-      <div className="w-screen">
-        <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
-          <h2>{category.name}</h2>
+      <>
+        <Breadcrumbs category={category} info />
+        <div className="w-full px-5">
+          {/* <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
+            <h2>{category.name}</h2>
+          </div> */}
+          <Container>{content && parse(content, options)}</Container>
         </div>
-        <Container>{content && parse(content, options)}</Container>
-      </div>
+      </>
     )
   }
   return <div className=" mx-auto lg:max-w-7xl">No category found.</div>
@@ -162,5 +165,5 @@ const Container = styled.div`
     }
   }
   // Quick edits below
-  ${tw`pt-8 px-6 mr-8 mb-8 text-gray-700 mx-auto lg:max-w-7xl`}
+  ${tw`pt-8 px-2 mr-4 mb-8 text-gray-700 mx-auto lg:max-w-7xl`}
 `

@@ -59,7 +59,7 @@ const About = ({
 
       <div className="w-full">
         <div className="w-full pl-5 py-4 border-t-2">
-          <h2 className="text-2xl font-extrabold mx-auto lg:max-w-7xl">
+          <h2 className="text-2xl px-5 font-extrabold mx-auto lg:max-w-7xl">
             Sales Reps
           </h2>
         </div>

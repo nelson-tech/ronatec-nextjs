@@ -12,7 +12,7 @@ const Dashboard = ({
 InferGetStaticPropsType<typeof getStaticProps>) => {
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
-  return <div>User Dashboard</div>
+  return <div className="p-8">User Dashboard</div>
 }
 
 export default Dashboard

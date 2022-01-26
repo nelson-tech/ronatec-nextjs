@@ -1,11 +1,14 @@
+import { Icon, MenuLink } from "@components/ui"
+import { PhoneIcon } from "@heroicons/react/outline"
+
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"]
 
 const Promo = () => {
   return (
-    <div className="bg-gray-900">
-      <div className="mx-auto h-10 px-4 flex items-center justify-between sm:px-6 lg:px-8">
-        {/* Currency selector */}
-        <form className="hidden lg:block lg:flex-1">
+    <div className="bg-blue-dark">
+      {/* <div className="mx-auto flex items-center justify-between sm:px-6 lg:px-8"> */}
+      {/* Currency selector */}
+      {/* <form className="hidden lg:block lg:flex-1">
           <div className="flex">
             <label htmlFor="desktop-currency" className="sr-only">
               Currency
@@ -39,13 +42,22 @@ const Promo = () => {
               </div>
             </div>
           </div>
-        </form>
+        </form> */}
 
-        <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none">
-          Get free delivery on orders over $100
-        </p>
+      <div className="h-10 px-4 flex items-center justify-end text-white">
+        <div className="h-6 w-6 mr-6 mt-1 hover:text-red-main">
+          <a
+            href="https://www.youtube.com/channel/UCxmKm_9iLJ2skg39mmoKYnA"
+            target="_blank"
+            title="Visit our YouTube Channel"
+          >
+            <Icon name="youtube" type="brands" />
+          </a>
+        </div>
+        <PhoneIcon className="h-6 w-6 mr-2" /> (855) 928-9904
+      </div>
 
-        <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+      {/* <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
           <a
             href="#"
             className="text-sm font-medium text-white hover:text-gray-100"
@@ -59,8 +71,8 @@ const Promo = () => {
           >
             Sign in
           </a>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   )
 }
