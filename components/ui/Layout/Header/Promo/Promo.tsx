@@ -49,6 +49,7 @@ const Promo = () => {
           <a
             href="https://www.youtube.com/channel/UCxmKm_9iLJ2skg39mmoKYnA"
             target="_blank"
+            rel="noreferrer"
             title="Visit our YouTube Channel"
           >
             <Icon name="youtube" type="brands" />

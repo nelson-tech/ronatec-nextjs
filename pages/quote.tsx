@@ -100,7 +100,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                               htmlFor="push-everything"
                               className="ml-3 block text-sm font-medium text-gray-700"
                             >
-                              0.5"
+                              0.5&ldquo;
                             </label>
                           </div>
                           <div className="flex items-center">
@@ -114,7 +114,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                               htmlFor="push-email"
                               className="ml-3 block text-sm font-medium text-gray-700"
                             >
-                              0.75"
+                              0.75&ldquo;
                             </label>
                           </div>
                         </div>
@@ -164,7 +164,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                               htmlFor="push-everything"
                               className="ml-3 block text-sm font-medium text-gray-700"
                             >
-                              3"
+                              3&ldquo;
                             </label>
                           </div>
                           <div className="flex items-center">
@@ -178,7 +178,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                               htmlFor="push-email"
                               className="ml-3 block text-sm font-medium text-gray-700"
                             >
-                              4"
+                              4&ldquo;
                             </label>
                           </div>
                           <div className="flex items-center">
@@ -192,7 +192,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                               htmlFor="push-email"
                               className="ml-3 block text-sm font-medium text-gray-700"
                             >
-                              6"
+                              6&ldquo;
                             </label>
                           </div>
                         </div>
@@ -265,7 +265,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                   </div>
                 </div>
 
-                <div>
+                {/* <div>
                   <label
                     htmlFor="about"
                     className="block text-sm font-medium text-gray-700"
@@ -285,7 +285,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                   <p className="mt-2 text-sm text-gray-500">
                     Brief description for your profile. URLs are hyperlinked.
                   </p>
-                </div>
+                </div> 
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
@@ -350,13 +350,13 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div>*/}
               </form>
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-50 shadow px-4 py-5 sm:rounded-lg sm:p-6">
+        {/* <div className="bg-gray-50 shadow px-4 py-5 sm:rounded-lg sm:p-6">
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
               <h3 className="text-lg font-medium leading-6 text-gray-900">
@@ -645,8 +645,8 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                 </fieldset>
               </form>
             </div>
-          </div>
-        </div>
+          </div> 
+        </div>*/}
 
         <div className="flex justify-end">
           <button
