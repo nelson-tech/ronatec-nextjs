@@ -96,9 +96,7 @@ const Filters = ({
             defaultValue={category.slug}
             type="checkbox"
             className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-blue-main focus:ring-blue-main"
-            defaultChecked={filteredCategories.includes(
-              `category-${category.slug}`,
-            )}
+            defaultChecked={filteredCategories.includes(`${category.slug}`)}
             {...register(`category-${category.slug}`)}
           />
           <label
@@ -119,7 +117,7 @@ const Filters = ({
     <Disclosure
       as="section"
       aria-labelledby="filter-heading"
-      className="relative w-screen -ml-5 z-10 border-t border-b border-gray-200 grid items-center"
+      className="relative w-screen border-t border-b border-gray-200 grid items-center"
     >
       {({ open }) => {
         return (
@@ -164,7 +162,7 @@ const Filters = ({
               </div>
             </div>
             <Disclosure.Panel
-              className="border-t border-gray-200 py-6"
+              className="border-t border-gray-200 z-10 py-6"
               as={"menu"}
               onChange={handleChange}
             >

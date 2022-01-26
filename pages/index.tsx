@@ -155,12 +155,12 @@ export default function Home({
             <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
               Shop by Category
             </h2>
-            <a
-              href="#"
+            <MenuLink
+              href="/products"
               className="hidden text-sm font-semibold text-blue-main hover:text-blue-dark sm:block"
             >
               Browse all categories<span aria-hidden="true"> &rarr;</span>
-            </a>
+            </MenuLink>
           </div>
 
           <div className="mt-4 flow-root">
@@ -195,12 +195,12 @@ export default function Home({
           </div>
 
           <div className="mt-6 px-8 sm:hidden">
-            <a
-              href="#"
+            <MenuLink
+              href="/products"
               className="block text-sm font-semibold text-blue-main hover:text-blue-dark"
             >
               Browse all categories<span aria-hidden="true"> &rarr;</span>
-            </a>
+            </MenuLink>
           </div>
         </div>
       </div>

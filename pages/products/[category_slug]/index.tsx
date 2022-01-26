@@ -88,10 +88,10 @@ const CategoryPage = ({
   )
 
   useEffect(() => {
-    if (filteredCategories.length === 0 && currentCategory !== "") {
-      setFilteredCategories([currentCategory])
-      console.log("FILLLL", filteredCategories)
-    }
+    // if (filteredCategories.length === 0 && currentCategory !== "") {
+    //   setFilteredCategories([currentCategory])
+    //   console.log("FILLLL", filteredCategories)
+    // }
     if (filteredCategories.length === 0) {
       setProducts(null)
     }
@@ -185,7 +185,7 @@ const CategoryPage = ({
             </div>
           </div>
         ) : (
-          <div className="pt-6 pb-24 mx-auto lg:max-w-7xl">
+          <div className="pt-6 pb-24 px-8 mx-auto lg:max-w-7xl">
             <section aria-labelledby="product-heading" className="">
               <h2 id="product-heading" className="sr-only">
                 Products

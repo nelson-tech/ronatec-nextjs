@@ -33,15 +33,6 @@ const responsivePadding = css`
   }
 `
 
-const ParsedDiv = styled.div`
-  & > .parsed-block {
-    ${tw`flex flex-row`}
-    > .parsed-p {
-      padding-left: 10px;
-    }
-  }
-`
-
 // ####
 // #### Component
 // ####
@@ -64,11 +55,10 @@ const Consulting = ({
       page.page_consulting.acf
     return (
       <>
-        <div className="">
-          <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
-            <h2>{title}</h2>
-          </div>
-
+        <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
+          <h2>{title}</h2>
+        </div>
+        <div className="px-4">
           <div className="mt-8 flex flex-col md:flex-row pb-8 items-center mx-auto lg:max-w-7xl">
             {slides && slides.length > 0 && (
               <Slider

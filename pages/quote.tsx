@@ -48,7 +48,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
   renderCount++
 
   return (
-    <div className="p-0 sm:px-5 mx-auto max-w-7xl my-8">
+    <div className="px-5 mx-auto max-w-7xl my-8">
       <div>
         <h2 className="text-2xl font-extrabold pb-6 px-5">Request A Quote</h2>
       </div>

@@ -2,9 +2,9 @@ import { FormEventHandler, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
-import { CheckIcon, MinusIcon, PlusIcon } from "@heroicons/react/solid"
+import { CheckIcon } from "@heroicons/react/solid"
 
-import { useAlert, useAuth } from "@lib/hooks"
+import { useAuth } from "@lib/hooks"
 import {
   AddToCartInput,
   ProductAttributeInput,
@@ -33,8 +33,6 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
   const apolloClient = useApolloClient()
 
   const { getClientMutationId, getClientShopId } = useAuth()
-
-  const { showAlert } = useAlert()
 
   const firstVariation =
     attributes && attributes?.length > 0 ? attributes[0].variations[0] : null

@@ -119,7 +119,7 @@ const Map = ({
 
   return (
     <div
-      className="w-screen -ml-5"
+      className="w-screen"
       css={css`
         .gmnoprint {
           visibility: hidden;

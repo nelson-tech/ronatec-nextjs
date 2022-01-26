@@ -5,7 +5,7 @@ const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"]
 
 const Promo = () => {
   return (
-    <div className="bg-blue-dark">
+    <div className="bg-blue-main">
       {/* <div className="mx-auto flex items-center justify-between sm:px-6 lg:px-8"> */}
       {/* Currency selector */}
       {/* <form className="hidden lg:block lg:flex-1">

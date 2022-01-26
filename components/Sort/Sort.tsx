@@ -58,7 +58,7 @@ const Sort = ({
   setFilteredCategories,
 }: SortProps) => {
   const sectionClasses =
-    "w-screen -ml-5 z-10 border-t border-b border-gray-200 grid items-center"
+    "w-screen border-t border-b border-gray-200 grid items-center"
 
   const BaseSort = () => (
     <div className="col-start-1 row-start-1 py-4">
@@ -86,7 +86,7 @@ const Sort = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-bottom-right z-10 absolute mt-6 right-0 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="">
                 {sortOptions.map(option => (
                   <Menu.Item

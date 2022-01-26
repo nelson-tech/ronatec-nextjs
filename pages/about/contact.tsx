@@ -29,7 +29,7 @@ const About = ({
 
   return (
     <>
-      <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
+      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
         <h2>Contact Us</h2>
       </div>
       <Map
