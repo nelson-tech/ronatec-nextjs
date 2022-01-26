@@ -52,7 +52,7 @@ const Header = ({ promo = false }: HeaderProps) => {
   const [cartOpen, setCartOpen] = useState<boolean>(false)
   const [searchOpen, setSearchOpen] = useState<boolean>(false)
 
-  const headerRef = useRef(null)
+  const headerRef: any = useRef(null)
 
   const router = useRouter()
 
