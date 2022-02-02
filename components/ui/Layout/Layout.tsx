@@ -4,7 +4,7 @@ import { ThemeProvider } from "@emotion/react"
 import { emotionTheme } from "styles/theme"
 import GlobalStyles from "styles/GlobalStyles"
 import { Header, Footer } from "./"
-import { Alerts, LoadingDots } from "@components/ui"
+import { Alerts, LoadingDots, ScrollArrow } from "@components/ui"
 
 // ####
 // #### Types
@@ -22,6 +22,7 @@ const Layout: FC<Props> = ({ children }) => {
   return (
     <ThemeProvider theme={emotionTheme}>
       <GlobalStyles />
+      <ScrollArrow />
       <Header promo />
       <main className="flex-1 overflow-y-auto bg-white  max-w-full relative overflow-x-hidden font-family min-h-screen">
         {children}

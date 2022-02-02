@@ -20,7 +20,7 @@ const Modal: FC<Props> = ({ open, setOpen, children }) => {
     <Transition appear show={open} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto"
+        className="fixed inset-0 z-40 overflow-y-auto"
         initialFocus={firstFocusRef}
         onClose={() => setOpen(false)}
       >
@@ -34,7 +34,7 @@ const Modal: FC<Props> = ({ open, setOpen, children }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="z-9 fixed inset-0 bg-black bg-opacity-50" />
+            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}

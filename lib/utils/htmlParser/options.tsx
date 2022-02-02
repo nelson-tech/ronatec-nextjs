@@ -1,7 +1,12 @@
-import parse, { Element, HTMLReactParserOptions } from "html-react-parser"
+import parse, {
+  domToReact,
+  Element,
+  HTMLReactParserOptions,
+} from "html-react-parser"
 
 import { Image } from "@components"
 import { ParsedTabs } from "."
+import { MenuLink } from "@components/ui"
 
 export const htmlParserOptions: HTMLReactParserOptions =
   typeof window === "undefined"
@@ -20,6 +25,20 @@ export const htmlParserOptions: HTMLReactParserOptions =
                   layout="responsive"
                   rounded="lg"
                 />
+              )
+            } else if (
+              domNode.attributes.find(a => a.name === "class")?.value ===
+              "menu-link"
+            ) {
+              const url = domNode.attribs.href
+              const title = domNode.attribs.title
+
+              return (
+                <div className="text-green-main hover:text-blue-main transition px-2 underline">
+                  <MenuLink href={url} title={title}>
+                    {domToReact(domNode.children, htmlParserOptions)}
+                  </MenuLink>
+                </div>
               )
             } else if (
               domNode.attributes.find(a => a.name === "class")?.value ===

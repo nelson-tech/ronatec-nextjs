@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import {
   GetStaticPaths,
   GetStaticPropsContext,
@@ -7,6 +7,7 @@ import {
 import Link from "next/link"
 import { useApolloClient } from "@apollo/client"
 import { ParsedUrlQuery } from "querystring"
+import smoothscroll from "smoothscroll-polyfill"
 
 import { Maybe, Product } from "@api/gql/types"
 import { getGeneralPageData } from "@api/queries/pages"
@@ -19,7 +20,7 @@ import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 import { normalize } from "@api/utils"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 
-import { Breadcrumbs, ProductCard, Sort } from "@components"
+import { Breadcrumbs, Image, ProductCard, Sort } from "@components"
 import { LoadingDots, MenuLink } from "@components/ui"
 import { useMainMenu } from "@lib/hooks"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
@@ -48,6 +49,8 @@ const CategoryPage = ({
   const [filteredCategories, setFilteredCategories] = useState<string[]>([
     currentCategory,
   ])
+
+  const productRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (currentCategory !== category.slug) {
@@ -145,22 +148,64 @@ const CategoryPage = ({
 
         {category.children?.nodes && category.children.nodes.length > 0 && (
           <div className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl">
-            <h2 className="font-bold text-gray-900">Sub-Categories:</h2>
+            <h2 className="font-bold text-2xl text-gray-900 uppercase">
+              Sub-Categories{" "}
+              <span
+                className="ml-4 text-sm font-normal text-gray-400 normal-case cursor-pointer"
+                onClick={() => {
+                  if (process.browser) {
+                    productRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                }}
+              >
+                Scroll down for Products
+              </span>
+            </h2>
             <div className="text-sm pl-4">
-              <ul>
+              <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
                 {category.children.nodes.map(subCategory => {
-                  return (
-                    <li key={subCategory?.id}>
-                      <MenuLink href={`/products/${subCategory?.slug}`}>
-                        {subCategory?.name}
-                      </MenuLink>
-                    </li>
-                  )
+                  if (subCategory) {
+                    return (
+                      <div
+                        key={subCategory?.id}
+                        className="m-4 hover:shadow rounded"
+                      >
+                        <MenuLink
+                          href={`/products/${subCategory?.slug}`}
+                          title={subCategory?.name || ""}
+                        >
+                          <div className="">
+                            {subCategory.image && subCategory.image.sourceUrl && (
+                              <div className="w-32 mx-auto h-32 pt-2">
+                                <Image
+                                  src={subCategory.image.sourceUrl}
+                                  alt={subCategory.image.altText || ""}
+                                  height={
+                                    subCategory.image.mediaDetails?.height
+                                  }
+                                  width={subCategory.image.mediaDetails?.width}
+                                  objectFit="cover"
+                                  layout="responsive"
+                                />
+                              </div>
+                            )}
+                            <div className="text-center align-bottom py-2">
+                              {subCategory?.name}
+                            </div>
+                          </div>
+                        </MenuLink>
+                      </div>
+                    )
+                  }
                 })}
-              </ul>
+              </div>
             </div>
           </div>
         )}
+
+        <h2 className="px-8 pb-4 text-2xl font-bold text-gray-900 uppercase">
+          Products
+        </h2>
 
         {/* Filters */}
 
@@ -185,7 +230,10 @@ const CategoryPage = ({
             </div>
           </div>
         ) : (
-          <div className="pt-6 pb-24 px-8 mx-auto lg:max-w-7xl">
+          <div
+            ref={productRef}
+            className="pt-6 pb-24 px-8 mx-auto lg:max-w-7xl"
+          >
             <section aria-labelledby="product-heading" className="">
               <h2 id="product-heading" className="sr-only">
                 Products

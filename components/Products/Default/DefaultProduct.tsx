@@ -11,17 +11,17 @@ import {
   ProductVariation,
 } from "@api/gql/types"
 import { AttributeType, FullProduct } from "@lib/types"
+import { htmlParserOptions, isServer, parse } from "@lib/utils"
 
 import { Image } from "@components"
+import { LoadingDots } from "@components/ui"
+import ScrollArrow from "@components/ui/ScrollArrow/ScrollArrow"
 import {
   Container,
   ProductMainContainer,
   ProductTopContainer,
   TopContainer,
 } from "./style"
-import { LoadingDots } from "@components/ui"
-import ScrollArrow from "@components/ui/ScrollArrow/ScrollArrow"
-import { htmlParserOptions, isServer, parse } from "@lib/utils"
 
 type DefaultProductProps = {
   product: FullProduct
@@ -52,6 +52,13 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
       }, 2000)
     }
   })
+
+  // Update selected variation if firstVariation changes (reload or product change)
+  useEffect(() => {
+    setSelectedVariation(firstVariation)
+  }, [firstVariation, setSelectedVariation])
+
+  console.log("FIRST", firstVariation)
 
   const ADD_MUTATION = gql`
     mutation addCart($input: AddToCartInput!) {
@@ -154,7 +161,6 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
 
   return (
     <>
-      <ScrollArrow />
       <Container>
         <TopContainer>
           <div className="w-full">
@@ -219,7 +225,7 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                                                 : "text-gray-900"
                                             }`}
                                           >
-                                            {variation.description}
+                                            {variation.name?.split(" - ")[1]}
                                           </RadioGroup.Label>
                                           <RadioGroup.Description
                                             as="span"
@@ -302,6 +308,26 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
           </ProductTopContainer>
         </TopContainer>
         <ProductMainContainer>
+          {selectedVariation && (
+            <>
+              <div className="flex">
+                <div className="mr-4 text-xl font-extrabold uppercase">
+                  Selected:
+                </div>
+                <div className="mt-1">
+                  <span className="font-bold">
+                    {selectedVariation.name?.split(" - ")[1]}
+                  </span>
+                  {selectedVariation.description &&
+                    selectedVariation.description[0] !== "<" &&
+                    ` - ${parse(selectedVariation.description)}`}
+                </div>
+              </div>
+              {selectedVariation.description &&
+                selectedVariation.description[0] === "<" &&
+                parse(selectedVariation.description)}
+            </>
+          )}
           {product.description && parse(product.description, htmlParserOptions)}
         </ProductMainContainer>
       </Container>

@@ -3,6 +3,7 @@ import {
   imageFragment,
   productCategoryFragment,
   productMinBaseFragment,
+  productBaseFragment,
   productPriceFragment,
   variableProductFragment,
 } from "@api/queries/fragments"
@@ -116,8 +117,13 @@ query GetProductsByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $c
     nodes {
       ${productMinBaseFragment}
       ${imageFragment}
+      productCategories {
+        nodes {
+          slug
+          name
+        }
+      }
       ${productPriceFragment}
-      shortDescription
     }
   }
 }

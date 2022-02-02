@@ -116,7 +116,7 @@ const Header = ({ promo = false }: HeaderProps) => {
       <CartSlider open={cartOpen} setOpen={setCartOpen} cart={cart} />
       <header>
         <Headroom
-          style={{ zIndex: 20 }}
+          style={{ zIndex: 11 }}
           upTolerance={2}
           className={`font-family h-26`}
         >

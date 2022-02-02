@@ -6,16 +6,12 @@ import {
 import styled from "@emotion/styled"
 import tw from "twin.macro"
 import { ParsedUrlQuery } from "querystring"
-import {
-  default as parse,
-  Element,
-  HTMLReactParserOptions,
-} from "html-react-parser"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
-import { isServer } from "@lib/utils"
+import { htmlParserOptions, isServer, parse } from "@lib/utils"
 import { normalize } from "@api/utils"
+
 import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
@@ -35,27 +31,6 @@ const CategoryInfo = ({
   if (category) {
     const content = category.product_category?.acf?.description
 
-    const options: HTMLReactParserOptions = isServer
-      ? {}
-      : {
-          replace: domNode => {
-            if (domNode instanceof Element) {
-              if (domNode.name === "img") {
-                return (
-                  <Image
-                    src={domNode.attribs.src}
-                    alt={domNode.attribs.alt || domNode.attribs.src}
-                    height={domNode.attribs.height}
-                    width={domNode.attribs.width}
-                    objectFit="cover"
-                    layout="responsive"
-                    rounded="lg"
-                  />
-                )
-              }
-            }
-          },
-        }
     return (
       <>
         <Breadcrumbs category={category} info />
@@ -63,7 +38,7 @@ const CategoryInfo = ({
           {/* <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">
             <h2>{category.name}</h2>
           </div> */}
-          <Container>{content && parse(content, options)}</Container>
+          <Container>{content && parse(content, htmlParserOptions)}</Container>
         </div>
       </>
     )

@@ -35,6 +35,7 @@ const Image = ({
       <NextImage
         src={src}
         alt={alt}
+        title={alt}
         layout={layout}
         objectFit={objectFit}
         height={height || 250}

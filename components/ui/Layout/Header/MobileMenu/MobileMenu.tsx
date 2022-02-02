@@ -83,62 +83,132 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                       <div className="pt-2">
                         {menuItem.children &&
                           menuItem.children.map(column => {
-                            return (
-                              <Disclosure key={column.id}>
-                                {({ open }) => (
-                                  <>
-                                    <Disclosure.Button
-                                      className={`group pl-8 pr-8 flex justify-between w-full py-3 ${
-                                        open
-                                          ? " bg-green-main text-white"
-                                          : " text-gray-600"
-                                      } font-bold text-sm hover:bg-blue-main hover:text-white transition`}
-                                    >
-                                      <span>{column.label}</span>
-                                      <ChevronUpIcon
-                                        className={`${
+                            if (column.label === "Menu-Column") {
+                              return (
+                                column.children &&
+                                column.children.map((subColumn, subIndex) => {
+                                  return (
+                                    <Disclosure key={subColumn.id}>
+                                      {({ open }) => (
+                                        <>
+                                          <Disclosure.Button
+                                            className={`group pl-8 pr-8 flex justify-between w-full py-3 ${
+                                              open
+                                                ? " bg-green-main text-white"
+                                                : " text-gray-600"
+                                            } font-bold text-sm hover:bg-blue-main hover:text-white transition`}
+                                          >
+                                            <span>{subColumn.label}</span>
+                                            <ChevronUpIcon
+                                              className={`${
+                                                open
+                                                  ? "transform rotate-180 text-white "
+                                                  : "text-blue-main "
+                                              }w-5 h-5 transition group-hover:rotate-180 group-hover:text-white`}
+                                            />
+                                          </Disclosure.Button>
+                                          <Transition
+                                            enter="transition duration-100 ease-out"
+                                            enterFrom="transform scale-95 opacity-0"
+                                            enterTo="transform scale-100 opacity-100"
+                                            leave="transition duration-75 ease-out"
+                                            leaveFrom="transform scale-100 opacity-100"
+                                            leaveTo="transform scale-95 opacity-0"
+                                          >
+                                            <Disclosure.Panel className="w-full">
+                                              <div className="flex flex-col text-sm text-gray-600 w-full">
+                                                {subColumn.children &&
+                                                  subColumn.children.map(
+                                                    item => {
+                                                      return (
+                                                        <div
+                                                          key={item.id}
+                                                          className="transition font-medium pl-8 w-full hover:bg-blue-main hover:text-white"
+                                                          onClick={() =>
+                                                            setOpen(false)
+                                                          }
+                                                        >
+                                                          <MenuLink
+                                                            href={item.path}
+                                                            className="w-full"
+                                                          >
+                                                            <div className="w-full py-3">
+                                                              {item.label}
+                                                            </div>
+                                                          </MenuLink>
+                                                        </div>
+                                                      )
+                                                    },
+                                                  )}
+                                              </div>
+                                            </Disclosure.Panel>
+                                          </Transition>
+                                        </>
+                                      )}
+                                    </Disclosure>
+                                  )
+                                })
+                              )
+                            } else {
+                              return (
+                                <Disclosure key={column.id}>
+                                  {({ open }) => (
+                                    <>
+                                      <Disclosure.Button
+                                        className={`group pl-8 pr-8 flex justify-between w-full py-3 ${
                                           open
-                                            ? "transform rotate-180 text-white "
-                                            : "text-blue-main "
-                                        }w-5 h-5 transition group-hover:rotate-180 group-hover:text-white`}
-                                      />
-                                    </Disclosure.Button>
-                                    <Transition
-                                      enter="transition duration-100 ease-out"
-                                      enterFrom="transform scale-95 opacity-0"
-                                      enterTo="transform scale-100 opacity-100"
-                                      leave="transition duration-75 ease-out"
-                                      leaveFrom="transform scale-100 opacity-100"
-                                      leaveTo="transform scale-95 opacity-0"
-                                    >
-                                      <Disclosure.Panel className="w-full">
-                                        <div className="flex flex-col text-sm text-gray-600 w-full">
-                                          {column.children &&
-                                            column.children.map(item => {
-                                              return (
-                                                <div
-                                                  key={item.id}
-                                                  className="transition font-medium pl-8 w-full hover:bg-blue-main hover:text-white"
-                                                  onClick={() => setOpen(false)}
-                                                >
-                                                  <MenuLink
-                                                    href={item.path}
-                                                    className="w-full"
+                                            ? " bg-green-main text-white"
+                                            : " text-gray-600"
+                                        } font-bold text-sm hover:bg-blue-main hover:text-white transition`}
+                                      >
+                                        <span>{column.label}</span>
+                                        <ChevronUpIcon
+                                          className={`${
+                                            open
+                                              ? "transform rotate-180 text-white "
+                                              : "text-blue-main "
+                                          }w-5 h-5 transition group-hover:rotate-180 group-hover:text-white`}
+                                        />
+                                      </Disclosure.Button>
+                                      <Transition
+                                        enter="transition duration-100 ease-out"
+                                        enterFrom="transform scale-95 opacity-0"
+                                        enterTo="transform scale-100 opacity-100"
+                                        leave="transition duration-75 ease-out"
+                                        leaveFrom="transform scale-100 opacity-100"
+                                        leaveTo="transform scale-95 opacity-0"
+                                      >
+                                        <Disclosure.Panel className="w-full">
+                                          <div className="flex flex-col text-sm text-gray-600 w-full">
+                                            {column.children &&
+                                              column.children.map(item => {
+                                                return (
+                                                  <div
+                                                    key={item.id}
+                                                    className="transition font-medium pl-8 w-full hover:bg-blue-main hover:text-white"
+                                                    onClick={() =>
+                                                      setOpen(false)
+                                                    }
                                                   >
-                                                    <div className="w-full py-3">
-                                                      {item.label}
-                                                    </div>
-                                                  </MenuLink>
-                                                </div>
-                                              )
-                                            })}
-                                        </div>
-                                      </Disclosure.Panel>
-                                    </Transition>
-                                  </>
-                                )}
-                              </Disclosure>
-                            )
+                                                    <MenuLink
+                                                      href={item.path}
+                                                      className="w-full"
+                                                    >
+                                                      <div className="w-full py-3">
+                                                        {item.label}
+                                                      </div>
+                                                    </MenuLink>
+                                                  </div>
+                                                )
+                                              })}
+                                          </div>
+                                        </Disclosure.Panel>
+                                      </Transition>
+                                    </>
+                                  )}
+                                </Disclosure>
+                              )
+                            }
                           })}
                       </div>
                     </div>

@@ -51,46 +51,104 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
 
               <div className="relative bg-white">
                 <div className="max-w-7xl mx-auto px-8">
-                  <div className="grid grid-cols-2 items-start gap-y-10 gap-x-4 pt-6 pb-8">
+                  <div className="grid grid-cols-2 items-start gap-y-10 gap-x-4 pt-6 pb-6">
                     {/* <div className="grid grid-cols-2 gap-y-10 gap-x-8"> */}
                     {megaItem.children &&
-                      megaItem.children.map(column => (
-                        <div key={column.id}>
-                          <p
-                            id={`desktop-featured-heading-${megaItem.id}`}
-                            className="font-extrabold text-base text-gray-900"
-                            onClick={() => close()}
-                          >
-                            <MenuLink href={column.path} title={column.label}>
-                              {column.label}
-                            </MenuLink>
-                          </p>
-                          <ul
-                            role="list"
-                            aria-labelledby={`desktop-featured-heading-${megaItem.id}`}
-                            className="mt-2"
-                          >
-                            {column.children &&
-                              column.children.map(item => (
-                                <li
-                                  key={item.id}
-                                  className="flex w-full group"
-                                  onClick={() => close()}
-                                >
-                                  <MenuLink
-                                    href={item.path}
-                                    title={item.label}
-                                    className="w-full hover:text-gray-800"
-                                  >
-                                    <div className="py-2 w-full">
-                                      {item.label}
+                      megaItem.children.map(column => {
+                        if (column.label === "Menu-Column") {
+                          return (
+                            <div key={column.id}>
+                              {column.children &&
+                                column.children.map((subColumn, subIndex) => {
+                                  return (
+                                    <div
+                                      key={subColumn.id}
+                                      className={subIndex > 0 ? "mt-2" : ""}
+                                    >
+                                      <p
+                                        id={`desktop-featured-heading-${megaItem.id}`}
+                                        className="font-extrabold text-base text-gray-900"
+                                        onClick={() => close()}
+                                      >
+                                        <MenuLink
+                                          href={subColumn.path}
+                                          title={subColumn.label}
+                                        >
+                                          {subColumn.label}
+                                        </MenuLink>
+                                      </p>
+                                      <ul
+                                        role="list"
+                                        aria-labelledby={`desktop-featured-heading-${megaItem.id}`}
+                                        className=""
+                                      >
+                                        {subColumn.children &&
+                                          subColumn.children.map(item => (
+                                            <li
+                                              key={item.id}
+                                              className="flex w-full group"
+                                              onClick={() => close()}
+                                            >
+                                              <MenuLink
+                                                href={item.path}
+                                                title={item.label}
+                                                className="w-full hover:text-green-main"
+                                              >
+                                                <div className="py-2 w-full">
+                                                  {item.label}
+                                                </div>
+                                              </MenuLink>
+                                            </li>
+                                          ))}
+                                      </ul>
                                     </div>
-                                  </MenuLink>
-                                </li>
-                              ))}
-                          </ul>
-                        </div>
-                      ))}
+                                  )
+                                })}
+                            </div>
+                          )
+                        } else {
+                          return (
+                            <div key={column.id}>
+                              <p
+                                id={`desktop-featured-heading-${megaItem.id}`}
+                                className="font-extrabold text-base text-gray-900"
+                                onClick={() => close()}
+                              >
+                                <MenuLink
+                                  href={column.path}
+                                  title={column.label}
+                                >
+                                  {column.label}
+                                </MenuLink>
+                              </p>
+                              <ul
+                                role="list"
+                                aria-labelledby={`desktop-featured-heading-${megaItem.id}`}
+                                className="mt-2"
+                              >
+                                {column.children &&
+                                  column.children.map(item => (
+                                    <li
+                                      key={item.id}
+                                      className="flex w-full group"
+                                      onClick={() => close()}
+                                    >
+                                      <MenuLink
+                                        href={item.path}
+                                        title={item.label}
+                                        className="w-full hover:text-gray-800"
+                                      >
+                                        <div className="py-2 w-full">
+                                          {item.label}
+                                        </div>
+                                      </MenuLink>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          )
+                        }
+                      })}
                   </div>
                 </div>
               </div>
