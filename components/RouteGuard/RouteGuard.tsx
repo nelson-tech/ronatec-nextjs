@@ -14,7 +14,6 @@ const RouteGuard: FC<ReactNode> = ({ children }: any) => {
     const restrictedPaths = ["/dashboard", "/dashboard/orders"]
     const path = url.split("?")[0]
     const basePath = path.split("/")[1]
-    console.log("BASE", basePath)
 
     const restrictedBasePaths = ["dashboard"]
     if (

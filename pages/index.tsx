@@ -233,7 +233,11 @@ export default function Home({
 
       {supplier && (
         <div className="mx-auto w-full px-5 md:w-2/3 lg:w-1/2">
-          <SupplierCard headerText="Featured Supplier" supplier={supplier} />
+          <SupplierCard
+            headerText="Featured Supplier"
+            supplier={supplier}
+            featured
+          />
         </div>
       )}
     </div>

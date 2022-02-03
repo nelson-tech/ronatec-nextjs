@@ -53,7 +53,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
           console.log("ERR", error)
         })
     }
-  }, [router, orderNumber, setOrderNumber])
+  }, [router, orderNumber, setOrderNumber, apolloClient])
 
   useEffect(() => {
     if (orderNumber && !order) {

@@ -1,38 +1,22 @@
 import { Fragment, useState } from "react"
 import { InferGetStaticPropsType } from "next"
 import Image from "next/image"
-import styled from "@emotion/styled"
-import tw from "twin.macro"
-import { Disclosure, Transition } from "@headlessui/react"
+import { Dialog, Transition } from "@headlessui/react"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getDistributionData } from "@api/queries/pages/about"
-import { PageReturnType, SuppliersReturnType } from "@api/queries/types"
+import { SuppliersReturnType } from "@api/queries/types"
+import { Underlined, underSelect } from "styles/utils"
 
 import { Icon, LoadingDots } from "@components/ui"
-import { IconCard, SupplierCard } from "@components/Cards"
+import { SupplierCard } from "@components/Cards"
+import { ChosenSupplierType } from "@components/Cards/Supplier"
 
 // ####
 // #### Component
 // ####
-
-export const Masonry = styled.div`
-  @media (min-width: 768px) {
-    column-count: 2;
-    column-gap: 1em;
-  }
-  @media (min-width: 1024px) {
-    column-count: 3;
-    column-gap: 1em;
-  }
-  &.break-inside {
-    break-inside: avoid;
-  }
-  // Quick edits below
-  ${tw``}
-`
 
 export default function Distribution({
   suppliers,
@@ -43,93 +27,144 @@ export default function Distribution({
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
 
-  const [openDisclosureKey, setOpenDisclosureKey] = useState("")
+  const [isOpen, setIsOpen] = useState(true)
+  const [chosenSupplier, setChosenSupplier] = useState<
+    ChosenSupplierType | undefined
+  >()
 
-  const toggleDisclosure = (key: string) => {
-    setOpenDisclosureKey(prev => (prev !== key ? key : ""))
-  }
   if (loading) return <LoadingDots />
 
   const sortedSuppliers = [...suppliers].sort((a, b) => {
     return a.title! < b.title! ? -1 : a.title! < b.title! ? 1 : 0
   })
 
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
   return (
-    <div className="relative bg-white pb-16 py-8">
-      <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-        <Masonry className="box-border mx-auto before:box-inherit after:box-inherit">
-          {sortedSuppliers.map(supplier => {
-            // return <SupplierCard supplier={supplier} />
-            return (
-              // <Disclosure as={Fragment} key={supplier.id}>
-              //   {({ open, close }) => (
-              //     <>
-              //       {!open && (
-              //         <Disclosure.Button as={Fragment}>
-              //           <div
-              //             onClick={() =>
-              //               toggleDisclosure(supplier.id || supplier.title!)
-              //             }
-              //             className="overflow-hidden focus:outline-none my-6 rounded-md relative w-full h-full"
-              //           >
-              //             <Image
-              //               src={supplier.supplier?.image?.sourceUrl || ""}
-              //               alt={supplier.supplier?.image?.altText || ""}
-              //               objectFit="contain"
-              //               layout="responsive"
-              //               height={
-              //                 supplier.supplier?.image?.mediaDetails?.height ||
-              //                 100
-              //               }
-              //               width={
-              //                 supplier.supplier?.image?.mediaDetails?.width ||
-              //                 100
-              //               }
-              //             />
-              //           </div>
-              //         </Disclosure.Button>
-              //       )}
-              //       <Transition
-              //         enter="transition duration-100 ease-out"
-              //         enterFrom="transform scale-95 opacity-0"
-              //         enterTo="transform scale-100 opacity-100"
-              //         leave="transition duration-75 ease-out"
-              //         leaveFrom="transform scale-100 opacity-100"
-              //         leaveTo="transform scale-95 opacity-0"
-              //         show={supplier.id === openDisclosureKey}
-              //       >
-              //         <Disclosure.Panel
-              //           onClick={() => {
-              //             setOpenDisclosureKey("")
-              //             close()
-              //           }}
-              //           className="px-4 pt-4 pb-2 text-sm text-gray-500 relative flex flex-col"
-              //         >
-              //           {supplier.supplier?.text}
-              //         </Disclosure.Panel>
-              //       </Transition>
-              //     </>
-              //   )}
-              // </Disclosure>
-              <div className="m-8" key={supplier.id}>
-                <div className="overflow-hidden focus:outline-none my-6 rounded-md relative w-full h-full">
-                  <Image
-                    src={supplier.supplier?.image?.sourceUrl || ""}
-                    alt={supplier.supplier?.image?.altText || ""}
-                    objectFit="contain"
-                    layout="responsive"
-                    height={
-                      supplier.supplier?.image?.mediaDetails?.height || 100
-                    }
-                    width={supplier.supplier?.image?.mediaDetails?.width || 100}
-                  />
-                </div>
+    <>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={closeModal}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0" />
+            </Transition.Child>
+
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="inline-block border-4 border-gray-300 w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                {chosenSupplier && (
+                  <div className="">
+                    {chosenSupplier.image && chosenSupplier.image.sourceUrl && (
+                      <div className="w-full h-full overflow-hidden">
+                        <a
+                          href={chosenSupplier.url || undefined}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <Image
+                            src={chosenSupplier.image.sourceUrl}
+                            width={
+                              chosenSupplier.image.mediaDetails?.width ||
+                              undefined
+                            }
+                            height={
+                              chosenSupplier.image.mediaDetails?.height ||
+                              undefined
+                            }
+                            alt={chosenSupplier.image.altText || undefined}
+                            layout="responsive"
+                            objectFit="fill"
+                            title={chosenSupplier.title || undefined}
+                          />
+                        </a>
+                      </div>
+                    )}
+
+                    {chosenSupplier.text && (
+                      <div className="p-4 h-full text-sm">
+                        <div className="flex items-baseline text-gray-500">
+                          <p className="text-center">{chosenSupplier.text}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    <div
+                      className="bg-blue-main text-gray-100 text-center w-full"
+                      css={underSelect}
+                    >
+                      <a
+                        href={chosenSupplier.url || undefined}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex py-2 items-center justify-center w-full h-full pl-4"
+                      >
+                        <Underlined className="target">
+                          Visit {chosenSupplier.title}
+                        </Underlined>
+                        <div className="px-4">
+                          <Icon
+                            name="external-link"
+                            className="text-gray-700 w-4 ml-4"
+                            type="regular"
+                            iconKey={chosenSupplier.url + "--open-new-window"}
+                          />
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
-            )
-          })}
-        </Masonry>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+      <div className="relative bg-white pb-16 py-8">
+        <div className="mx-auto px-8 lg:max-w-7xl">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {sortedSuppliers.map(supplier => {
+              return (
+                <SupplierCard
+                  supplier={supplier}
+                  key={supplier.id}
+                  setChosenSupplier={setChosenSupplier}
+                  chosenSupplier={chosenSupplier}
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                />
+              )
+            })}
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

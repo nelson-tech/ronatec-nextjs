@@ -159,8 +159,6 @@ const Products = ({
     setLoading(false)
   }
 
-  console.log(initialProducts)
-
   return (
     <div>
       <main className="max-w-7xl mx-auto">

@@ -58,8 +58,6 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
     setSelectedVariation(firstVariation)
   }, [firstVariation, setSelectedVariation])
 
-  console.log("FIRST", firstVariation)
-
   const ADD_MUTATION = gql`
     mutation addCart($input: AddToCartInput!) {
       addToCart(input: $input) {
