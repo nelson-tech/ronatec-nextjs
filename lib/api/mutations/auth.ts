@@ -10,9 +10,9 @@ export const registerMutation = gql`
   }
 `
 export const loginMutation = gql`
-  mutation LoginUser($input: LoginInput!) {
-    login(input: $input) {
-      ${userAuthFragment}
+  mutation LoginUser($input: LoginWithCookiesInput!) {
+    loginWithCookies(input: $input) {
+      status
     }
   }
 `

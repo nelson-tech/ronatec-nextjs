@@ -51,6 +51,10 @@ const createApolloClient = ({
 
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_API_BASE_URL,
+    // Make sure that CORS and cookies work
+    fetchOptions: {
+      mode: "cors",
+    },
     credentials: "include",
     fetch: enhancedFetch,
   })
@@ -71,9 +75,9 @@ const createApolloClient = ({
           authorization?: string
           "woocommerce-session"?: string
         } = {}
-        authToken &&
-          authToken.authToken &&
-          (headers.authorization = `Bearer ${authToken.authToken}`)
+        // authToken &&
+        //   authToken.authToken &&
+        //   (headers.authorization = `Bearer ${authToken.authToken}`)
 
         wooSession && (headers["woocommerce-session"] = `Session ${wooSession}`)
 

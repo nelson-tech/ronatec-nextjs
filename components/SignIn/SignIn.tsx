@@ -33,8 +33,9 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
 
     if (fields.email && fields.password) {
       const userLogin = {
-        username: fields.email,
+        login: fields.email,
         password: fields.password,
+        rememberMe: false,
       }
 
       const { errors } = await login(userLogin, () => {})

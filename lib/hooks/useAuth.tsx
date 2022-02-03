@@ -199,7 +199,7 @@ const useAuth = () => {
   // Login
 
   const login = async (
-    userInput: { username: string; password: string },
+    userInput: { login: string; password: string; rememberMe: boolean },
     callback?: () => any,
   ) => {
     let errors: string | null = null
@@ -217,12 +217,15 @@ const useAuth = () => {
           errorPolicy: "all",
         })
         .then(response => {
-          if (response.data?.login?.user) {
-            const user: User = response.data.login.user
-            user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
-            user.jwtRefreshToken &&
-              setRefreshToken(user.jwtRefreshToken, callback)
+          console.log("COOKIES", response)
+
+          if (response.data?.loginWithCookies?.status === "SUCCESS") {
+            // const user: User = response.data.login.user
+            // user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
+            // user.jwtRefreshToken &&
+            //   setRefreshToken(user.jwtRefreshToken, callback)
             setLoggedIn(true)
+            console.log("LOGGGGG")
           }
 
           if (response.errors) {
@@ -231,6 +234,9 @@ const useAuth = () => {
             ;["invalid_email", "incorrect_password"].includes(error.message) &&
               (errors = "Email or password incorrect.")
           }
+        })
+        .catch(err => {
+          console.log("useAuth Login Error", err)
         })
     }
     return { errors }

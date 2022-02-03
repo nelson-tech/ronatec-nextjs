@@ -27,7 +27,7 @@ export default function Distribution({
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
 
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [chosenSupplier, setChosenSupplier] = useState<
     ChosenSupplierType | undefined
   >()
