@@ -5,6 +5,7 @@ import introspectionResult from "../api/gql/fragment-matcher"
 
 import { initialMenu } from "@lib/hooks/useMainMenu"
 import { AlertState, NormalizedMenuItem } from "@lib/types"
+import { User } from "@api/gql/types"
 
 export const cache: InMemoryCache = new InMemoryCache({
   possibleTypes: introspectionResult.possibleTypes,
@@ -15,6 +16,11 @@ export const cache: InMemoryCache = new InMemoryCache({
         loggedIn: {
           read() {
             return loggedInVar()
+          },
+        },
+        user: {
+          read() {
+            return userVar()
           },
         },
         mainMenu: {
@@ -33,6 +39,7 @@ export const cache: InMemoryCache = new InMemoryCache({
 })
 
 export const loggedInVar = cache.makeVar<boolean>(false)
+export const userVar = cache.makeVar<User | undefined>(undefined)
 
 export const menuVar = cache.makeVar<NormalizedMenuItem[]>(initialMenu)
 

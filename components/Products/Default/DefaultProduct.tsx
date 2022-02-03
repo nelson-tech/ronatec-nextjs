@@ -255,29 +255,27 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
               )}
               <div className="mt-8 flex items-center">
                 <div className="pr-4">Quantity: </div>
-                <form>
-                  <div className="flex items-center space-x-2">
-                    {/* <MinusIcon
+                <div className="flex items-center space-x-2">
+                  {/* <MinusIcon
                       className="h-4 w-4 cursor-pointer"
                       onClick={() => setQuantity(quantity - 1)}
                     /> */}
-                    <input
-                      className="w-16 text-center border py-1 text-sm rounded outline-none focus:bg-white ring-transparent"
-                      value={quantity}
-                      type="number"
-                      min={1}
-                      onChange={e => {
-                        if (Number(e.target.value)) {
-                          setQuantity(Number(e.target.value))
-                        }
-                      }}
-                    />
-                    {/* <PlusIcon
+                  <input
+                    className="w-16 text-center border py-1 text-sm rounded outline-none focus:bg-white ring-transparent"
+                    value={quantity}
+                    type="number"
+                    min={1}
+                    onChange={e => {
+                      if (Number(e.target.value)) {
+                        setQuantity(Number(e.target.value))
+                      }
+                    }}
+                  />
+                  {/* <PlusIcon
                       className="h-4 w-4 cursor-pointer"
                       onClick={() => setQuantity(quantity + 1)}
                     /> */}
-                  </div>
-                </form>
+                </div>
               </div>
               <button
                 type="submit"

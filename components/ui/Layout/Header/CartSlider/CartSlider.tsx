@@ -140,7 +140,7 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                                     ""
                                   return (
                                     <li
-                                      key={product.id}
+                                      key={lineItem.key}
                                       className="py-6 flex items-center"
                                     >
                                       {product.image && (
@@ -234,6 +234,7 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                     <div className="mt-6">
                       <button
                         onClick={handleCheckout}
+                        disabled={cart?.isEmpty !== false}
                         className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-main hover:bg-green-main"
                       >
                         Checkout

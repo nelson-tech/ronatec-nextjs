@@ -1,1 +1,6 @@
-export { loginMutation, refreshMutation, registerMutation } from "./auth"
+export {
+  loginMutation,
+  logoutMutation,
+  refreshMutation,
+  registerMutation,
+} from "./auth"

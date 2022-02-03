@@ -258,7 +258,7 @@ const Filters = ({
                           category.children.nodes.map(subCategory => {
                             if (subCategory?.slug) {
                               return (
-                                <>
+                                <div key={subCategory.id}>
                                   <CategoryItem category={subCategory} child />
                                   {subCategory?.children?.nodes &&
                                     subCategory.children.nodes.length > 0 &&
@@ -274,7 +274,7 @@ const Filters = ({
                                         }
                                       },
                                     )}
-                                </>
+                                </div>
                               )
                             }
                           })}

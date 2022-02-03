@@ -75,9 +75,9 @@ const createApolloClient = ({
           authorization?: string
           "woocommerce-session"?: string
         } = {}
-        // authToken &&
-        //   authToken.authToken &&
-        //   (headers.authorization = `Bearer ${authToken.authToken}`)
+        authToken &&
+          authToken.authToken &&
+          (headers.authorization = `Bearer ${authToken.authToken}`)
 
         wooSession && (headers["woocommerce-session"] = `Session ${wooSession}`)
 

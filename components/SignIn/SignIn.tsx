@@ -9,7 +9,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
-import { useAuth, useFormFields } from "@lib/hooks"
+import { useAlert, useAuth, useFormFields } from "@lib/hooks"
 import { ParsedUrlQuery } from "querystring"
 
 type SignInProps = {
@@ -18,9 +18,10 @@ type SignInProps = {
 }
 
 const SignIn = ({ modalRef, setOpen }: SignInProps) => {
-  const { loggedIn, login } = useAuth()
+  const { loggedIn, user, login } = useAuth()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
+  const { alert, showAlert } = useAlert()
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -49,10 +50,19 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
   useEffect(() => {
     if (loggedIn) {
       const rederict = (router.query?.redirect as string) || undefined
-      router.push(rederict || "/dashboard")
+      router.push(rederict || "/products")
+      showAlert({
+        open: true,
+        type: "success",
+        primary: `Welcome back${(user?.firstName || user?.lastName) && ","}${
+          user?.firstName && ` ${user.firstName}`
+        }${user?.lastName && ` ${user.lastName}`}!`,
+        secondary: "You are now logged in.",
+      })
+
       setOpen && setOpen(false)
     }
-  }, [loggedIn, router, setOpen])
+  }, [loggedIn, router, setOpen, showAlert, user?.firstName, user?.lastName])
 
   return (
     <>

@@ -319,8 +319,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     errorPolicy: "all",
   })
 
-  console.log("ERR", error)
-
   const {
     data: { menu },
     loading: menuLoading,

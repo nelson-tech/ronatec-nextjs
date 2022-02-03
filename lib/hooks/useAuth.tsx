@@ -4,16 +4,17 @@ import isEqual from "lodash.isequal"
 import { v4 as uuid } from "uuid"
 import jwt_decode, { JwtPayload } from "jwt-decode"
 
-import { loggedInVar } from "@lib/apollo/cache"
+import { loggedInVar, userVar } from "@lib/apollo/cache"
 import { InMemoryAuthTokenType } from "@lib/types"
 import { initializeApollo } from "@lib/apollo"
-import { loginMutation, refreshMutation } from "@api/mutations"
+import { loginMutation, logoutMutation, refreshMutation } from "@api/mutations"
 import { User } from "@api/gql/types"
 import { authConstants } from "@lib"
 import { isServer } from "@lib/utils"
 
 const useAuth = () => {
   const loggedIn = useReactiveVar(loggedInVar)
+  const user = useReactiveVar(userVar)
 
   // Setters
 
@@ -34,6 +35,11 @@ const useAuth = () => {
   const setLoggedIn = (loggedIn: boolean) => {
     const currentAuth = loggedInVar()
     loggedIn !== currentAuth && loggedInVar(loggedIn)
+  }
+
+  const setUser = (user?: User) => {
+    const currentUser = userVar()
+    currentUser !== user && userVar(user)
   }
 
   const setRefreshToken = (refreshToken: string, callback?: () => any) => {
@@ -205,27 +211,31 @@ const useAuth = () => {
     let errors: string | null = null
     if (!isServer) {
       const client = initializeApollo({})
-      const input = {
+      const cookiesInput = {
         clientMutationId: getClientMutationId(),
         ...userInput,
+      }
+      const jwtInput = {
+        clientMutationId: getClientMutationId(),
+        username: userInput.login,
+        password: userInput.password,
       }
 
       await client
         .mutate({
           mutation: loginMutation,
-          variables: { input },
+          variables: { cookiesInput, jwtInput },
           errorPolicy: "all",
         })
         .then(response => {
-          console.log("COOKIES", response)
-
           if (response.data?.loginWithCookies?.status === "SUCCESS") {
-            // const user: User = response.data.login.user
-            // user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
-            // user.jwtRefreshToken &&
-            //   setRefreshToken(user.jwtRefreshToken, callback)
+            const user: User = response.data.login.user
+            setUser(user)
+
+            user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
+            user.jwtRefreshToken &&
+              setRefreshToken(user.jwtRefreshToken, callback)
             setLoggedIn(true)
-            console.log("LOGGGGG")
           }
 
           if (response.errors) {
@@ -244,26 +254,43 @@ const useAuth = () => {
 
   // Logout
 
-  const logout = (callback?: () => any) => {
+  const logout = async (callback?: () => any) => {
     if (!isServer) {
-      localStorage.removeItem(authConstants.AUTH_TOKEN_KEY)
-      localStorage.removeItem(authConstants.REFRESH_TOKEN_KEY)
+      const client = initializeApollo({})
 
-      localStorage.setItem(
-        authConstants.LOGGED_OUT_KEY,
-        JSON.stringify(Date.now()),
-      )
+      await client
+        .mutate({
+          mutation: logoutMutation,
+          variables: { input: { clientMutationId: getClientMutationId() } },
+          errorPolicy: "all",
+        })
+        .then(async r => {
+          localStorage.removeItem(authConstants.AUTH_TOKEN_KEY)
+          localStorage.removeItem(authConstants.REFRESH_TOKEN_KEY)
 
-      setLoggedIn(false)
+          localStorage.setItem(
+            authConstants.LOGGED_OUT_KEY,
+            JSON.stringify(Date.now()),
+          )
 
-      if (callback) {
-        callback()
-      }
+          setLoggedIn(false)
+          setUser()
+
+          await client.refetchQueries({ include: ["CartQuery"] })
+
+          if (callback) {
+            callback()
+          }
+        })
+        .catch(err => {
+          console.log("useAuth Logout Error", err)
+        })
     }
   }
 
   return {
     loggedIn,
+    user,
     getAuthToken,
     getClientMutationId,
     getClientShopId,
