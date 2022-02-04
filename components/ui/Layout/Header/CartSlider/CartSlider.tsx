@@ -288,7 +288,11 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                       </div>
                     </div>
 
-                    <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
+                    <div
+                      className={`border-t border-gray-200 py-6 px-4 sm:px-6${
+                        cart?.isEmpty !== false && " hidden"
+                      }`}
+                    >
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
                         <p>{cart?.subtotal}</p>
@@ -296,7 +300,6 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                       <div className="mt-6">
                         <button
                           onClick={handleCheckout}
-                          disabled={cart?.isEmpty !== false}
                           className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-main hover:bg-green-main"
                         >
                           Checkout

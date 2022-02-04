@@ -181,6 +181,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                                 >
                                   <MenuLink
                                     href={path}
+                                    title={menuItem.label}
                                     className={getDesktopLinkStyle({
                                       open: false,
                                       path,

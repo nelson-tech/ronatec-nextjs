@@ -79,7 +79,9 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                 if (menuItem.mega) {
                   return (
                     <div key={menuItem.id} className="flow-root">
-                      <div className={bigLinkStyle}>{menuItem.label}</div>
+                      <div className={bigLinkStyle} title={menuItem.label}>
+                        {menuItem.label}
+                      </div>
                       <div className="pt-2">
                         {menuItem.children &&
                           menuItem.children.map(column => {
@@ -92,6 +94,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                                       {({ open }) => (
                                         <>
                                           <Disclosure.Button
+                                            title={subColumn.label}
                                             className={`group pl-8 pr-8 flex justify-between w-full py-3 ${
                                               open
                                                 ? " bg-green-main text-white"
@@ -130,6 +133,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                                                         >
                                                           <MenuLink
                                                             href={item.path}
+                                                            title={item.label}
                                                             className="w-full"
                                                           >
                                                             <div className="w-full py-3">
@@ -155,6 +159,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                                   {({ open }) => (
                                     <>
                                       <Disclosure.Button
+                                        title={column.label}
                                         className={`group pl-8 pr-8 flex justify-between w-full py-3 ${
                                           open
                                             ? " bg-green-main text-white"
@@ -192,6 +197,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                                                   >
                                                     <MenuLink
                                                       href={item.path}
+                                                      title={item.label}
                                                       className="w-full"
                                                     >
                                                       <div className="w-full py-3">
@@ -217,7 +223,9 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                 if (menuItem.children) {
                   return (
                     <div key={menuItem.id} className="flow-root">
-                      <div className={bigLinkStyle}>{menuItem.label}</div>
+                      <div className={bigLinkStyle} title={menuItem.label}>
+                        {menuItem.label}
+                      </div>
                       <div className="pt-2">
                         {menuItem.children.map(child => {
                           return (
@@ -226,7 +234,11 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                               className="font-bold text-sm text-gray-600 transition px-8 hover:bg-blue-main hover:text-white"
                               onClick={() => setOpen(false)}
                             >
-                              <MenuLink href={child.path} className="">
+                              <MenuLink
+                                href={child.path}
+                                title={child.label}
+                                className=""
+                              >
                                 <div className="w-full py-3">{child.label}</div>
                               </MenuLink>
                             </div>
@@ -242,7 +254,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                       className={bigLinkStyle}
                       onClick={() => setOpen(false)}
                     >
-                      <MenuLink href={menuItem.path}>
+                      <MenuLink href={menuItem.path} title={menuItem.label}>
                         <div className="w-full">{menuItem.label}</div>
                       </MenuLink>
                     </div>
@@ -262,6 +274,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                     >
                       <MenuLink
                         href={item.href}
+                        title={item.name}
                         className="transition flex items-center px-3.5 py-2 hover:bg-blue-main hover:text-white"
                       >
                         {item.icon({ className: "h-6 w-6 mr-4" })}
@@ -276,6 +289,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                         router.push("/")
                       })
                     }
+                    title="Sign out"
                     className="transition outline-none"
                   >
                     <div className="flex items-center w-full px-4 py-2 transition text-red-main hover:bg-red-main hover:text-white cursor-pointer">
@@ -289,6 +303,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                   <div className="group" onClick={() => setOpen(false)}>
                     <MenuLink
                       href="/register"
+                      title="Register"
                       className="transition flex items-center outline-none px-3.5 py-2 hover:bg-blue-main hover:text-white"
                     >
                       <ClipboardCheckIcon className="h-6 w-6 mr-4" />
@@ -298,6 +313,7 @@ const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
                   <div onClick={() => setOpen(false)} className="group">
                     <MenuLink
                       href="/login"
+                      title="Sign in"
                       className="transition flex items-center outline-none text-green-main px-4 py-2 hover:bg-green-main hover:text-white"
                     >
                       <LoginIcon className="h-6 w-6 mr-3.5" />
