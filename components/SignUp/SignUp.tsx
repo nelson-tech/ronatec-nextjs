@@ -54,9 +54,10 @@ const SignUpForm = () => {
 
           if (user) {
             setAuthToken(user.jwtAuthToken)
-            setRefreshToken(user.jwtRefreshToken, () =>
-              router.push("/dashboard/"),
-            )
+            setRefreshToken(user.jwtRefreshToken, () => {
+              const rederict = (router.query?.redirect as string) || undefined
+              router.push(rederict || "/dashboard")
+            })
           }
           // TODO - Handle error cases
         }

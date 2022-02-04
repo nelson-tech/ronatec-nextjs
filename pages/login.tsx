@@ -1,17 +1,29 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import { useAuth, useMainMenu } from "@lib/hooks"
 import { getGeneralPageData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
 import { SignIn } from "@components"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 const Login = ({
   menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
+
+  const { loggedIn } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (loggedIn) {
+      const rederict = (router.query?.redirect as string) || undefined
+      router.push(rederict || "/products/")
+    }
+  }, [router, loggedIn])
 
   return <SignIn />
 }

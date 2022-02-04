@@ -11,10 +11,13 @@ import { loginMutation, logoutMutation, refreshMutation } from "@api/mutations"
 import { User } from "@api/gql/types"
 import { authConstants } from "@lib"
 import { isServer } from "@lib/utils"
+import { useAlert } from "."
 
 const useAuth = () => {
   const loggedIn = useReactiveVar(loggedInVar)
   const user = useReactiveVar(userVar)
+
+  const { showAlert } = useAlert()
 
   // Setters
 
@@ -48,6 +51,7 @@ const useAuth = () => {
 
       localStorage.setItem(authConstants.REFRESH_TOKEN_KEY, refreshToken)
       localStorage.removeItem(authConstants.LOGGED_OUT_KEY)
+      setLoggedIn(true)
 
       if (callback) {
         callback()
@@ -233,9 +237,22 @@ const useAuth = () => {
             setUser(user)
 
             user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
-            user.jwtRefreshToken &&
-              setRefreshToken(user.jwtRefreshToken, callback)
+            user.jwtRefreshToken && setRefreshToken(user.jwtRefreshToken)
+
             setLoggedIn(true)
+
+            showAlert({
+              open: true,
+              type: "success",
+              primary: `Welcome back${
+                (user?.firstName || user?.lastName) && ","
+              }${user?.firstName && ` ${user.firstName}`}${
+                user?.lastName && ` ${user.lastName}`
+              }!`,
+              secondary: "You are now logged in.",
+            })
+
+            callback && callback()
           }
 
           if (response.errors) {
@@ -275,6 +292,13 @@ const useAuth = () => {
 
           setLoggedIn(false)
           setUser()
+
+          showAlert({
+            open: true,
+            primary: "Logged out.",
+            secondary: "",
+            type: "info",
+          })
 
           await client.refetchQueries({ include: ["CartQuery"] })
 

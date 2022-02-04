@@ -2,6 +2,7 @@ import {
   Dispatch,
   FormEventHandler,
   SetStateAction,
+  useCallback,
   useEffect,
   useState,
 } from "react"
@@ -9,8 +10,7 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
-import { useAlert, useAuth, useFormFields } from "@lib/hooks"
-import { ParsedUrlQuery } from "querystring"
+import { useAuth, useFormFields } from "@lib/hooks"
 
 type SignInProps = {
   modalRef?: string
@@ -18,10 +18,11 @@ type SignInProps = {
 }
 
 const SignIn = ({ modalRef, setOpen }: SignInProps) => {
-  const { loggedIn, user, login } = useAuth()
   const router = useRouter()
+
   const [error, setError] = useState<string | null>(null)
-  const { alert, showAlert } = useAlert()
+
+  const { loggedIn, user, login } = useAuth()
 
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -39,7 +40,10 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
         rememberMe: false,
       }
 
-      const { errors } = await login(userLogin, () => {})
+      const { errors } = await login(userLogin, () => {
+        const rederict = (router.query?.redirect as string) || undefined
+        router.push(rederict || "/products")
+      })
 
       if (errors) {
         setError(errors)
@@ -49,31 +53,15 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
 
   useEffect(() => {
     if (loggedIn) {
-      const rederict = (router.query?.redirect as string) || undefined
-      router.push(rederict || "/products")
-      showAlert({
-        open: true,
-        type: "success",
-        primary: `Welcome back${(user?.firstName || user?.lastName) && ","}${
-          user?.firstName && ` ${user.firstName}`
-        }${user?.lastName && ` ${user.lastName}`}!`,
-        secondary: "You are now logged in.",
-      })
-
       setOpen && setOpen(false)
     }
-  }, [loggedIn, router, setOpen, showAlert, user?.firstName, user?.lastName])
+  }, [loggedIn, setOpen])
 
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            {/* <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Workflow"
-            /> */}
             <h2 className="text-center text-3xl font-extrabold text-gray-700">
               Sign in to your account
             </h2>
@@ -82,7 +70,13 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
                 <span className="pr-0.5">Or</span>
               </div>
               <div onClick={() => setOpen && setOpen(false)}>
-                <Link href={"/register"} passHref>
+                <Link
+                  href={`/register${
+                    router.query?.redirect &&
+                    `?redirect=${router.query.redirect}`
+                  }`}
+                  passHref
+                >
                   <a className="font-medium text-blue-main hover:text-green-main">
                     click here to register
                   </a>
