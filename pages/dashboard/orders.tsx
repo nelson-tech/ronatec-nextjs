@@ -81,7 +81,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
               <h2 className="sr-only">Refresh orders</h2>
               <RefreshIcon
                 className={`h-6 w-6${
-                  refreshing && " animate-spin text-green-main"
+                  refreshing && " animate-reverse-spin text-green-main"
                 }`}
               />
             </div>
