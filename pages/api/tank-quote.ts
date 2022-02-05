@@ -1,12 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next"
-import * as nodemailer from "nodemailer"
-import Mail from "nodemailer/lib/mailer"
+import nodemailer from "nodemailer"
 require("dotenv").config()
 
 const USERNAME = process.env.MAIL_USERNAME
 const PASSWORD = process.env.MAIL_PASSWORD
 
-export default function (req: NextApiRequest, res: NextApiResponse) {
+const TankQuote = (req: NextApiRequest, res: NextApiResponse) => {
   const smtpConfig = {
     service: "gmail",
     auth: {
@@ -37,3 +36,5 @@ export default function (req: NextApiRequest, res: NextApiResponse) {
     }
   })
 }
+
+export default TankQuote

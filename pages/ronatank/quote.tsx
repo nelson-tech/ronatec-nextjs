@@ -125,9 +125,8 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
             <div className="mt-5 md:mt-0 md:col-span-2">
               <form
                 onSubmit={handleSubmit(data => {
-                  console.log(JSON.stringify(data))
                   setLoading(true)
-                  fetch("/api/mail", {
+                  fetch("/api/tank-quote", {
                     method: "POST",
                     headers: {
                       Accept: "application/json, text/plain, */*",
@@ -135,8 +134,6 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
                     },
                     body: JSON.stringify(data),
                   }).then(res => {
-                    console.log("RESPONSE", res)
-
                     if (res.status === 200) {
                       setFormStatus("Quote request sent.")
                     } else {
