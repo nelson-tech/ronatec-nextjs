@@ -13,6 +13,7 @@ import { Order } from "@api/gql/types"
 import { useApolloClient } from "@apollo/client"
 import { getUserOrder } from "@api/queries/pages/dashboard"
 import { MenuLink } from "@components/ui"
+import { RefreshIcon } from "@heroicons/react/outline"
 
 const Thanks = ({
   // page,
@@ -22,6 +23,8 @@ const Thanks = ({
 InferGetStaticPropsType<typeof getStaticProps>) => {
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
+
+  const [loading, setLoading] = useState(false)
 
   const [orderNumber, setOrderNumber] = useState<
     string | string[] | undefined
@@ -34,6 +37,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 
   useEffect(() => {
     if (router.query.order && !orderNumber) {
+      setLoading(true)
       const orderNum = router.query.order
       setOrderNumber(orderNum)
       apolloClient
@@ -53,6 +57,9 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
         .catch(error => {
           console.log("ERR", error)
         })
+        .then(() => {
+          setLoading(false)
+        })
     }
   }, [router, orderNumber, setOrderNumber, apolloClient])
 
@@ -61,7 +68,7 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
     }
   })
 
-  return (
+  return orderNumber ? (
     <>
       <div className="max-w-7xl mx-auto">
         <div className="py-8 px-6 w-full">
@@ -77,6 +84,13 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
           <div className="mt-6 pt-6 border-t">
             {order ? (
               <OrderDetails order={order} />
+            ) : loading ? (
+              <>
+                <div className="px-6 text-gray-500 flex items-center">
+                  Fetching order details...
+                  <RefreshIcon className="h-6 w-6 text-green-main animate-reverse-spin ml-2" />
+                </div>
+              </>
             ) : (
               <div className="px-6 text-gray-500">
                 <div className="pb-4">
@@ -99,6 +113,16 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="max-w-7xl mx-auto">
+        <div className="py-8 px-6 w-full">
+          <h2 className="text-xl font-extrabold text-gray-400 text-center">
+            Oops, no order number found...
+          </h2>
         </div>
       </div>
     </>

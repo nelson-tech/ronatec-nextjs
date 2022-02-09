@@ -130,7 +130,9 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
               setAddLoading(false)
             })
           } else {
-            setError("Error adding to the shopping cart.")
+            setError(
+              "Error adding to the shopping cart. Please try refreshing the page.",
+            )
             setAddLoading(false)
           }
         },
