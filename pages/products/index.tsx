@@ -37,7 +37,7 @@ import {
 import { Product, ProductCategory } from "@api/gql/types"
 import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
 
-import { Image, ProductCard, SignIn, Sort } from "@components"
+import { Image, ProductCard, Sort } from "@components"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 import { useApolloClient } from "@apollo/client"
 import { LoadingDots } from "@components/ui"

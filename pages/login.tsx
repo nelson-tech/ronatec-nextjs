@@ -5,7 +5,7 @@ import { useAuth, useMainMenu } from "@lib/hooks"
 import { getGeneralPageData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
-import { SignIn } from "@components"
+import { LoginForm } from "@components"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
@@ -25,7 +25,7 @@ const Login = ({
     }
   }, [router, loggedIn])
 
-  return <SignIn />
+  return <LoginForm />
 }
 
 export default Login

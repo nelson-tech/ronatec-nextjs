@@ -7,13 +7,13 @@ import {
   useForm,
   useWatch,
 } from "react-hook-form"
+import { ErrorMessage } from "@hookform/error-message"
 import { RefreshIcon } from "@heroicons/react/outline"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getGeneralPageData } from "@api/queries/pages"
-import { ErrorMessage } from "@hookform/error-message"
 
 const Quote = ({
   // page,
@@ -507,7 +507,9 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 
                 <div className="flex justify-end items-center">
                   {loading && (
-                    <RefreshIcon className="text-green-main w-6 animate-reverse-spin mr-4" />
+                    <div className="flip">
+                      <RefreshIcon className="text-green-main w-6 animate-reverse-spin mr-4" />
+                    </div>
                   )}
                   <input
                     type="reset"

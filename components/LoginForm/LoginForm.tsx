@@ -11,6 +11,7 @@ import Link from "next/link"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
 import { useAuth, useFormFields } from "@lib/hooks"
+import { MenuLink } from "@components/ui"
 
 type SignInProps = {
   modalRef?: string
@@ -135,12 +136,12 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
             </div>
 
             <div className="text-sm text-center">
-              <a
-                href="/reset"
+              <MenuLink
+                href="/reset-password"
                 className="font-medium text-blue-main hover:text-green-main"
               >
                 Forgot your password?
-              </a>
+              </MenuLink>
             </div>
 
             <div>

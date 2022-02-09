@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
+import { InferGetStaticPropsType } from "next"
+import { useRouter } from "next/router"
+import { ArrowLeftIcon } from "@heroicons/react/outline"
+
+import { addApolloState, initializeApollo } from "@lib/apollo"
+import { useAuth, useMainMenu } from "@lib/hooks"
+import { normalize } from "@api/utils"
 import { Order } from "@api/gql/types"
 import { getGeneralPageData } from "@api/queries/pages"
 import { getUserOrder } from "@api/queries/pages/dashboard"
-import { normalize } from "@api/utils"
-import { gql, useApolloClient, useQuery } from "@apollo/client"
-import { LoadingDots, MenuLink } from "@components/ui"
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useAuth, useMainMenu } from "@lib/hooks"
-import { InferGetStaticPropsType } from "next"
-import { useRouter } from "next/router"
-import { ArrowLeftIcon, RefreshIcon } from "@heroicons/react/outline"
-import isEqual from "lodash.isequal"
-import { FullProduct } from "@lib/types"
+import { useApolloClient, useQuery } from "@apollo/client"
+
 import { OrderDetails } from "@components"
+import { LoadingDots, MenuLink } from "@components/ui"
 
 const OrderDetailsPage = ({
   // page,

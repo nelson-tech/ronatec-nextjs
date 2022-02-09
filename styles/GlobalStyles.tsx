@@ -75,6 +75,13 @@ export const customStyles = css`
       ${tw`text-base`}
     }
   }
+
+  .flip {
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+  }
 `
 
 const GlobalStyles = () => (

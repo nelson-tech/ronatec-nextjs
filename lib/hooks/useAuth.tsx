@@ -1,17 +1,34 @@
 import { useCallback, useEffect } from "react"
-import { useReactiveVar } from "@apollo/client"
-import isEqual from "lodash.isequal"
+import { ApolloQueryResult, gql, useReactiveVar } from "@apollo/client"
 import { v4 as uuid } from "uuid"
 import jwt_decode, { JwtPayload } from "jwt-decode"
 
 import { loggedInVar, userVar } from "@lib/apollo/cache"
 import { InMemoryAuthTokenType } from "@lib/types"
 import { initializeApollo } from "@lib/apollo"
-import { loginMutation, logoutMutation, refreshMutation } from "@api/mutations"
-import { User } from "@api/gql/types"
+import {
+  loginMutation,
+  logoutMutation,
+  refreshMutation,
+  registerMutation,
+} from "@api/mutations"
+import { RegisterUserInput, User } from "@api/gql/types"
 import { authConstants } from "@lib"
 import { isServer } from "@lib/utils"
 import { useAlert } from "."
+
+const userQuery = gql`
+  query UserQuery($id: ID!) {
+    user(id: $id, idType: DATABASE_ID) {
+      id
+      databaseId
+      firstName
+      lastName
+      username
+      email
+    }
+  }
+`
 
 const useAuth = () => {
   const loggedIn = useReactiveVar(loggedInVar)
@@ -23,9 +40,18 @@ const useAuth = () => {
 
   const setAuthToken = useCallback((serverAuthToken: string) => {
     if (!isServer) {
+      const authTokenData = jwt_decode<{
+        iss: string
+        iat: number
+        nbf: number
+        exp: number
+        data: { user: { id: string } }
+      }>(serverAuthToken)
+
       const authToken = {
         authToken: serverAuthToken,
-        authExpiration: jwt_decode<JwtPayload>(serverAuthToken).exp || null,
+        userId: authTokenData.data.user.id,
+        authExpiration: authTokenData.exp || null,
       }
 
       localStorage.setItem(
@@ -156,7 +182,6 @@ const useAuth = () => {
               // Refresh successful
               setAuthToken(authToken)
               !loggedIn && setLoggedIn(true)
-              console.log("silentRefresh #3!")
             } else {
               // Refresh failed. User must login
               loggedIn && setLoggedIn(false)
@@ -189,22 +214,36 @@ const useAuth = () => {
     refreshAuthToken,
   ])
 
-  // const syncLoginStatus = (event: any) => {
-  //   if (event.key === authConstants.LOGGED_OUT_KEY && !loggedIn) {
-  //     // logout(navigate("/dashboard/"))
-  //   }
-  // }
+  // Populate User
 
-  // /**
-  //  * Make sure, User is logged out on all Tabs
-  //  */
-  // useEffect(() => {
-  //   window.addEventListener("storage", syncLoginStatus)
+  const fetchUser = useCallback(async () => {
+    const client = initializeApollo({})
 
-  //   return () => {
-  //     window.removeEventListener("storage", syncLoginStatus)
-  //   }
-  // })
+    if (client) {
+      const authData = getAuthToken()
+
+      if (authData?.userId) {
+        const userReturnData: ApolloQueryResult<{ user: User }> =
+          await client.query({
+            query: userQuery,
+            variables: { id: authData.userId },
+            errorPolicy: "all",
+          })
+
+        if (userReturnData?.data) {
+          const { ...userData } = userReturnData.data.user
+
+          userData && setUser(userData)
+        }
+      }
+    }
+  }, [getAuthToken])
+
+  useEffect(() => {
+    if (loggedIn && !user) {
+      fetchUser()
+    }
+  })
 
   // Login
 
@@ -312,6 +351,70 @@ const useAuth = () => {
     }
   }
 
+  const registerUser = async ({
+    input,
+    callback,
+  }: {
+    input: RegisterUserInput
+    callback?: () => any
+  }) => {
+    if (!isServer) {
+      const client = initializeApollo({})
+
+      let error: string | null = null
+
+      console.log("INPUT", input)
+
+      await client
+        .mutate({
+          mutation: registerMutation,
+          variables: { input },
+          errorPolicy: "all",
+        })
+        .then(async r => {
+          console.log("REGISTER RES", r)
+
+          const { data, errors } = r
+
+          const registerUser = data?.registerUser
+          if (registerUser) {
+            const user = (registerUser.user as User) || null
+
+            if (user) {
+              user.jwtAuthToken && setAuthToken(user.jwtAuthToken)
+              user.jwtRefreshToken &&
+                setRefreshToken(user.jwtRefreshToken, callback)
+
+              showAlert({
+                open: true,
+                type: "success",
+                primary: `Welcome${(user?.firstName || user?.lastName) && ","}${
+                  user?.firstName && ` ${user.firstName}`
+                }${user?.lastName && ` ${user.lastName}`}!`,
+                secondary: "You are now registered.",
+              })
+            }
+            // TODO - Handle error cases
+          }
+
+          if (errors && errors.length > 0) {
+            if (
+              errors[0].message.includes(
+                "This email address is already registered.",
+              )
+            )
+              error = "This email address is already registered."
+          }
+
+          console.log("REG ERR", error)
+        })
+        .catch(e => {
+          console.log("REGISTER ERROR", e)
+        })
+      return error
+    }
+  }
+
   return {
     loggedIn,
     user,
@@ -321,8 +424,11 @@ const useAuth = () => {
     login,
     logout,
     refreshAuthToken,
+    registerUser,
     setAuthToken,
+    setLoggedIn,
     setRefreshToken,
+    setUser,
   }
 }
 

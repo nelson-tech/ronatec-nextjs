@@ -48,5 +48,5 @@ export const alertVar = cache.makeVar<AlertState>({
   primary: "",
   secondary: "",
   type: "success",
-  timeout: 1500,
+  timeout: 2000,
 })

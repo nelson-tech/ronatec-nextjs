@@ -15,7 +15,7 @@ import { Cart } from "@api/gql/types"
 import { cartBaseFragment } from "@api/queries/fragments/products"
 
 import { Icon, MenuLink, Modal } from "@components/ui"
-import { SearchForm, SignIn, Image } from "@components"
+import { SearchForm, LoginForm } from "@components"
 import Promo from "./Promo"
 import MobileMenu from "./MobileMenu"
 import Usernav from "./Usernav"
@@ -106,7 +106,7 @@ const Header = ({ promo = false }: HeaderProps) => {
       />
 
       <Modal open={signInOpen} setOpen={setSignInOpen}>
-        <SignIn />
+        <LoginForm />
       </Modal>
 
       <Modal open={searchOpen} setOpen={setSearchOpen}>

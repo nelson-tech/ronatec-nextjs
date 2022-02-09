@@ -1,72 +1,82 @@
-import React, { FormEventHandler, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { useMutation } from "@apollo/client"
-import { v4 as uuid } from "uuid"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { ErrorMessage } from "@hookform/error-message"
+import { RefreshIcon } from "@heroicons/react/outline"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
-import { useAuth, useFormFields } from "@lib/hooks"
-import { LoadingDots } from "@components/ui"
-import { registerMutation } from "@api/mutations"
+import { useAuth } from "@lib/hooks"
 
-const SignUpForm = () => {
+import { MenuLink } from "@components/ui"
+
+const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
   const router = useRouter()
 
-  const { loggedIn, setAuthToken, setRefreshToken } = useAuth()
+  const { loggedIn, getClientMutationId, registerUser } = useAuth()
 
   useEffect(() => {
     if (loggedIn) {
-      router.push("/dashboard/")
+      router.push("/products")
     }
   }, [loggedIn, router])
 
-  const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
+  const {
+    formState: { errors },
+    register,
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
   })
 
-  const [registrationMutation] = useMutation(registerMutation)
+  const onSubmit: SubmitHandler<{
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+  }> = async data => {
+    const { firstName, lastName, email, password } = data
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
-    event.preventDefault()
     setLoading(true)
+    setError(null)
+
+    console.log(data)
 
     const input = {
-      clientMutationId: uuid(),
-      username: fields.email,
-      firstName: fields.firstName || null,
-      lastName: fields.lastName || null,
-      email: fields.email,
-      password: fields.password,
+      clientMutationId: getClientMutationId(),
+      username: email,
+      firstName,
+      lastName,
+      email,
+      password,
     }
 
-    await registrationMutation({
-      variables: {
-        input,
-      },
-      onCompleted({ registerUser }) {
-        if (registerUser) {
-          const user = registerUser.user || null
-
-          if (user) {
-            setAuthToken(user.jwtAuthToken)
-            setRefreshToken(user.jwtRefreshToken, () => {
-              const rederict = (router.query?.redirect as string) || undefined
-              router.push(rederict || "/dashboard")
-            })
-          }
-          // TODO - Handle error cases
-        }
-      },
-      onError({ message }) {
-        setError(message.split(":")[1])
-      },
+    const err = await registerUser({
+      input,
     })
+
+    err && setError(err)
+
     setLoading(false)
+  }
+
+  const ErrorField = ({ name }: { name: string }) => {
+    return (
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => (
+          <p className="text-red-main text-sm pt-2 pl-2">{message}</p>
+        )}
+      />
+    )
   }
 
   return (
@@ -82,20 +92,19 @@ const SignUpForm = () => {
             className="mt-8 space-y-6"
             action="#"
             method="post"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className="rounded-md -space-y-px">
               <div>
                 <label htmlFor="given-name" className="sr-only">
                   First Name
                 </label>
                 <input
                   id="first-name"
-                  name="firstName"
-                  type="given-name"
+                  {...register("firstName")}
+                  type="text"
                   autoComplete="given-name"
-                  onChange={handleFieldChange}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="First Name"
                 />
@@ -106,11 +115,10 @@ const SignUpForm = () => {
                   Last Name
                 </label>
                 <input
-                  id="last-name"
-                  name="lastName"
-                  type="family-name"
+                  id="family-name"
+                  {...register("lastName")}
+                  type="text"
                   autoComplete="family-name"
-                  onChange={handleFieldChange}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Last Name"
                 />
@@ -121,11 +129,9 @@ const SignUpForm = () => {
                 </label>
                 <input
                   id="email-address"
-                  name="email"
                   type="email"
                   autoComplete="email"
-                  onChange={handleFieldChange}
-                  required
+                  {...register("email", { required: "Email is required." })}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
@@ -136,17 +142,21 @@ const SignUpForm = () => {
                 </label>
                 <input
                   id="password"
-                  name="password"
                   type="password"
                   autoComplete="current-password"
                   minLength={8}
                   maxLength={32}
-                  required
-                  onChange={handleFieldChange}
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
+              <ErrorField name="firstName" />
+              <ErrorField name="lastName" />
+              <ErrorField name="email" />
+              <ErrorField name="password" />
             </div>
 
             <div>
@@ -157,7 +167,12 @@ const SignUpForm = () => {
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3 ">
                   {loading ? (
-                    <LoadingDots />
+                    <div className="flip">
+                      <RefreshIcon
+                        className="h-5 w-5 animate-reverse-spin text-white"
+                        aria-hidden="true"
+                      />
+                    </div>
                   ) : (
                     <LockClosedIcon
                       className="h-5 w-5 text-gray-200 group-hover:text-white"
@@ -169,8 +184,17 @@ const SignUpForm = () => {
               </button>
             </div>
 
-            <div>
-              <div className="text-sm text-red-600">{error}</div>
+            <div className="flex items-center relative">
+              <div className="text-sm text-red-main">{error}&nbsp;</div>
+              <div className="text-sm absolute right-0">
+                <MenuLink
+                  title="Login"
+                  href="/login"
+                  className="text-blue-main hover:text-green-main transition"
+                >
+                  Click here to login.
+                </MenuLink>
+              </div>
             </div>
           </form>
         </div>
@@ -179,4 +203,4 @@ const SignUpForm = () => {
   )
 }
 
-export default SignUpForm
+export default RegisterForm

@@ -1,28 +1,32 @@
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
+import { InferGetStaticPropsType } from "next"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getGeneralPageData } from "@api/queries/pages"
+import { ResetPasswordForm } from "@components"
 
-import { RegisterForm } from "@components"
-
-const Register = ({
+const ResetPassword = ({
+  // page,
   menuItems,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: // loading,
+// error,
+InferGetStaticPropsType<typeof getStaticProps>) => {
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
 
   return (
-    <div>
-      <RegisterForm />
-    </div>
+    <>
+      <div>
+        <ResetPasswordForm />
+      </div>
+    </>
   )
 }
 
-export default Register
+export default ResetPassword
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getStaticProps() {
   const client = initializeApollo({})
 
   const {
@@ -36,7 +40,12 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const menuItems = normalize.menu(menu)
 
   const staticProps = {
-    props: { menuItems },
+    props: {
+      // loading,
+      // page,
+      menuItems,
+      // error: error || null,
+    },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 
