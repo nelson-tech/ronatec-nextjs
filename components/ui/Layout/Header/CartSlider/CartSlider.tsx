@@ -1,21 +1,28 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, Fragment, SetStateAction, useState } from "react"
+import dynamic from "next/dynamic"
 import router from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { Dialog, Transition } from "@headlessui/react"
 import { ArrowRightIcon, XIcon } from "@heroicons/react/outline"
 
+import { useAuth } from "@lib/hooks"
 import { Cart } from "@api/gql/types"
 
-import { Image } from "@components"
 import { CartPane } from "./style"
-import { MenuLink, Modal } from "@components/ui"
-import { useAuth } from "@lib/hooks"
 
-type CartProps = {
-  open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
-  cart: Cart | null | undefined
-}
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Image = dynamic(() => import("@components/Image"), importOpts)
+const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+const Modal = dynamic(() => import("@components/ui/Modal"), importOpts)
+
+// ####
+// #### Variables
+// ####
 
 const clearCart = gql`
   mutation ClearCart($input: EmptyCartInput!) {
@@ -32,6 +39,20 @@ const removeItem = gql`
     }
   }
 `
+
+// ####
+// #### Types
+// ####
+
+type CartProps = {
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  cart: Cart | null | undefined
+}
+
+// ####
+// #### Component
+// ####
 
 const CartSlider = ({ open, setOpen, cart }: CartProps) => {
   const [warnGuest, setWarnGuest] = useState(false)

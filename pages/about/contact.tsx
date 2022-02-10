@@ -1,4 +1,5 @@
 import { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
@@ -8,9 +9,21 @@ import { getContactData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 import { Employee } from "@api/gql/types"
 
-import Map from "@components/Map"
-import { Icon, LoadingDots } from "@components/ui"
-import { IconCard } from "@components/Cards"
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+const IconCard = dynamic(() => import("@components/Cards/Icon"), importOpts)
+const Map = dynamic(() => import("@components/Map"), importOpts)
+
+// ####
+// #### Component
+// ####
 
 const About = ({
   page,

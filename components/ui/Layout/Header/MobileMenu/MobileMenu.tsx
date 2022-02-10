@@ -12,15 +12,23 @@ import { ChevronUpIcon } from "@heroicons/react/solid"
 import { NormalizedMenuItem } from "@lib/types"
 import { useAuth } from "@lib/hooks"
 
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
 import { MobileMenuPane } from "./style"
 import userMenu from "../userMenu"
+
+// ####
+// #### Types
+// ####
 
 type MobileMenuProps = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   menu: NormalizedMenuItem[]
 }
+
+// ####
+// #### Component
+// ####
 
 const MobileMenu = ({ open, setOpen, menu }: MobileMenuProps) => {
   const router = useRouter()

@@ -1,10 +1,25 @@
 import { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getGeneralPageData } from "@api/queries/pages"
-import { ResetPasswordForm } from "@components"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const ResetPasswordForm = dynamic(
+  () => import("@components/ResetPasswordForm"),
+  importOpts,
+)
+
+// ####
+// #### Component
+// ####
 
 const ResetPassword = ({
   // page,
@@ -25,6 +40,10 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default ResetPassword
+
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps() {
   const client = initializeApollo({})

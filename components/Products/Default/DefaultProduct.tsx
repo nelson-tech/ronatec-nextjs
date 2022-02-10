@@ -1,4 +1,5 @@
 import { FormEventHandler, useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
@@ -13,9 +14,7 @@ import {
 import { AttributeType, FullProduct } from "@lib/types"
 import { htmlParserOptions, isServer, parse } from "@lib/utils"
 
-import { Image } from "@components"
-import { LoadingDots } from "@components/ui"
-import ScrollArrow from "@components/ui/ScrollArrow/ScrollArrow"
+import LoadingDots from "@components/ui/LoadingDots"
 import {
   Container,
   ProductMainContainer,
@@ -23,10 +22,26 @@ import {
   TopContainer,
 } from "./style"
 
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Image = dynamic(() => import("@components/Image"), importOpts)
+
+// ####
+// #### Types
+// ####
+
 type DefaultProductProps = {
   product: FullProduct
   attributes: AttributeType[] | null
 }
+
+// ####
+// #### Component
+// ####
 
 const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
   const router = useRouter()
@@ -296,19 +311,19 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                 )}
               </button>
             </form>
-            <button
+            {/* <button
               type="submit"
               onClick={handleCheckout}
               className="mt-8 w-full bg-green-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
             >
               Add & Checkout
-            </button>
+            </button> */}
           </ProductTopContainer>
         </TopContainer>
         <ProductMainContainer>
           {selectedVariation && (
             <>
-              <div className="flex">
+              <div className="flex border-t">
                 <div className="mr-4 text-xl font-extrabold uppercase">
                   Selected:
                 </div>
@@ -326,7 +341,12 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                 parse(selectedVariation.description)}
             </>
           )}
-          {product.description && parse(product.description, htmlParserOptions)}
+          <div className="border-t">
+            <div className="mt-4">
+              {product.description &&
+                parse(product.description, htmlParserOptions)}
+            </div>
+          </div>
         </ProductMainContainer>
       </Container>
     </>

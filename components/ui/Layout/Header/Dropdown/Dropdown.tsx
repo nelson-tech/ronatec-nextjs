@@ -5,12 +5,20 @@ import { ChevronDownIcon } from "@heroicons/react/solid"
 import { NormalizedMenuItem } from "@lib/types"
 import { GetDesktopLinkStyleType } from "../Header"
 
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
+
+// ####
+// #### Types
+// ####
 
 type DropdownProps = {
   menuItem: NormalizedMenuItem
   getStyle: GetDesktopLinkStyleType
 }
+
+// ####
+// #### Component
+// ####
 
 const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
   const path = menuItem.path || "/"

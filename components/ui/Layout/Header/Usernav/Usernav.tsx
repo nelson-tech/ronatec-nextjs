@@ -1,19 +1,17 @@
 import { Dispatch, FC, Fragment, SetStateAction } from "react"
+import { useRouter } from "next/router"
 import { Menu, Transition } from "@headlessui/react"
-
-import { Underlined, underSelect } from "styles/utils"
-
-// Remove after fetching dynamic data
 import {
   ClipboardCheckIcon,
   LoginIcon,
   LogoutIcon,
   UserIcon,
 } from "@heroicons/react/outline"
+
 import { useAuth } from "@lib/hooks"
-import { useRouter } from "next/router"
-import { MenuLink } from "@components/ui"
 import userMenu from "../userMenu"
+
+import MenuLink from "@components/ui/MenuLink"
 
 // ####
 // #### Dynamic Imports

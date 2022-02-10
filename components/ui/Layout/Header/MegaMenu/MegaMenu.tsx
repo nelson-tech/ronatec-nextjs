@@ -4,12 +4,21 @@ import { ChevronDownIcon } from "@heroicons/react/solid"
 
 import { NormalizedMenuItem } from "@lib/types"
 import { GetDesktopLinkStyleType } from "../Header"
-import { MenuLink } from "@components/ui"
+
+import MenuLink from "@components/ui/MenuLink"
+
+// ####
+// #### Types
+// ####
 
 type MegaMenuProps = {
   megaItem: NormalizedMenuItem
   getStyle: GetDesktopLinkStyleType
 }
+
+// ####
+// #### Component
+// ####
 
 const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
   const path = megaItem.path || "/"

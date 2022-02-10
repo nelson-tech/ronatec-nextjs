@@ -1,11 +1,31 @@
+import dynamic from "next/dynamic"
+
 import { Order } from "@api/gql/types"
 import { FullProduct } from "@lib/types"
 
-import { Image, OrderSummary } from "@components"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Image = dynamic(() => import("@components/Image"), importOpts)
+const OrderSummary = dynamic(
+  () => import("@components/OrderSummary"),
+  importOpts,
+)
+
+// ####
+// #### Types
+// ####
 
 type OrderDetailsPropsType = {
   order: Order
 }
+
+// ####
+// #### Component
+// ####
 
 const OrderDetails = ({ order }: OrderDetailsPropsType) => {
   const orderDate = order.date

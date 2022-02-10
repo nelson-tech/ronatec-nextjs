@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import isEqual from "lodash.isequal"
 import { useApolloClient, useQuery } from "@apollo/client"
+import isEqual from "lodash.isequal"
 import { RefreshIcon } from "@heroicons/react/outline"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
@@ -12,8 +13,22 @@ import { Order } from "@api/gql/types"
 import { getGeneralPageData } from "@api/queries/pages"
 import { getUserOrders } from "@api/queries/pages/dashboard"
 
-import { OrderSummary } from "@components"
-import { LoadingDots } from "@components/ui"
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const OrderSummary = dynamic(
+  () => import("@components/OrderSummary"),
+  importOpts,
+)
+
+// ####
+// #### Component
+// ####
 
 const Orders = ({
   // page,
@@ -132,6 +147,10 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default Orders
+
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps() {
   const client = initializeApollo({})

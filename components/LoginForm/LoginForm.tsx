@@ -2,21 +2,37 @@ import {
   Dispatch,
   FormEventHandler,
   SetStateAction,
-  useCallback,
   useEffect,
   useState,
 } from "react"
+// import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { LockClosedIcon } from "@heroicons/react/solid"
 
 import { useAuth, useFormFields } from "@lib/hooks"
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+// const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+
+// ####
+// #### Types
+// ####
 
 type SignInProps = {
   modalRef?: string
   setOpen?: Dispatch<SetStateAction<boolean>>
 }
+
+// ####
+// #### Component
+// ####
 
 const SignIn = ({ modalRef, setOpen }: SignInProps) => {
   const router = useRouter()

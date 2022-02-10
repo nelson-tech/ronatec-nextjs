@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react"
 import { InferGetStaticPropsType } from "next"
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { Dialog, Transition } from "@headlessui/react"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
@@ -8,11 +8,23 @@ import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getDistributionData } from "@api/queries/pages/about"
 import { SuppliersReturnType } from "@api/queries/types"
+import { ChosenSupplierType } from "@components/Cards/Supplier"
 import { Underlined, underSelect } from "styles/utils"
 
-import { Icon, LoadingDots } from "@components/ui"
-import { SupplierCard } from "@components/Cards"
-import { ChosenSupplierType } from "@components/Cards/Supplier"
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+const Image = dynamic(() => import("@components/Image"), importOpts)
+const SupplierCard = dynamic(
+  () => import("@components/Cards/Supplier"),
+  importOpts,
+)
 
 // ####
 // #### Component
@@ -102,7 +114,7 @@ export default function Distribution({
                             alt={chosenSupplier.image.altText || undefined}
                             layout="responsive"
                             objectFit="fill"
-                            title={chosenSupplier.title || undefined}
+                            title={chosenSupplier.title || ""}
                           />
                         </a>
                       </div>

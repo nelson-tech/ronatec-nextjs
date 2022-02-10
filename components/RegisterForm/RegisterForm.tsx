@@ -7,7 +7,11 @@ import { LockClosedIcon } from "@heroicons/react/solid"
 
 import { useAuth } from "@lib/hooks"
 
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
+
+// ####
+// #### Component
+// ####
 
 const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null)

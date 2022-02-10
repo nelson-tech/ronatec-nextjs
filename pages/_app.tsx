@@ -1,5 +1,5 @@
 import "@assets/main.css"
-import "keen-slider/keen-slider.min.css"
+// import "keen-slider/keen-slider.min.css"
 
 import { FC } from "react"
 import { AppProps } from "next/app"
@@ -8,7 +8,7 @@ import { ApolloProvider } from "@apollo/client"
 
 import { initializeApollo, useApollo } from "../lib/apollo"
 import { ProgressBar } from "@lib"
-import { Layout } from "@components/ui"
+import Layout from "@components/ui/Layout"
 
 const Noop: FC = ({ children }) => <>{children}</>
 

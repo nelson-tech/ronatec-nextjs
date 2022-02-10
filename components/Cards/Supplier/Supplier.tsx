@@ -1,11 +1,22 @@
 import { Dispatch, SetStateAction } from "react"
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { InformationCircleIcon } from "@heroicons/react/solid"
 
 import { Supplier, Supplier_Supplier } from "@api/gql/types"
 import { Underlined, underSelect } from "styles/utils"
 
-import { Icon } from "@components/ui"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+const Image = dynamic(() => import("@components/Image"), importOpts)
+
+// ####
+// #### Types
+// ####
 
 export type ChosenSupplierType = Supplier_Supplier & {
   title: string
@@ -20,6 +31,10 @@ export type SupplierPropsType = {
   setChosenSupplier?: Dispatch<SetStateAction<ChosenSupplierType | undefined>>
   chosenSupplier?: ChosenSupplierType
 }
+
+// ####
+// #### Component
+// ####
 
 const SupplierCard = ({
   supplier: givenSupplier,

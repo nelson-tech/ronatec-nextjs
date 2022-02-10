@@ -1,7 +1,16 @@
-import { Icon, MenuLink } from "@components/ui"
 import { PhoneIcon } from "@heroicons/react/outline"
 
+import Icon from "@components/ui/Icon"
+
+// ####
+// #### Variables
+// ####
+
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"]
+
+// ####
+// #### Component
+// ####
 
 const Promo = () => {
   return (

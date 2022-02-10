@@ -1,11 +1,19 @@
 import { Order } from "@api/gql/types"
 
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
+
+// ####
+// #### Types
+// ####
 
 type OrderSummaryPropsType = {
   order: Order
   detailsLink?: boolean
 }
+
+// ####
+// #### Component
+// ####
 
 const OrderSummary = ({ order, detailsLink }: OrderSummaryPropsType) => {
   const orderDate = order.date

@@ -1,11 +1,25 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getGeneralPageData } from "@api/queries/pages"
 
-import { RegisterForm } from "@components"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const RegisterForm = dynamic(
+  () => import("@components/RegisterForm"),
+  importOpts,
+)
+
+// ####
+// #### Component
+// ####
 
 const Register = ({
   menuItems,
@@ -21,6 +35,10 @@ const Register = ({
 }
 
 export default Register
+
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const client = initializeApollo({})

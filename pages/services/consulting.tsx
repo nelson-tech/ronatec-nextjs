@@ -1,6 +1,6 @@
 import { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 import { css } from "@emotion/react"
-import styled from "@emotion/styled"
 import tw from "twin.macro"
 
 import { addApolloState } from "@lib/apollo"
@@ -11,15 +11,26 @@ import { getConsultingData } from "@api/queries/pages"
 import { Post_Common_Cards } from "@api/gql/types"
 import { PageReturnType } from "@api/queries/types"
 
-import { Slider } from "@components"
-import { LoadingDots } from "@components/ui"
-import { IconCard } from "@components/Cards"
+// import { Slider } from "@components"
+// import { LoadingDots } from "@components/ui"
+// import { IconCard } from "@components/Cards"
 
 // ####
 // #### Dynamic Imports
 // ####
 
 const importOpts = {}
+
+const LoadingDots = dynamic(
+  () => import("@components/ui/LoadingDots"),
+  importOpts,
+)
+const IconCard = dynamic(() => import("@components/Cards/Icon"), importOpts)
+const Slider = dynamic(() => import("@components/Slider"), importOpts)
+
+// ####
+// #### Styling
+// ####
 
 const responsivePadding = css`
   padding-top: 52.25%;

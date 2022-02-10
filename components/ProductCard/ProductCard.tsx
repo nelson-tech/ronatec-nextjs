@@ -1,15 +1,30 @@
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import { default as parse } from "html-react-parser"
 
 import { Product } from "@api/gql/types"
 
-import { Image } from "@components"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Image = dynamic(() => import("@components/Image"), importOpts)
+
+// ####
+// #### Types
+// ####
 
 type ProductCardProps = {
   product: Product & { price?: string }
   category_slug: string
   viewMode?: "grid" | "list"
 }
+
+// ####
+// #### Component
+// ####
 
 const ProductCard = ({
   product,
@@ -37,7 +52,7 @@ const ProductCard = ({
           </div>
         )}
         <div className="flex-1 space-y-2 flex flex-col w-full">
-          <h3 className="font-bold px-4 pt-4 text-gray-900 group-hover:text-blue-main text-xl">
+          <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-blue-main text-xl">
             <Link href={`/products/${category_slug}/${product.slug}`} passHref>
               <a title={product.name || ""} className="flex flex-col">
                 <span aria-hidden="true" className="absolute inset-0" />
@@ -68,9 +83,11 @@ const ProductCard = ({
             <div className="font-bold text-gray-900 group-hover:text-blue-main text-xl">
               {product.name}
             </div>
-            <div className=" text-gray-500 py-2">
-              {parse(product.shortDescription || "")}
-            </div>
+            {product.shortDescription && (
+              <div className="text-sm text-gray-500 pt-2">
+                {parse(product.shortDescription)}
+              </div>
+            )}
             {/* <span className="text-sm font-medium text-gray-400">
               {product.price}
             </span> */}

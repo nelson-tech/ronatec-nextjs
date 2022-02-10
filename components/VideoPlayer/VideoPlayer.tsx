@@ -1,8 +1,21 @@
+import dynamic from "next/dynamic"
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
-import ReactPlayer from "react-player"
+// import ReactPlayer from "react-player"
 
 import { Post_Common_VideoLink } from "@api/gql/types"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const ReactPlayer = dynamic(() => import("react-player"), importOpts)
+
+// ####
+// #### Types
+// ####
 
 export type VideoPlayerPropsType = {
   source?: string
@@ -11,6 +24,10 @@ export type VideoPlayerPropsType = {
   divStyle?: SerializedStyles | TwStyle
   videoLink: Post_Common_VideoLink
 }
+
+// ####
+// #### Component
+// ####
 
 const VideoPlayer = ({
   videoLink,

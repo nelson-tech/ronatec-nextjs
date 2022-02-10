@@ -4,9 +4,9 @@ import parse, {
   HTMLReactParserOptions,
 } from "html-react-parser"
 
-import { Image } from "@components"
+import Image from "@components/Image"
 import { ParsedTabs } from "."
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
 
 export const htmlParserOptions: HTMLReactParserOptions =
   typeof window === "undefined"

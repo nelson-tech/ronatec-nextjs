@@ -1,8 +1,17 @@
 import { SVGUrl } from "@lib/utils/SVGURL"
-import { LoadingDots } from "@components/ui"
-import { Maybe, Post_Common_Icon } from "@api/gql/types"
+import { Maybe } from "@api/gql/types"
+
+// ####
+// #### Variables
+// ####
 
 const ICON_DEFAULT_STYLE = "regular"
+
+const ICON_BASE = `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/icons`
+
+// ####
+// #### Types
+// ####
 
 export interface IconPropsType {
   name: string
@@ -13,7 +22,9 @@ export interface IconPropsType {
   iconKey?: string
 }
 
-const ICON_BASE = `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/icons`
+// ####
+// #### Component
+// ####
 
 const Icon = ({
   name,

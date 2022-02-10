@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 import { useApolloClient } from "@apollo/client"
 import { RefreshIcon } from "@heroicons/react/outline"
@@ -12,8 +13,21 @@ import { getGeneralPageData } from "@api/queries/pages"
 import { getUserOrder } from "@api/queries/pages/dashboard"
 import { Order } from "@api/gql/types"
 
-import { OrderDetails } from "@components"
-import { MenuLink } from "@components/ui"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+const OrderDetails = dynamic(
+  () => import("@components/OrderDetails"),
+  importOpts,
+)
+
+// ####
+// #### Component
+// ####
 
 const Thanks = ({
   // page,
@@ -130,6 +144,10 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default Thanks
+
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps() {
   const client = initializeApollo({})

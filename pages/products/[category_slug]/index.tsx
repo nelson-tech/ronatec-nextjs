@@ -4,12 +4,12 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import Link from "next/link"
+import dynamic from "next/dynamic"
 import { useApolloClient } from "@apollo/client"
 import { ParsedUrlQuery } from "querystring"
 import smoothscroll from "smoothscroll-polyfill"
 
-import { Maybe, Product } from "@api/gql/types"
+import { Product } from "@api/gql/types"
 import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
@@ -19,11 +19,26 @@ import {
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 import { normalize } from "@api/utils"
 import { addApolloState, initializeApollo } from "@lib/apollo"
-
-import { Breadcrumbs, Image, ProductCard, Sort } from "@components"
-import { LoadingDots, MenuLink } from "@components/ui"
 import { useMainMenu } from "@lib/hooks"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
+
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Breadcrumbs = dynamic(() => import("@components/Breadcrumbs"), importOpts)
+const Image = dynamic(() => import("@components/Image"), importOpts)
+const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
+const Sort = dynamic(() => import("@components/Sort"), importOpts)
+const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+
+// ####
+// #### Component
+// ####
 
 const CategoryPage = ({
   category,
@@ -133,14 +148,13 @@ const CategoryPage = ({
           </h1>
           <p className="mt-4 text-base text-gray-500">{category.description}</p>
           <p className="pt-2">
-            <Link href={`/products/${category.slug}/info`} passHref>
-              <a
-                title="Learn more"
-                className="text-gray-400 hover:text-green-main text-sm"
-              >
-                Learn more...
-              </a>
-            </Link>
+            <MenuLink
+              href={`/products/${category.slug}/info`}
+              title="Learn more"
+              className="text-gray-400 hover:text-green-main text-sm"
+            >
+              Learn more...
+            </MenuLink>
           </p>
         </div>
 

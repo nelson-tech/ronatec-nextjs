@@ -4,8 +4,11 @@ import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
-import { NormalizedImage } from "@api/utils/normalize/types"
 import { Maybe, Post_Common_Slides } from "@api/gql/types"
+
+// ####
+// #### Types
+// ####
 
 export type SliderPropsType = {
   slides: Maybe<Post_Common_Slides>[]
@@ -21,6 +24,10 @@ const defaultOptions: KeenSliderOptions = {
   loop: true,
   mode: "free-snap",
 }
+
+// ####
+// #### Component
+// ####
 
 const Slider = ({
   slides,

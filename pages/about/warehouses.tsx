@@ -1,4 +1,5 @@
 import { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 import { OfficeBuildingIcon } from "@heroicons/react/outline"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
@@ -7,8 +8,19 @@ import { normalize } from "@api/utils"
 import { getWarehousesData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
-import { LoadingDots } from "@components/ui"
-import Map from "@components/Map"
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Map = dynamic(() => import("@components/Map"), importOpts)
+
+// ####
+// #### Component
+// ####
 
 const About = ({
   page,
@@ -59,6 +71,12 @@ const About = ({
   )
 }
 
+export default About
+
+// ####
+// #### External Props
+// ####
+
 export async function getStaticProps() {
   const client = initializeApollo({})
 
@@ -86,5 +104,3 @@ export async function getStaticProps() {
 
   return staticProps
 }
-
-export default About

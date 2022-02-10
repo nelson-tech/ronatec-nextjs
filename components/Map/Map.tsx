@@ -6,7 +6,11 @@ import twConfig from "../../tailwind.config"
 import { Maybe, Post_Maps_MapOptions, Post_Maps_Markers } from "@api/gql/types"
 import { useMobileDetect } from "@lib/hooks"
 
-import { LoadingDots } from "@components/ui"
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Variables
+// ####
 
 const colors = twConfig.theme.extend.colors
 
@@ -37,6 +41,10 @@ const DEFAULT_OPTIONS: google.maps.MapOptions = {
   fullscreenControl: false,
 }
 
+// ####
+// #### Types
+// ####
+
 type CoordinatesType = {
   lat: number
   lng: number
@@ -49,6 +57,10 @@ type Props = {
   containerClassNames?: string
   markerLabels?: boolean
 }
+
+// ####
+// #### Component
+// ####
 
 const Map = ({
   options,

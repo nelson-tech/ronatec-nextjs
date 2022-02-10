@@ -1,13 +1,20 @@
+import { useEffect } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
+import { useRouter } from "next/router"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useAuth, useMainMenu } from "@lib/hooks"
 import { getGeneralPageData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
-import { LoginForm } from "@components"
-import { useRouter } from "next/router"
-import { useEffect } from "react"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const LoginForm = dynamic(() => import("@components/LoginForm"), importOpts)
 
 const Login = ({
   menuItems,

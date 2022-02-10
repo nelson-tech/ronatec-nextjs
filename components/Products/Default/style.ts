@@ -186,8 +186,7 @@ export const ProductMainContainer = styled.div`
 
   margin-left: 2rem /* 32px */;
   margin-right: 2rem /* 32px */;
-  padding-top: 2rem /* 32px */;
-  padding-bottom: 4rem /* 64px */;
+  padding-bottom: 2rem /* 64px */;
   @media (min-width: 768px) {
     padding-left: 1rem /* 16px */;
     padding-right: 1rem /* 16px */;

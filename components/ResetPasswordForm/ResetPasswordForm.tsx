@@ -8,7 +8,11 @@ import { LockClosedIcon, MailIcon } from "@heroicons/react/solid"
 
 import { useAuth, useResetPassword } from "@lib/hooks"
 
-import { MenuLink } from "@components/ui"
+import MenuLink from "@components/ui/MenuLink"
+
+// ####
+// #### Component
+// ####
 
 const ResetPasswordForm = () => {
   const [error, setError] = useState<string | null>(null)

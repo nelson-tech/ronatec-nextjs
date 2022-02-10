@@ -1,15 +1,31 @@
+import dynamic from "next/dynamic"
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
-import { Icon } from "@components/ui"
 import { parseNewLines } from "@lib/utils"
 import { Post_Common_Cards } from "@api/gql/types"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+
+// ####
+// #### Types
+// ####
 
 export type IconCardPropsType = {
   card: Post_Common_Cards
   centerText?: boolean
   contentStyle?: SerializedStyles | TwStyle
 }
+
+// ####
+// #### Component
+// ####
 
 const IconCard = ({
   card,

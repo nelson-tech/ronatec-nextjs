@@ -1,98 +1,34 @@
-import { Fragment, useCallback, useState } from "react"
+import { useCallback, useState } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
-import Link from "next/link"
-import {
-  Dialog,
-  Disclosure,
-  Menu,
-  Popover,
-  Tab,
-  Transition,
-} from "@headlessui/react"
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingBagIcon,
-  XIcon,
-} from "@heroicons/react/outline"
-import {
-  ChevronDownIcon,
-  FilterIcon,
-  MinusSmIcon,
-  PlusSmIcon,
-  ViewGridIcon,
-} from "@heroicons/react/solid"
-import classNames from "classnames"
+import dynamic from "next/dynamic"
+import { useApolloClient } from "@apollo/client"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu, useMobileDetect } from "@lib/hooks"
 import { normalize } from "@api/utils"
-import { getProductLink } from "@api/utils/products"
 import { getGeneralPageData } from "@api/queries/pages"
 import {
   getProductCategories,
-  getProducts,
   getProductsByCategories,
 } from "@api/queries/pages/products"
 import { Product, ProductCategory } from "@api/gql/types"
 import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
-
-import { Image, ProductCard, Sort } from "@components"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
-import { useApolloClient } from "@apollo/client"
-import { LoadingDots } from "@components/ui"
 
-// const sortOptions = [
-//   { name: "Most Popular", href: "#", current: true },
-//   { name: "Best Rating", href: "#", current: false },
-//   { name: "Newest", href: "#", current: false },
-//   { name: "Price: Low to High", href: "#", current: false },
-//   { name: "Price: High to Low", href: "#", current: false },
-// ]
-// const subCategories = [
-//   { name: "Totes", href: "#" },
-//   { name: "Backpacks", href: "#" },
-//   { name: "Travel Bags", href: "#" },
-//   { name: "Hip Bags", href: "#" },
-//   { name: "Laptop Sleeves", href: "#" },
-// ]
-// const filters = [
-//   {
-//     id: "color",
-//     name: "Color",
-//     options: [
-//       { value: "white", label: "White", checked: false },
-//       { value: "beige", label: "Beige", checked: false },
-//       { value: "blue", label: "Blue", checked: true },
-//       { value: "brown", label: "Brown", checked: false },
-//       { value: "green", label: "Green", checked: false },
-//       { value: "purple", label: "Purple", checked: false },
-//     ],
-//   },
-//   {
-//     id: "category",
-//     name: "Category",
-//     options: [
-//       { value: "new-arrivals", label: "New Arrivals", checked: false },
-//       { value: "sale", label: "Sale", checked: false },
-//       { value: "travel", label: "Travel", checked: true },
-//       { value: "organization", label: "Organization", checked: false },
-//       { value: "accessories", label: "Accessories", checked: false },
-//     ],
-//   },
-//   {
-//     id: "size",
-//     name: "Size",
-//     options: [
-//       { value: "2l", label: "2L", checked: false },
-//       { value: "6l", label: "6L", checked: false },
-//       { value: "12l", label: "12L", checked: false },
-//       { value: "18l", label: "18L", checked: false },
-//       { value: "20l", label: "20L", checked: false },
-//       { value: "40l", label: "40L", checked: true },
-//     ],
-//   },
-// ]
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
+const Sort = dynamic(() => import("@components/Sort"), importOpts)
+
+// ####
+// #### Component
+// ####
 
 const Products = ({
   menuItems,
@@ -188,64 +124,6 @@ const Products = ({
           </h2>
 
           {/* Filters */}
-          {/* <form className="hidden lg:block w-64">
-              <h3 className="sr-only">Categories</h3>
-
-              <Disclosure as="div" className="border-b border-gray-200 py-6">
-                {({ open }) => (
-                  <>
-                    <h3 className="-my-3 flow-root">
-                      <Disclosure.Button className="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500">
-                        <span className="font-medium text-gray-900">
-                          Category
-                        </span>
-                        <span className="ml-6 flex items-center">
-                          {open ? (
-                            <MinusSmIcon
-                              className="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          ) : (
-                            <PlusSmIcon
-                              className="h-5 w-5"
-                              aria-hidden="true"
-                            />
-                          )}
-                        </span>
-                      </Disclosure.Button>
-                    </h3>
-                    <Disclosure.Panel className="pt-6">
-                      <div className="space-y-4">
-                        {categories &&
-                          categories.map((category, optionIdx) => {
-                            return (
-                              <div
-                                key={category.id}
-                                className="flex items-center"
-                              >
-                                <input
-                                  id={`filter-${category.id}-${optionIdx}`}
-                                  name={`${category.id}[]`}
-                                  defaultValue={category.slug || ""}
-                                  type="checkbox"
-                                  defaultChecked={true}
-                                  className="h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500"
-                                />
-                                <label
-                                  htmlFor={`filter-${category.id}-${optionIdx}`}
-                                  className="ml-3 text-sm text-gray-600"
-                                >
-                                  {category.name}
-                                </label>
-                              </div>
-                            )
-                          })}
-                      </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
-            </form> */}
 
           {/* Product grid */}
           {loading ? (
@@ -256,7 +134,13 @@ const Products = ({
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-y-10 gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
+            <div
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-2 gap-y-4 gap-x-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 lg:grid-cols-3"
+                  : "px-4"
+              }
+            >
               {products &&
                 products.map(baseProduct => {
                   const product = baseProduct as Product & { price?: string }
@@ -284,6 +168,10 @@ const Products = ({
 }
 
 export default Products
+
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const client = initializeApollo({})

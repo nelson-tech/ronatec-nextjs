@@ -1,4 +1,5 @@
 import type { InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 import tw from "twin.macro"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
@@ -7,15 +8,28 @@ import { PageReturnType } from "@api/queries/types"
 import { getGeneralPageData, getHomeData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
 
-import { LoadingDots, MenuLink } from "@components/ui"
-import { Slider, VideoCard, Image } from "@components"
-import { IconCard, SupplierCard } from "@components/Cards"
+// import { LoadingDots, MenuLink } from "@components/ui"
+// import { Slider, VideoCard, Image } from "@components"
+// import { IconCard, SupplierCard } from "@components/Cards"
 
 // ####
 // #### Dynamic Imports
 // ####
 
 const importOpts = {}
+
+const IconCard = dynamic(() => import("@components/Cards/Icon"), importOpts)
+const Image = dynamic(() => import("@components/Image"), importOpts)
+const LoadingDots = dynamic(
+  () => import("@components/ui/LoadingDots"),
+  importOpts,
+)
+const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+const SupplierCard = dynamic(
+  () => import("@components/Cards/Supplier"),
+  importOpts,
+)
+const VideoCard = dynamic(() => import("@components/VideoCard"), importOpts)
 
 // ####
 // #### Component
@@ -228,6 +242,7 @@ export default function Home({
         <VideoCard
           videoLink={videoLink}
           cardStyle={tw`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
+          light
         />
       )}
 

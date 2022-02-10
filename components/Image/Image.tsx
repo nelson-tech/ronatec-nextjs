@@ -18,6 +18,7 @@ type Props = {
     | undefined
   height?: string | number | undefined | null
   width?: string | number | undefined | null
+  title?: string | undefined | null
   rounded?: "sm" | "md" | "lg"
 }
 
@@ -26,6 +27,7 @@ const Image = ({
   layout = "fill",
   objectFit = "contain",
   alt,
+  title,
   height,
   width,
   rounded,
@@ -35,7 +37,7 @@ const Image = ({
       <NextImage
         src={src}
         alt={alt}
-        title={alt}
+        title={title || alt || ""}
         layout={layout}
         objectFit={objectFit}
         height={height || 250}

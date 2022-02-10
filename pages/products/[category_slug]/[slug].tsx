@@ -3,6 +3,7 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
+import dynamic from "next/dynamic"
 import { ParsedUrlQuery } from "querystring"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
@@ -22,7 +23,27 @@ import {
   CategoryReturnType,
 } from "@api/queries/types"
 
-import { Breadcrumbs, DefaultProduct } from "@components"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Breadcrumbs = dynamic(() => import("@components/Breadcrumbs"), importOpts)
+const DefaultProduct = dynamic(() => import("@components/Products"), importOpts)
+
+// ####
+// #### Types
+// ####
+
+interface IParams extends ParsedUrlQuery {
+  slug: string
+  category_slug: string
+}
+
+// ####
+// #### Component
+// ####
 
 const SKUProduct = ({
   product,
@@ -33,8 +54,6 @@ const SKUProduct = ({
   const { setMenu } = useMainMenu()
   menuItems && setMenu(menuItems)
 
-  // const router = useRouter()
-
   if (product) {
     return (
       <div>
@@ -43,18 +62,15 @@ const SKUProduct = ({
       </div>
     )
   }
-  // if (typeof window !== "undefined") {
-  //   router.push("/products")
-  // }
+
   return <>Category</>
 }
 
 export default SKUProduct
 
-interface IParams extends ParsedUrlQuery {
-  slug: string
-  category_slug: string
-}
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { slug, category_slug } = context.params as IParams

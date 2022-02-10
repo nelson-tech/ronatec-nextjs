@@ -1,4 +1,5 @@
 import { Dispatch, Fragment, SetStateAction } from "react"
+import dynamic from "next/dynamic"
 import { Menu, Transition } from "@headlessui/react"
 import {
   ChevronDownIcon,
@@ -6,13 +7,19 @@ import {
   ViewListIcon,
 } from "@heroicons/react/solid"
 
-import { Filters } from "@components"
 import { ProductCategory } from "@api/gql/types"
 
-export type SortOptionType = {
-  name: string
-  id: { field: string; order: string }
-}
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Filters = dynamic(() => import("@components/Filters"), importOpts)
+
+// ####
+// #### Variables
+// ####
 
 export const sortOptions: SortOptionType[] = [
   { name: "Default", id: { field: "MENU_ORDER", order: "ASC" } },
@@ -23,6 +30,15 @@ export const sortOptions: SortOptionType[] = [
   { name: "Newest", id: { field: "DATE", order: "DESC" } },
   { name: "Oldest", id: { field: "DATE", order: "ASC" } },
 ]
+
+// ####
+// #### Types
+// ####
+
+export type SortOptionType = {
+  name: string
+  id: { field: string; order: string }
+}
 
 type SortBaseProps = {
   viewMode: "grid" | "list"
@@ -46,6 +62,10 @@ type SortProps =
       setFilteredCategories?: never
     })
   | FilterProps
+
+// ####
+// #### Component
+// ####
 
 const Sort = ({
   viewMode,

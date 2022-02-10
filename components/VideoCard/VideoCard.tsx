@@ -1,7 +1,7 @@
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
-import { Maybe, Post_Common_VideoLink } from "@api/gql/types"
+import { Post_Common_VideoLink } from "@api/gql/types"
 import VideoPlayer from "@components/VideoPlayer"
 
 export type VideoCardPropsType = {

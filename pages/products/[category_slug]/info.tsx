@@ -3,6 +3,7 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
+import dynamic from "next/dynamic"
 import styled from "@emotion/styled"
 import tw from "twin.macro"
 import { ParsedUrlQuery } from "querystring"
@@ -19,7 +20,25 @@ import {
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 
-import { Breadcrumbs } from "@components"
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Breadcrumbs = dynamic(() => import("@components/Breadcrumbs"), importOpts)
+
+// ####
+// #### Types
+// ####
+
+interface IParams extends ParsedUrlQuery {
+  category_slug: string
+}
+
+// ####
+// #### Component
+// ####
 
 const CategoryInfo = ({
   category,
@@ -48,9 +67,9 @@ const CategoryInfo = ({
 
 export default CategoryInfo
 
-interface IParams extends ParsedUrlQuery {
-  category_slug: string
-}
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { category_slug } = context.params as IParams
@@ -108,6 +127,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
     fallback: true,
   }
 }
+
+// ####
+// #### Styles
+// ####
 
 const Container = styled.div`
   h2 {

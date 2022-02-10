@@ -123,6 +123,7 @@ query GetProductsByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $c
         }
       }
       ${productPriceFragment}
+      shortDescription
     }
   }
 }

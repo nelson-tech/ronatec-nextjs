@@ -1,8 +1,9 @@
 import { Fragment, useEffect, useState } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
-import Link from "next/link"
+// import Link from "next/link"
 import { gql, useQuery } from "@apollo/client"
-import Headroom from "react-headroom"
+// import Headroom from "react-headroom"
 import { Popover } from "@headlessui/react"
 import {
   MenuIcon,
@@ -14,14 +15,51 @@ import { useAuth, useMainMenu } from "@lib/hooks"
 import { Cart } from "@api/gql/types"
 import { cartBaseFragment } from "@api/queries/fragments/products"
 
-import { Icon, MenuLink, Modal } from "@components/ui"
-import { SearchForm, LoginForm } from "@components"
-import Promo from "./Promo"
-import MobileMenu from "./MobileMenu"
-import Usernav from "./Usernav"
-import MegaMenu from "./MegaMenu"
-import Dropdown from "./Dropdown"
-import CartSlider from "./CartSlider"
+// import { Icon, MenuLink, Modal } from "@components/ui"
+// import { SearchForm, LoginForm } from "@components"
+// import Promo from "./Promo"
+// import MobileMenu from "./MobileMenu"
+// import Usernav from "./Usernav"
+// import MegaMenu from "./MegaMenu"
+// import Dropdown from "./Dropdown"
+// import CartSlider from "./CartSlider"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const CartSlider = dynamic(
+  () => import("@components/ui/Layout/Header/CartSlider"),
+  importOpts,
+)
+const Dropdown = dynamic(
+  () => import("@components/ui/Layout/Header/Dropdown"),
+  importOpts,
+)
+const Headroom = dynamic(() => import("react-headroom"), importOpts)
+const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+const LoginForm = dynamic(() => import("@components/LoginForm"), importOpts)
+const MegaMenu = dynamic(
+  () => import("@components/ui/Layout/Header/MegaMenu"),
+  importOpts,
+)
+const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+const MobileMenu = dynamic(
+  () => import("@components/ui/Layout/Header/MobileMenu"),
+  importOpts,
+)
+const Modal = dynamic(() => import("@components/ui/Modal"), importOpts)
+const Promo = dynamic(
+  () => import("@components/ui/Layout/Header/Promo"),
+  importOpts,
+)
+const SearchForm = dynamic(() => import("@components/SearchForm"), importOpts)
+const Usernav = dynamic(
+  () => import("@components/ui/Layout/Header/Usernav"),
+  importOpts,
+)
 
 const getCartQuery = gql`
   query CartQuery {
@@ -30,6 +68,10 @@ const getCartQuery = gql`
     }
   }
 `
+
+// ####
+// #### Types
+// ####
 
 type DesktopLinkStyleProps = {
   open: boolean
@@ -44,6 +86,10 @@ export type GetDesktopLinkStyleType = ({
 type HeaderProps = {
   promo?: boolean
 }
+
+// ####
+// #### Component
+// ####
 
 const Header = ({ promo = false }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
@@ -141,12 +187,10 @@ const Header = ({ promo = false }: HeaderProps) => {
                       </a>
                     </div> */}
                     <div className="hidden lg:flex lg:items-center h-8 w-8">
-                      <Link href="/">
-                        <a className="text-blue-main">
-                          <span className="sr-only">Ronatec C2C, Inc.</span>
-                          {logo}
-                        </a>
-                      </Link>
+                      <MenuLink href="/" className="text-blue-main">
+                        <span className="sr-only">Ronatec C2C, Inc.</span>
+                        {logo}
+                      </MenuLink>
                     </div>
 
                     <div className="hidden h-full lg:flex items-center">
@@ -222,12 +266,10 @@ const Header = ({ promo = false }: HeaderProps) => {
 
                     {/* Logo (lg-) */}
                     <div className="h-8 w-8 lg:hidden">
-                      <Link href="/">
-                        <a className="text-blue-main">
-                          <span className="sr-only">Ronatec C2C, Inc.</span>
-                          {logo}
-                        </a>
-                      </Link>
+                      <MenuLink href="/" className="text-blue-main">
+                        <span className="sr-only">Ronatec C2C, Inc.</span>
+                        {logo}
+                      </MenuLink>
                     </div>
 
                     <div className="flex-1 flex items-center justify-end">

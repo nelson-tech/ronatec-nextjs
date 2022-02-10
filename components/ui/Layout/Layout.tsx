@@ -1,10 +1,26 @@
 import { FC, ReactNode } from "react"
+import dynamic from "next/dynamic"
 import { ThemeProvider } from "@emotion/react"
 
 import { emotionTheme } from "styles/theme"
-import GlobalStyles from "styles/GlobalStyles"
-import { Header, Footer } from "./"
-import { Alerts, LoadingDots, ScrollArrow } from "@components/ui"
+// import GlobalStyles from "styles/GlobalStyles"
+// import { Header, Footer } from "./"
+// import { Alerts, LoadingDots, ScrollArrow } from "@components/ui"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Alerts = dynamic(() => import("@components/ui/Alerts"), importOpts)
+const Header = dynamic(() => import("@components/ui/Layout/Header"), importOpts)
+const Footer = dynamic(() => import("@components/ui/Layout/Footer"), importOpts)
+const GlobalStyles = dynamic(() => import("styles/GlobalStyles"), importOpts)
+const ScrollArrow = dynamic(
+  () => import("@components/ui/ScrollArrow"),
+  importOpts,
+)
 
 // ####
 // #### Types

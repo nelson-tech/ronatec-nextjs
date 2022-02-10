@@ -1,4 +1,5 @@
-import Link from "next/link"
+import dynamic from "next/dynamic"
+// import Link from "next/link"
 import {
   AtSymbolIcon,
   GlobeAltIcon,
@@ -7,8 +8,18 @@ import {
   PrinterIcon,
 } from "@heroicons/react/solid"
 
-import { Icon } from "@components/ui"
-import { Image } from "@components"
+// import { Icon } from "@components/ui"
+// import { Image } from "@components"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+const Image = dynamic(() => import("@components/Image"), importOpts)
+const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
 
 const navigation = {
   solutions: [
@@ -103,11 +114,12 @@ const Footer = () => {
                 <ul role="list" className="mt-4 space-y-4">
                   {navigation.company.map(item => (
                     <li key={item.name}>
-                      <Link href={item.href}>
-                        <a className="text-base font-bold text-gray-100 hover:text-white">
-                          {item.name}
-                        </a>
-                      </Link>
+                      <MenuLink
+                        href={item.href}
+                        className="text-base font-bold text-gray-100 hover:text-white"
+                      >
+                        {item.name}
+                      </MenuLink>
                     </li>
                   ))}
                 </ul>

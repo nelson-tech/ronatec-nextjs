@@ -14,7 +14,7 @@ const Breadcrumbs = ({
   info = false,
 }: BreadcrumbsProps) => {
   return (
-    <div className="border-b border-gray-200 -ml-5 px-5 w-screen">
+    <div className="border-b border-gray-200 w-screen">
       <nav
         aria-label="Breadcrumb"
         className="mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl"

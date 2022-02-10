@@ -1,10 +1,22 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
+import dynamic from "next/dynamic"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { normalize } from "@api/utils"
 import { getGeneralPageData } from "@api/queries/pages"
-import { Image } from "@components"
+
+// ####
+// #### Dynamic Imports
+// ####
+
+const importOpts = {}
+
+const Image = dynamic(() => import("@components/Image"), importOpts)
+
+// ####
+// #### Component
+// ####
 
 const BreweryTanks = ({
   menuItems,
@@ -48,6 +60,10 @@ const BreweryTanks = ({
 }
 
 export default BreweryTanks
+
+// ####
+// #### External Props
+// ####
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const client = initializeApollo({})

@@ -8,7 +8,11 @@ import { normalize } from "@api/utils"
 import { getAboutData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
-import { LoadingDots } from "@components/ui"
+import LoadingDots from "@components/ui/LoadingDots"
+
+// ####
+// #### Component
+// ####
 
 const About = ({
   page,
