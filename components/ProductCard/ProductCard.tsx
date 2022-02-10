@@ -1,9 +1,5 @@
 import Link from "next/link"
-import {
-  default as parse,
-  Element,
-  HTMLReactParserOptions,
-} from "html-react-parser"
+import { default as parse } from "html-react-parser"
 
 import { Product } from "@api/gql/types"
 
@@ -56,7 +52,7 @@ const ProductCard = ({
           )} */}
           <div className="px-4 pb-2 flex-1 flex flex-col justify-end">
             {/* <p className="text-sm italic text-gray-500">{product.options}</p> */}
-            <p className="text-sm font-medium text-gray-400">{product.price}</p>
+            {/* <p className="text-sm font-medium text-gray-400">{product.price}</p> */}
           </div>
           <div className="bg-green-main w-full text-white py-2 text-center">
             View more
@@ -72,12 +68,12 @@ const ProductCard = ({
             <div className="font-bold text-gray-900 group-hover:text-blue-main text-xl">
               {product.name}
             </div>
-            <div className=" text-gray-600 py-2">
+            <div className=" text-gray-500 py-2">
               {parse(product.shortDescription || "")}
             </div>
-            <span className="text-sm font-medium text-gray-400">
+            {/* <span className="text-sm font-medium text-gray-400">
               {product.price}
-            </span>
+            </span> */}
           </a>
         </Link>
       </div>

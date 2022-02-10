@@ -232,9 +232,9 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                                                 {product.name}
                                               </MenuLink>
                                             </h3>
-                                            <p className="ml-4 text-xs text-gray-500">
+                                            {/* <p className="ml-4 text-xs text-gray-500">
                                               {lineItem.subtotal}
-                                            </p>
+                                            </p> */}
                                           </div>
                                           <p className="mt-1 text-sm text-gray-500">
                                             {lineItem.variation?.attributes
@@ -293,11 +293,11 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
                         cart?.isEmpty !== false && " hidden"
                       }`}
                     >
-                      <div className="flex justify-between text-base font-medium text-gray-900">
+                      {/* <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
                         <p>{cart?.subtotal}</p>
-                      </div>
-                      <div className="mt-6">
+                      </div> */}
+                      <div className="mt-2">
                         <button
                           onClick={handleCheckout}
                           className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-main hover:bg-green-main"

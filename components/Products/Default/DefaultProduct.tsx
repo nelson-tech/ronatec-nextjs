@@ -178,9 +178,9 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
           </div>
           <ProductTopContainer>
             <h2 className="text-2xl font-extrabold">{product.name}</h2>
-            <div className="py-4">
+            {/* <div className="py-4">
               <span>{product.price}</span>
-            </div>
+            </div> */}
             <form className="" onSubmit={handleSubmit}>
               {attributes &&
                 attributes.map(attribute => {
@@ -227,7 +227,7 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                                           >
                                             {variation.name?.split(" - ")[1]}
                                           </RadioGroup.Label>
-                                          <RadioGroup.Description
+                                          {/* <RadioGroup.Description
                                             as="span"
                                             className={`inline focus:ring-transparent ${
                                               checked
@@ -236,7 +236,7 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                                             }`}
                                           >
                                             <span>{variation.price}</span>
-                                          </RadioGroup.Description>
+                                          </RadioGroup.Description> */}
                                         </div>
                                       </div>
                                     </div>

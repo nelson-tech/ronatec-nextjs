@@ -3,7 +3,6 @@ import {
   imageFragment,
   productCategoryFragment,
   productMinBaseFragment,
-  productBaseFragment,
   productPriceFragment,
   variableProductFragment,
 } from "@api/queries/fragments"

@@ -10,6 +10,16 @@ export const getUserOrders = gql`
         orderNumber
         total
         status
+        lineItems {
+          nodes {
+            quantity
+            total
+            product {
+              ${simpleProductFragment}
+              ${variableProductFragment}
+            }
+          }
+        }
       }
     }
   }

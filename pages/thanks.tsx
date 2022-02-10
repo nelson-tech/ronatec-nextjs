@@ -1,19 +1,19 @@
+import { useEffect, useState } from "react"
 import { InferGetStaticPropsType } from "next"
+import { useRouter } from "next/router"
+import { useApolloClient } from "@apollo/client"
+import { RefreshIcon } from "@heroicons/react/outline"
+import { CheckIcon } from "@heroicons/react/solid"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
-
-import { getGeneralPageData } from "@api/queries/pages"
 import { normalize } from "@api/utils"
-import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { CheckIcon } from "@heroicons/react/solid"
-import { OrderDetails } from "@components"
-import { Order } from "@api/gql/types"
-import { useApolloClient } from "@apollo/client"
+import { getGeneralPageData } from "@api/queries/pages"
 import { getUserOrder } from "@api/queries/pages/dashboard"
+import { Order } from "@api/gql/types"
+
+import { OrderDetails } from "@components"
 import { MenuLink } from "@components/ui"
-import { RefreshIcon } from "@heroicons/react/outline"
 
 const Thanks = ({
   // page,

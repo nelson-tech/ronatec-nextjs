@@ -3,12 +3,12 @@ import { useRouter } from "next/router"
 import Link from "next/link"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
+import { RefreshIcon } from "@heroicons/react/outline"
 import { LockClosedIcon, MailIcon } from "@heroicons/react/solid"
 
 import { useAuth, useResetPassword } from "@lib/hooks"
 
 import { MenuLink } from "@components/ui"
-import { RefreshIcon } from "@heroicons/react/outline"
 
 const ResetPasswordForm = () => {
   const [error, setError] = useState<string | null>(null)

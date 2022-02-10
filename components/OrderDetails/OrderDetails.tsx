@@ -1,7 +1,7 @@
 import { Order } from "@api/gql/types"
 import { FullProduct } from "@lib/types"
 
-import { Image } from "@components"
+import { Image, OrderSummary } from "@components"
 
 type OrderDetailsPropsType = {
   order: Order
@@ -22,54 +22,33 @@ const OrderDetails = ({ order }: OrderDetailsPropsType) => {
         Order placed on <time dateTime={order.date || ""}>{order.date}</time>
       </h3>
 
-      <div className="bg-gray-50 rounded-lg py-6 px-4 sm:px-6 sm:flex sm:items-center text-sm sm:justify-between sm:space-x-6 lg:space-x-4">
-        {/* <dl className="divide-y divide-gray-200 space-y-6 text-sm text-gray-600 flex-auto sm:divide-y-0 sm:space-y-0 sm:grid sm:grid-cols-4 sm:gap-x-6 lg:w-2/3 lg:flex-none lg:gap-x-8"> */}
-        <div className="flex justify-between sm:block">
-          <dt className="font-medium text-gray-900">Date placed</dt>
-          <dd className="sm:mt-1">
-            <time dateTime={order.date || ""}>{orderDate}</time>
-          </dd>
-        </div>
-        <div className="flex justify-between pt-6 sm:block sm:pt-0">
-          <dt className="font-medium text-gray-900">Order number</dt>
-          <dd className="sm:mt-1">{order.orderNumber}</dd>
-        </div>
-        <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
-          <dt>Total amount</dt>
-          <dd className="sm:mt-1 text-gray-600">{order.total}</dd>
-        </div>
-        <div className="flex justify-between pt-6 font-medium text-gray-900 sm:block sm:pt-0">
-          <dt>Status</dt>
-          <dd className="sm:mt-1 text-gray-600">{order.status}</dd>
-        </div>
-        {/* </dl> */}
-      </div>
+      <OrderSummary order={order} />
 
       <table className="mt-4 w-full text-gray-500 sm:mt-6">
         <caption className="sr-only">Products</caption>
         <thead className="sr-only text-sm text-gray-500 text-left sm:not-sr-only">
           <tr>
-            <th scope="col" className="sm:w-2/5 lg:w-1/3 pr-8 py-3 font-normal">
+            <th scope="col" className="pr-8 py-3 font-normal">
               Product
             </th>
-            <th
+            {/* <th
               scope="col"
               className="hidden w-1/5 pr-8 py-3 font-normal sm:table-cell"
             >
               Price
-            </th>
+            </th> */}
             <th
               scope="col"
               className="hidden pr-8 py-3 font-normal sm:table-cell"
             >
               Qty
             </th>
-            <th
+            {/* <th
               scope="col"
               className="hidden pr-8 py-3 font-normal sm:table-cell"
             >
               Total
-            </th>
+            </th> */}
             <th scope="col" className="w-0 py-3 font-normal text-right">
               Link
             </th>
@@ -98,17 +77,32 @@ const OrderDetails = ({ order }: OrderDetailsPropsType) => {
                             />
                           </div>
                         )}
-                        <div>
+                        <div className="flex flex-col">
                           <div className="font-medium text-gray-900">
                             {product.name}
                           </div>
-                          <div className="mt-1 sm:hidden">{product.price}</div>
+                          {product.variations?.nodes &&
+                            product.variations?.nodes[0]?.attributes?.nodes && (
+                              <div>
+                                {
+                                  product.variations?.nodes[0]?.attributes
+                                    ?.nodes[0]?.label
+                                }
+                                :{" "}
+                                {
+                                  product.variations?.nodes[0]?.name?.split(
+                                    " - ",
+                                  )[1]
+                                }
+                              </div>
+                            )}
+                          {/* <div className="mt-1 sm:hidden">{product.price}</div> */}
                         </div>
                       </div>
                     </td>
-                    <td className="hidden py-6 pr-8 sm:table-cell">
+                    {/* <td className="hidden py-6 pr-8 sm:table-cell">
                       {product.price}
-                    </td>
+                    </td> */}
                     <td className="py-6 pl-2.5 pr-8">
                       <div className="hidden sm:table-cell">
                         {lineItem?.quantity}
@@ -117,17 +111,17 @@ const OrderDetails = ({ order }: OrderDetailsPropsType) => {
                         <div className="w text-right">
                           x{lineItem?.quantity}
                         </div>
-                        <div className="border-t">
+                        {/* <div className="border-t">
                           {"$" +
                             (lineItem?.total &&
                               numberWithCommas(lineItem?.total))}
-                        </div>
+                        </div> */}
                       </div>
                     </td>
-                    <td className="hidden py-6 pr-8 sm:table-cell">
+                    {/* <td className="hidden py-6 pr-8 sm:table-cell">
                       {"$" +
                         (lineItem?.total && numberWithCommas(lineItem?.total))}
-                    </td>
+                    </td> */}
                     <td className="py-6 font-medium text-right whitespace-nowrap">
                       <a
                         href={`/products/${

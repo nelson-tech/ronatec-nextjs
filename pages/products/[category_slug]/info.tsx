@@ -9,7 +9,7 @@ import { ParsedUrlQuery } from "querystring"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
-import { htmlParserOptions, isServer, parse } from "@lib/utils"
+import { htmlParserOptions, parse } from "@lib/utils"
 import { normalize } from "@api/utils"
 
 import { getGeneralPageData } from "@api/queries/pages"
@@ -19,7 +19,7 @@ import {
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 
-import { Breadcrumbs, Image } from "@components"
+import { Breadcrumbs } from "@components"
 
 const CategoryInfo = ({
   category,
