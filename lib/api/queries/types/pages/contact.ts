@@ -1,5 +1,4 @@
 import {
-  ApolloGenericReturnDataType,
   ApolloReturnInfoType,
   CardType,
   PageCommonType,
@@ -13,8 +12,7 @@ export type ContactPageType = PageCommonType & {
   }
 }
 
-export interface ContactQueryDataReturnType
-  extends ApolloGenericReturnDataType {
+export interface ContactQueryDataReturnType {
   page: ContactPageType
 }
 

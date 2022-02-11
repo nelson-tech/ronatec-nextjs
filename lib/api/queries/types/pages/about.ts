@@ -1,5 +1,4 @@
 import {
-  ApolloGenericReturnDataType,
   ApolloReturnInfoType,
   ImageType,
   PageCommonType,
@@ -12,7 +11,7 @@ export type AboutPageType = PageCommonType & {
   }
 }
 
-export interface AboutQueryDataReturnType extends ApolloGenericReturnDataType {
+export interface AboutQueryDataReturnType {
   page: AboutPageType
 }
 

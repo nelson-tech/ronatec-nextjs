@@ -1,6 +1,5 @@
 import { Maybe, Scalars } from "@api/gql/types"
 import {
-  ApolloGenericReturnDataType,
   ApolloReturnInfoType,
   LinkCardType,
   ImageDetailsType,
@@ -47,7 +46,7 @@ export type HomePageType = PageCommonType & {
   featuredSupplier: { featuredSupplier: HomeFeaturedSupplierType }
 }
 
-export interface HomeQueryDataReturnType extends ApolloGenericReturnDataType {
+export interface HomeQueryDataReturnType {
   page: HomePageType
 }
 

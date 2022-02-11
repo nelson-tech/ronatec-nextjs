@@ -1,11 +1,9 @@
 import { Dispatch, Fragment, SetStateAction } from "react"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { Menu, Transition } from "@headlessui/react"
-import {
-  ChevronDownIcon,
-  ViewGridIcon,
-  ViewListIcon,
-} from "@heroicons/react/solid"
+import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
+import ViewGridIcon from "@heroicons/react/solid/ViewGridIcon"
+import ViewListIcon from "@heroicons/react/solid/ViewListIcon"
 
 import { ProductCategory } from "@api/gql/types"
 
@@ -78,7 +76,7 @@ const Sort = ({
   setFilteredCategories,
 }: SortProps) => {
   const sectionClasses =
-    "w-screen border-t border-b border-gray-200 grid items-center"
+    "w-full border-t border-b border-gray-200 grid items-center"
 
   const BaseSort = () => (
     <div className="col-start-1 row-start-1 py-4">

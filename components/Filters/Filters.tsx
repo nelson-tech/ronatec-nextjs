@@ -1,6 +1,7 @@
 import { Dispatch, FormEvent, ReactNode, SetStateAction, useState } from "react"
 import { Disclosure } from "@headlessui/react"
-import { FilterIcon, XIcon } from "@heroicons/react/solid"
+import XIcon from "@heroicons/react/solid/XIcon"
+import FilterIcon from "@heroicons/react/solid/FilterIcon"
 import { useForm } from "react-hook-form"
 
 import { ProductCategory } from "@api/gql/types"

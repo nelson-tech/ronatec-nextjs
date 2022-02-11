@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/dist/client/router"
 import Link from "next/link"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import { RefreshIcon } from "@heroicons/react/outline"
-import { LockClosedIcon, MailIcon } from "@heroicons/react/solid"
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
+import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
+import MailIcon from "@heroicons/react/solid/MailIcon"
 
-import { useAuth, useResetPassword } from "@lib/hooks"
+import useAuth from "@lib/hooks/useAuth"
+import useResetPassword from "@lib/hooks/useResetPassword"
 
 import MenuLink from "@components/ui/MenuLink"
 

@@ -5,12 +5,14 @@ import {
   useEffect,
   useState,
 } from "react"
-// import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
+// import dynamic from "next/dist/shared/lib/dynamic"
+import { useRouter } from "next/dist/client/router"
 import Link from "next/link"
-import { LockClosedIcon } from "@heroicons/react/solid"
+import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
 
-import { useAuth, useFormFields } from "@lib/hooks"
+import useAuth from "@lib/hooks/useAuth"
+import useFormFields from "@lib/hooks/useFormFields"
+
 import MenuLink from "@components/ui/MenuLink"
 
 // ####

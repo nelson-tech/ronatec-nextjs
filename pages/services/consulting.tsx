@@ -1,12 +1,11 @@
 import { InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { css } from "@emotion/react"
 import tw from "twin.macro"
 
-import { addApolloState } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { parseNewLines } from "@lib/utils"
-import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getConsultingData } from "@api/queries/pages"
 import { Post_Common_Cards } from "@api/gql/types"
 import { PageReturnType } from "@api/queries/types"
@@ -52,11 +51,7 @@ const Consulting = ({
   page,
   loading,
   error,
-  menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   if (loading) return <LoadingDots />
 
   const { title, slug } = page
@@ -153,24 +148,20 @@ const Card = ({ card }: { card: Post_Common_Cards }) => {
 // ####
 
 export async function getStaticProps() {
-  const initializeApollo = (await import("@lib/apollo/client")).initializeApollo
   const client = initializeApollo({})
 
   const {
-    data: { page, menu },
+    data: { page },
     loading,
     error,
   }: PageReturnType = await client.query({
     query: getConsultingData,
   })
 
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
     props: {
       loading,
       page,
-      menuItems,
       error: error || null,
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

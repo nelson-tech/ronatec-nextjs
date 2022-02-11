@@ -5,7 +5,7 @@ import jwt_decode, { JwtPayload } from "jwt-decode"
 
 import { loggedInVar, userVar } from "@lib/apollo/cache"
 import { InMemoryAuthTokenType } from "@lib/types"
-import { initializeApollo } from "@lib/apollo"
+import initializeApollo from "@lib/apollo/client"
 import {
   loginMutation,
   logoutMutation,

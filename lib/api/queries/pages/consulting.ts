@@ -1,6 +1,6 @@
-import gql from "graphql-tag"
+import { gql } from "@apollo/client/core"
+
 import {
-  generalPageQuery,
   pageCommonFragment,
   slidesFragment,
   calloutFragment,
@@ -25,6 +25,5 @@ export const getConsultingData = gql`
         }
       }
     }
-    ${generalPageQuery}
   }
 `

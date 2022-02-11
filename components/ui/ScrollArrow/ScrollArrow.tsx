@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { css, keyframes } from "@emotion/react"
-import { ArrowCircleUpIcon } from "@heroicons/react/solid"
+import { keyframes } from "@emotion/react"
+import ArrowCircleUpIcon from "@heroicons/react/solid/ArrowCircleUpIcon"
 import styled from "@emotion/styled"
 import smoothscroll from "smoothscroll-polyfill"
 

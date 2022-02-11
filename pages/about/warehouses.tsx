@@ -1,10 +1,9 @@
 import { InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
-import { OfficeBuildingIcon } from "@heroicons/react/outline"
+import dynamic from "next/dist/shared/lib/dynamic"
+import OfficeBuildingIcon from "@heroicons/react/outline/OfficeBuildingIcon"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
-import { normalizeMenu } from "@api/utils/normalize/menu"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { getWarehousesData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
@@ -24,13 +23,9 @@ const Map = dynamic(() => import("@components/Map"), importOpts)
 
 const About = ({
   page,
-  menuItems,
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   if (loading) return <LoadingDots />
 
   const warehouses = page.page_about_warehouses?.acf?.map
@@ -81,20 +76,17 @@ export async function getStaticProps() {
   const client = initializeApollo({})
 
   const {
-    data: { page, menu },
+    data: { page },
     loading,
     error,
   }: PageReturnType = await client.query({
     query: getWarehousesData,
   })
 
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
     props: {
       loading,
       page,
-      menuItems,
       error: error || null,
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

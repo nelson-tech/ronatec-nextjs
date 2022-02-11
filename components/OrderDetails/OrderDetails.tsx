@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 
 import { Order } from "@api/gql/types"
 import { FullProduct } from "@lib/types"

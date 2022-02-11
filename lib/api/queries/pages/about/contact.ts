@@ -1,7 +1,7 @@
-import gql from "graphql-tag"
+import { gql } from "@apollo/client/core"
+
 import {
   cardsFragment,
-  generalPageQuery,
   mapFragment,
   pageCommonFragment,
   salesRepsFragment,
@@ -19,6 +19,5 @@ export const getContactData = gql`
         }
       }
     }
-    ${generalPageQuery}
   }
 `

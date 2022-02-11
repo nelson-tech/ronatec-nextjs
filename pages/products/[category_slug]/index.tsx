@@ -4,22 +4,20 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { useApolloClient } from "@apollo/client"
 import { ParsedUrlQuery } from "querystring"
 import smoothscroll from "smoothscroll-polyfill"
 
 import { Product } from "@api/gql/types"
-import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
   getCategorySlugs,
   getProductsByCategories,
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
-import { normalizeMenu } from "@api/utils/normalize/menu"
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 import LoadingDots from "@components/ui/LoadingDots"
@@ -43,11 +41,7 @@ const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
 
 const CategoryPage = ({
   category,
-  menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   const apolloClient = useApolloClient()
 
   const [products, setProducts] = useState(
@@ -143,7 +137,7 @@ const CategoryPage = ({
     return (
       <>
         <Breadcrumbs category={category} />
-        <div className="pt-16 pb-8 px-8 mx-auto lg:max-w-7xl">
+        <div className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
             {category.name}
           </h1>
@@ -229,7 +223,10 @@ const CategoryPage = ({
           </div>
         )}
 
-        <h2 className="px-8 pb-4 text-2xl font-bold text-gray-900 uppercase">
+        <h2
+          ref={productRef}
+          className="max-w-7xl mx-auto px-8 pb-4 text-2xl font-bold text-gray-900 uppercase"
+        >
           Products
         </h2>
 
@@ -256,10 +253,7 @@ const CategoryPage = ({
             </div>
           </div>
         ) : (
-          <div
-            ref={productRef}
-            className="pt-6 pb-24 px-8 mx-auto lg:max-w-7xl"
-          >
+          <div className="pt-6 pb-24 px-8 mx-auto lg:max-w-7xl">
             <div className="">
               <h2 id="product-heading" className="sr-only">
                 Products
@@ -319,16 +313,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     errorPolicy: "all",
   })
 
-  const {
-    data: { menu },
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
-    props: { menuItems, category },
+    props: { category },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 

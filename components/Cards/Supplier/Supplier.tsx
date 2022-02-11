@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react"
-import dynamic from "next/dynamic"
-import { InformationCircleIcon } from "@heroicons/react/solid"
+import dynamic from "next/dist/shared/lib/dynamic"
+import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
 
 import { Supplier, Supplier_Supplier } from "@api/gql/types"
 import { Underlined, underSelect } from "styles/utils"

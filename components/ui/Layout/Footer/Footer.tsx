@@ -1,15 +1,9 @@
-import dynamic from "next/dynamic"
-// import Link from "next/link"
-import {
-  AtSymbolIcon,
-  GlobeAltIcon,
-  LocationMarkerIcon,
-  PhoneIcon,
-  PrinterIcon,
-} from "@heroicons/react/solid"
-
-// import { Icon } from "@components/ui"
-// import { Image } from "@components"
+import dynamic from "next/dist/shared/lib/dynamic"
+import AtSymbolIcon from "@heroicons/react/solid/AtSymbolIcon"
+import GlobeAltIcon from "@heroicons/react/solid/GlobeAltIcon"
+import LocationMarkerIcon from "@heroicons/react/solid/LocationMarkerIcon"
+import PhoneIcon from "@heroicons/react/solid/PhoneIcon"
+import PrinterIcon from "@heroicons/react/solid/PrinterIcon"
 
 // ####
 // #### Dynamic Imports

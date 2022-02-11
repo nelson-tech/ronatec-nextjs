@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { InferGetStaticPropsType } from "next"
 import {
   Controller,
   ControllerRenderProps,
@@ -8,22 +7,9 @@ import {
   useWatch,
 } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import { RefreshIcon } from "@heroicons/react/outline"
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
-import { normalizeMenu } from "@api/utils/normalize/menu"
-import { getGeneralPageData } from "@api/queries/pages"
-
-const Quote = ({
-  // page,
-  menuItems,
-}: // loading,
-// error,
-InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
+const Quote = ({}) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [formStatus, setFormStatus] = useState<string | null>(null)
 
@@ -535,31 +521,3 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default Quote
-
-export async function getStaticProps() {
-  const client = initializeApollo({})
-
-  const {
-    data: { menu },
-    loading: menuLoading,
-    error: menuError,
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
-  const staticProps = {
-    props: {
-      // loading,
-      // page,
-      menuItems,
-      // error: error || null,
-    },
-    revalidate: 4 * 60 * 60, // Every 4 hours
-  }
-
-  addApolloState(client, staticProps)
-
-  return staticProps
-}

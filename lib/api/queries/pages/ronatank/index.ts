@@ -1,4 +1,5 @@
-import gql from "graphql-tag"
+import { gql } from "@apollo/client/core"
+
 import { pageCommonFragment } from "@api/queries/fragments"
 
 export const getRonatankData = gql`

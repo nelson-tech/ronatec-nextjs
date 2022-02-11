@@ -1,11 +1,10 @@
 import { FormEventHandler, useEffect, useState } from "react"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
+import dynamic from "next/dist/shared/lib/dynamic"
+import { useRouter } from "next/dist/client/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
-import { CheckIcon } from "@heroicons/react/solid"
+import CheckIcon from "@heroicons/react/solid/CheckIcon"
 
-import { useAuth } from "@lib/hooks"
 import {
   AddToCartInput,
   ProductAttributeInput,
@@ -21,6 +20,7 @@ import {
   ProductTopContainer,
   TopContainer,
 } from "./style"
+import useAuth from "@lib/hooks/useAuth"
 
 // ####
 // #### Dynamic Imports

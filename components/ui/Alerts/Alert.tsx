@@ -1,12 +1,10 @@
 import styled from "@emotion/styled"
-import {
-  CheckCircleIcon,
-  ExclamationCircleIcon,
-  ExclamationIcon,
-  InformationCircleIcon,
-  XIcon,
-} from "@heroicons/react/solid"
 import tw from "twin.macro"
+import CheckCircleIcon from "@heroicons/react/solid/CheckCircleIcon"
+import ExclamationIcon from "@heroicons/react/solid/ExclamationIcon"
+import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon"
+import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
+import XIcon from "@heroicons/react/outline/XIcon"
 
 import { AlertProps } from "@lib/types"
 

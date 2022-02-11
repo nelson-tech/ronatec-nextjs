@@ -3,17 +3,14 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import styled from "@emotion/styled"
 import tw from "twin.macro"
 import { ParsedUrlQuery } from "querystring"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { htmlParserOptions, parse } from "@lib/utils"
-import { normalizeMenu } from "@api/utils/normalize/menu"
-
-import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
   getCategorySlugs,
@@ -42,11 +39,7 @@ interface IParams extends ParsedUrlQuery {
 
 const CategoryInfo = ({
   category,
-  menuItems,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   if (category) {
     const content = category.product_category?.acf?.description
 
@@ -87,17 +80,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     },
     errorPolicy: "all",
   })
-
-  const {
-    data: { menu },
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
-    props: { menuItems, category },
+    props: { category },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 

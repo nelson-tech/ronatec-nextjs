@@ -1,9 +1,6 @@
-import gql from "graphql-tag"
-import {
-  generalPageQuery,
-  pageCommonFragment,
-  cardsFragment,
-} from "@api/queries/fragments"
+import { gql } from "@apollo/client/core"
+
+import { pageCommonFragment, cardsFragment } from "@api/queries/fragments"
 
 export const getAboutData = gql`
   query AboutQuery {
@@ -15,7 +12,6 @@ export const getAboutData = gql`
         }
       }
     }
-  ${generalPageQuery}
   }
 `
 

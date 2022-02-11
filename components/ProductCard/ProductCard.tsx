@@ -1,4 +1,4 @@
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import Link from "next/link"
 import { default as parse } from "html-react-parser"
 

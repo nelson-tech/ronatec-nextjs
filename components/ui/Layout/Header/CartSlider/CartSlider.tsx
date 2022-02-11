@@ -1,11 +1,12 @@
 import { Dispatch, Fragment, SetStateAction, useState } from "react"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import router from "next/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { Dialog, Transition } from "@headlessui/react"
-import { ArrowRightIcon, XIcon } from "@heroicons/react/outline"
+import ArrowRightIcon from "@heroicons/react/outline/ArrowRightIcon"
+import XIcon from "@heroicons/react/outline/XIcon"
 
-import { useAuth } from "@lib/hooks"
+import useAuth from "@lib/hooks/useAuth"
 import { Cart } from "@api/gql/types"
 
 import { CartPane } from "./style"

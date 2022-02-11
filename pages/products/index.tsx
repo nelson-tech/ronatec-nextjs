@@ -1,12 +1,11 @@
 import { useCallback, useState } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { useApolloClient } from "@apollo/client"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu, useMobileDetect } from "@lib/hooks"
-import { normalizeMenu } from "@api/utils/normalize/menu"
-import { getGeneralPageData } from "@api/queries/pages"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
+import { useMobileDetect } from "@lib/hooks"
 import {
   getProductCategories,
   getProductsByCategories,
@@ -16,8 +15,8 @@ import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 import LoadingDots from "@components/ui/LoadingDots"
-import ProductCard from "@components/ProductCard"
-import Sort from "@components/Sort"
+// import ProductCard from "@components/ProductCard"
+// import Sort from "@components/Sort"
 
 // ####
 // #### Dynamic Imports
@@ -25,21 +24,17 @@ import Sort from "@components/Sort"
 
 const importOpts = {}
 
-// const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
-// const Sort = dynamic(() => import("@components/Sort"), importOpts)
+const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
+const Sort = dynamic(() => import("@components/Sort"), importOpts)
 
 // ####
 // #### Component
 // ####
 
 const Products = ({
-  menuItems,
   categories,
   products: initialProducts,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   const apolloClient = useApolloClient()
 
   const [loading, setLoading] = useState(false)
@@ -99,8 +94,8 @@ const Products = ({
 
   return (
     <div>
-      <main className="max-w-7xl mx-auto">
-        <div className="relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
+      <main className="">
+        <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
             Products
           </h1>
@@ -117,7 +112,7 @@ const Products = ({
           setFilteredCategories={setFilteredCategories}
         />
 
-        <div className="pt-6 pb-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto pt-6 pb-24 px-4 sm:px-6 lg:px-8">
           <h2 id="products-heading" className="sr-only">
             Products
           </h2>
@@ -206,19 +201,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     errorPolicy: "all",
   })
 
-  const {
-    data: { menu },
-    loading: menuLoading,
-    error: menuError,
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
     props: {
-      menuItems,
       categories: productCategories.nodes,
       products: products.nodes,
     },

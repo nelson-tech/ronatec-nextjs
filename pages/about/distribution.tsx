@@ -1,11 +1,10 @@
 import { Fragment, useState } from "react"
 import { InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { Dialog, Transition } from "@headlessui/react"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
-import { normalizeMenu } from "@api/utils/normalize/menu"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { getDistributionData } from "@api/queries/pages/about"
 import { SuppliersReturnType } from "@api/queries/types"
 import { ChosenSupplierType } from "@components/Cards/Supplier"
@@ -32,13 +31,9 @@ const SupplierCard = dynamic(
 
 export default function Distribution({
   suppliers,
-  menuItems,
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   const [isOpen, setIsOpen] = useState(false)
   const [chosenSupplier, setChosenSupplier] = useState<
     ChosenSupplierType | undefined
@@ -188,20 +183,17 @@ export async function getStaticProps() {
   const client = initializeApollo({})
 
   const {
-    data: { suppliers, menu },
+    data: { suppliers },
     loading,
     error,
   }: SuppliersReturnType = await client.query({
     query: getDistributionData,
   })
 
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
     props: {
       loading,
       suppliers: suppliers.nodes,
-      menuItems,
       error: error || null,
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

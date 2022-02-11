@@ -1,10 +1,9 @@
 import { InferGetStaticPropsType } from "next"
 import Image from "next/image"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { parseNewLines } from "@lib/utils"
-import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getAboutData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
@@ -16,13 +15,9 @@ import LoadingDots from "@components/ui/LoadingDots"
 
 const About = ({
   page,
-  menuItems,
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   if (loading) return <LoadingDots />
 
   const { title, slug } = page
@@ -74,20 +69,17 @@ export async function getStaticProps() {
   const client = initializeApollo({})
 
   const {
-    data: { page, menu },
+    data: { page },
     loading,
     error,
   }: PageReturnType = await client.query({
     query: getAboutData,
   })
 
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
     props: {
       loading,
       page,
-      menuItems,
       error: error || null,
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { InformationCircleIcon } from "@heroicons/react/outline"
+import InformationCircleIcon from "@heroicons/react/outline/InformationCircleIcon"
 import { ProductCategory } from "@api/gql/types"
 
 type BreadcrumbsProps = {

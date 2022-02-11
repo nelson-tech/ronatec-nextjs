@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { ThemeProvider } from "@emotion/react"
 
 import { emotionTheme } from "styles/theme"

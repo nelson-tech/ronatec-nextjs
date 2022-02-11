@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react"
-import { InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
+import dynamic from "next/dist/shared/lib/dynamic"
+import { useRouter } from "next/dist/client/router"
 import { useApolloClient, useQuery } from "@apollo/client"
 import isEqual from "lodash.isequal"
-import { RefreshIcon } from "@heroicons/react/outline"
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useAuth, useMainMenu } from "@lib/hooks"
-import { normalizeMenu } from "@api/utils/normalize/menu"
+import useAuth from "@lib/hooks/useAuth"
 import { Order } from "@api/gql/types"
-import { getGeneralPageData } from "@api/queries/pages"
 import { getUserOrders } from "@api/queries/pages/dashboard"
 
 import LoadingDots from "@components/ui/LoadingDots"
@@ -30,15 +26,7 @@ const OrderSummary = dynamic(
 // #### Component
 // ####
 
-const Orders = ({
-  // page,
-  menuItems,
-}: // loading,
-// error,
-InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
+const Orders = ({}) => {
   const router = useRouter()
   const client = useApolloClient()
 
@@ -147,35 +135,3 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default Orders
-
-// ####
-// #### External Props
-// ####
-
-export async function getStaticProps() {
-  const client = initializeApollo({})
-
-  const {
-    data: { menu },
-    loading: menuLoading,
-    error: menuError,
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
-  const staticProps = {
-    props: {
-      // loading,
-      // page,
-      menuItems,
-      // error: error || null,
-    },
-    revalidate: 4 * 60 * 60, // Every 4 hours
-  }
-
-  addApolloState(client, staticProps)
-
-  return staticProps
-}

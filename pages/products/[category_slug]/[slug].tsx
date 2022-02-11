@@ -3,14 +3,12 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { ParsedUrlQuery } from "querystring"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { AttributeType, FullProduct } from "@lib/types"
-import { normalizeMenu } from "@api/utils/normalize/menu"
-import { getGeneralPageData } from "@api/queries/pages"
 import {
   getCategoryFromSlug,
   getProductDataFromSlug,
@@ -48,12 +46,8 @@ interface IParams extends ParsedUrlQuery {
 const SKUProduct = ({
   product,
   attributes,
-  menuItems,
   category,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   if (product) {
     return (
       <div>
@@ -97,16 +91,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     errorPolicy: "all",
   })
 
-  const {
-    data: { menu },
-    loading: menuLoading,
-    error: menuError,
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
   const getAttributes = (product: FullProduct) => {
     let allAttributes: AttributeType[] = []
 
@@ -140,7 +124,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const attributes = product ? getAttributes(product) : null
 
   const staticProps = {
-    props: { menuItems, product, attributes, category },
+    props: { product, attributes, category },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 

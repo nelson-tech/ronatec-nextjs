@@ -1,4 +1,4 @@
-import { CollectionIcon } from "@heroicons/react/outline"
+import CollectionIcon from "@heroicons/react/outline/CollectionIcon"
 
 type UserMenuItem = {
   name: string

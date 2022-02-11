@@ -1,10 +1,4 @@
-import { InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
-
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
-import { normalizeMenu } from "@api/utils/normalize/menu"
-import { getGeneralPageData } from "@api/queries/pages"
+import dynamic from "next/dist/shared/lib/dynamic"
 
 // ####
 // #### Dynamic Imports
@@ -21,15 +15,7 @@ const ResetPasswordForm = dynamic(
 // #### Component
 // ####
 
-const ResetPassword = ({
-  // page,
-  menuItems,
-}: // loading,
-// error,
-InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
+const ResetPassword = ({}) => {
   return (
     <>
       <div>
@@ -40,35 +26,3 @@ InferGetStaticPropsType<typeof getStaticProps>) => {
 }
 
 export default ResetPassword
-
-// ####
-// #### External Props
-// ####
-
-export async function getStaticProps() {
-  const client = initializeApollo({})
-
-  const {
-    data: { menu },
-    loading: menuLoading,
-    error: menuError,
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
-  const staticProps = {
-    props: {
-      // loading,
-      // page,
-      menuItems,
-      // error: error || null,
-    },
-    revalidate: 4 * 60 * 60, // Every 4 hours
-  }
-
-  addApolloState(client, staticProps)
-
-  return staticProps
-}

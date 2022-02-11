@@ -1,12 +1,11 @@
 import type { InferGetStaticPropsType } from "next"
-import dynamic from "next/dynamic"
+import dynamic from "next/dist/shared/lib/dynamic"
 import tw from "twin.macro"
 
-import { addApolloState, initializeApollo } from "@lib/apollo"
-import { useMainMenu } from "@lib/hooks"
+import initializeApollo from "@lib/apollo/client"
+import addApolloState from "@lib/apollo/addApolloState"
 import { PageReturnType } from "@api/queries/types"
-import { getGeneralPageData, getHomeData } from "@api/queries/pages"
-import { normalizeMenu } from "@api/utils/normalize/menu"
+import { getHomeData } from "@api/queries/pages"
 
 // import { LoadingDots, MenuLink } from "@components/ui"
 // import { Slider, VideoCard, Image } from "@components"
@@ -71,13 +70,9 @@ const categories = [
 
 export default function Home({
   page: home,
-  menuItems,
   loading,
   error,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { setMenu } = useMainMenu()
-  menuItems && setMenu(menuItems)
-
   if (loading) return <LoadingDots />
 
   const slides = home.page_home?.acf?.slides
@@ -242,21 +237,10 @@ export async function getStaticProps() {
     query: getHomeData,
   })
 
-  const {
-    data: { menu },
-    loading: menuLoading,
-    error: menuError,
-  } = await client.query({
-    query: getGeneralPageData,
-  })
-
-  const menuItems = normalizeMenu(menu)
-
   const staticProps = {
     props: {
       loading,
       page,
-      menuItems,
       error: error || null,
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

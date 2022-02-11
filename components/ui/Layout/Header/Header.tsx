@@ -1,17 +1,15 @@
 import { Fragment, useEffect, useState } from "react"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
+import dynamic from "next/dist/shared/lib/dynamic"
+import { useRouter } from "next/dist/client/router"
 // import Link from "next/link"
 import { gql, useQuery } from "@apollo/client"
 import Headroom from "react-headroom"
 import { Popover } from "@headlessui/react"
-import {
-  MenuIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-} from "@heroicons/react/outline"
+import MenuIcon from "@heroicons/react/outline/MenuIcon"
+import SearchIcon from "@heroicons/react/outline/SearchIcon"
+import ShoppingCartIcon from "@heroicons/react/outline/ShoppingCartIcon"
 
-import { useAuth, useMainMenu } from "@lib/hooks"
+import useAuth from "@lib/hooks/useAuth"
 import { Cart } from "@api/gql/types"
 import { cartBaseFragment } from "@api/queries/fragments/products"
 
@@ -20,6 +18,7 @@ import { cartBaseFragment } from "@api/queries/fragments/products"
 import Icon from "@components/ui/Icon"
 import MenuLink from "@components/ui/MenuLink"
 import Promo from "./Promo"
+import mainMenu from "@lib/menus/main"
 // import MobileMenu from "./MobileMenu"
 // import Usernav from "./Usernav"
 // import MegaMenu from "./MegaMenu"
@@ -103,8 +102,6 @@ const Header = ({ promo = false }: HeaderProps) => {
 
   const router = useRouter()
 
-  const { menu } = useMainMenu()
-
   const [cart, setCart] = useState<Cart | null>()
 
   const { data, error, loading } = useQuery(getCartQuery)
@@ -149,11 +146,7 @@ const Header = ({ promo = false }: HeaderProps) => {
 
   return (
     <>
-      <MobileMenu
-        open={mobileMenuOpen}
-        setOpen={setMobileMenuOpen}
-        menu={menu}
-      />
+      <MobileMenu open={mobileMenuOpen} setOpen={setMobileMenuOpen} />
 
       <Modal open={signInOpen} setOpen={setSignInOpen}>
         <LoginForm />
@@ -201,7 +194,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                       {/* Mega menus */}
                       <Popover.Group className="ml-8">
                         <div className="h-full flex items-center space-x-2 text-sm font-medium text-gray-600">
-                          {menu.map(menuItem => {
+                          {mainMenu.map(menuItem => {
                             if (menuItem.children) {
                               if (menuItem.mega) {
                                 return (
@@ -249,7 +242,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                     <div className="flex-1 flex items-center lg:hidden">
                       <button
                         type="button"
-                        className="-ml-2 bg-white p-2 rounded-md text-gray-400 focus:text-white"
+                        className="-ml-2 bg-white p-2 rounded-md text-gray-400"
                         onClick={() => setMobileMenuOpen(true)}
                       >
                         <span className="sr-only focus:text-white">

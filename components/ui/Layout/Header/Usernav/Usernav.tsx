@@ -1,14 +1,12 @@
 import { Dispatch, FC, Fragment, SetStateAction } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/dist/client/router"
 import { Menu, Transition } from "@headlessui/react"
-import {
-  ClipboardCheckIcon,
-  LoginIcon,
-  LogoutIcon,
-  UserIcon,
-} from "@heroicons/react/outline"
+import ClipboardCheckIcon from "@heroicons/react/outline/ClipboardCheckIcon"
+import LoginIcon from "@heroicons/react/outline/LoginIcon"
+import LogoutIcon from "@heroicons/react/outline/LogoutIcon"
+import UserIcon from "@heroicons/react/outline/UserIcon"
 
-import { useAuth } from "@lib/hooks"
+import useAuth from "@lib/hooks/useAuth"
 import userMenu from "../userMenu"
 
 import MenuLink from "@components/ui/MenuLink"

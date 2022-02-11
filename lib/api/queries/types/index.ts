@@ -8,9 +8,8 @@ import {
   Supplier,
   VariableProduct,
 } from "@api/gql/types"
-import { ApolloGenericReturnDataType, ApolloReturnInfoType } from "./common"
+import { ApolloReturnInfoType } from "./common"
 
-export type { ApolloGenericReturnDataType } from "./common"
 export type { ApolloReturnInfoType } from "./common"
 export type { MenuItemType } from "./common"
 export type { MainMenuReturnType } from "./common"
@@ -27,19 +26,19 @@ export type { EmployeeCommonType } from "./employee"
 export type { SalesRepType } from "./employee"
 
 export type PageReturnType = ApolloReturnInfoType & {
-  data: ApolloGenericReturnDataType & {
+  data: {
     page: Page
   }
 }
 
 export type SuppliersReturnType = ApolloReturnInfoType & {
-  data: ApolloGenericReturnDataType & {
+  data: {
     suppliers: { nodes: Supplier[] }
   }
 }
 
 export type ProductReturnType = ApolloReturnInfoType & {
-  data: ApolloGenericReturnDataType & {
+  data: {
     product: Product &
       VariableProduct &
       SimpleProduct &
@@ -49,7 +48,7 @@ export type ProductReturnType = ApolloReturnInfoType & {
 }
 
 export type ProductsReturnType = ApolloReturnInfoType & {
-  data: ApolloGenericReturnDataType & {
+  data: {
     products: {
       nodes: (Product &
         VariableProduct &
@@ -61,13 +60,13 @@ export type ProductsReturnType = ApolloReturnInfoType & {
 }
 
 export type CategoryReturnType = ApolloReturnInfoType & {
-  data: ApolloGenericReturnDataType & {
+  data: {
     productCategory: ProductCategory
   }
 }
 
 export type CategoriesReturnType = ApolloReturnInfoType & {
-  data: ApolloGenericReturnDataType & {
+  data: {
     productCategories: { nodes: ProductCategory[] }
   }
 }

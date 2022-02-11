@@ -1,6 +1,5 @@
 import { Maybe, Scalars } from "@api/gql/types"
 import {
-  ApolloGenericReturnDataType,
   ApolloReturnInfoType,
   ImageCardType,
   ImageType,
@@ -25,8 +24,7 @@ export type ConsultingPageReturnType = PageCommonType & {
   consulting: ConsultingDataReturnType
 }
 
-export interface ConsultingQueryDataReturnType
-  extends ApolloGenericReturnDataType {
+export interface ConsultingQueryDataReturnType {
   page: ConsultingPageReturnType
 }
 
