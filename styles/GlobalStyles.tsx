@@ -12,9 +12,11 @@ export const customStyles = css`
 
   @font-face {
     font-family: "Montserrat";
-    src: url("${fontsCDN}/Montserrat/Montserrat-VF.ttf")
-      format("truetype-variations");
+    src: local("Monteserrat"),
+      url("${fontsCDN}/Montserrat/Montserrat-VF.ttf")
+        format("truetype-variations");
     font-weight: 1 999;
+    font-display: swap;
   }
 
   body {
@@ -24,7 +26,6 @@ export const customStyles = css`
 
     .font-family {
       font-family: Montserrat, Verdana, sans-serif;
-      font-display: swap;
     }
   }
 
