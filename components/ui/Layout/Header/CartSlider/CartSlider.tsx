@@ -71,7 +71,9 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
       const clientShopId = getClientShopId()
       if (clientShopId) {
         router.push(
-          `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}?session_id=${clientShopId}`,
+          `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}${
+            loggedIn ? "" : `?session_id=${clientShopId}`
+          }`,
         )
       } else {
         setError("Shopping Session not found.")

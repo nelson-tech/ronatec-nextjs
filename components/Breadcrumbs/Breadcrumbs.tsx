@@ -19,12 +19,15 @@ const Breadcrumbs = ({
         aria-label="Breadcrumb"
         className="mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl"
       >
-        <ol role="list" className="flex items-center space-x-4 py-4">
+        <ol
+          role="list"
+          className="flex items-center space-x-2 md:space-x-4 py-4"
+        >
           <li>
             <div className="flex items-center">
               <Link href={"/products"} passHref>
                 <a
-                  className="mr-4 text-sm font-medium text-gray-900"
+                  className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
                   title="View all products"
                 >
                   Shop
@@ -52,7 +55,7 @@ const Breadcrumbs = ({
                       <Link href={`/products/${ancestor.slug}`}>
                         <a
                           title={`View all ${category.name} products`}
-                          className="mr-4 text-sm font-medium text-gray-900"
+                          className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
                         >
                           {ancestor.name}
                         </a>

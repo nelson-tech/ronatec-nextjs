@@ -1,6 +1,6 @@
 import { FormEventHandler, useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
-import { useRouter } from "next/dist/client/router"
+// import { useRouter } from "next/dist/client/router"
 import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
 import CheckIcon from "@heroicons/react/solid/CheckIcon"
@@ -44,7 +44,7 @@ type DefaultProductProps = {
 // ####
 
 const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
-  const router = useRouter()
+  // const router = useRouter()
   const apolloClient = useApolloClient()
 
   const { getClientMutationId, getClientShopId } = useAuth()
@@ -163,16 +163,16 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
     }
   }
 
-  const handleCheckout = () => {
-    const clientShopId = getClientShopId()
-    if (clientShopId) {
-      router.push(
-        `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}?session_id=${clientShopId}`,
-      )
-    } else {
-      setError("Shopping Session not found.")
-    }
-  }
+  // const handleCheckout = () => {
+  //   const clientShopId = getClientShopId()
+  //   if (clientShopId) {
+  //     router.push(
+  //       `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}?session_id=${clientShopId}`,
+  //     )
+  //   } else {
+  //     setError("Shopping Session not found.")
+  //   }
+  // }
 
   return (
     <>
@@ -209,8 +209,11 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                       <RadioGroup.Label className="sr-only">
                         Choose a variation
                       </RadioGroup.Label>
-                      <div key={attribute.id} className="text-base font-bold">
-                        {attribute.name}
+                      <div
+                        key={attribute.id}
+                        className="text-base font-bold pb-3"
+                      >
+                        {attribute.name}:
                       </div>
                       <div className="flex flex-wrap items-center justify-center space-x-4">
                         {attribute.variations.map(variation => {
@@ -240,7 +243,11 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                                                 : "text-gray-900"
                                             }`}
                                           >
-                                            {variation.name?.split(" - ")[1]}
+                                            {
+                                              variation.name?.split(
+                                                product.name + " - ",
+                                              )[1]
+                                            }
                                           </RadioGroup.Label>
                                           {/* <RadioGroup.Description
                                             as="span"
