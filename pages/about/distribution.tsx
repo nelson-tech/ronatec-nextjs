@@ -5,7 +5,7 @@ import { Dialog, Transition } from "@headlessui/react"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getDistributionData } from "@api/queries/pages/about"
 import { SuppliersReturnType } from "@api/queries/types"
 import { ChosenSupplierType } from "@components/Cards/Supplier"
@@ -195,7 +195,7 @@ export async function getStaticProps() {
     query: getDistributionData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

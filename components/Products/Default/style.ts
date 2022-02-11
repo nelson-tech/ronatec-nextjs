@@ -54,6 +54,23 @@ export const ProductMainContainer = styled.div`
     padding-bottom: 0.5rem /* 8px */;
   }
 
+  h2 {
+    ${tw`text-xl font-bold py-4`}
+  }
+  .column-container {
+    ${tw`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-4 px-0`}
+    .column {
+      ${tw`px-4 pb-4`}
+      img {
+        ${tw`mx-8`}
+      }
+    }
+  }
+
+  div {
+    ${tw`text-sm`}
+  }
+
   /* TABS - Start */
 
   .tab-group {

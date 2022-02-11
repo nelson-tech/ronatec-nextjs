@@ -4,7 +4,7 @@ import { OfficeBuildingIcon } from "@heroicons/react/outline"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getWarehousesData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
@@ -88,7 +88,7 @@ export async function getStaticProps() {
     query: getWarehousesData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

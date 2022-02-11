@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useAuth, useMainMenu } from "@lib/hooks"
 import { getGeneralPageData } from "@api/queries/pages"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 
 // ####
 // #### Dynamic Imports
@@ -48,7 +48,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     query: getGeneralPageData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: { menuItems },

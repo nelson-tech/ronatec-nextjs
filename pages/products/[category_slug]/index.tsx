@@ -17,12 +17,13 @@ import {
   getProductsByCategories,
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import Breadcrumbs from "@components/Breadcrumbs"
 
 // ####
 // #### Dynamic Imports
@@ -30,7 +31,7 @@ import LoadingDots from "@components/ui/LoadingDots"
 
 const importOpts = {}
 
-const Breadcrumbs = dynamic(() => import("@components/Breadcrumbs"), importOpts)
+// const Breadcrumbs = dynamic(() => import("@components/Breadcrumbs"), importOpts)
 const Image = dynamic(() => import("@components/Image"), importOpts)
 const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
 const Sort = dynamic(() => import("@components/Sort"), importOpts)
@@ -165,7 +166,7 @@ const CategoryPage = ({
             <h2 className="font-bold text-2xl text-gray-900 uppercase">
               Sub-Categories{" "}
               <span
-                className="ml-4 text-sm font-normal text-gray-400 normal-case cursor-pointer"
+                className="ml-4 text-sm hidden md:inline font-normal text-gray-400 normal-case cursor-pointer"
                 onClick={() => {
                   if (process.browser) {
                     productRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -175,7 +176,18 @@ const CategoryPage = ({
                 Scroll down for Products
               </span>
             </h2>
-            <div className="text-sm pl-4">
+
+            <div
+              className="text-sm md:hidden font-normal text-gray-400 normal-case cursor-pointer"
+              onClick={() => {
+                if (process.browser) {
+                  productRef.current?.scrollIntoView({ behavior: "smooth" })
+                }
+              }}
+            >
+              Scroll down for Products
+            </div>
+            <div className="text-sm">
               <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
                 {category.children.nodes.map(subCategory => {
                   if (subCategory) {
@@ -248,7 +260,7 @@ const CategoryPage = ({
             ref={productRef}
             className="pt-6 pb-24 px-8 mx-auto lg:max-w-7xl"
           >
-            <section aria-labelledby="product-heading" className="">
+            <div className="">
               <h2 id="product-heading" className="sr-only">
                 Products
               </h2>
@@ -256,7 +268,7 @@ const CategoryPage = ({
               <div
                 className={
                   viewMode === "grid"
-                    ? "grid grid-cols-2 gap-y-4 gap-x-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 lg:grid-cols-3"
+                    ? "grid grid-cols-2 gap-y-4 gap-x-2 md:gap-x-4 md:gap-y-10 md:grid-cols-3 lg:gap-x-4 lg:grid-cols-4"
                     : "px-4"
                 }
               >
@@ -275,7 +287,7 @@ const CategoryPage = ({
                     }
                   })}
               </div>
-            </section>
+            </div>
           </div>
         )}
       </>
@@ -313,7 +325,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     query: getGeneralPageData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: { menuItems, category },

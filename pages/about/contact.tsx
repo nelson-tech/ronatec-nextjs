@@ -4,7 +4,7 @@ import dynamic from "next/dynamic"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { parseNewLines } from "@lib/utils"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getContactData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 import { Employee } from "@api/gql/types"
@@ -163,7 +163,7 @@ export async function getStaticProps() {
     query: getContactData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

@@ -6,11 +6,12 @@ import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { PageReturnType } from "@api/queries/types"
 import { getGeneralPageData, getHomeData } from "@api/queries/pages"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 
 // import { LoadingDots, MenuLink } from "@components/ui"
 // import { Slider, VideoCard, Image } from "@components"
 // import { IconCard, SupplierCard } from "@components/Cards"
+import LoadingDots from "@components/ui/LoadingDots"
 
 // ####
 // #### Dynamic Imports
@@ -20,10 +21,10 @@ const importOpts = {}
 
 const IconCard = dynamic(() => import("@components/Cards/Icon"), importOpts)
 const Image = dynamic(() => import("@components/Image"), importOpts)
-const LoadingDots = dynamic(
-  () => import("@components/ui/LoadingDots"),
-  importOpts,
-)
+// const LoadingDots = dynamic(
+//   () => import("@components/ui/LoadingDots"),
+//   importOpts,
+// )
 const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
 const SupplierCard = dynamic(
   () => import("@components/Cards/Supplier"),
@@ -129,39 +130,6 @@ export default function Home({
           />
         </div>
       </div>
-      {/* <div className="relative aspect-1 -mx-5 w-screen mb-8 mt-0">
-        <div className="w-full absolute aspect-video bg-white flex">
-          <div className="w-2/3 lg:w-1/3 relative mx-auto">
-            <Image
-              src="https://ronatec.us/wp-content/uploads/2015/11/ronatec_retina.png"
-              layout="responsive"
-              alt="Ronatec Logo"
-              objectFit="contain"
-            />
-          </div>
-        </div>
-      </div> */}
-      {/* 
-        <video
-          autoPlay
-          muted
-          loop
-          className="absolute w-full h-full object-cover z-0"
-        >
-          <source
-            src="https://cdn.ronatec.us/ronatec/20220102201608/can-capping.mp4"
-            type="video/mp4"
-          />
-        </video>
-      </div> */}
-
-      {/* {slides && (
-        <Slider
-          slides={slides}
-          containerClassName="aspect-3 relative -mx-5 w-screen h-full mb-8 mt-0"
-          imageFit="cover"
-        />
-      )} */}
 
       <div className="bg-white">
         <div className="py-16 sm:py-24 xl:max-w-7xl xl:mx-auto xl:px-8">
@@ -282,7 +250,7 @@ export async function getStaticProps() {
     query: getGeneralPageData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

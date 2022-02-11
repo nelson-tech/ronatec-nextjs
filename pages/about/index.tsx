@@ -4,7 +4,7 @@ import Image from "next/image"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { parseNewLines } from "@lib/utils"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getAboutData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
@@ -81,7 +81,7 @@ export async function getStaticProps() {
     query: getAboutData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

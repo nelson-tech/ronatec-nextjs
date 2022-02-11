@@ -11,7 +11,7 @@ import { ParsedUrlQuery } from "querystring"
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { htmlParserOptions, parse } from "@lib/utils"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 
 import { getGeneralPageData } from "@api/queries/pages"
 import {
@@ -94,7 +94,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     query: getGeneralPageData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: { menuItems, category },

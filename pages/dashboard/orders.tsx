@@ -8,7 +8,7 @@ import { RefreshIcon } from "@heroicons/react/outline"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useAuth, useMainMenu } from "@lib/hooks"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { Order } from "@api/gql/types"
 import { getGeneralPageData } from "@api/queries/pages"
 import { getUserOrders } from "@api/queries/pages/dashboard"
@@ -163,7 +163,7 @@ export async function getStaticProps() {
     query: getGeneralPageData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

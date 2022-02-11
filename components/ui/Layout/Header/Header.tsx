@@ -3,7 +3,7 @@ import dynamic from "next/dynamic"
 import { useRouter } from "next/router"
 // import Link from "next/link"
 import { gql, useQuery } from "@apollo/client"
-// import Headroom from "react-headroom"
+import Headroom from "react-headroom"
 import { Popover } from "@headlessui/react"
 import {
   MenuIcon,
@@ -17,12 +17,17 @@ import { cartBaseFragment } from "@api/queries/fragments/products"
 
 // import { Icon, MenuLink, Modal } from "@components/ui"
 // import { SearchForm, LoginForm } from "@components"
-// import Promo from "./Promo"
+import Icon from "@components/ui/Icon"
+import MenuLink from "@components/ui/MenuLink"
+import Promo from "./Promo"
 // import MobileMenu from "./MobileMenu"
 // import Usernav from "./Usernav"
 // import MegaMenu from "./MegaMenu"
 // import Dropdown from "./Dropdown"
 // import CartSlider from "./CartSlider"
+// import Modal from "@components/ui/Modal"
+// import LoginForm from "@components/LoginForm"
+// import SearchForm from "@components/SearchForm"
 
 // ####
 // #### Dynamic Imports
@@ -38,23 +43,22 @@ const Dropdown = dynamic(
   () => import("@components/ui/Layout/Header/Dropdown"),
   importOpts,
 )
-const Headroom = dynamic(() => import("react-headroom"), importOpts)
-const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+// const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
 const LoginForm = dynamic(() => import("@components/LoginForm"), importOpts)
 const MegaMenu = dynamic(
   () => import("@components/ui/Layout/Header/MegaMenu"),
   importOpts,
 )
-const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+// const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
 const MobileMenu = dynamic(
   () => import("@components/ui/Layout/Header/MobileMenu"),
   importOpts,
 )
 const Modal = dynamic(() => import("@components/ui/Modal"), importOpts)
-const Promo = dynamic(
-  () => import("@components/ui/Layout/Header/Promo"),
-  importOpts,
-)
+// const Promo = dynamic(
+//   () => import("@components/ui/Layout/Header/Promo"),
+//   importOpts,
+// )
 const SearchForm = dynamic(() => import("@components/SearchForm"), importOpts)
 const Usernav = dynamic(
   () => import("@components/ui/Layout/Header/Usernav"),
@@ -322,7 +326,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                                   : ""
                               }`}
                             >
-                              {cart && cart.contents?.itemCount}
+                              {cart ? cart.contents?.itemCount : 0}
                             </span>
                             <span className="sr-only">
                               items in cart, view bag

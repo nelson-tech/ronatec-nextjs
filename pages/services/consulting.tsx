@@ -6,7 +6,7 @@ import tw from "twin.macro"
 import { addApolloState } from "@lib/apollo"
 import { useMainMenu } from "@lib/hooks"
 import { parseNewLines } from "@lib/utils"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getConsultingData } from "@api/queries/pages"
 import { Post_Common_Cards } from "@api/gql/types"
 import { PageReturnType } from "@api/queries/types"
@@ -164,7 +164,7 @@ export async function getStaticProps() {
     query: getConsultingData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {

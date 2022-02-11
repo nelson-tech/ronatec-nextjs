@@ -4,13 +4,15 @@ import { default as parse } from "html-react-parser"
 
 import { Product } from "@api/gql/types"
 
+import Image from "@components/Image"
+
 // ####
 // #### Dynamic Imports
 // ####
 
 const importOpts = {}
 
-const Image = dynamic(() => import("@components/Image"), importOpts)
+// const Image = dynamic(() => import("@components/Image"), importOpts)
 
 // ####
 // #### Types
@@ -52,7 +54,7 @@ const ProductCard = ({
           </div>
         )}
         <div className="flex-1 space-y-2 flex flex-col w-full">
-          <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-blue-main text-xl">
+          <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-blue-main text-base sm:text-xl">
             <Link href={`/products/${category_slug}/${product.slug}`} passHref>
               <a title={product.name || ""} className="flex flex-col">
                 <span aria-hidden="true" className="absolute inset-0" />
@@ -66,8 +68,8 @@ const ProductCard = ({
             </div>
           )} */}
           <div className="px-4 pb-2 flex-1 flex flex-col justify-end">
-            {/* <p className="text-sm italic text-gray-500">{product.options}</p> */}
-            {/* <p className="text-sm font-medium text-gray-400">{product.price}</p> */}
+            {/* <p className="text-sm italic text-gray-500">{product.options}</p> 
+             <p className="text-sm font-medium text-gray-400">{product.price}</p> */}
           </div>
           <div className="bg-green-main w-full text-white py-2 text-center">
             View more

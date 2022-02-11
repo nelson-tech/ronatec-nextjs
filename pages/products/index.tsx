@@ -5,7 +5,7 @@ import { useApolloClient } from "@apollo/client"
 
 import { addApolloState, initializeApollo } from "@lib/apollo"
 import { useMainMenu, useMobileDetect } from "@lib/hooks"
-import { normalize } from "@api/utils"
+import { normalizeMenu } from "@api/utils/normalize/menu"
 import { getGeneralPageData } from "@api/queries/pages"
 import {
   getProductCategories,
@@ -16,6 +16,8 @@ import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import ProductCard from "@components/ProductCard"
+import Sort from "@components/Sort"
 
 // ####
 // #### Dynamic Imports
@@ -23,8 +25,8 @@ import LoadingDots from "@components/ui/LoadingDots"
 
 const importOpts = {}
 
-const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
-const Sort = dynamic(() => import("@components/Sort"), importOpts)
+// const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
+// const Sort = dynamic(() => import("@components/Sort"), importOpts)
 
 // ####
 // #### Component
@@ -115,10 +117,7 @@ const Products = ({
           setFilteredCategories={setFilteredCategories}
         />
 
-        <section
-          aria-labelledby="products-heading"
-          className="pt-6 pb-24 px-4 sm:px-6 lg:px-8"
-        >
+        <div className="pt-6 pb-24 px-4 sm:px-6 lg:px-8">
           <h2 id="products-heading" className="sr-only">
             Products
           </h2>
@@ -137,7 +136,7 @@ const Products = ({
             <div
               className={
                 viewMode === "grid"
-                  ? "grid grid-cols-2 gap-y-4 gap-x-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 lg:grid-cols-3"
+                  ? "grid grid-cols-2 gap-y-4 gap-x-2 md:gap-x-4 md:gap-y-10 md:grid-cols-3 lg:gap-x-4 lg:grid-cols-4"
                   : "px-4"
               }
             >
@@ -161,7 +160,7 @@ const Products = ({
                 })}
             </div>
           )}
-        </section>
+        </div>
       </main>
     </div>
   )
@@ -215,7 +214,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     query: getGeneralPageData,
   })
 
-  const menuItems = normalize.menu(menu)
+  const menuItems = normalizeMenu(menu)
 
   const staticProps = {
     props: {
