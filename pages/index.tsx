@@ -30,43 +30,14 @@ const SupplierCard = dynamic(
   importOpts,
 )
 const VideoCard = dynamic(() => import("@components/VideoCard"), importOpts)
+const CardCarousel = dynamic(
+  () => import("@components/CardCarousel"),
+  importOpts,
+)
 
 // ####
 // #### Component
 // ####
-
-const categories = [
-  {
-    name: "New Arrivals",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg",
-  },
-  {
-    name: "Productivity",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-01-category-02.jpg",
-  },
-  {
-    name: "Workspace",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-01-category-04.jpg",
-  },
-  {
-    name: "Accessories",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg",
-  },
-  {
-    name: "Sale",
-    href: "#",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg",
-  },
-]
 
 export default function Home({
   page: home,
@@ -83,7 +54,7 @@ export default function Home({
   return (
     <div className=" mx-auto lg:max-w-7xl pb-4">
       <div className="lg:relative mb-8">
-        <div className="mx-auto max-w-7xl px-2 w-full pt-16 pb-20 text-center lg:py-48 lg:text-left">
+        <div className="mx-auto max-w-7xl px-2 w-full py-16 text-center lg:pt-48 lg:text-left">
           <div className="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
               <span className="block xl:inline">Ronatec C2C, Inc.</span>{" "}
@@ -126,61 +97,16 @@ export default function Home({
         </div>
       </div>
 
-      <div className="bg-white">
-        <div className="py-16 sm:py-24 xl:max-w-7xl xl:mx-auto xl:px-8">
-          <div className="px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
-            <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
-              Shop by Category
-            </h2>
-            <MenuLink
-              href="/products"
-              className="hidden text-sm font-semibold text-blue-main hover:text-blue-dark sm:block"
-            >
-              Browse all categories<span aria-hidden="true"> &rarr;</span>
-            </MenuLink>
-          </div>
+      <CardCarousel
+        header="Shop by Category"
+        link={{ label: "Browse all categories", path: "/products" }}
+        query="productCategories(where: {hideEmpty: true})"
+      />
 
-          <div className="mt-4 flow-root">
-            <div className="-my-2">
-              <div className="box-content py-2 relative h-80 overflow-x-auto xl:overflow-visible">
-                <div className="absolute px-8 min-w-screen-xl flex space-x-8 sm:px-6 lg:px-8 xl:relative xl:px-0 xl:space-x-0 xl:grid xl:grid-cols-5 xl:gap-x-8">
-                  {categories.map(category => (
-                    <a
-                      key={category.name}
-                      href={category.href}
-                      className="relative w-56 h-72 rounded-lg p-6 flex flex-col overflow-hidden hover:opacity-75 xl:w-auto"
-                    >
-                      <span aria-hidden="true" className="absolute inset-0">
-                        <img
-                          src={category.imageSrc}
-                          alt=""
-                          className="w-full h-full object-center object-cover"
-                        />
-                      </span>
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50"
-                      />
-                      <span className="relative mt-auto text-center text-xl font-bold text-white">
-                        {category.name}
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 px-8 sm:hidden">
-            <MenuLink
-              href="/products"
-              className="block text-sm font-semibold text-blue-main hover:text-blue-dark"
-            >
-              Browse all categories<span aria-hidden="true"> &rarr;</span>
-            </MenuLink>
-          </div>
-        </div>
-      </div>
+      <CardCarousel
+        header="Top Selling Products"
+        query="products(where: {orderby: {field: TOTAL_SALES, order: DESC}}, first: 8)"
+      />
 
       {cards && (
         <div className="relative bg-white pb-16 py-8">

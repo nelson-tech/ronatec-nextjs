@@ -35,10 +35,7 @@ const ProductCard = ({
 }: ProductCardProps) => {
   if (viewMode === "grid") {
     return (
-      <div
-        key={product.id}
-        className="group relative bg-white border border-gray-200 rounded-lg w-full flex flex-col overflow-hidden"
-      >
+      <div className="group relative bg-white border border-gray-200 rounded-lg w-full flex flex-col overflow-hidden">
         {product.image && product.image.sourceUrl && (
           <div className="bg-gray-200 group-hover:opacity-75">
             <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">
@@ -72,7 +69,7 @@ const ProductCard = ({
              <p className="text-sm font-medium text-gray-400">{product.price}</p> */}
           </div>
           <div className="bg-green-main w-full text-white py-2 text-center">
-            View more
+            View mores
           </div>
         </div>
       </div>
