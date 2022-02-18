@@ -36,9 +36,9 @@ const CarbonateRemovalSystem = () => {
               <li>
                 <span className={listStyle}>
                   This unit has an ACTUAL CHILLER with additional capacity, so
-                  you can cool other items near the unit if you would like. "Low
-                  End" Refrigeration units are used on competitive products.
-                  They struggle in the heat.
+                  you can cool other items near the unit if you would like.
+                  &quot;Low End&quot; Refrigeration units are used on
+                  competitive products. They struggle in the heat.
                 </span>
               </li>
               <li>
@@ -89,7 +89,7 @@ const CarbonateRemovalSystem = () => {
           <dl className="mt-10 text-center sm:max-w-3xl sm:mx-auto">
             <div className="flex flex-col">
               <div className="mt-2 text-lg leading-6 font-medium text-gray-400">
-                That's
+                That&apos;s
               </div>
               <div className="text-5xl font-extrabold text-white">50%</div>
               <div className="mt-2 text-lg leading-6 font-medium text-gray-400">

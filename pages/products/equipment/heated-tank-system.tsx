@@ -125,6 +125,7 @@ const HeatedTankSystem = () => {
             <div>
               <Image
                 src="https://cdn.ronatec.us/ronatec/20220215004455/Heated-Tank.jpg"
+                alt="Heated Tank"
                 height={284}
                 width={244}
               />
@@ -147,70 +148,76 @@ const HeatedTankSystem = () => {
               <tbody>
                 <tr>
                   <td align="left">ET-III-W-1-MINI.-55-40**</td>
-                  <td align="left">4'x 8'x 9'</td>
+                  <td align="left">4 &apos;x 8 &apos;x 9 &apos;</td>
                   <td align="center">40 GPH</td>
                   <td align="right">550,000</td>
                   <td align="center">No</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-1-MINI.-55-40-C**</td>
-                  <td align="left">4'6" x 9'6" x 9' 6"</td>
+                  <td align="left">
+                    4 &apos;6&quot; x 9 &apos;6&quot; x 9 &apos; 6&quot;
+                  </td>
                   <td align="center">40 GPH</td>
                   <td align="right">550,000</td>
                   <td align="center">Yes</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-1-HT-55-40</td>
-                  <td align="left">7' x 9' x 13'9"</td>
+                  <td align="left">7 &apos; x 9 &apos; x 13 &apos;9&quot;</td>
                   <td align="center">40 GPH</td>
                   <td align="right">550,000</td>
                   <td align="center">No</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-1-HT-55-40-C</td>
-                  <td align="left">7' x 9' x 13'9"</td>
+                  <td align="left">7 &apos; x 9 &apos; x 13 &apos;9&quot;</td>
                   <td align="center">40 GPH</td>
                   <td align="right">550,000</td>
                   <td align="center">Yes</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-2-HT-1.0-80</td>
-                  <td align="left">7' x 1 0' x 13' 9"</td>
+                  <td align="left">
+                    7 &apos; x 1 0 &apos; x 13 &apos; 9&quot;
+                  </td>
                   <td align="center">80 GPH</td>
                   <td align="right">1,000,000</td>
                   <td align="center">No</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-2-HT-1.0-80-C</td>
-                  <td align="left">7' x 1 0' x 13' 9"</td>
+                  <td align="left">
+                    7 &apos; x 1 0 &apos; x 13 &apos; 9&quot;
+                  </td>
                   <td align="center">80 GPH</td>
                   <td align="right">1,000,000</td>
                   <td align="center">Yes</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-3-HT-2.0-120</td>
-                  <td align="left">8' x 15' x 13' 9"</td>
+                  <td align="left">8 &apos; x 15 &apos; x 13 &apos; 9&quot;</td>
                   <td align="center">120 GPH</td>
                   <td align="right">2,000,000</td>
                   <td align="center">No</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-3-HT-2.0-120-C</td>
-                  <td align="left">8' x 15' x 13'9"</td>
+                  <td align="left">8 &apos; x 15 &apos; x 13 &apos;9&quot;</td>
                   <td align="center">120 GPH</td>
                   <td align="right">2,000,000</td>
                   <td align="center">Yes</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-4-HT-2.5-160</td>
-                  <td align="left">8' x 20' x 13' 9"</td>
+                  <td align="left">8 &apos; x 20 &apos; x 13 &apos; 9&quot;</td>
                   <td align="center">160 GPH</td>
                   <td align="right">2,500,000</td>
                   <td align="center">No</td>
                 </tr>
                 <tr>
                   <td align="left">ET-III-W-4-HT-2.5-160-C</td>
-                  <td align="left">8' x 20' x 13' 9"</td>
+                  <td align="left">8 &apos; x 20 &apos; x 13 &apos; 9&quot;</td>
                   <td align="center">160 GPH</td>
                   <td align="right">2,500,000</td>
                   <td align="center">Yes</td>
@@ -243,7 +250,8 @@ const HeatedTankSystem = () => {
                 <li>Storage tanks</li>
                 <li>Pump stations</li>
                 <li>
-                  Cooling tower for the additional condenser's cooling water
+                  Cooling tower for the additional condenser &apos;s cooling
+                  water
                 </li>
                 <li>
                   Above dimensions can be altered to fit special installation
@@ -258,6 +266,7 @@ const HeatedTankSystem = () => {
             <div className="relative m-8 md:w-1/2">
               <Image
                 src="https://cdn.ronatec.us/ronatec/20220215005312/tank3.gif"
+                alt="Tanks"
                 width={368}
                 height={280}
               />
