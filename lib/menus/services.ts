@@ -11,6 +11,24 @@ const services: MenuItemType = {
       path: "/services/consulting",
       children: null,
     },
+    {
+      id: "cG9zdDo1MzA=",
+      label: "Desalination",
+      path: "/services/desalination",
+      children: null,
+    },
+    {
+      id: "cG9zdDo1MzA=",
+      label: "Waste Removal & Disposal",
+      path: "/services/waste-removal-disposal",
+      children: null,
+    },
+    {
+      id: "cG9zdDo1MzA=",
+      label: "Waste Management",
+      path: "/services/waste-management",
+      children: null,
+    },
   ],
 }
 

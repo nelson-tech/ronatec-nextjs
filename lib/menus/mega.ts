@@ -1,4 +1,5 @@
 import chemicals from "./chemicals"
+import equipment from "./equipment"
 import ronaBev from "./ronabev"
 import ronaTank from "./ronatank"
 import MenuItemType from "./types"
@@ -12,21 +13,7 @@ const megaMenu: MenuItemType = {
       id: "cG9zdDo1MjaE=",
       label: "Menu-Column",
       path: "#",
-      children: [
-        {
-          id: "cG9zdDo1MjcE=",
-          label: "Browse All",
-          path: "/products",
-          children: null,
-        },
-        chemicals,
-        {
-          id: "cG9zdDo1MjbE=",
-          label: "Used Equipent",
-          path: "/products/used-equipment",
-          children: null,
-        },
-      ],
+      children: [chemicals, equipment],
     },
     {
       id: "cG9zdDo1MjaEa=",
@@ -100,7 +87,16 @@ const megaMenu: MenuItemType = {
       id: "cG9zdDo1Nzc=",
       label: "Menu-Column",
       path: "#",
-      children: [ronaBev, ronaTank],
+      children: [
+        {
+          id: "cG9zdDo1MjcE=",
+          label: "Browse All",
+          path: "/products",
+          children: null,
+        },
+        ronaBev,
+        ronaTank,
+      ],
     },
   ],
   mega: true,
