@@ -6,7 +6,7 @@ import ArrowLeftIcon from "@heroicons/react/outline/ArrowLeftIcon"
 import useAuth from "@lib/hooks/useAuth"
 import { Order } from "@api/gql/types"
 import { getUserOrder } from "@api/queries/pages/dashboard"
-import { useApolloClient, useQuery } from "@apollo/client"
+import { useApolloClient } from "@apollo/client"
 
 import LoadingDots from "@components/ui/LoadingDots"
 
@@ -30,29 +30,13 @@ const OrderDetailsPage = ({}) => {
   const router = useRouter()
   const client = useApolloClient()
 
-  const [refreshing, setRefreshing] = useState(false)
   const [orderNumber, setOrderNumber] = useState<
     string | string[] | undefined
   >()
   const [order, setOrder] = useState<Order | undefined>()
-  const [error, setError] = useState<string | undefined>()
+  // const [error, setError] = useState<string | undefined>()
 
-  const {
-    data: orderData,
-    error: orderError,
-    loading: orderLoading,
-  } = useQuery(getUserOrder, {
-    variables: { id: router.query.number },
-    errorPolicy: "all",
-  })
-
-  const { loggedIn, logout, refreshAuthToken } = useAuth()
-
-  useEffect(() => {
-    if (orderError) {
-      logout()
-    }
-  }, [orderError, logout])
+  const { loggedIn } = useAuth()
 
   useEffect(() => {
     if (router.query.number && !orderNumber) {
@@ -81,26 +65,11 @@ const OrderDetailsPage = ({}) => {
     }
   }, [router.query, orderNumber, order, client])
 
-  // useEffect(() => {
-  //   const newOrder =
-  //     orderData && orderData.orders && orderData.order.nodes
-  //       ? orderData.order.nodes
-  //       : undefined
-
-  //   if (newOrder && !isEqual(newOrder, order)) {
-  //     setOrder(newOrder)
-  //   }
-  // }, [order, orderData])
-
   useEffect(() => {
     if (!loggedIn) {
       router.replace("/login", { query: { redirect: router.asPath } })
     }
   })
-
-  const numberWithCommas = (x: string) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  }
 
   if (loggedIn && order) {
     const orderDate = order.date
@@ -119,11 +88,7 @@ const OrderDetailsPage = ({}) => {
               href="/dashboard/orders"
             >
               <h2 className="sr-only">Return to orders</h2>
-              <ArrowLeftIcon
-                className={`h-6 w-6${
-                  refreshing && " animate-spin text-green-main"
-                }`}
-              />
+              <ArrowLeftIcon className={"h-6 w-6"} />
             </MenuLink>
           </div>
           <p className="mt-2 text-sm text-gray-500">

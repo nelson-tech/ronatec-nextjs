@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from "react"
 import { ApolloQueryResult, gql, useReactiveVar } from "@apollo/client"
-import { v4 as uuid } from "uuid"
 import jwt_decode, { JwtPayload } from "jwt-decode"
 
 import { loggedInVar, userVar } from "@lib/apollo/cache"
@@ -96,48 +95,12 @@ const useAuth = () => {
     }
   }, [])
 
-  const getClientMutationId = useCallback(() => {
-    if (!isServer) {
-      let clientMutationId = localStorage.getItem(
-        authConstants.CLIENT_MUTATION_KEY,
-      )
-      if (!clientMutationId) {
-        clientMutationId = uuid()
-        localStorage.setItem(
-          authConstants.CLIENT_MUTATION_KEY,
-          clientMutationId,
-        )
-      }
-      return uuid()
-    }
-  }, [])
-
-  const getClientShopId = () => {
-    if (!isServer) {
-      const sessionToken = getWooSession() || ""
-      if (sessionToken) {
-        const clientShopId =
-          jwt_decode<{ data: { customer_id: string } }>(sessionToken).data
-            .customer_id
-
-        return clientShopId
-      }
-    }
-  }
-
   const getRefreshToken = useCallback(() => {
     if (!isServer) {
       return localStorage.getItem(authConstants.REFRESH_TOKEN_KEY)
     }
     return null
   }, [])
-
-  const getWooSession = () => {
-    if (!isServer) {
-      return localStorage.getItem(authConstants.WOO_SESSION_KEY)
-    }
-    return null
-  }
 
   const isTokenExpired = useCallback((): boolean => {
     if (!isServer) {
@@ -156,17 +119,14 @@ const useAuth = () => {
   // Refresh Token
 
   const refreshAuthToken = useCallback(async () => {
-    const clientMutationId = getClientMutationId()
+    const jwtRefreshToken = getRefreshToken()
 
-    const refreshToken = getRefreshToken()
-
-    if (refreshToken) {
+    if (jwtRefreshToken) {
       // Refresh Token
-      const clientMutationId = getClientMutationId()
 
       const client = initializeApollo({})
 
-      const input = { clientMutationId, jwtRefreshToken: refreshToken }
+      const input = { jwtRefreshToken }
 
       if (client) {
         await client
@@ -192,7 +152,7 @@ const useAuth = () => {
       // No authentication method. User must login.
       loggedIn && setLoggedIn(false)
     }
-  }, [getClientMutationId, getRefreshToken, loggedIn, setAuthToken])
+  }, [getRefreshToken, loggedIn, setAuthToken])
 
   useEffect(() => {
     const tokenExpired = isTokenExpired()
@@ -207,7 +167,6 @@ const useAuth = () => {
     }
   }, [
     loggedIn,
-    getClientMutationId,
     getRefreshToken,
     isTokenExpired,
     setAuthToken,
@@ -255,11 +214,9 @@ const useAuth = () => {
     if (!isServer) {
       const client = initializeApollo({})
       const cookiesInput = {
-        clientMutationId: getClientMutationId(),
         ...userInput,
       }
       const jwtInput = {
-        clientMutationId: getClientMutationId(),
         username: userInput.login,
         password: userInput.password,
       }
@@ -317,7 +274,7 @@ const useAuth = () => {
       await client
         .mutate({
           mutation: logoutMutation,
-          variables: { input: { clientMutationId: getClientMutationId() } },
+          variables: { input: {} },
           errorPolicy: "all",
         })
         .then(async r => {
@@ -419,11 +376,8 @@ const useAuth = () => {
     loggedIn,
     user,
     getAuthToken,
-    getClientMutationId,
-    getClientShopId,
     login,
     logout,
-    refreshAuthToken,
     registerUser,
     setAuthToken,
     setLoggedIn,

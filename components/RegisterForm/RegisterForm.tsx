@@ -19,7 +19,7 @@ const RegisterForm = () => {
 
   const router = useRouter()
 
-  const { loggedIn, getClientMutationId, registerUser } = useAuth()
+  const { loggedIn, registerUser } = useAuth()
 
   useEffect(() => {
     if (loggedIn) {
@@ -54,7 +54,6 @@ const RegisterForm = () => {
     console.log(data)
 
     const input = {
-      clientMutationId: getClientMutationId(),
       username: email,
       firstName,
       lastName,

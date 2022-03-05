@@ -4,6 +4,7 @@ import { gql, useApolloClient } from "@apollo/client"
 import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import { CheckIcon } from "@heroicons/react/solid"
 import { Combobox, Transition } from "@headlessui/react"
+
 import { Product } from "@api/gql/types"
 
 const searchQuery = gql`
@@ -83,12 +84,12 @@ const SearchForm = ({
       >
         <div className="relative mt-1">
           <Combobox.Input
-            className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-blue-light focus:outline-none focus:ring-1 focus:ring-blue-light sm:text-sm"
+            className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm ring-transparent focus:outline-none sm:text-sm"
             onChange={handleSearchField}
             placeholder="Product Name"
             displayValue={(product: Product) => product.name || ""}
           />
-          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+          <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
             {loading && (
               <RefreshIcon
                 className="h-5 w-5 text-gray-400 animate-reverse-spin"
@@ -106,14 +107,14 @@ const SearchForm = ({
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-transparent focus:outline-none sm:text-sm">
                 {results.map(product => (
                   <Combobox.Option
                     key={product.id}
                     value={product}
                     className={({ active }) =>
                       classNames(
-                        "relative cursor-pointer select-none py-2 pl-8 pr-4",
+                        "relative cursor-pointer select-none py-2 pl-8 pr-4 ring-transparent focus:outline-none ",
                         active ? "bg-blue-main text-white" : "text-gray-900",
                       )
                     }

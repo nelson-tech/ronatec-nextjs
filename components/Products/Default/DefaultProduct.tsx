@@ -21,6 +21,7 @@ import {
   TopContainer,
 } from "./style"
 import useAuth from "@lib/hooks/useAuth"
+import useCart from "@lib/hooks/useCart"
 
 // ####
 // #### Dynamic Imports
@@ -46,8 +47,7 @@ type DefaultProductProps = {
 const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
   // const router = useRouter()
   const apolloClient = useApolloClient()
-
-  const { getClientMutationId, getClientShopId } = useAuth()
+  const { addToCart } = useCart()
 
   const firstVariation =
     attributes && attributes?.length > 0 ? attributes[0].variations[0] : null
@@ -73,29 +73,6 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
     setSelectedVariation(firstVariation)
   }, [firstVariation, setSelectedVariation])
 
-  const ADD_MUTATION = gql`
-    mutation addCart($input: AddToCartInput!) {
-      addToCart(input: $input) {
-        cart {
-          isEmpty: contents {
-            itemCount
-            productCount
-            edges {
-              node {
-                extraData {
-                  key
-                  value
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `
-
-  const [addToCartMutation] = useMutation(ADD_MUTATION, { errorPolicy: "all" })
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
     setAddLoading(true)
     event.preventDefault()
@@ -104,7 +81,6 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
     const { databaseId: productId } = product
     if (productId) {
       let input: AddToCartInput = {
-        clientMutationId: getClientMutationId(),
         productId,
         quantity,
       }
@@ -125,54 +101,31 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
         }
       }
 
-      await addToCartMutation({
-        variables: { input },
-        onCompleted(res) {
-          const { addToCart } = res
+      const { data, errors } = await addToCart(input)
 
-          if (addToCart && addToCart.cart) {
-            apolloClient.refetchQueries({ include: ["CartQuery"] }).then(r => {
-              if (!isServer) {
-                window.scrollTo({ top: 0, behavior: "smooth" })
-                // showAlert({
-                //   open: true,
-                //   primary: "Success",
-                //   secondary: "Product has been added to the cart.",
-                //   type: "info",
-                // })
-              }
-              setItemAdded(true)
-              setAddLoading(false)
-            })
-          } else {
-            setError(
-              "Error adding to the shopping cart. Please try refreshing the page.",
-            )
-            setAddLoading(false)
-          }
-        },
-        onError(error) {
-          console.log("ERROR", error)
+      if (data.addToCart && data.addToCart.cart) {
+        if (!isServer) {
+          window.scrollTo({ top: 0, behavior: "smooth" })
+        }
+        setItemAdded(true)
+        setAddLoading(false)
+      } else {
+        setError(
+          "Error adding to the shopping cart. Please try refreshing the page.",
+        )
+        setAddLoading(false)
+      }
 
-          setError(error.message)
-        },
-      })
+      if (errors && errors.length > 0) {
+        console.log("ERROR", error)
+
+        setError(errors[0].message)
+      }
     } else {
       setError("Product ID not found.")
       setAddLoading(false)
     }
   }
-
-  // const handleCheckout = () => {
-  //   const clientShopId = getClientShopId()
-  //   if (clientShopId) {
-  //     router.push(
-  //       `${process.env.NEXT_PUBLIC_API_CHECKOUT_BASE_URL}?session_id=${clientShopId}`,
-  //     )
-  //   } else {
-  //     setError("Shopping Session not found.")
-  //   }
-  // }
 
   return (
     <>

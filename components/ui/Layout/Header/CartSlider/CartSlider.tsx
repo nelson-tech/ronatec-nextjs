@@ -1,13 +1,16 @@
-import { Dispatch, Fragment, SetStateAction, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import router from "next/router"
-import { gql, useApolloClient, useMutation } from "@apollo/client"
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client"
 import { Dialog, Transition } from "@headlessui/react"
 import ArrowRightIcon from "@heroicons/react/outline/ArrowRightIcon"
+import ShoppingCartIcon from "@heroicons/react/outline/ShoppingCartIcon"
 import XIcon from "@heroicons/react/outline/XIcon"
 
 import useAuth from "@lib/hooks/useAuth"
+import useCart from "@lib/hooks/useCart"
 import { Cart } from "@api/gql/types"
+import { cartBaseFragment } from "@api/queries/fragments/products"
 
 import { CartPane } from "./style"
 
@@ -24,6 +27,14 @@ const Modal = dynamic(() => import("@components/ui/Modal"), importOpts)
 // ####
 // #### Variables
 // ####
+
+const getCartQuery = gql`
+  query CartQuery {
+    cart {
+      ${cartBaseFragment}
+    }
+  }
+`
 
 const clearCart = gql`
   mutation ClearCart($input: EmptyCartInput!) {
@@ -45,24 +56,36 @@ const removeItem = gql`
 // #### Types
 // ####
 
-type CartProps = {
-  open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
-  cart: Cart | null | undefined
-}
-
 // ####
 // #### Component
 // ####
 
-const CartSlider = ({ open, setOpen, cart }: CartProps) => {
+const CartSlider = () => {
+  const [open, setOpen] = useState<boolean>(false)
   const [warnGuest, setWarnGuest] = useState(false)
+
+  const [cart, setCart] = useState<Cart | null>()
+
+  const { data, error, loading } = useQuery(getCartQuery)
+
+  // const { logout } = useAuth()
+
+  // useEffect(() => {
+  //   if (error && error.message === "Internal server error") {
+  //     logout()
+  //   }
+  // }, [error, logout])
+
+  useEffect(() => {
+    data && setCart(data.cart)
+  }, [data])
 
   const [clearCartMutation] = useMutation(clearCart)
   const [removeItemMutation] = useMutation(removeItem)
   const apolloClient = useApolloClient()
 
-  const { loggedIn, getClientShopId } = useAuth()
+  const { loggedIn } = useAuth()
+  const { getClientShopId } = useCart()
 
   const sendToCheckout = ({ force = false }: { force?: boolean }) => {
     if (!loggedIn && !force) {
@@ -119,7 +142,17 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
   }
 
   return (
-    <>
+    <button
+      type="button"
+      className="group -m-2 p-2 flex items-center"
+      onClick={() => setOpen(true)}
+    >
+      <ShoppingCartIcon
+        className={`flex-shrink-0 h-6 w-6 text-gray-400${
+          cart && cart.contents?.itemCount ? " group-hover:text-gray-500" : ""
+        }`}
+        aria-hidden="true"
+      />
       <Modal open={warnGuest} setOpen={setWarnGuest}>
         <div>
           <div className="text-center text-xl font-extrabold uppercase text-gray-800 pb-4">
@@ -373,7 +406,16 @@ const CartSlider = ({ open, setOpen, cart }: CartProps) => {
           </div>
         </Dialog>
       </Transition.Root>
-    </>
+
+      <span
+        className={`ml-2 text-sm font-medium text-gray-400${
+          cart && cart.contents?.itemCount ? " group-hover:text-gray-600" : ""
+        }`}
+      >
+        {cart ? cart.contents?.itemCount : 0}
+      </span>
+      <span className="sr-only">items in cart, view bag</span>
+    </button>
   )
 }
 

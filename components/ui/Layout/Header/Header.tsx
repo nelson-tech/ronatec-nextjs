@@ -1,17 +1,10 @@
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import { useRouter } from "next/dist/client/router"
-// import Link from "next/link"
-import { gql, useQuery } from "@apollo/client"
 import Headroom from "react-headroom"
 import { Popover } from "@headlessui/react"
 import MenuIcon from "@heroicons/react/outline/MenuIcon"
 import SearchIcon from "@heroicons/react/outline/SearchIcon"
-import ShoppingCartIcon from "@heroicons/react/outline/ShoppingCartIcon"
-
-import useAuth from "@lib/hooks/useAuth"
-import { Cart } from "@api/gql/types"
-import { cartBaseFragment } from "@api/queries/fragments/products"
 
 // import { Icon, MenuLink, Modal } from "@components/ui"
 // import { SearchForm, LoginForm } from "@components"
@@ -64,14 +57,6 @@ const Usernav = dynamic(
   importOpts,
 )
 
-const getCartQuery = gql`
-  query CartQuery {
-    cart {
-      ${cartBaseFragment}
-    }
-  }
-`
-
 // ####
 // #### Types
 // ####
@@ -97,26 +82,9 @@ type HeaderProps = {
 const Header = ({ promo = false }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false)
   const [signInOpen, setSignInOpen] = useState<boolean>(false)
-  const [cartOpen, setCartOpen] = useState<boolean>(false)
   const [searchOpen, setSearchOpen] = useState<boolean>(false)
 
   const router = useRouter()
-
-  const [cart, setCart] = useState<Cart | null>()
-
-  const { data, error, loading } = useQuery(getCartQuery)
-
-  const { logout } = useAuth()
-
-  useEffect(() => {
-    if (error && error.message === "Internal server error") {
-      logout()
-    }
-  }, [error, logout])
-
-  useEffect(() => {
-    data && setCart(data.cart)
-  }, [data])
 
   const getDesktopLinkStyle: GetDesktopLinkStyleType = ({
     open,
@@ -156,7 +124,6 @@ const Header = ({ promo = false }: HeaderProps) => {
         <SearchForm setModalClosed={setSearchOpen} />
       </Modal>
 
-      <CartSlider open={cartOpen} setOpen={setCartOpen} cart={cart} />
       <header>
         <Headroom
           style={{ zIndex: 11 }}
@@ -299,32 +266,7 @@ const Header = ({ promo = false }: HeaderProps) => {
                         />
 
                         <div className="flow-root">
-                          <button
-                            type="button"
-                            className="group -m-2 p-2 flex items-center"
-                            onClick={() => setCartOpen(true)}
-                          >
-                            <ShoppingCartIcon
-                              className={`flex-shrink-0 h-6 w-6 text-gray-400${
-                                cart && cart.contents?.itemCount
-                                  ? " group-hover:text-gray-500"
-                                  : ""
-                              }`}
-                              aria-hidden="true"
-                            />
-                            <span
-                              className={`ml-2 text-sm font-medium text-gray-400${
-                                cart && cart.contents?.itemCount
-                                  ? " group-hover:text-gray-600"
-                                  : ""
-                              }`}
-                            >
-                              {cart ? cart.contents?.itemCount : 0}
-                            </span>
-                            <span className="sr-only">
-                              items in cart, view bag
-                            </span>
-                          </button>
+                          <CartSlider />
                         </div>
                       </div>
                     </div>
