@@ -53,7 +53,7 @@ export default function Home({
 
   return (
     <div className=" mx-auto lg:max-w-7xl pb-4">
-      <div className="lg:relative mb-8">
+      <div className="lg:relative lg:pb-16">
         <div className="mx-auto max-w-7xl px-2 w-full py-16 text-center lg:pt-48 lg:text-left">
           <div className="px-4 lg:w-1/2 sm:px-8 xl:pr-16">
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
@@ -86,7 +86,7 @@ export default function Home({
             </div>
           </div>
         </div>
-        <div className="relative hidden lg:block w-screen h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 lg:h-full">
+        <div className="relative hidden overflow-hidden lg:h-full lg:block w-screen lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 xl:h-full">
           <Image
             // className="absolute inset-0 w-full h-full object-cover"
             src="https://cdn.ronatec.us/ronatec/20211130031916/san-diego.jpg"

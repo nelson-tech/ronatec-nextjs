@@ -27,7 +27,7 @@ const Promo = () => {
           </a>
         </div>
         <PhoneIcon className="h-6 w-6 mr-2" />{" "}
-        <a href="tel:855-928-9904">(855) 928-9904</a>
+        <a href="tel:+1-855-928-9904">+1 (855) 928-9904</a>
       </div>
     </div>
   )

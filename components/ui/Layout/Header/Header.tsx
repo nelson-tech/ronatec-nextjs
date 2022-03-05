@@ -153,7 +153,7 @@ const Header = ({ promo = false }: HeaderProps) => {
       </Modal>
 
       <Modal open={searchOpen} setOpen={setSearchOpen}>
-        <SearchForm />
+        <SearchForm setModalClosed={setSearchOpen} />
       </Modal>
 
       <CartSlider open={cartOpen} setOpen={setCartOpen} cart={cart} />

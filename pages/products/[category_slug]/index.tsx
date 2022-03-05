@@ -9,7 +9,7 @@ import { useApolloClient } from "@apollo/client"
 import { ParsedUrlQuery } from "querystring"
 import smoothscroll from "smoothscroll-polyfill"
 
-import { Product } from "@api/gql/types"
+import { Maybe, Product } from "@api/gql/types"
 import {
   getCategoryFromSlug,
   getCategorySlugs,
@@ -44,9 +44,9 @@ const CategoryPage = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const apolloClient = useApolloClient()
 
-  const [products, setProducts] = useState(
-    category && category.products ? category.products.nodes : undefined,
-  )
+  const [products, setProducts] = useState<
+    Maybe<Product>[] | null | undefined
+  >()
   const [loading, setLoading] = useState(false)
   const [selectedSort, setSelectedSort] = useState<SortOptionType>(
     sortOptions[0],
@@ -63,9 +63,12 @@ const CategoryPage = ({
   const productRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (currentCategory !== category.slug) {
-      setProducts(category.products?.nodes)
-      category.slug && setCurrentCategory(category.slug)
+    const categorySlug = category && category.slug ? category.slug : null
+    if (currentCategory !== categorySlug) {
+      category &&
+        category.products?.nodes &&
+        setProducts(category.products.nodes)
+      categorySlug && setCurrentCategory(categorySlug)
     }
     return () => {
       // setProducts(null)
@@ -90,7 +93,8 @@ const CategoryPage = ({
 
         if (error) {
           console.log("ERROR", error)
-          category.products &&
+          category &&
+            category.products &&
             category.products.nodes &&
             setProducts(category.products.nodes)
           // TODO - Add alert on front-end
@@ -106,7 +110,7 @@ const CategoryPage = ({
     //   console.log("FILLLL", filteredCategories)
     // }
     if (filteredCategories.length === 0) {
-      setProducts(null)
+      setProducts(undefined)
     }
     if (initComplete) {
       fetchProducts(selectedSort, filteredCategories)
