@@ -27,19 +27,29 @@ const Alert = (props: AlertProps) => {
   const { type, icon, primary, secondary, onClose } = props
 
   return (
-    <Container
-      type={type || "error"}
-      className={`relative font-family border-t-4 rounded px-4 py-3 shadow-md my-2`}
-      role="alert"
-    >
-      <div className="absolute top-0 right-0 p-2">
-        <div
-          className="cursor-pointer transition hover:text-gray-900"
-          title="Close"
-          onClick={() => onClose && onClose()}
-        >
-          <XIcon className={iconSize} />
+    <div className="p-4">
+      <div className="flex items-start">
+        <div className="flex-shrink-0 mt-1">
+          <div className={iconSize} aria-hidden="true">
+            {icon}
+          </div>
         </div>
+        <div className="ml-3 w-0 flex-1 pt-0.5">
+          <p className="text-sm font-bold">{primary}</p>
+          <p className="mt-1 text-sm text-gray-500">{secondary}</p>
+        </div>
+        <div className="ml-4 flex-shrink-0 flex">
+          <div
+            className="cursor-pointer transition hover:text-gray-900"
+            title="Close"
+            onClick={() => onClose && onClose()}
+          >
+            <XIcon className={iconSize} />
+          </div>
+        </div>
+      </div>
+      {/* <div className="absolute top-0 right-0 p-2">
+        
       </div>
       <div className="flex items-center pr-8">
         <div className="p-2 pr-4">{icon}</div>
@@ -47,8 +57,8 @@ const Alert = (props: AlertProps) => {
           <p className="font-bold">{primary}</p>
           <p className="text-sm">{secondary}</p>
         </div>
-      </div>
-    </Container>
+      </div> */}
+    </div>
   )
 }
 
