@@ -14,6 +14,7 @@ import { IncomingHttpHeaders } from "http2"
 import { cache as defaultCache } from "./cache"
 import { isServer } from "@lib/utils"
 import { authConstants } from "@lib/constants"
+import { InMemoryAuthTokenType } from "@lib/types"
 
 export const PERSISTOR_CACHE_KEY =
   process.env.NEXT_PUBLIC_PERSISTOR_CACHE_KEY || "missing-cache-key"
@@ -24,6 +25,22 @@ export const APOLLO_STATE_PROP_NAME =
 // const isDev = (): boolean => process.env.NODE_ENV === "development"
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
+
+const isTokenValid = (authToken: InMemoryAuthTokenType): boolean => {
+  if (!isServer && authToken.authExpiration) {
+    const now = Date.now()
+    const expiration = authToken.authExpiration
+      ? authToken.authExpiration * 1000
+      : now
+
+    if (expiration - now > 1000) {
+      return true
+    } else {
+      localStorage.removeItem(authConstants.AUTH_TOKEN_KEY)
+    }
+  }
+  return false
+}
 
 const createApolloClient = ({
   headers,
@@ -65,15 +82,21 @@ const createApolloClient = ({
       const rawAuthToken = localStorage.getItem(authConstants.AUTH_TOKEN_KEY)
 
       if (rawAuthToken || wooSession) {
-        const authToken = rawAuthToken && JSON.parse(rawAuthToken || "")
+        const authToken: InMemoryAuthTokenType =
+          rawAuthToken && JSON.parse(rawAuthToken || "")
 
         let headers: {
           authorization?: string
           "woocommerce-session"?: string
         } = {}
-        authToken &&
-          authToken.authToken &&
-          (headers.authorization = `Bearer ${authToken.authToken}`)
+
+        if (authToken) {
+          const valid = isTokenValid(authToken)
+
+          valid &&
+            authToken.authExpiration &&
+            (headers.authorization = `Bearer ${authToken.authToken}`)
+        }
 
         wooSession && (headers["woocommerce-session"] = `Session ${wooSession}`)
 

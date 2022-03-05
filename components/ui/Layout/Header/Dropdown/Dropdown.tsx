@@ -23,7 +23,7 @@ type DropdownProps = {
 const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
   const path = menuItem.path || "/"
   return (
-    <Menu key={menuItem.id} as="div" className="relative h-full">
+    <Menu as="div" className="relative h-full">
       {({ open }) => (
         <>
           <div className="flex h-full">
@@ -57,8 +57,8 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 
                 {menuItem.children &&
-                  menuItem.children.map(item => (
-                    <Menu.Item key={item.id}>
+                  menuItem.children.map((item, index) => (
+                    <Menu.Item key={menuItem.label + index + item.label}>
                       <MenuLink
                         href={item.path}
                         title={item.label}

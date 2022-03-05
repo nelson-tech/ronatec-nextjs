@@ -108,9 +108,9 @@ const useAuth = () => {
       const authToken = getAuthToken()
       if (authToken) {
         const expiration = authToken.authExpiration
-          ? authToken.authExpiration
+          ? authToken.authExpiration * 1000
           : now
-        return authToken ? now - expiration < 1000 : true
+        return authToken ? expiration - now < 1000 : true
       }
     }
     return true
@@ -123,6 +123,8 @@ const useAuth = () => {
 
     if (jwtRefreshToken) {
       // Refresh Token
+
+      console.log("REFRESHING")
 
       const client = initializeApollo({})
 
