@@ -16,14 +16,21 @@ type CardCarouselPropsType = {
   header: string
   link?: { label: string; path: string }
   query: string
+  product?: boolean
 }
 
 // ####
 // #### Component
 // ####
 
-const CardCarousel = ({ header, link, query }: CardCarouselPropsType) => {
-  const [items, setItems] = useState<ProductCategory[] | Product[]>()
+const CardCarousel = ({
+  header,
+  link,
+  query,
+  product,
+}: CardCarouselPropsType) => {
+  const [items, setItems] = useState<ProductCategory[] & Product[]>()
+  const [products, setProducts] = useState<Product[]>()
 
   const getCarouselItemQuery = gql`
 query GetCarouselItems${query.split("(")[0]} {
@@ -33,6 +40,7 @@ query GetCarouselItems${query.split("(")[0]} {
       name
       slug
       ${imageFragment}
+      ${product ? `productCategories { nodes { slug } }` : ""}
     }
   }
 }
@@ -42,7 +50,9 @@ query GetCarouselItems${query.split("(")[0]} {
   useEffect(() => {
     const queryBase = query.split("(")[0]
     if (data && data[queryBase] && data[queryBase].nodes) {
-      setItems(data[queryBase].nodes)
+      product
+        ? setProducts(data[queryBase].nodes)
+        : setItems(data[queryBase].nodes)
     }
   }, [data, query, setItems])
 
@@ -80,12 +90,39 @@ query GetCarouselItems${query.split("(")[0]} {
                         altText: item.image.altText || "",
                       }
                     }
+
                     return (
                       <CarouselCard
                         name={item.name || ""}
                         slug={item.slug || ""}
                         image={image}
                         key={item.name || "" + item.slug}
+                      />
+                    )
+                  })
+                ) : products ? (
+                  products.map(cardProduct => {
+                    let image:
+                      | { sourceUrl: string; altText: string }
+                      | undefined = undefined
+
+                    const path = `${
+                      cardProduct.productCategories?.nodes![0]?.slug
+                    }/${cardProduct.slug}`
+
+                    if (cardProduct.image?.sourceUrl) {
+                      image = {
+                        sourceUrl: cardProduct.image.sourceUrl,
+                        altText: cardProduct.image.altText || "",
+                      }
+                    }
+
+                    return (
+                      <CarouselCard
+                        name={cardProduct.name || ""}
+                        slug={path || ""}
+                        image={image}
+                        key={cardProduct.name || "" + cardProduct.slug}
                       />
                     )
                   })

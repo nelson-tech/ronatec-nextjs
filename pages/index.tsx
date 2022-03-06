@@ -99,13 +99,14 @@ export default function Home({
 
       <CardCarousel
         header="Shop by Category"
-        link={{ label: "Browse all categories", path: "/products" }}
+        // link={{ label: "Browse all categories", path: "/products" }}
         query="productCategories(where: {hideEmpty: true})"
       />
 
       <CardCarousel
         header="Top Selling Products"
         query="products(where: {orderby: {field: TOTAL_SALES, order: DESC}}, first: 8)"
+        product
       />
 
       {cards && (
