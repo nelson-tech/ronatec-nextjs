@@ -1,11 +1,17 @@
 import Link from "next/link"
 
+import PageTitle from "@components/PageTitle"
+
 const PlatingOnPlastics = () => {
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Plating On Plastics</h2>
-      </div>
+      <PageTitle
+        title="Plating On Plastics"
+        description="Ronatec C2C plastics plating products meet industry environmental
+      regulations and standards while offering low-temperature operations,
+      superior plating applications, and a high production yield."
+      />
+
       <div className="max-w-7xl p-8">
         <div className="text-gray-800 md:p-8 space-y-4">
           <p>

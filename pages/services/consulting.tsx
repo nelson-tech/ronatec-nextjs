@@ -10,6 +10,8 @@ import { getConsultingData } from "@api/queries/pages"
 import { Post_Common_Cards } from "@api/gql/types"
 import { PageReturnType } from "@api/queries/types"
 
+import PageTitle from "@components/PageTitle"
+
 // import { Slider } from "@components"
 // import { LoadingDots } from "@components/ui"
 // import { IconCard } from "@components/Cards"
@@ -61,9 +63,11 @@ const Consulting = ({
       page.page_consulting.acf
     return (
       <>
-        <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-          <h2>{title}</h2>
-        </div>
+        <PageTitle
+          title={title || "Consulting"}
+          description="Ronatec offers full consulting services for the aerospace, metal finishing, plating, and anodizing industries."
+        />
+
         <div className="px-4">
           <div className="mt-8 flex flex-col md:flex-row pb-8 items-center mx-auto lg:max-w-7xl">
             {slides && slides.length > 0 && (

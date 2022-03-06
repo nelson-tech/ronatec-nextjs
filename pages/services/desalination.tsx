@@ -1,9 +1,14 @@
+import PageTitle from "@components/PageTitle"
+
 const Desalination = () => {
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Desalination</h2>
-      </div>
+      <PageTitle
+        title="Desalination"
+        description="Desalination, desalinization, or desalinisation refers to any of
+      several processes that remove excess salt and other minerals from
+      water."
+      />
 
       <div className="max-w-7xl p-8">
         <div className="text-gray-500">

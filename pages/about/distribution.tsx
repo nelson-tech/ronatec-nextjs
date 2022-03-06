@@ -11,6 +11,7 @@ import { ChosenSupplierType } from "@components/Cards/Supplier"
 import { Underlined, underSelect } from "styles/utils"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import PageTitle from "@components/PageTitle"
 
 // ####
 // #### Dynamic Imports
@@ -51,6 +52,11 @@ export default function Distribution({
 
   return (
     <>
+      <PageTitle
+        title={"Distribution"}
+        description="A list of companies whose products we distribute."
+      />
+
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"

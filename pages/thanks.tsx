@@ -8,6 +8,8 @@ import CheckIcon from "@heroicons/react/solid/CheckIcon"
 import { getUserOrder } from "@api/queries/pages/dashboard"
 import { Order } from "@api/gql/types"
 
+import PageTitle from "@components/PageTitle"
+
 // ####
 // #### Dynamic Imports
 // ####
@@ -71,6 +73,12 @@ const Thanks = ({}) => {
 
   return orderNumber ? (
     <>
+      <PageTitle
+        title="Thank you!"
+        description="Landing page for recently completed orders."
+        banner={false}
+      />
+
       <div className="max-w-7xl mx-auto">
         <div className="py-8 px-6 w-full">
           <h2 className="text-4xl font-extrabold text-gray-800 text-center">

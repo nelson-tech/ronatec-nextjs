@@ -1,6 +1,7 @@
-import styled from "@emotion/styled"
 import Image from "next/image"
-import Link from "next/link"
+import styled from "@emotion/styled"
+
+import PageTitle from "@components/PageTitle"
 
 const StyledTable = styled.div`
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -79,9 +80,12 @@ const StyledTable = styled.div`
 const HeatedTankSystem = () => {
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Heated Tank System</h2>
-      </div>
+      <PageTitle
+        title="Heated Tank System"
+        description="Our system evaporates water from process solutions and waste
+      waters under atmospheric conditions."
+      />
+
       <div className="max-w-7xl p-8">
         <div className="md:flex pb-4">
           <div className="md:flex md:flex-col md:w-2/3">

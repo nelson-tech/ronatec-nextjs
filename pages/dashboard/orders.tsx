@@ -10,6 +10,7 @@ import { Order } from "@api/gql/types"
 import { getUserOrders } from "@api/queries/pages/dashboard"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import PageTitle from "@components/PageTitle"
 
 // ####
 // #### Dynamic Imports
@@ -73,64 +74,80 @@ const Orders = ({}) => {
 
   if (loggedIn && orders) {
     return (
-      <div className="max-w-7xl mx-auto py-16 px-8 sm:px-6 lg:pb-24 lg:px-8">
-        <div className="max-w-xl">
-          <div className="w-full relative flex items-center">
-            <h1 className="text-2xl uppercase font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-              Order History
-            </h1>
-            <div
-              className="ml-8 text-gray-600 cursor-pointer hover:text-green-main transition"
-              onClick={() => refreshOrders("GetUserOrdersQuery")}
-              title="Refresh orders"
-            >
-              <h2 className="sr-only">Refresh orders</h2>
-              <div className="flip">
-                <RefreshIcon
-                  className={`h-6 w-6${
-                    refreshing && " animate-reverse-spin text-green-main"
-                  }`}
-                />
+      <>
+        <PageTitle
+          title="Orders"
+          description="List of orders placed."
+          banner={false}
+        />
+
+        <div className="max-w-7xl mx-auto py-16 px-8 sm:px-6 lg:pb-24 lg:px-8">
+          <div className="max-w-xl">
+            <div className="w-full relative flex items-center">
+              <h1 className="text-2xl uppercase font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                Order History
+              </h1>
+              <div
+                className="ml-8 text-gray-600 cursor-pointer hover:text-green-main transition"
+                onClick={() => refreshOrders("GetUserOrdersQuery")}
+                title="Refresh orders"
+              >
+                <h2 className="sr-only">Refresh orders</h2>
+                <div className="flip">
+                  <RefreshIcon
+                    className={`h-6 w-6${
+                      refreshing && " animate-reverse-spin text-green-main"
+                    }`}
+                  />
+                </div>
               </div>
             </div>
+            <p className="mt-2 text-sm text-gray-500">
+              Check the status of recent orders, manage returns, and download
+              invoices.
+            </p>
           </div>
-          <p className="mt-2 text-sm text-gray-500">
-            Check the status of recent orders, manage returns, and download
-            invoices.
-          </p>
-        </div>
 
-        <div className="mt-16">
-          <h2 className="sr-only">Recent orders</h2>
+          <div className="mt-16">
+            <h2 className="sr-only">Recent orders</h2>
 
-          <div className="space-y-8">
-            {orders.map(order => {
-              if (order.orderNumber && order.date) {
-                const orderDate = new Date(order.date).toLocaleDateString()
+            <div className="space-y-8">
+              {orders.map(order => {
+                if (order.orderNumber && order.date) {
+                  const orderDate = new Date(order.date).toLocaleDateString()
 
-                return (
-                  <div key={order.orderNumber}>
-                    <OrderSummary order={order} detailsLink />
-                  </div>
-                )
-              }
-            })}
+                  return (
+                    <div key={order.orderNumber}>
+                      <OrderSummary order={order} detailsLink />
+                    </div>
+                  )
+                }
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
   return (
-    <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:pb-24 lg:px-8">
-      <div className="">
-        <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-          Loading Order history...
-        </h1>
-        <div className="h-10 w-10 mt-4">
-          <LoadingDots />
+    <>
+      <PageTitle
+        title="Orders"
+        description="List of orders placed."
+        banner={false}
+      />
+
+      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:pb-24 lg:px-8">
+        <div className="">
+          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+            Loading Order history...
+          </h1>
+          <div className="h-10 w-10 mt-4">
+            <LoadingDots />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

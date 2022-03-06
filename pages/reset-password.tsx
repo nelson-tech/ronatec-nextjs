@@ -1,3 +1,4 @@
+import PageTitle from "@components/PageTitle"
 import dynamic from "next/dist/shared/lib/dynamic"
 
 // ####
@@ -18,9 +19,13 @@ const ResetPasswordForm = dynamic(
 const ResetPassword = ({}) => {
   return (
     <>
-      <div>
-        <ResetPasswordForm />
-      </div>
+      <PageTitle
+        title="Reset Password"
+        description="Reset your account password."
+        banner={false}
+      />
+
+      <ResetPasswordForm />
     </>
   )
 }

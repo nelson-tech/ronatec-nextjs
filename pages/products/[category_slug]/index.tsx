@@ -22,6 +22,7 @@ import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 import LoadingDots from "@components/ui/LoadingDots"
 import Breadcrumbs from "@components/Breadcrumbs"
+import PageTitle from "@components/PageTitle"
 
 // ####
 // #### Dynamic Imports
@@ -140,6 +141,14 @@ const CategoryPage = ({
   if (category) {
     return (
       <>
+        <PageTitle
+          title={category.name || "Category"}
+          description={
+            category.description || "List of products for a given category."
+          }
+          banner={false}
+        />
+
         <Breadcrumbs category={category} />
         <div className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
@@ -291,7 +300,13 @@ const CategoryPage = ({
       </>
     )
   }
-  return <div>No category found.</div>
+  return (
+    <>
+      <PageTitle title="Category Missing" banner={false} />
+
+      <div>No category found.</div>
+    </>
+  )
 }
 
 export default CategoryPage

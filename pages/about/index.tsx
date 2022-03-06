@@ -8,6 +8,7 @@ import { getAboutData } from "@api/queries/pages/about"
 import { PageReturnType } from "@api/queries/types"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import PageTitle from "@components/PageTitle"
 
 // ####
 // #### Component
@@ -25,9 +26,11 @@ const About = ({
 
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>{page.title}</h2>
-      </div>
+      <PageTitle
+        title={page.title || "About Us"}
+        description="Since 1979, Ronatec has supplied chemicals, equipment, and related services to a wide variety of industries."
+      />
+
       <div className="flex flex-col px-4 md:flex-row pb-8 mx-auto lg:max-w-7xl">
         {cards &&
           cards!.map(card => {

@@ -4,6 +4,8 @@ import { useRouter } from "next/dist/client/router"
 
 import useAuth from "@lib/hooks/useAuth"
 
+import PageTitle from "@components/PageTitle"
+
 // ####
 // #### Dynamic Imports
 // ####
@@ -23,7 +25,17 @@ const Login = ({}) => {
     }
   }, [router, loggedIn])
 
-  return <LoginForm />
+  return (
+    <>
+      <PageTitle
+        title="Login"
+        description="Login to your account to see past orders."
+        banner={false}
+      />
+
+      <LoginForm />
+    </>
+  )
 }
 
 export default Login

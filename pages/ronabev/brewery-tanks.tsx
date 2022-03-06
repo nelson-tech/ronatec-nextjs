@@ -1,5 +1,7 @@
 import dynamic from "next/dist/shared/lib/dynamic"
 
+import PageTitle from "@components/PageTitle"
+
 // ####
 // #### Dynamic Imports
 // ####
@@ -15,6 +17,12 @@ const Image = dynamic(() => import("@components/Image"), importOpts)
 const BreweryTanks = ({}) => {
   return (
     <>
+      <PageTitle
+        title="Brewery Tanks"
+        description="Tanks for fermentation and conditioning of commercial beverages."
+        banner={false}
+      />
+
       <div className="max-w-7xl px-8">
         <div className="rounded-lg m-8 overflow-hidden">
           <Image

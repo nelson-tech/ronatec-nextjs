@@ -21,6 +21,8 @@ import {
   CategoryReturnType,
 } from "@api/queries/types"
 
+import PageTitle from "@components/PageTitle"
+
 // ####
 // #### Dynamic Imports
 // ####
@@ -50,14 +52,22 @@ const SKUProduct = ({
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   if (product) {
     return (
-      <div>
+      <>
+        <PageTitle
+          title={product.name || "Product"}
+          description={
+            product.shortDescription || "Shopping page for a product."
+          }
+          banner={false}
+        />
+
         <Breadcrumbs category={category} product />
         <DefaultProduct product={product} attributes={attributes} />
-      </div>
+      </>
     )
   }
 
-  return <>Category</>
+  return <>Loading Product...</>
 }
 
 export default SKUProduct

@@ -1,13 +1,18 @@
-import VideoCard from "@components/VideoCard"
 import tw from "twin.macro"
+
+import PageTitle from "@components/PageTitle"
+import VideoCard from "@components/VideoCard"
 
 const CarbonateRemovalSystem = () => {
   const listStyle: string = "text-gray-300 text-sm pr-16"
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Ronatec Carbonate Removal System</h2>
-      </div>
+      <PageTitle
+        title="Ronatec Carbonate Removal System"
+        description="The Ronatec DeCarb is the premier domestically designed and
+      manufactured sodium carbonate removal system."
+      />
+
       <div className="max-w-7xl px-8 lg:px-16 my-8">
         <div className="text-gray-500">
           The Ronatec DeCarb is the premier domestically designed and

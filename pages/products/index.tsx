@@ -15,6 +15,7 @@ import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
 import { sortOptions, SortOptionType } from "@components/Sort/Sort"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import PageTitle from "@components/PageTitle"
 // import ProductCard from "@components/ProductCard"
 // import Sort from "@components/Sort"
 
@@ -93,71 +94,75 @@ const Products = ({
   }
 
   return (
-    <div>
-      <main className="">
-        <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-            Products
-          </h1>
-        </div>
+    <>
+      <PageTitle
+        title="Products"
+        description="Main shopping page."
+        banner={false}
+      />
 
-        <Sort
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-          selectedSort={selectedSort}
-          handleSort={handleSort}
-          withFilter={true}
-          category={categories[0]}
-          filteredCategories={filteredCategories}
-          setFilteredCategories={setFilteredCategories}
-        />
+      <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
+        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+          Products
+        </h1>
+      </div>
 
-        <div className="max-w-7xl mx-auto pt-6 pb-24 px-4 sm:px-6 lg:px-8">
-          <h2 id="products-heading" className="sr-only">
-            Products
-          </h2>
+      <Sort
+        viewMode={viewMode}
+        setViewMode={setViewMode}
+        selectedSort={selectedSort}
+        handleSort={handleSort}
+        withFilter={true}
+        category={categories[0]}
+        filteredCategories={filteredCategories}
+        setFilteredCategories={setFilteredCategories}
+      />
 
-          {/* Filters */}
+      <div className="max-w-7xl mx-auto pt-6 pb-24 px-4 sm:px-6 lg:px-8">
+        <h2 id="products-heading" className="sr-only">
+          Products
+        </h2>
 
-          {/* Product grid */}
-          {loading ? (
-            <div className="flex items-center justify-center mx-auto w-full flex-col space-y-8">
-              <div className="font-bold">Fetching products...</div>
-              <div className="w-16 h-16">
-                <LoadingDots />
-              </div>
+        {/* Filters */}
+
+        {/* Product grid */}
+        {loading ? (
+          <div className="flex items-center justify-center mx-auto w-full flex-col space-y-8">
+            <div className="font-bold">Fetching products...</div>
+            <div className="w-16 h-16">
+              <LoadingDots />
             </div>
-          ) : (
-            <div
-              className={
-                viewMode === "grid"
-                  ? "grid grid-cols-2 gap-y-4 gap-x-2 md:gap-x-4 md:gap-y-10 md:grid-cols-3 lg:gap-x-4 lg:grid-cols-4"
-                  : "px-4"
-              }
-            >
-              {products &&
-                products.map(baseProduct => {
-                  const product = baseProduct as Product & { price?: string }
-                  if (product) {
-                    return (
-                      <ProductCard
-                        product={product}
-                        category_slug={
-                          (product.productCategories?.nodes &&
-                            product.productCategories.nodes[0]?.slug) ||
-                          ""
-                        }
-                        viewMode={viewMode}
-                        key={product.id}
-                      />
-                    )
-                  }
-                })}
-            </div>
-          )}
-        </div>
-      </main>
-    </div>
+          </div>
+        ) : (
+          <div
+            className={
+              viewMode === "grid"
+                ? "grid grid-cols-2 gap-y-4 gap-x-2 md:gap-x-4 md:gap-y-10 md:grid-cols-3 lg:gap-x-4 lg:grid-cols-4"
+                : "px-4"
+            }
+          >
+            {products &&
+              products.map(baseProduct => {
+                const product = baseProduct as Product & { price?: string }
+                if (product) {
+                  return (
+                    <ProductCard
+                      product={product}
+                      category_slug={
+                        (product.productCategories?.nodes &&
+                          product.productCategories.nodes[0]?.slug) ||
+                        ""
+                      }
+                      viewMode={viewMode}
+                      key={product.id}
+                    />
+                  )
+                }
+              })}
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 

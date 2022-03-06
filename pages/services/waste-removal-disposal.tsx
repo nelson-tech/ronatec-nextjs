@@ -1,9 +1,13 @@
+import PageTitle from "@components/PageTitle"
+
 const WasteRemoval = () => {
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Waste Removal &amp; Disposal</h2>
-      </div>
+      <PageTitle
+        title="Waste Removal &amp; Disposal"
+        description="Ronatec C2C is a full service organization dedicated to limiting
+      the issues associated with special waste removal and disposal."
+      />
 
       <div className="max-w-7xl p-8">
         <div className="text-gray-500">
@@ -11,7 +15,7 @@ const WasteRemoval = () => {
             <p>
               Ronatec C2C is a full service organization dedicated to limiting
               the issues associated with special waste removal and disposal.
-              Ronatec is a single source waste removal, transportation &
+              Ronatec is a single source waste removal, transportation &amp;
               disposal contractor with the ability to provide turnkey services
               while performing environmental projects.
             </p>

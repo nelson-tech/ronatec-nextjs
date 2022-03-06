@@ -46,6 +46,8 @@ function RonatecWebsite({
   pageProps,
 }: AppProps & { Component: { Layout: FC } }) {
   const { client: apolloClient } = useApollo(pageProps)
+  const cdnURL = process.env.NEXT_PUBLIC_CDN_BASE_URL
+  const faviconURL = `${cdnURL}/ronatec/favicons`
   return (
     <ApolloProvider client={apolloClient || initializeApollo({})}>
       <DefaultSeo
@@ -60,38 +62,38 @@ function RonatecWebsite({
         additionalLinkTags={[
           {
             rel: "shortcut icon",
-            href: "https://cdn.ronatec.us/ronatec/favicons/favicon.ico",
+            href: `${faviconURL}/favicon.ico`,
           },
           {
             rel: "icon",
-            href: "https://cdn.ronatec.us/ronatec/favicons/favicon.ico",
+            href: `${faviconURL}/favicon.ico`,
           },
           {
             rel: "icon",
-            href: "https://cdn.ronatec.us/ronatec/favicons/favicon-32x32.png",
+            href: `${faviconURL}/favicon-32x32.png`,
             sizes: "32x32",
           },
           {
             rel: "icon",
-            href: "https://cdn.ronatec.us/ronatec/favicons/favicon-16x16.png",
+            href: `${faviconURL}/favicon-16x16.png`,
             sizes: "16x16",
           },
           {
             rel: "apple-touch-icon",
-            href: "https://cdn.ronatec.us/ronatec/favicons/apple-touch-icon.png",
+            href: `${faviconURL}/apple-touch-icon.png`,
             sizes: "180x180",
           },
           {
             rel: "mask-icon",
-            href: "https://cdn.ronatec.us/ronatec/favicons/safari-pinned-tab.svg",
+            href: `${faviconURL}/safari-pinned-tab.svg`,
           },
           {
             rel: "manifest",
-            href: "https://cdn.ronatec.us/ronatec/favicons/site.webmanifest",
+            href: `${faviconURL}/site.webmanifest`,
           },
           {
             rel: "preload",
-            href: "https://cdn.ronatec.us/fonts/Montserrat/Montserrat-VF.ttf",
+            href: `${cdnURL}/fonts/Montserrat/Montserrat-VF.ttf`,
             as: "font",
             type: "font/ttf",
             crossOrigin: "anonymous",
@@ -116,8 +118,7 @@ function RonatecWebsite({
           },
           {
             name: "msapplication-config",
-            content:
-              "https://cdn.ronatec.us/ronatec/favicons/browserconfig.xml",
+            content: "${faviconURL}/browserconfig.xml",
           },
         ]}
       />

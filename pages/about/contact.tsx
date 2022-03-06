@@ -9,6 +9,7 @@ import { PageReturnType } from "@api/queries/types"
 import { Employee } from "@api/gql/types"
 
 import LoadingDots from "@components/ui/LoadingDots"
+import PageTitle from "@components/PageTitle"
 
 // ####
 // #### Dynamic Imports
@@ -37,9 +38,11 @@ const About = ({
 
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Contact Us</h2>
-      </div>
+      <PageTitle
+        title={"Contact Us"}
+        description="Employee and Office contact information."
+      />
+
       <Map
         markers={map?.markers}
         options={map?.mapOptions || undefined}

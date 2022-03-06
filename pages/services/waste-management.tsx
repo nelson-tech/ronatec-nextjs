@@ -1,9 +1,14 @@
+import PageTitle from "@components/PageTitle"
+
 const WasteManagement = () => {
   return (
     <>
-      <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
-        <h2>Waste Management</h2>
-      </div>
+      <PageTitle
+        title="Waste Management"
+        description="Ronatec C2C is a specialty chemical and service solutions provider
+      for water treatment, waste treatment, and process automation and
+      control."
+      />
 
       <div className="max-w-7xl p-8">
         <div className="text-gray-500">
@@ -11,9 +16,10 @@ const WasteManagement = () => {
             Ronatec C2C is a specialty chemical and service solutions provider
             for water treatment, waste treatment, and process automation and
             control. FCT Water is committed to anticipating and fulfilling our
-            customer’s needs through appropriate product and service solutions.
-            Contact a Ronatec representative today to discuss how we can provide
-            the solutions you need to more efficiently manage your operations.
+            customer&apos;s needs through appropriate product and service
+            solutions. Contact a Ronatec representative today to discuss how we
+            can provide the solutions you need to more efficiently manage your
+            operations.
           </div>
 
           <div className="space-y-2 border-t pb-4">

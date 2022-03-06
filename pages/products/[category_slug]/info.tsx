@@ -17,6 +17,8 @@ import {
 } from "@api/queries/pages/products"
 import { CategoriesReturnType, CategoryReturnType } from "@api/queries/types"
 
+import PageTitle from "@components/PageTitle"
+
 // ####
 // #### Dynamic Imports
 // ####
@@ -45,6 +47,14 @@ const CategoryInfo = ({
 
     return (
       <>
+        <PageTitle
+          title={`${category.name} Info` || "Category"}
+          description={
+            category.description || "Information about a given category."
+          }
+          banner={false}
+        />
+
         <Breadcrumbs category={category} info />
         <div className="w-full px-5">
           {/* <div className="w-screen mx-auto text-2xl -ml-5 bg-green-main text-white text-center py-2">

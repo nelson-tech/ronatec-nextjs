@@ -1,5 +1,7 @@
 import dynamic from "next/dist/shared/lib/dynamic"
 
+import PageTitle from "@components/PageTitle"
+
 // ####
 // #### Dynamic Imports
 // ####
@@ -17,9 +19,15 @@ const RegisterForm = dynamic(
 
 const Register = ({}) => {
   return (
-    <div>
+    <>
+      <PageTitle
+        title="Register"
+        description="Register an account to track future orders."
+        banner={false}
+      />
+
       <RegisterForm />
-    </div>
+    </>
   )
 }
 
