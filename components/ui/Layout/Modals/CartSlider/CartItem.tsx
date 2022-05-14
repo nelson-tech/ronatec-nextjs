@@ -53,9 +53,9 @@ const CartItem = memo(
                     {product.name}
                   </Link>
                 </h3>
-                <p className="ml-4 text-xs text-gray-500">
+                {/* <p className="ml-4 text-xs text-gray-500">
                   {lineItem.subtotal}
-                </p>
+                </p> */}
               </div>
               <p className="mt-1 text-sm text-gray-500">
                 {lineItem.variation?.attributes

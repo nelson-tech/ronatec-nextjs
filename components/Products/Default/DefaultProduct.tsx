@@ -1,5 +1,4 @@
 import { FormEventHandler, useEffect, useState } from "react"
-import dynamic from "next/dist/shared/lib/dynamic"
 import { RadioGroup } from "@headlessui/react"
 import CheckIcon from "@heroicons/react/solid/CheckIcon"
 
@@ -14,12 +13,15 @@ import {
 
 import Image from "@components/Image"
 import LoadingDots from "@components/ui/LoadingDots"
+
 import {
   Container,
   ProductMainContainer,
   ProductTopContainer,
   TopContainer,
 } from "./style"
+import PlusIcon from "@heroicons/react/solid/PlusIcon"
+import MinusIcon from "@heroicons/react/solid/MinusIcon"
 
 // ####
 // #### Dynamic Imports
@@ -260,13 +262,13 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
               )}
               <div className="mt-8 flex items-center">
                 <div className="flex items-center space-x-2">
-                  {/* <MinusIcon
-                      className="h-4 w-4 cursor-pointer"
-                      onClick={() => setQuantity(quantity - 1)}
-                    /> */}
                   <label htmlFor="quantity" className="pr-4">
                     Quantity:{" "}
                   </label>
+                  <MinusIcon
+                    className="h-4 w-4 cursor-pointer"
+                    onClick={() => setQuantity(quantity - 1)}
+                  />
                   <input
                     className="w-16 text-center border py-1 text-sm rounded outline-none focus:bg-white ring-transparent"
                     value={quantity}
@@ -280,10 +282,10 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                       }
                     }}
                   />
-                  {/* <PlusIcon
-                      className="h-4 w-4 cursor-pointer"
-                      onClick={() => setQuantity(quantity + 1)}
-                    /> */}
+                  <PlusIcon
+                    className="h-4 w-4 cursor-pointer"
+                    onClick={() => setQuantity(quantity + 1)}
+                  />
                 </div>
               </div>
               <button

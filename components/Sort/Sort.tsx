@@ -81,20 +81,6 @@ const Sort = ({
   const BaseSort = () => (
     <div className="col-start-1 row-start-1 py-4">
       <div className="flex justify-end items-center max-w-7xl mx-auto px-8 sm:px-6 lg:px-8">
-        {loading && (
-          <div
-            className="mr-8 text-gray-600 cursor-pointer hover:text-green-main transition"
-            title="Refresh orders"
-          >
-            <h2 className="sr-only">Refresh orders</h2>
-            <div className="flip">
-              <RefreshIcon
-                className="h-5 w-5 animate-reverse-spin text-green-main
-            "
-              />
-            </div>
-          </div>
-        )}
         <Menu as="div" className="relative flex">
           <div className="flex">
             <Menu.Button
@@ -102,10 +88,19 @@ const Sort = ({
               disabled={filteredCategories && filteredCategories.length === 0}
             >
               <span className="sr-only">Sort options</span>Sort
-              <SortIcon
-                className="flex-shrink-0 -mr-1 ml-2 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                aria-hidden="true"
-              />
+              {loading ? (
+                <div className="flex-shrink-0 -mr-1 ml-2 flip transition">
+                  <RefreshIcon
+                    className="h-5 w-5 animate-reverse-spin text-green-main "
+                    aria-hidden="true"
+                  />
+                </div>
+              ) : (
+                <SortIcon
+                  className="flex-shrink-0 -mr-1 ml-2 h-5 w-5 transition text-gray-400 group-hover:text-gray-500"
+                  aria-hidden="true"
+                />
+              )}
             </Menu.Button>
           </div>
 

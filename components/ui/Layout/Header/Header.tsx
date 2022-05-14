@@ -4,7 +4,7 @@ import Link from "@components/Link"
 
 import Promo from "./Promo"
 import MainMenu from "./MainMenu"
-import Usernav from "./Usernav"
+import Usernav from "./UserNav"
 import MobileNav from "./MobileNav"
 
 // ####
