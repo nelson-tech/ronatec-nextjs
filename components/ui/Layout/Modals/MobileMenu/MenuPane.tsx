@@ -1,5 +1,5 @@
 import { Fragment, memo } from "react"
-import { Disclosure, Transition } from "@headlessui/react"
+import { Dialog, Disclosure, Transition } from "@headlessui/react"
 import ClipboardCheckIcon from "@heroicons/react/outline/ClipboardCheckIcon"
 import LoginIcon from "@heroicons/react/outline/LoginIcon"
 import LogoutIcon from "@heroicons/react/outline/LogoutIcon"
@@ -8,7 +8,6 @@ import ChevronUpIcon from "@heroicons/react/solid/ChevronUpIcon"
 
 import mobileMenu from "@lib/menus/mobile"
 import useStore from "@lib/hooks/useStore"
-import { MobileMenuPane } from "./style"
 import Link from "@components/Link"
 import userMenu from "@lib/userMenu"
 import useLogout from "@lib/hooks/auth/useLogout"
@@ -46,7 +45,10 @@ const MenuPane = memo(function MenuPane() {
         leaveFrom="translate-x-0"
         leaveTo="-translate-x-full"
       >
-        <MobileMenuPane>
+        <Dialog.Panel
+          className="relative w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto"
+          style={{ maxWidth: "350px" }}
+        >
           <div className="px-4 pt-5 pb-2 flex">
             <button
               type="button"
@@ -354,7 +356,7 @@ const MenuPane = memo(function MenuPane() {
               </>
             )}
           </div>
-        </MobileMenuPane>
+        </Dialog.Panel>
       </Transition.Child>
     </>
   )

@@ -7,7 +7,7 @@ const nextConfig = {
   images: {
     domains: ["cdn.ronatec.us", "ronatec.us"],
   },
-  reactStrictMode: false, // Must be false for headlessui until React 18 support
+  reactStrictMode: true,
   experimental: {
     outputStandalone: true,
     runtime: "nodejs",

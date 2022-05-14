@@ -43,7 +43,7 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50" />
+              <div className="fixed inset-0 bg-black bg-opacity-50" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
@@ -62,7 +62,7 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block mt-32 border-2 border-gray-100 w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <Dialog.Panel className="inline-block mt-32 border-2 border-gray-100 w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 {chosenSupplier && (
                   <div className="">
                     {chosenSupplier.image && chosenSupplier.image.sourceUrl && (
@@ -124,7 +124,7 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
                     </div>
                   </div>
                 )}
-              </div>
+              </Dialog.Panel>
             </Transition.Child>
           </div>
         </Dialog>

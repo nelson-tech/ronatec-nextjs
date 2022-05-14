@@ -44,7 +44,7 @@ const CartPane = memo(function CartPane() {
           leaveFrom="translate-x-0"
           leaveTo="translate-x-full"
         >
-          <div className="w-screen max-w-md">
+          <Dialog.Panel className="w-screen max-w-md">
             <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
               <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                 <div className="flex items-start justify-between">
@@ -138,7 +138,7 @@ const CartPane = memo(function CartPane() {
                 </div>
               </div>
             </div>
-          </div>
+          </Dialog.Panel>
         </Transition.Child>
       </StyledCartPane>
     </>

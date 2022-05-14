@@ -19,7 +19,7 @@ const MobileMenu = () => {
 
   return (
     <>
-      <Transition.Root show={open} as={Fragment}>
+      <Transition show={open} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 flex z-40 lg:hidden"
@@ -34,11 +34,11 @@ const MobileMenu = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75" />
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75" />
           </Transition.Child>
           <MenuPane />
         </Dialog>
-      </Transition.Root>
+      </Transition>
     </>
   )
 }
