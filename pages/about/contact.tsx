@@ -1,178 +1,121 @@
 import { InferGetStaticPropsType } from "next"
 import dynamic from "next/dist/shared/lib/dynamic"
 
-import initializeApollo from "@lib/apollo/client"
-import addApolloState from "@lib/apollo/addApolloState"
-import { parseNewLines } from "@lib/utils"
-import { getContactData } from "@api/queries/pages/about"
-import { PageReturnType } from "@api/queries/types"
-import { Employee } from "@api/gql/types"
+import urql from "@api/urql/serverClient"
+import withUrql from "@api/urql/hoc"
+import {
+  GetContactDataDocument,
+  GetContactDataQuery,
+  Page,
+} from "@api/gql/types"
 
-import LoadingDots from "@components/ui/LoadingDots"
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
+import IconCard from "@components/Cards/Icon"
+import EmployeeCard from "@components/Cards/Employee"
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const clientOpts = { ssr: false }
 
-const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
-const IconCard = dynamic(() => import("@components/Cards/Icon"), importOpts)
-const Map = dynamic(() => import("@components/Map"), importOpts)
+// TODO - Find better map solution
+const Map = dynamic(() => import("@components/Map"), clientOpts)
 
 // ####
 // #### Component
 // ####
 
-const About = ({
-  page,
-  loading,
-  error,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (loading) return <LoadingDots />
-
-  const cards = page.page_about_contact?.acf?.cards
-  const salesReps = page.page_about_contact?.acf?.salesReps
-  const map = page.page_about_contact?.acf?.map
+const About = ({ page }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const cards = page?.page_about_contact?.acf?.cards
+  const salesReps = page?.page_about_contact?.acf?.salesReps
+  const map = page?.page_about_contact?.acf?.map
 
   return (
     <>
-      <PageTitle
-        title={"Contact Us"}
-        description="Employee and Office contact information."
-      />
+      <Layout>
+        <PageTitle
+          title={"Contact Us"}
+          description="Employee and Office contact information."
+        />
 
-      <Map
-        markers={map?.markers}
-        options={map?.mapOptions || undefined}
-        containerClassNames="aspect-2 md:aspect-3"
-        key={map?.fieldGroupName + "map_contact"}
-      />
+        <Map
+          markers={map?.markers}
+          options={map?.mapOptions || undefined}
+          containerClassNames="aspect-2 md:aspect-3"
+          key={map?.fieldGroupName + "map_contact"}
+        />
 
-      <div className="relative bg-white py-8">
-        <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 pt-4">
-            {cards &&
-              cards.map(card => {
-                if (card) {
-                  return (
-                    <div className="pt-8">
-                      <IconCard card={card} key={"contact" + card.title} />
-                    </div>
-                  )
-                }
-                return null
-              })}
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full">
-        <div className="w-full pl-5 py-4 border-t-2">
-          <h2 className="text-2xl px-5 font-extrabold mx-auto lg:max-w-7xl">
-            Sales Reps
-          </h2>
-        </div>
-        {salesReps && (
-          <div className="relative bg-white pt-8 pb-16">
-            <div className="mx-auto max-w-md px-4 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                {salesReps.map(salesRep => {
-                  if (salesRep) {
+        <div className="relative bg-white py-8">
+          <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3 pt-4">
+              {cards &&
+                cards.map(card => {
+                  if (card) {
                     return (
-                      <EmployeeCard employee={salesRep} key={salesRep.id} />
+                      <div className="pt-8">
+                        <IconCard card={card} key={"contact" + card.title} />
+                      </div>
                     )
                   }
+                  return null
                 })}
-              </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+
+        <div className="w-full">
+          <div className="w-full pl-5 py-4 border-t-2">
+            <h2 className="text-2xl px-5 font-extrabold mx-auto lg:max-w-7xl">
+              Sales Reps
+            </h2>
+          </div>
+          {salesReps && (
+            <div className="relative bg-white pt-8 pb-16">
+              <div className="mx-auto max-w-md px-4 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                  {salesReps.map(salesRep => {
+                    if (salesRep) {
+                      return (
+                        <EmployeeCard employee={salesRep} key={salesRep.id} />
+                      )
+                    }
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </Layout>
     </>
   )
 }
 
-const EmployeeCard = ({ employee }: { employee: Employee }) => {
-  const contact = employee.contact?.contact
-  return (
-    <div
-      className={`flow-root rounded-lg px-6 pb-0 md:pt-0 h-full${
-        false && " text-center"
-      }`}
-      key={employee.id}
-    >
-      {employee.title && (
-        <h2 className="mt-0 text-xl font-bold text-black tracking-tight border-b-2">
-          {employee.title}
-        </h2>
-      )}
-      <h2 className="font-medium text-black tracking-tight">
-        {employee.position?.position}
-      </h2>
+// ####
+// #### API
+// ####
 
-      {contact && (
-        <div className="contact mt-4">
-          {contact.email && (
-            <div className="flex text-sm pb-1">
-              <span className="pl-1 pr-3.5 text-xs flex items-center h-full">
-                <Icon
-                  name="at"
-                  className="h-6 w-6 pr-2"
-                  iconStyling="text-gray-500"
-                />
-              </span>
-              {contact.email}
-            </div>
-          )}
-          {contact.office && (
-            <div className="flex text-sm">
-              <span className="pl-1 pr-3.5 text-xs flex items-center h-full">
-                <Icon
-                  name="phone"
-                  className="h-6 w-6 pr-2"
-                  iconStyling="text-gray-500"
-                />
-              </span>
-              {contact.office}
-            </div>
-          )}
-        </div>
-      )}
+export default withUrql(About)
 
-      {employee.regions && employee.regions.regions && (
-        <div className="mt-5 text-sm text-gray-500">
-          {parseNewLines(employee.regions.regions)}
-        </div>
-      )}
-    </div>
-  )
-}
+// ####
+// #### Data Fetching
+// ####
 
 export async function getStaticProps() {
-  const client = initializeApollo({})
+  const { client, ssrCache } = urql()
 
-  const {
-    data: { page },
-    loading,
-    error,
-  }: PageReturnType = await client.query({
-    query: getContactData,
-  })
+  const { data } = await client
+    .query<GetContactDataQuery>(GetContactDataDocument)
+    .toPromise()
 
   const staticProps = {
     props: {
-      loading,
-      page,
-      error: error || null,
+      page: (data?.page as Page | null | undefined) ?? null,
+      urqlState: ssrCache.extractData(),
     },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
 
-  addApolloState(client, staticProps)
-
   return staticProps
 }
-
-export default About

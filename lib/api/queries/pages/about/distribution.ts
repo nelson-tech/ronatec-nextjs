@@ -1,8 +1,21 @@
-import { suppliersFragment } from "@api/queries/fragments"
-import { gql } from "@apollo/client"
+import { gql } from "urql"
 
-export const getDistributionData = gql`
-  query DistributionQuery {
-    ${suppliersFragment}
+export const getDistributionDataQuery = gql`
+  query GetDistributionData {
+    suppliers(first: 99) {
+      nodes {
+        title
+        slug
+        id
+        databaseId
+        supplier {
+          url
+          text
+          image {
+            ...ImageBase
+          }
+        }
+      }
+    }
   }
 `

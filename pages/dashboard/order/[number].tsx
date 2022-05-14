@@ -2,24 +2,23 @@ import { useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import { useRouter } from "next/dist/client/router"
 import ArrowLeftIcon from "@heroicons/react/outline/ArrowLeftIcon"
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
-import useAuth from "@lib/hooks/useAuth"
-import { Order } from "@api/gql/types"
-import { getUserOrder } from "@api/queries/pages/dashboard"
-import { useApolloClient } from "@apollo/client"
+import withUrql from "@api/urql/hoc"
+import { Order, useGetUserOrderDataQuery } from "@api/gql/types"
 
-import LoadingDots from "@components/ui/LoadingDots"
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
+import Link from "@components/Link"
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const importOpts = { ssr: false }
 
-const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
 const OrderDetails = dynamic(
-  () => import("@components/OrderDetails"),
+  () => import("@components/Orders/Details"),
   importOpts,
 )
 
@@ -27,59 +26,31 @@ const OrderDetails = dynamic(
 // #### Component
 // ####
 
+// TODO - Handle errors and auth
+
 const OrderDetailsPage = ({}) => {
   const router = useRouter()
-  const client = useApolloClient()
 
-  const [orderNumber, setOrderNumber] = useState<
-    string | string[] | undefined
-  >()
   const [order, setOrder] = useState<Order | undefined>()
-  // const [error, setError] = useState<string | undefined>()
 
-  const { loggedIn } = useAuth()
-
-  useEffect(() => {
-    if (router.query.number && !orderNumber) {
-      ;(router.query.number as string) && setOrderNumber(router.query.number)
-      // const {data} = await client.query({query: getUserOrders, variables: {id: router}})
-    }
-
-    if (!order && orderNumber) {
-      client
-        .query({
-          query: getUserOrder,
-          variables: { id: router.query.number },
-          errorPolicy: "all",
-        })
-        .then(response => {
-          const order = (response?.data?.order as Order) || undefined
-          if (order) {
-            setOrder(order)
-          } else {
-            console.log("RES", response)
-          }
-        })
-        .catch(error => {
-          console.log("ERR", error)
-        })
-    }
-  }, [router.query, orderNumber, order, client])
+  const [{ data: orderData, error: orderError, fetching: orderLoading }] =
+    useGetUserOrderDataQuery({
+      variables: { id: router.query.number as string },
+      pause: !router.query.number,
+      requestPolicy: "network-only",
+    })
 
   useEffect(() => {
-    if (!loggedIn) {
-      router.replace("/login", { query: { redirect: router.asPath } })
+    if (orderData) {
+      orderData?.order && setOrder(orderData.order as Order)
     }
-  })
+  }, [orderData])
 
-  if (loggedIn && order) {
-    const orderDate = order.date
-      ? new Date(order.date).toLocaleDateString()
-      : null
-    return (
-      <>
+  return (
+    <>
+      <Layout>
         <PageTitle
-          title={"Order #" + orderNumber}
+          title={"Order #" + router.query.number}
           description="Order details."
           banner={false}
         />
@@ -90,14 +61,23 @@ const OrderDetailsPage = ({}) => {
               <h1 className="text-2xl uppercase font-extrabold tracking-tight text-gray-900 sm:text-3xl">
                 Order Details
               </h1>
-              <MenuLink
+              <h2 className="sr-only">Refresh orders</h2>
+              <Link
                 className="ml-8 text-gray-600 cursor-pointer hover:text-green-main transition"
                 title="Return to orders"
                 href="/dashboard/orders"
               >
                 <h2 className="sr-only">Return to orders</h2>
                 <ArrowLeftIcon className={"h-6 w-6"} />
-              </MenuLink>
+              </Link>
+              {orderLoading && (
+                <div className="flip ml-4">
+                  <RefreshIcon
+                    className="h-6 w-6 animate-reverse-spin text-green-main
+                    "
+                  />
+                </div>
+              )}
             </div>
             <p className="mt-2 text-sm text-gray-500">
               Check the status of recent orders, manage returns, and download
@@ -105,37 +85,23 @@ const OrderDetailsPage = ({}) => {
             </p>
           </div>
 
-          <div className="mt-16">
-            <h2 className="sr-only">Recent orders</h2>
+          {order && (
+            <div className="mt-16">
+              <h2 className="sr-only">Recent orders</h2>
 
-            <div className="space-y-8">
-              <OrderDetails order={order} />
+              <div className="space-y-8">
+                <OrderDetails order={order} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
-      </>
-    )
-  }
-  return (
-    <>
-      <PageTitle
-        title={"Order #" + orderNumber}
-        description="Order details."
-        banner={false}
-      />
-
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:pb-24 lg:px-8">
-        <div className="">
-          <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-            Loading Order Details...
-          </h1>
-          <div className="h-10 w-10 mt-4">
-            <LoadingDots />
-          </div>
-        </div>
-      </div>
+      </Layout>
     </>
   )
 }
 
-export default OrderDetailsPage
+// ####
+// #### API
+// ####
+
+export default withUrql(OrderDetailsPage)

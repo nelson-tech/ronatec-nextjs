@@ -1,12 +1,12 @@
-import { gql } from "@apollo/client"
+import { gql } from "urql"
 
-export const registerUser = gql`
-  mutation RegisterUser($input: RegisterUserInput!) {
-    registerUser(input: $input) {
-      user {
-        jwtAuthToken
-        jwtRefreshToken
-      }
-    }
-  }
-`
+// export const registerUser = gql`
+//   mutation RegisterUser($input: RegisterUserInput!) {
+//     registerUser(input: $input) {
+//       user {
+//         jwtAuthToken
+//         jwtRefreshToken
+//       }
+//     }
+//   }
+// `

@@ -1,18 +1,10 @@
-import dynamic from "next/dist/shared/lib/dynamic"
 import Link from "next/link"
 import { default as parse } from "html-react-parser"
 
+import useStore from "@lib/hooks/useStore"
 import { Product } from "@api/gql/types"
 
 import Image from "@components/Image"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const importOpts = {}
-
-// const Image = dynamic(() => import("@components/Image"), importOpts)
 
 // ####
 // #### Types
@@ -20,19 +12,19 @@ const importOpts = {}
 
 type ProductCardProps = {
   product: Product & { price?: string }
-  category_slug: string
-  viewMode?: "grid" | "list"
 }
 
 // ####
 // #### Component
 // ####
 
-const ProductCard = ({
-  product,
-  category_slug,
-  viewMode = "grid",
-}: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
+  const viewMode = useStore(state => state.ui.viewMode)
+
+  const categorySlug = product.productCategories?.nodes
+    ? product.productCategories.nodes[0]?.slug
+    : ""
+
   if (viewMode === "grid") {
     return (
       <div className="group relative bg-white border border-gray-200 rounded-lg w-full flex flex-col overflow-hidden">
@@ -52,7 +44,7 @@ const ProductCard = ({
         )}
         <div className="flex-1 space-y-2 flex flex-col w-full">
           <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-blue-main text-base sm:text-xl">
-            <Link href={`/products/${category_slug}/${product.slug}`} passHref>
+            <Link href={`/products/${categorySlug}/${product.slug}`} passHref>
               <a title={product.name || ""} className="flex flex-col">
                 <span aria-hidden="true" className="absolute inset-0" />
                 {product.name}
@@ -69,7 +61,7 @@ const ProductCard = ({
              <p className="text-sm font-medium text-gray-400">{product.price}</p> */}
           </div>
           <div className="bg-green-main w-full text-white py-2 text-center">
-            View mores
+            View more
           </div>
         </div>
       </div>
@@ -77,7 +69,7 @@ const ProductCard = ({
   } else {
     return (
       <div className="group relative py-4 border-b" key={product.id}>
-        <Link href={`/products/${category_slug}/${product.slug}`} passHref>
+        <Link href={`/products/${categorySlug}/${product.slug}`} passHref>
           <a title={product.name || ""} className="flex flex-col">
             <div className="font-bold text-gray-900 group-hover:text-blue-main text-xl">
               {product.name}

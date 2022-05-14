@@ -1,16 +1,8 @@
+import withUrql from "@api/urql/hoc"
+
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
-import dynamic from "next/dist/shared/lib/dynamic"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const importOpts = {}
-
-const ResetPasswordForm = dynamic(
-  () => import("@components/ResetPasswordForm"),
-  importOpts,
-)
+import ResetPasswordForm from "@components/ResetPasswordForm"
 
 // ####
 // #### Component
@@ -19,15 +11,21 @@ const ResetPasswordForm = dynamic(
 const ResetPassword = ({}) => {
   return (
     <>
-      <PageTitle
-        title="Reset Password"
-        description="Reset your account password."
-        banner={false}
-      />
+      <Layout>
+        <PageTitle
+          title="Reset Password"
+          description="Reset your account password."
+          banner={false}
+        />
 
-      <ResetPasswordForm />
+        <ResetPasswordForm />
+      </Layout>
     </>
   )
 }
 
-export default ResetPassword
+// ####
+// #### API
+// ####
+
+export default withUrql(ResetPassword)

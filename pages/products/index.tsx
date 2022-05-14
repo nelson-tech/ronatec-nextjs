@@ -1,32 +1,41 @@
-import { useCallback, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
 import dynamic from "next/dist/shared/lib/dynamic"
-import { useApolloClient } from "@apollo/client"
 
-import initializeApollo from "@lib/apollo/client"
-import addApolloState from "@lib/apollo/addApolloState"
-import { useMobileDetect } from "@lib/hooks"
+import urql from "@api/urql/serverClient"
+import withUrql from "@api/urql/hoc"
 import {
-  getProductCategories,
-  getProductsByCategories,
-} from "@api/queries/pages/products"
-import { Product, ProductCategory } from "@api/gql/types"
-import { CategoriesReturnType, ProductsReturnType } from "@api/queries/types"
-import { sortOptions, SortOptionType } from "@components/Sort/Sort"
+  GetProductCategoriesDocument,
+  GetProductCategoriesQuery,
+  GetProductsByCategoryDocument,
+  GetProductsByCategoryQuery,
+  GetProductsByCategoryQueryVariables,
+  OrderEnum,
+  Product,
+  ProductCategory,
+  ProductsOrderByEnum,
+  useGetProductsByCategoryQuery,
+} from "@api/gql/types"
 
-import LoadingDots from "@components/ui/LoadingDots"
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
-// import ProductCard from "@components/ProductCard"
-// import Sort from "@components/Sort"
+import { sortOptions, SortOptionType } from "@lib/store/slices/ui"
+import useStore from "@lib/hooks/useStore"
+import shallow from "zustand/shallow"
+import Image from "@components/Image"
+import ProductGrid from "@components/Category/ProductGrid"
+import Link from "@components/Link"
+
+// TODO - Add pagination
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const clientOpts = { ssr: false }
 
-const ProductCard = dynamic(() => import("@components/ProductCard"), importOpts)
-const Sort = dynamic(() => import("@components/Sort"), importOpts)
+const ProductCard = dynamic(() => import("@components/ProductCard"), clientOpts)
+const Sort = dynamic(() => import("@components/Sort"), clientOpts)
 
 // ####
 // #### Component
@@ -36,185 +45,243 @@ const Products = ({
   categories,
   products: initialProducts,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const apolloClient = useApolloClient()
-
-  const [loading, setLoading] = useState(false)
-
-  const [products, setProducts] = useState(initialProducts)
-  const [selectedSort, setSelectedSort] = useState<SortOptionType>(
-    sortOptions[0],
+  const { selectedSort, setSelectedSort, viewMode } = useStore(
+    state => ({
+      selectedSort: state.ui.selectedSort,
+      setSelectedSort: state.ui.setSelectedSort,
+      viewMode: state.ui.viewMode,
+    }),
+    shallow,
   )
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [filteredCategories, setFilteredCategories] = useState<string[]>([
-    (categories && categories[0].slug) || "",
-  ])
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const defaultFilteredCategories = categories
+    ? (categories
+        .map(category => {
+          let filteredCategories = [category.slug]
 
-  const { isMobile } = useMobileDetect()
+          category?.children?.nodes &&
+            category.children.nodes.map(child => {
+              let childCategories = [child?.slug]
 
-  const fetchProducts = useCallback(
-    async (option: SortOptionType, categories: string[]) => {
-      if (filteredCategories.length != 0) {
-        const { field, order } = option.id
+              child?.children?.nodes &&
+                child.children.nodes.map(grandchild => {
+                  childCategories.push(grandchild?.slug)
+                })
 
-        const { data, error, loading } = await apolloClient.query({
-          query: getProductsByCategories,
-          variables: { field, order, categories },
-          errorPolicy: "all",
+              filteredCategories = filteredCategories.concat(childCategories)
+            })
+
+          return filteredCategories.flat().filter(a => !!a)
         })
+        .flat() as string[])
+    : []
 
-        if (data && data.products) {
-          data.products?.nodes && setProducts(data.products.nodes)
-        }
-
-        if (error) {
-          console.log("ERROR", error)
-          // category.products &&
-          //   category.products.nodes &&
-          //   setProducts(category.products.nodes)
-          // TODO - Add alert on front-end
-        }
-      }
-    },
-    [filteredCategories, apolloClient, setProducts],
+  const [pause, setPause] = useState(true)
+  const [products, setProducts] = useState(initialProducts)
+  const [filteredCategories, setFilteredCategories] = useState<string[]>(
+    defaultFilteredCategories,
   )
+
+  const productRef = useRef<HTMLDivElement>(null)
+
+  // Products Query
+  const [
+    { data: productsData, error: productsError, fetching: productsFetching },
+  ] = useGetProductsByCategoryQuery({
+    variables: {
+      field: selectedSort.id.field as ProductsOrderByEnum,
+      order: selectedSort.id.order as OrderEnum,
+      categories: filteredCategories,
+    },
+    pause,
+  })
+
+  // Unpause if selectedSort changes from default
+  useEffect(() => {
+    if (selectedSort.name !== sortOptions[0].name) {
+      setPause(false)
+    }
+  }, [selectedSort, setPause])
+
+  // Unpause if filteredCategories changes from default
+  useEffect(() => {
+    if (filteredCategories.length !== defaultFilteredCategories.length) {
+      setPause(false)
+    }
+  }, [filteredCategories, setPause, defaultFilteredCategories.length])
+
+  // Update products if new products fetched
+  useEffect(() => {
+    if (productsData?.products?.nodes) {
+      setProducts(productsData.products.nodes as Product[])
+    }
+  }, [productsData?.products?.nodes, setProducts])
 
   const handleSort = async (option: SortOptionType) => {
-    setLoading(true)
-
-    if (selectedSort.name !== option.name) {
-      setSelectedSort(option)
-
-      await fetchProducts(option, filteredCategories)
-    }
-
-    setLoading(false)
+    setSelectedSort(option)
   }
 
   return (
     <>
-      <PageTitle
-        title="Products"
-        description="Main shopping page."
-        banner={false}
-      />
+      <Layout>
+        <PageTitle
+          title="Products"
+          description="Main shopping page."
+          banner={false}
+        />
 
-      <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-          Products
-        </h1>
-      </div>
+        {/* <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
+          <div className="flex items-center">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+              Products
+            </h1>
+          </div>
+        </div> */}
 
-      <Sort
-        viewMode={viewMode}
-        setViewMode={setViewMode}
-        selectedSort={selectedSort}
-        handleSort={handleSort}
-        withFilter={true}
-        category={categories[0]}
-        filteredCategories={filteredCategories}
-        setFilteredCategories={setFilteredCategories}
-      />
+        {categories && categories.length > 0 && (
+          <div className="px-4 sm:px-6 lg:px-8 text-gray-500 py-6 lg:max-w-7xl">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
+              Categories
+              <span
+                className="ml-4 text-sm hidden md:inline font-normal text-gray-400 normal-case cursor-pointer"
+                onClick={() => {
+                  if (process.browser) {
+                    productRef.current?.scrollIntoView({ behavior: "smooth" })
+                  }
+                }}
+              >
+                Scroll down for Products
+              </span>
+            </h1>
 
-      <div className="max-w-7xl mx-auto pt-6 pb-24 px-4 sm:px-6 lg:px-8">
-        <h2 id="products-heading" className="sr-only">
+            <div
+              className="text-sm md:hidden font-normal text-gray-400 normal-case cursor-pointer"
+              onClick={() => {
+                if (process.browser) {
+                  productRef.current?.scrollIntoView({ behavior: "smooth" })
+                }
+              }}
+            >
+              Scroll down for Products
+            </div>
+            <div className="text-sm">
+              <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
+                {categories &&
+                  categories.map(category => {
+                    return (
+                      <div
+                        key={category.id}
+                        className="m-4 pt-2 hover:shadow rounded"
+                      >
+                        <Link
+                          href={`/products/${category.slug}`}
+                          title={category.name || ""}
+                        >
+                          {category.image && category.image.sourceUrl && (
+                            <div className="w-32 mx-auto aspect-video overflow-hidden rounded">
+                              <Image
+                                src={category.image.sourceUrl}
+                                alt={category.name || ""}
+                                height={category.image.mediaDetails?.height}
+                                width={category.image.mediaDetails?.width}
+                                objectFit="cover"
+                                layout="responsive"
+                                sizes="25vw"
+                              />
+                            </div>
+                          )}
+                          <div className="text-center align-bottom py-2">
+                            {category.name}
+                          </div>
+                        </Link>
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        <h2
+          ref={productRef}
+          className="max-w-7xl mx-auto px-8 pb-4 text-2xl font-bold text-gray-900 uppercase"
+        >
           Products
         </h2>
 
-        {/* Filters */}
-
-        {/* Product grid */}
-        {loading ? (
-          <div className="flex items-center justify-center mx-auto w-full flex-col space-y-8">
-            <div className="font-bold">Fetching products...</div>
-            <div className="w-16 h-16">
-              <LoadingDots />
-            </div>
-          </div>
-        ) : (
-          <div
-            className={
-              viewMode === "grid"
-                ? "grid grid-cols-2 gap-y-4 gap-x-2 md:gap-x-4 md:gap-y-10 md:grid-cols-3 lg:gap-x-4 lg:grid-cols-4"
-                : "px-4"
-            }
-          >
-            {products &&
-              products.map(baseProduct => {
-                const product = baseProduct as Product & { price?: string }
-                if (product) {
-                  return (
-                    <ProductCard
-                      product={product}
-                      category_slug={
-                        (product.productCategories?.nodes &&
-                          product.productCategories.nodes[0]?.slug) ||
-                        ""
-                      }
-                      viewMode={viewMode}
-                      key={product.id}
-                    />
-                  )
-                }
-              })}
-          </div>
+        {categories && products && (
+          <ProductGrid
+            loading={productsFetching}
+            categories={categories}
+            products={products}
+            filteredCategories={filteredCategories}
+            setFilteredCategories={setFilteredCategories}
+            productRef={productRef}
+            withFilter
+          />
         )}
-      </div>
+      </Layout>
     </>
   )
 }
 
-export default Products
+// ####
+// #### API
+// ####
+
+export default withUrql(Products)
 
 // ####
 // #### External Props
 // ####
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const client = initializeApollo({})
+  const { client, ssrCache } = urql()
 
-  const {
-    data: { productCategories },
-  }: CategoriesReturnType = await client.query({
-    query: getProductCategories,
-    errorPolicy: "all",
-  })
+  const { data: productCatData } = await client
+    .query<GetProductCategoriesQuery>(GetProductCategoriesDocument)
+    .toPromise()
 
-  let rootCategories: ProductCategory[] =
-    productCategories && productCategories.nodes
-      ? productCategories.nodes.filter(productCategory => {
-          if (!productCategory.ancestors) {
+  const rootCategories =
+    productCatData?.productCategories?.nodes &&
+    productCatData.productCategories.nodes.filter(productCategory => {
+      if (!productCategory?.ancestors) {
+        return true
+      } else {
+        return false
+      }
+    })
+
+  const categorySlugs = rootCategories
+    ? rootCategories
+        .map(category => category?.slug)
+        .filter(category => {
+          if (typeof category === "string") {
             return true
-          } else {
-            return false
-          }
+          } else return false
         })
-      : []
+    : []
 
-  const field = "MENU_ORDER"
-  const order = "ASC"
+  const field = "MENU_ORDER" as ProductsOrderByEnum
+  const order = "ASC" as OrderEnum
 
-  const {
-    data: { products },
-    error,
-    loading,
-  }: ProductsReturnType = await client.query({
-    query: getProductsByCategories,
-    variables: { field, order, rootCategories },
-    errorPolicy: "all",
-  })
+  const { data: productData } = await client
+    .query<GetProductsByCategoryQuery, GetProductsByCategoryQueryVariables>(
+      GetProductsByCategoryDocument,
+      { field, order, categories: categorySlugs as string[] },
+    )
+    .toPromise()
 
   const staticProps = {
     props: {
-      categories: productCategories.nodes,
-      products: products.nodes,
+      categories:
+        (rootCategories as ProductCategory[] | null | undefined) || null,
+      products:
+        (productData?.products?.nodes as Product[] | null | undefined) || null,
+      urqlState: ssrCache.extractData(),
     },
     revalidate: 4 * 60 * 60, // Every 4 hours
   }
-
-  addApolloState(client, staticProps)
 
   return staticProps
 }

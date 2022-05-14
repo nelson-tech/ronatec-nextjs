@@ -1,17 +1,15 @@
-import dynamic from "next/dist/shared/lib/dynamic"
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
 import { parseNewLines } from "@lib/utils"
 import { Post_Common_Cards } from "@api/gql/types"
+import Icon from "@components/ui/Icon"
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
-
-const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+const clientOpts = {}
 
 // ####
 // #### Types

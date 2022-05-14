@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, ReactNode, SetStateAction, useState } from "react"
+import { FormEvent, ReactNode } from "react"
 import { Disclosure } from "@headlessui/react"
 import XIcon from "@heroicons/react/solid/XIcon"
 import FilterIcon from "@heroicons/react/solid/FilterIcon"
@@ -9,29 +9,16 @@ import { ProductCategory } from "@api/gql/types"
 type FiltersProps = {
   children: ReactNode
   filteredCategories: string[]
-  setFilteredCategories: Dispatch<SetStateAction<string[]>>
-  category: ProductCategory
+  setFilteredCategories: (f: string[]) => void
+  categories: ProductCategory[]
 }
 
 const Filters = ({
   children,
   filteredCategories,
   setFilteredCategories,
-  category,
+  categories,
 }: FiltersProps) => {
-  const [filtersCount, setFiltersCount] = useState(() => {
-    let count = 1
-    if (category.children?.nodes) {
-      count += category.children.nodes.length
-      category.children.nodes.map(child => {
-        if (child?.children?.nodes) {
-          count += child.children.nodes.length
-        }
-      })
-    }
-    return count
-  })
-
   const {
     register,
     handleSubmit,
@@ -41,7 +28,6 @@ const Filters = ({
 
   const handleChange = (event: FormEvent<HTMLFieldSetElement>) => {
     const selected = Object.values(getValues()).filter(v => v)
-    setFiltersCount(selected.length)
     setFilteredCategories(selected)
   }
 
@@ -55,11 +41,16 @@ const Filters = ({
     grandchild?: boolean
   }) => {
     if (category.slug) {
+      console.log(filteredCategories)
+      console.log(category.slug)
+      console.log("CHECKED")
+      filteredCategories.includes(`${category.slug}`)
+
       return (
         <div
-          className={`flex items-center text-base sm:text-sm${
-            child && " pl-4"
-          }${grandchild && " pl-8"}`}
+          className={`flex items-center w-full text-base sm:text-sm${
+            child && " pl-4 py-2 "
+          }${grandchild && " pl-8 "}`}
         >
           <input
             id={`category-${category.slug}`}
@@ -71,10 +62,10 @@ const Filters = ({
           />
           <label
             htmlFor={`category-${category.slug}`}
-            className="ml-3 min-w-0 flex-1 text-gray-600"
+            className="ml-3 min-w-0 w-full flex-1 text-gray-600"
           >
-            {child && "- "}
-            {grandchild && "- - "}
+            {/* {child && "- "}
+            {grandchild && "- - "} */}
             {category.name}
           </label>
         </div>
@@ -107,7 +98,7 @@ const Filters = ({
                     ) : (
                       <FilterIcon
                         className={`flex-none w-5 h-5 mr-2 group-hover:text-gray-500 ${
-                          filtersCount > 0
+                          filteredCategories.length > 0
                             ? " text-green-main"
                             : " text-red-main"
                         }`}
@@ -124,43 +115,53 @@ const Filters = ({
               as={"menu"}
               onChange={handleChange}
             >
-              <div className="max-w-7xl mx-auto grid grid-cols-2 gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8">
-                <div className="grid grid-cols-1 gap-y-10 auto-rows-min md:grid-cols-2 md:gap-x-6">
-                  {category && category.slug && (
-                    <fieldset>
-                      <legend className="block font-medium">Category</legend>
-                      <div className="pt-6 space-y-6 sm:pt-4 sm:space-y-4">
-                        <CategoryItem category={category} />
-                        {category.children?.nodes &&
-                          category.children.nodes.length > 0 &&
-                          category.children.nodes.map(subCategory => {
-                            if (subCategory?.slug) {
-                              return (
-                                <div key={subCategory.id}>
-                                  <CategoryItem category={subCategory} child />
-                                  {subCategory?.children?.nodes &&
-                                    subCategory.children.nodes.length > 0 &&
-                                    subCategory.children.nodes.map(
-                                      subSubCategory => {
-                                        if (subSubCategory?.slug) {
-                                          return (
-                                            <CategoryItem
-                                              category={subSubCategory}
-                                              grandchild
-                                            />
-                                          )
-                                        }
-                                      },
-                                    )}
-                                </div>
-                              )
-                            }
-                          })}
+              {categories && (
+                <>
+                  <fieldset>
+                    <div className="max-w-7xl mx-auto gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8">
+                      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-2">
+                        {categories.map(category => {
+                          return (
+                            <div key={category.id}>
+                              <CategoryItem category={category} />
+
+                              {/* {category.children?.nodes &&
+                                category.children.nodes.length > 0 &&
+                                category.children.nodes.map(subCategory => {
+                                  if (subCategory?.slug) {
+                                    return (
+                                      <div key={subCategory.id}>
+                                        <CategoryItem
+                                          category={subCategory}
+                                          child
+                                        />
+                                        {subCategory?.children?.nodes &&
+                                          subCategory.children.nodes.length >
+                                            0 &&
+                                          subCategory.children.nodes.map(
+                                            subSubCategory => {
+                                              if (subSubCategory?.slug) {
+                                                return (
+                                                  <CategoryItem
+                                                    category={subSubCategory}
+                                                    grandchild
+                                                  />
+                                                )
+                                              }
+                                            },
+                                          )}
+                                      </div>
+                                    )
+                                  }
+                                })} */}
+                            </div>
+                          )
+                        })}
                       </div>
-                    </fieldset>
-                  )}
-                </div>
-              </div>
+                    </div>
+                  </fieldset>
+                </>
+              )}
             </Disclosure.Panel>
             {children}
           </>

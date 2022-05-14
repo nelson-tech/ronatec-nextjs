@@ -21,7 +21,7 @@ export function parseNewLines(text: string) {
             key={"newLineParse" + line.length + line.split("a")[0] + index}
             className={`parsed-p parsed-${index}`}
           >
-            {line || "\b"}
+            {line || <>&nbsp;</>}
           </p>
         )
       })}

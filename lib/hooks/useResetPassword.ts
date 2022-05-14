@@ -1,10 +1,11 @@
 import { useState } from "react"
 
-import { useAlert, useAuth } from "@lib/hooks"
+import { setAuthToken, setRefreshToken } from "@api/urql/utils"
+import { User } from "@api/gql/types"
 
+import useStore from "./useStore"
 import { useSendPasswordResetEmail } from "./mutations"
 import { useResetUserPassword } from "./mutations"
-import { User } from "@api/gql/types"
 
 const errorCodes: { [key: string]: string } = {}
 
@@ -18,9 +19,11 @@ const useResetPassword = () => {
   const { sendPasswordResetEmail: emailMutation } = useSendPasswordResetEmail()
   const { resetUserPassword: resetMutation } = useResetUserPassword()
 
-  const { setLoggedIn, setUser, setAuthToken, setRefreshToken } = useAuth()
-
-  const { showAlert } = useAlert()
+  const { setAlert, setLoggedIn, setUser } = useStore(state => ({
+    setAlert: state.alert.setAlert,
+    setLoggedIn: state.auth.setLoggedIn,
+    setUser: state.auth.setUser,
+  }))
 
   const sendResetPasswordEmail = (username: string) => {
     setError(null)
@@ -60,7 +63,7 @@ const useResetPassword = () => {
 
           setLoggedIn(true)
 
-          showAlert({
+          setAlert({
             open: true,
             type: "success",
             primary: `Welcome back${

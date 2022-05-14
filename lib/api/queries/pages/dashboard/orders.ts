@@ -1,47 +1,19 @@
-import { variableProductFragment } from "@api/queries/fragments"
-import { simpleProductFragment } from "@api/queries/fragments/products"
-import { gql } from "@apollo/client"
+import { gql } from "urql"
 
-export const getUserOrders = gql`
-  query GetUserOrdersQuery {
+const getUserOrdersQuery = gql`
+  query GetUserOrdersData {
     orders {
       nodes {
-        date
-        orderNumber
-        total
-        status
-        lineItems {
-          nodes {
-            quantity
-            total
-            product {
-              ${simpleProductFragment}
-              ${variableProductFragment}
-            }
-          }
-        }
+        ...OrderProductBase
       }
     }
   }
 `
 
-export const getUserOrder = gql`
-  query GetUserOrdersQuery($id: ID) {
+const getUserOrderQuery = gql`
+  query GetUserOrderData($id: ID) {
     order(id: $id, idType: DATABASE_ID) {
-      date
-      orderNumber
-      total
-      status
-      lineItems {
-        nodes {
-          quantity
-          total
-          product {
-            ${simpleProductFragment}
-            ${variableProductFragment}
-          }
-        }
-      }
+      ...OrderProductBase
     }
   }
 `

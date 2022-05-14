@@ -1,8 +1,5 @@
-import { gql } from "@apollo/client"
+import { gql } from "urql"
 import { generalPageQuery } from "../fragments"
-
-export { getHomeData } from "./home"
-export { getConsultingData } from "./consulting"
 
 export const getGeneralPageData = gql`
   query GetGeneralPageData {

@@ -1,4 +1,4 @@
-import { gql, useMutation } from "@apollo/client"
+import { gql, useMutation } from "urql"
 
 const QUERY = gql`
   mutation SendPasswordResetEmail($username: String!) {
@@ -9,7 +9,7 @@ const QUERY = gql`
 `
 
 const useSendPasswordResetEmail = () => {
-  const [mutation, mutationResults] = useMutation(QUERY)
+  const [mutationResults, mutation] = useMutation(QUERY)
 
   const sendPasswordResetEmail = (username: string) => {
     return mutation({

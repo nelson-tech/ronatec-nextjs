@@ -6,7 +6,7 @@ import ExclamationCircleIcon from "@heroicons/react/solid/ExclamationCircleIcon"
 import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
 import XIcon from "@heroicons/react/outline/XIcon"
 
-import { AlertProps } from "@lib/types"
+import { AlertProps } from "@lib/types/alerts"
 
 const iconSize = "h-5 w-5"
 

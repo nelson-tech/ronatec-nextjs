@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client/core"
+import { gql } from "urql"
 
 import { pageCommonFragment } from "@api/queries/fragments"
 

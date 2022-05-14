@@ -1,11 +1,19 @@
 import { NextSeo } from "next-seo"
 
+// ####
+// #### Types
+// ####
+
 type PageTitlePropsType = {
   title: string
   description?: string
   seoConfig?: any
   banner?: boolean
 }
+
+// ####
+// #### Component
+// ####
 
 const PageTitle = ({
   title,

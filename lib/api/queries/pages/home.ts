@@ -1,28 +1,50 @@
-import { gql } from "@apollo/client/core"
+import { gql } from "urql"
 
-import {
-  pageCommonFragment,
-  featuredSupplierFragment,
-  cardsFragment,
-  slidesFragment,
-  videoLinkFragment,
-  featuredProductsFragment,
-} from "@api/queries/fragments"
-
-export const getHomeData = gql`
-  query HomeQuery {
+const getHomeDataQuery = gql`
+  query GetHomeData {
     page(id: "home", idType: URI) {
-      ${pageCommonFragment}
+      ...PageCommonBase
       page_home {
         acf {
           hero {
-            ${cardsFragment}
+            cards {
+              title
+              content
+              icon {
+                name
+                type
+              }
+              image {
+                ...ImageBase
+              }
+              link {
+                url
+                label
+              }
+            }
           }
-          ${slidesFragment}
-          ${cardsFragment}
-          ${videoLinkFragment}
-          ${featuredProductsFragment}
-          ${featuredSupplierFragment}
+          cards {
+            title
+            content
+            icon {
+              name
+              type
+            }
+            image {
+              ...ImageBase
+            }
+            link {
+              url
+              label
+            }
+          }
+          videoLink {
+            title
+            provider
+            videoId
+            videoUrl
+          }
+          ...FeaturedSupplierFragment
         }
       }
     }

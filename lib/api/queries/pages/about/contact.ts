@@ -1,21 +1,47 @@
-import { gql } from "@apollo/client/core"
+import { gql } from "urql"
 
-import {
-  cardsFragment,
-  mapFragment,
-  pageCommonFragment,
-  salesRepsFragment,
-} from "@api/queries/fragments"
-
-export const getContactData = gql`
-  query ContactQuery {
+const getContactDataQuery = gql`
+  query GetContactData {
     page(id: "about/contact", idType: URI) {
-      ${pageCommonFragment}
+      ...PageCommonBase
       page_about_contact {
         acf {
-          ${cardsFragment}
-          ${salesRepsFragment}
-          ${mapFragment}
+          ...CardsFragment
+          ...SalesRepFragment
+          map {
+            fieldGroupName
+            mapOptions {
+              mapType
+              mapTypeStyle {
+                featureType
+                featureTypeChild
+                elementTypeChild
+                mapTypeStyleStylers {
+                  color
+                  gamma
+                  saturation
+                }
+              }
+              center {
+                lat
+                lng
+              }
+              zoom
+              defaultUi
+              keyboardShortcuts
+            }
+            markers {
+              label
+              center {
+                lat
+                lng
+              }
+              icon {
+                name
+                type
+              }
+            }
+          }
         }
       }
     }

@@ -9,11 +9,11 @@ import PrinterIcon from "@heroicons/react/solid/PrinterIcon"
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const clientOpts = {}
 
-const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
-const Image = dynamic(() => import("@components/Image"), importOpts)
-const MenuLink = dynamic(() => import("@components/ui/MenuLink"), importOpts)
+const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
+const Image = dynamic(() => import("@components/Image"), clientOpts)
+const MenuLink = dynamic(() => import("@components/Link"), clientOpts)
 
 const navigation = {
   solutions: [
@@ -58,10 +58,7 @@ const navigation = {
 
 const Footer = () => {
   return (
-    <footer
-      className="bg-blue-dark font-family"
-      aria-labelledby="footer-heading"
-    >
+    <footer className="bg-blue-dark" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
@@ -158,6 +155,7 @@ const Footer = () => {
                 type="brands"
                 className="h-12 w-12 text-gray-200 hover:text-gray-100"
                 key={item.name}
+                iconKey={`icon-${item.name}`}
               />
             ))}
           </div>

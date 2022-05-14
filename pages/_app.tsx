@@ -1,24 +1,12 @@
-import "@assets/main.css"
+import "@styles/tailwind.css"
 // import "keen-slider/keen-slider.min.css"
 
-import { FC } from "react"
 import { AppProps } from "next/app"
-import dynamic from "next/dist/shared/lib/dynamic"
-import Router from "next/router"
+import { Router } from "next/router"
 import { DefaultSeo } from "next-seo"
 
 import { ProgressBar } from "@lib"
-import initializeApollo from "@lib/apollo/client"
-import useApollo from "@lib/apollo/useApollo"
-import Layout from "@components/ui/Layout"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const importOpts = {}
-
-const ApolloProvider = dynamic(() => import("@lib/apollo/provider"), importOpts)
+import { useCreateStore, Provider } from "@lib/store"
 
 // ####
 // #### Variables
@@ -41,15 +29,14 @@ Router.events.on("routeChangeError", progress.finish)
 // #### Component
 // ####
 
-function RonatecWebsite({
-  Component,
-  pageProps,
-}: AppProps & { Component: { Layout: FC } }) {
-  const { client: apolloClient } = useApollo(pageProps)
+function RonatecWebsite({ Component, pageProps }: AppProps) {
+  const createStore = useCreateStore(pageProps.initStore)
+
   const cdnURL = process.env.NEXT_PUBLIC_CDN_BASE_URL
   const faviconURL = `${cdnURL}/ronatec/favicons`
+
   return (
-    <ApolloProvider client={apolloClient || initializeApollo({})}>
+    <>
       <DefaultSeo
         openGraph={{
           type: "website",
@@ -93,7 +80,7 @@ function RonatecWebsite({
           },
           {
             rel: "preload",
-            href: `${cdnURL}/fonts/Montserrat/Montserrat-VF.ttf`,
+            href: `${cdnURL}/fonts/Exo/Exo-VariableFont_wght.ttf`,
             as: "font",
             type: "font/ttf",
             crossOrigin: "anonymous",
@@ -122,10 +109,10 @@ function RonatecWebsite({
           },
         ]}
       />
-      <Layout>
+      <Provider createStore={createStore}>
         <Component {...pageProps} />
-      </Layout>
-    </ApolloProvider>
+      </Provider>
+    </>
   )
 }
 

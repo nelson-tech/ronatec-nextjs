@@ -24,6 +24,7 @@ export const SVGUrl = ({
           convertDocEleToReact(ele.documentElement, {
             className: "w-full h-full",
             uri,
+            key: iconKey,
             iconKey,
           }),
         )

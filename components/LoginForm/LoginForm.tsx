@@ -1,73 +1,76 @@
-import {
-  Dispatch,
-  FormEventHandler,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react"
-// import dynamic from "next/dist/shared/lib/dynamic"
+import { MutableRefObject, useEffect, useState } from "react"
 import { useRouter } from "next/dist/client/router"
-import Link from "next/link"
+import shallow from "zustand/shallow"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
 
-import useAuth from "@lib/hooks/useAuth"
-import useFormFields from "@lib/hooks/useFormFields"
+import useLogin from "@lib/hooks/auth/useLogin"
+import useStore from "@lib/hooks/useStore"
 
-import MenuLink from "@components/ui/MenuLink"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const importOpts = {}
-
-// const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
+import Link from "@components/Link"
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
 // ####
 // #### Types
 // ####
 
-type SignInProps = {
-  modalRef?: string
-  setOpen?: Dispatch<SetStateAction<boolean>>
+type LoginFormProps = {
+  modalRef?: MutableRefObject<HTMLInputElement>
+  setOpen?: (open: boolean) => void
 }
 
 // ####
 // #### Component
 // ####
 
-const SignIn = ({ modalRef, setOpen }: SignInProps) => {
+const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const [error, setError] = useState<string | null>(null)
+  const { loggedIn, error } = useStore(
+    state => ({
+      loggedIn: state.auth.loggedIn,
+      error: state.auth.errors.login,
+    }),
+    shallow,
+  )
 
-  const { loggedIn, user, login } = useAuth()
+  const { login } = useLogin()
 
-  const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    password: "",
+  const {
+    formState: { errors },
+    register,
+    handleSubmit,
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
   })
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
-    event.preventDefault()
-    setError(null)
-
-    if (fields.email && fields.password) {
-      const userLogin = {
-        login: fields.email,
-        password: fields.password,
-        rememberMe: false,
+  const onSubmit: SubmitHandler<{
+    email: string
+    password: string
+    rememberMe: boolean
+  }> = async data => {
+    setLoading(true)
+    if (data.email && data.password) {
+      const cookiesInput = {
+        login: data.email,
+        password: data.password,
+        rememberMe: true,
       }
 
-      const { errors } = await login(userLogin, () => {
-        const rederict = (router.query?.redirect as string) || undefined
-        router.push(rederict || "/products")
-      })
-
-      if (errors) {
-        setError(errors)
+      const jwtInput = {
+        username: cookiesInput.login,
+        password: cookiesInput.password,
       }
+
+      await login({ jwtInput, cookiesInput })
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -75,6 +78,22 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
       setOpen && setOpen(false)
     }
   }, [loggedIn, setOpen])
+
+  const ErrorField = ({ name }: { name: string }) => {
+    return (
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => (
+          <p className="text-red-main text-sm pt-2 pl-2">{message}</p>
+        )}
+      />
+    )
+  }
+
+  const { ref, ...restEmail } = register("email", {
+    required: "Valid email is required.",
+  })
 
   return (
     <>
@@ -91,26 +110,25 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
               <div onClick={() => setOpen && setOpen(false)}>
                 <Link
                   href={`/register${
-                    router.query?.redirect &&
-                    `?redirect=${router.query.redirect}`
+                    router.query?.redirect
+                      ? `?redirect=${router.query.redirect}`
+                      : ""
                   }`}
-                  passHref
+                  title="Click to register."
+                  className="font-medium text-blue-main hover:text-green-main"
                 >
-                  <a className="font-medium text-blue-main hover:text-green-main">
-                    click here to register
-                  </a>
+                  <span>click here to register</span>
                 </Link>
               </div>
               <span>.</span>
             </div>
           </div>
           <form
-            className="mt-8 space-y-6"
+            className="mt-8 space-y-2"
             action="#"
             method="post"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
-            <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
                 <label htmlFor="email-address" className="sr-only">
@@ -118,12 +136,13 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
                 </label>
                 <input
                   id="email-address"
-                  name="email"
-                  type="username"
-                  ref={modalRef}
+                  type="email"
+                  ref={e => {
+                    ref(e)
+                    modalRef && e && (modalRef.current = e)
+                  }}
                   autoComplete="email"
-                  required
-                  onChange={handleFieldChange}
+                  {...restEmail}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
@@ -134,44 +153,80 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
                 </label>
                 <input
                   id="password"
-                  name="password"
                   type="password"
                   autoComplete="current-password"
-                  minLength={8}
-                  maxLength={32}
-                  required
-                  onChange={handleFieldChange}
+                  {...register("password", {
+                    minLength: {
+                      value: 8,
+                      message: "Password must be 8-32 characters.",
+                    },
+                    maxLength: {
+                      value: 32,
+                      message: "Password must be 8-32 characters.",
+                    },
+                    required: "Password is required.",
+                  })}
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
             </div>
-
-            <div>
-              <div className="text-sm text-center text-red-600">
-                {error}&nbsp;
-              </div>
+            <div className="mr-2 justify-end items-center flex">
+              <label
+                htmlFor="rememberMe"
+                className="text-sm italic text-gray-400 mr-2"
+              >
+                Remember me?
+              </label>
+              <input
+                type="checkbox"
+                id="rememberMe"
+                {...register("rememberMe")}
+                name="rememberMe"
+                className="focus:ring-blue-main h-4 w-4 text-blue-main border-blue-main rounded"
+                defaultValue="false"
+              />
             </div>
 
-            <div className="text-sm text-center">
-              <MenuLink
+            <div className="pt-2">
+              <ErrorField name="email" />
+              <ErrorField name="password" />
+              {error && (
+                <p className="text-red-main text-sm pt-2 pl-2">{error}</p>
+              )}
+            </div>
+
+            <div className="text-sm text-center pt-2">
+              <Link
                 href="/reset-password"
                 className="font-medium text-blue-main hover:text-green-main"
+                title="Reset your password."
               >
                 Forgot your password?
-              </MenuLink>
+              </Link>
             </div>
 
-            <div>
+            <div className="pt-4">
               <button
                 type="submit"
+                title="Click to sign in."
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-main"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon
-                    className="h-5 w-5 text-gray-300 group-hover:text-white"
-                    aria-hidden="true"
-                  />
+                  {" "}
+                  {loading ? (
+                    <div className="flip">
+                      <RefreshIcon
+                        className="h-5 w-5 animate-reverse-spin text-white"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  ) : (
+                    <LockClosedIcon
+                      className="h-5 w-5 text-gray-300 group-hover:text-white"
+                      aria-hidden="true"
+                    />
+                  )}
                 </span>
                 Sign in
               </button>
@@ -182,4 +237,5 @@ const SignIn = ({ modalRef, setOpen }: SignInProps) => {
     </>
   )
 }
-export default SignIn
+
+export default LoginForm

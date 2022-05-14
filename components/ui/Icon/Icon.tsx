@@ -19,7 +19,7 @@ export interface IconPropsType {
   className?: string
   ariaHidden?: boolean
   iconStyling?: string
-  iconKey?: string
+  iconKey: string
 }
 
 // ####

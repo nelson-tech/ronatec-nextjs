@@ -1,3 +1,6 @@
+const plugin = require("tailwindcss/plugin")
+const defaultTheme = require("tailwindcss/defaultTheme")
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -57,7 +60,8 @@ module.exports = {
       },
       fontFamily: {
         exo: ["Exo", "sans-serif"],
-        montserrat: ["Montserrat", "sans-serif"],
+        // montserrat: ["Montserrat", "sans-serif"],
+        sans: ["Exo", ...defaultTheme.fontFamily.sans],
       },
     },
     aspectRatio: {

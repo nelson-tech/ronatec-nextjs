@@ -1,5 +1,5 @@
-import { userAuthFragment } from "@api/mutations/fragments"
-import { gql, useMutation } from "@apollo/client"
+import { userAuthFragment } from "@api/mutations/old/fragments"
+import { gql, useMutation } from "urql"
 
 const QUERY = gql`
   mutation ResetUserPassword(
@@ -17,7 +17,7 @@ const QUERY = gql`
 `
 
 const useResetUserPassword = () => {
-  const [mutation, mutationResults] = useMutation(QUERY)
+  const [mutationResults, mutation] = useMutation(QUERY)
 
   const resetUserPassword = (key: string, login: string, password: string) => {
     return mutation({

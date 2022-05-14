@@ -119,9 +119,9 @@
       "Post"
     ],
     "ContentTemplate": [
-      "CoverTemplate",
       "DefaultTemplate",
-      "FullWidthTemplate"
+      "Template_FullWidth",
+      "Template_Homepage"
     ],
     "DatabaseIdentifier": [
       "Category",

@@ -1,20 +1,28 @@
-import { gql } from "@apollo/client/core"
+import { gql } from "urql"
 
-import { pageCommonFragment, cardsFragment } from "@api/queries/fragments"
-
-export const getAboutData = gql`
-  query AboutQuery {
+export const getAboutDataQuery = gql`
+  query GetAboutData {
     page(id: "about", idType: URI) {
-      ${pageCommonFragment}
+      ...PageCommonBase
       page_about {
         acf {
-          ${cardsFragment}
+          cards {
+            title
+            content
+            icon {
+              name
+              type
+            }
+            image {
+              ...ImageBase
+            }
+            link {
+              url
+              label
+            }
+          }
         }
       }
     }
   }
 `
-
-export { getContactData } from "./contact"
-export { getDistributionData } from "./distribution"
-export { getWarehousesData } from "./warehouses"

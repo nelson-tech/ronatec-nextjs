@@ -1,7 +1,7 @@
 import MenuItemType from "./types"
 
 const services: MenuItemType = {
-  id: "",
+  id: "cG9zdDostra1MzA",
   label: "Services",
   path: "",
   children: [

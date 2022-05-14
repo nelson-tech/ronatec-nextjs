@@ -9,9 +9,9 @@ import { Post_Common_VideoLink } from "@api/gql/types"
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const clientOpts = {}
 
-const ReactPlayer = dynamic(() => import("react-player"), importOpts)
+const ReactPlayer = dynamic(() => import("react-player"), clientOpts)
 
 // ####
 // #### Types

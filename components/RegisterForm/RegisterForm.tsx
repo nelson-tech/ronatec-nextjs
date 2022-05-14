@@ -1,31 +1,24 @@
-import React, { useEffect, useState } from "react"
-import { useRouter } from "next/dist/client/router"
+import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
 
-import useAuth from "@lib/hooks/useAuth"
+import useStore from "@lib/hooks/useStore"
+import useRegister from "@lib/hooks/auth/useRegister"
 
-import MenuLink from "@components/ui/MenuLink"
+import MenuLink from "@components/Link"
 
 // ####
 // #### Component
 // ####
 
 const RegisterForm = () => {
-  const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const router = useRouter()
+  const error = useStore(state => state.auth.errors.register)
 
-  const { loggedIn, registerUser } = useAuth()
-
-  useEffect(() => {
-    if (loggedIn) {
-      router.push("/products")
-    }
-  }, [loggedIn, router])
+  const { register: registerUser } = useRegister()
 
   const {
     formState: { errors },
@@ -49,9 +42,6 @@ const RegisterForm = () => {
     const { firstName, lastName, email, password } = data
 
     setLoading(true)
-    setError(null)
-
-    console.log(data)
 
     const input = {
       username: email,
@@ -61,11 +51,7 @@ const RegisterForm = () => {
       password,
     }
 
-    const err = await registerUser({
-      input,
-    })
-
-    err && setError(err)
+    await registerUser(input)
 
     setLoading(false)
   }

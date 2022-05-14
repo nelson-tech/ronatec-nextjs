@@ -1,18 +1,18 @@
 import { FormEventHandler, useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
-// import { useRouter } from "next/dist/client/router"
-import { gql, useApolloClient, useMutation } from "@apollo/client"
 import { RadioGroup } from "@headlessui/react"
 import CheckIcon from "@heroicons/react/solid/CheckIcon"
 
+import useCart from "@lib/hooks/useCart"
+import { htmlParserOptions, isServer, parse } from "@lib/utils"
+import { AttributeType, FullProduct } from "@lib/types"
 import {
   AddToCartInput,
   ProductAttributeInput,
   ProductVariation,
 } from "@api/gql/types"
-import { AttributeType, FullProduct } from "@lib/types"
-import { htmlParserOptions, isServer, parse } from "@lib/utils"
 
+import Image from "@components/Image"
 import LoadingDots from "@components/ui/LoadingDots"
 import {
   Container,
@@ -20,16 +20,14 @@ import {
   ProductTopContainer,
   TopContainer,
 } from "./style"
-import useAuth from "@lib/hooks/useAuth"
-import useCart from "@lib/hooks/useCart"
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const clientOpts = {}
 
-const Image = dynamic(() => import("@components/Image"), importOpts)
+// const Image = dynamic(() => import("@components/Image"), clientOpts)
 
 // ####
 // #### Types
@@ -37,17 +35,46 @@ const Image = dynamic(() => import("@components/Image"), importOpts)
 
 type DefaultProductProps = {
   product: FullProduct
-  attributes: AttributeType[] | null
 }
 
 // ####
 // #### Component
 // ####
 
-const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
-  // const router = useRouter()
-  const apolloClient = useApolloClient()
+const DefaultProduct = ({ product }: DefaultProductProps) => {
   const { addToCart } = useCart()
+
+  const getAttributes = (product: FullProduct) => {
+    let allAttributes: AttributeType[] = []
+
+    product.variations?.nodes &&
+      product.variations.nodes.map(variation => {
+        if (variation) {
+          const { attributes } = variation as ProductVariation
+          attributes?.nodes &&
+            attributes.nodes.map(attribute => {
+              if (attribute && attribute.name) {
+                if (!allAttributes.some(a => a.name === attribute.label)) {
+                  allAttributes.push({
+                    name: attribute.label,
+                    variations: [variation],
+                    id: attribute.id,
+                  })
+                } else {
+                  const attIndex = allAttributes.findIndex(
+                    a => a.name === attribute.label,
+                  )
+                  allAttributes[attIndex].variations.push(variation)
+                }
+              }
+            })
+        }
+      })
+
+    return allAttributes
+  }
+
+  const attributes = getAttributes(product)
 
   const firstVariation =
     attributes && attributes?.length > 0 ? attributes[0].variations[0] : null
@@ -101,9 +128,9 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
         }
       }
 
-      const { data, errors } = await addToCart(input)
+      const { data, error } = await addToCart(input)
 
-      if (data.addToCart && data.addToCart.cart) {
+      if (data) {
         if (!isServer) {
           window.scrollTo({ top: 0, behavior: "smooth" })
         }
@@ -116,10 +143,10 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
         setAddLoading(false)
       }
 
-      if (errors && errors.length > 0) {
+      if (error) {
         console.log("ERROR", error)
 
-        setError(errors[0].message)
+        setError(error.message)
       }
     } else {
       setError("Product ID not found.")
@@ -141,6 +168,7 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                 height={product.image?.mediaDetails?.height}
                 width={product.image?.mediaDetails?.width}
                 rounded="lg"
+                priority
               />
             )}
           </div>
@@ -231,15 +259,19 @@ const DefaultProduct = ({ product, attributes }: DefaultProductProps) => {
                 </div>
               )}
               <div className="mt-8 flex items-center">
-                <div className="pr-4">Quantity: </div>
                 <div className="flex items-center space-x-2">
                   {/* <MinusIcon
                       className="h-4 w-4 cursor-pointer"
                       onClick={() => setQuantity(quantity - 1)}
                     /> */}
+                  <label htmlFor="quantity" className="pr-4">
+                    Quantity:{" "}
+                  </label>
                   <input
                     className="w-16 text-center border py-1 text-sm rounded outline-none focus:bg-white ring-transparent"
                     value={quantity}
+                    id="quantity"
+                    name="quantity"
                     type="number"
                     min={1}
                     onChange={e => {

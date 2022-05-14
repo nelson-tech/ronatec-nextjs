@@ -4,7 +4,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
 
 import twConfig from "../../tailwind.config"
 import { Maybe, Post_Maps_MapOptions, Post_Maps_Markers } from "@api/gql/types"
-import { useMobileDetect } from "@lib/hooks"
+import useMobileDetect from "@lib/hooks/useMobileDetect"
 
 import LoadingDots from "@components/ui/LoadingDots"
 
@@ -83,7 +83,7 @@ const Map = ({
     setMap(map)
   }, [])
 
-  const onUnmount = useCallback(map => {
+  const onUnmount = useCallback((map: any) => {
     setMap(null)
   }, [])
 

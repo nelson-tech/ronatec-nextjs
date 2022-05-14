@@ -1,22 +1,21 @@
 import { useEffect } from "react"
-import dynamic from "next/dist/shared/lib/dynamic"
 import { useRouter } from "next/dist/client/router"
 
-import useAuth from "@lib/hooks/useAuth"
+import useStore from "@lib/hooks/useStore"
+import withUrql from "@api/urql/hoc"
 
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
+import LoginForm from "@components/LoginForm"
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
-
-const LoginForm = dynamic(() => import("@components/LoginForm"), importOpts)
-
 const Login = ({}) => {
-  const { loggedIn } = useAuth()
   const router = useRouter()
+
+  const loggedIn = useStore(state => state.auth.loggedIn)
 
   useEffect(() => {
     if (loggedIn) {
@@ -27,15 +26,21 @@ const Login = ({}) => {
 
   return (
     <>
-      <PageTitle
-        title="Login"
-        description="Login to your account to see past orders."
-        banner={false}
-      />
+      <Layout>
+        <PageTitle
+          title="Login"
+          description="Login to your account to see past orders."
+          banner={false}
+        />
 
-      <LoginForm />
+        <LoginForm />
+      </Layout>
     </>
   )
 }
 
-export default Login
+// ####
+// #### API
+// ####
+
+export default withUrql(Login)

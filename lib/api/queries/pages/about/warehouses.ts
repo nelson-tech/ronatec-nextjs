@@ -1,14 +1,45 @@
-import { gql } from "@apollo/client/core"
+import { gql } from "urql"
 
-import { pageCommonFragment, mapFragment } from "@api/queries/fragments"
-
-export const getWarehousesData = gql`
-  query WarehousesQuery {
+const getWarehousesDataQuery = gql`
+  query GetWarehousesData {
     page(id: "about/warehouses", idType: URI) {
-      ${pageCommonFragment}
+      ...PageCommonBase
       page_about_warehouses {
         acf {
-          ${mapFragment}
+          map {
+            fieldGroupName
+            mapOptions {
+              mapType
+              mapTypeStyle {
+                featureType
+                featureTypeChild
+                elementTypeChild
+                mapTypeStyleStylers {
+                  color
+                  gamma
+                  saturation
+                }
+              }
+              center {
+                lat
+                lng
+              }
+              zoom
+              defaultUi
+              keyboardShortcuts
+            }
+            markers {
+              label
+              center {
+                lat
+                lng
+              }
+              icon {
+                name
+                type
+              }
+            }
+          }
         }
       }
     }

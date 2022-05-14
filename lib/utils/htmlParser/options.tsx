@@ -6,7 +6,7 @@ import parse, {
 
 import Image from "@components/Image"
 import { ParsedTabs } from "."
-import MenuLink from "@components/ui/MenuLink"
+import MenuLink from "@components/Link"
 
 export const htmlParserOptions: HTMLReactParserOptions =
   typeof window === "undefined"

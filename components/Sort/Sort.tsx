@@ -1,86 +1,100 @@
-import { Dispatch, Fragment, SetStateAction } from "react"
-import dynamic from "next/dist/shared/lib/dynamic"
+import { Fragment } from "react"
+import shallow from "zustand/shallow"
 import { Menu, Transition } from "@headlessui/react"
+import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
 import ViewGridIcon from "@heroicons/react/solid/ViewGridIcon"
 import ViewListIcon from "@heroicons/react/solid/ViewListIcon"
 
+import { sortOptions, SortOptionType } from "@lib/store/slices/ui"
+import useStore from "@lib/hooks/useStore"
 import { ProductCategory } from "@api/gql/types"
 
-// ####
-// #### Dynamic Imports
-// ####
-
-const importOpts = {}
-
-const Filters = dynamic(() => import("@components/Filters"), importOpts)
-
-// ####
-// #### Variables
-// ####
-
-export const sortOptions: SortOptionType[] = [
-  { name: "Default", id: { field: "MENU_ORDER", order: "ASC" } },
-  { name: "Price: Low to High", id: { field: "PRICE", order: "ASC" } },
-  { name: "Price: High to Low", id: { field: "PRICE", order: "DESC" } },
-  { name: "A - Z", id: { field: "SLUG", order: "ASC" } },
-  { name: "Z - A", id: { field: "SLUG", order: "DESC" } },
-  { name: "Newest", id: { field: "DATE", order: "DESC" } },
-  { name: "Oldest", id: { field: "DATE", order: "ASC" } },
-]
+import Filters from "@components/Filters"
+import AZIcon from "./Icons/AZ"
+import ZAIcon from "./Icons/ZA"
+import NewestIcon from "./Icons/Newest"
+import OldestIcon from "./Icons/Oldest"
 
 // ####
 // #### Types
 // ####
 
-export type SortOptionType = {
-  name: string
-  id: { field: string; order: string }
-}
-
-type SortBaseProps = {
-  viewMode: "grid" | "list"
-  setViewMode: Dispatch<SetStateAction<"grid" | "list">>
-  selectedSort: SortOptionType
-  handleSort: (option: SortOptionType) => Promise<void>
-}
-
-type FilterProps = SortBaseProps & {
-  withFilter: true
-  category: ProductCategory
+type PropsType = {
+  loading: boolean
+  withFilter?: boolean
+  categories: ProductCategory[] | null
   filteredCategories: string[]
-  setFilteredCategories: Dispatch<SetStateAction<string[]>>
+  setFilteredCategories: (f: string[]) => void
 }
 
-type SortProps =
-  | (SortBaseProps & {
-      withFilter?: false
-      category?: never
-      filteredCategories?: never
-      setFilteredCategories?: never
-    })
-  | FilterProps
+// ####
+// #### Variables
+// ####
 
 // ####
 // #### Component
 // ####
 
 const Sort = ({
-  viewMode,
-  setViewMode,
-  selectedSort,
-  handleSort,
+  loading,
   withFilter,
-  category,
+  categories,
   filteredCategories,
   setFilteredCategories,
-}: SortProps) => {
+}: PropsType) => {
+  const { selectedSort, setSelectedSort, viewMode, setViewMode } = useStore(
+    state => ({
+      selectedSort: state.ui.selectedSort,
+      setSelectedSort: state.ui.setSelectedSort,
+      viewMode: state.ui.viewMode,
+      setViewMode: state.ui.setViewMode,
+    }),
+    shallow,
+  )
+
+  const handleSort = async (option: SortOptionType) => {
+    setSelectedSort(option)
+  }
+
+  let SortIcon = ChevronDownIcon
+
   const sectionClasses =
     "w-full border-t border-b border-gray-200 grid items-center"
 
+  switch (selectedSort.name) {
+    case "A - Z":
+      SortIcon = AZIcon
+      break
+    case "Z - A":
+      SortIcon = ZAIcon
+      break
+    case "Newest":
+      SortIcon = NewestIcon
+      break
+    case "Oldest":
+      SortIcon = OldestIcon
+    default:
+      break
+  }
+
   const BaseSort = () => (
     <div className="col-start-1 row-start-1 py-4">
-      <div className="flex justify-end max-w-7xl mx-auto px-8 sm:px-6 lg:px-8">
+      <div className="flex justify-end items-center max-w-7xl mx-auto px-8 sm:px-6 lg:px-8">
+        {loading && (
+          <div
+            className="mr-8 text-gray-600 cursor-pointer hover:text-green-main transition"
+            title="Refresh orders"
+          >
+            <h2 className="sr-only">Refresh orders</h2>
+            <div className="flip">
+              <RefreshIcon
+                className="h-5 w-5 animate-reverse-spin text-green-main
+            "
+              />
+            </div>
+          </div>
+        )}
         <Menu as="div" className="relative flex">
           <div className="flex">
             <Menu.Button
@@ -88,8 +102,8 @@ const Sort = ({
               disabled={filteredCategories && filteredCategories.length === 0}
             >
               <span className="sr-only">Sort options</span>Sort
-              <ChevronDownIcon
-                className="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+              <SortIcon
+                className="flex-shrink-0 -mr-1 ml-2 h-5 w-5 text-gray-400 group-hover:text-gray-500"
                 aria-hidden="true"
               />
             </Menu.Button>
@@ -107,10 +121,7 @@ const Sort = ({
             <Menu.Items className="origin-bottom-right z-10 absolute mt-6 right-0 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="">
                 {sortOptions.map(option => (
-                  <Menu.Item
-                    key={option.name}
-                    onClick={() => handleSort(option)}
-                  >
+                  <Menu.Item key={option.name}>
                     {({ active }) => (
                       <a
                         className={`outline-none ring-transparent ${
@@ -118,6 +129,7 @@ const Sort = ({
                             ? "bg-blue-main text-white"
                             : "text-gray-700 bg-white cursor-pointer hover:bg-gray-100"
                         } block px-4 py-2 text-sm font-medium`}
+                        onClick={() => handleSort(option)}
                       >
                         {option.name}
                       </a>
@@ -159,11 +171,11 @@ const Sort = ({
   )
 
   return withFilter &&
-    category &&
+    categories &&
     filteredCategories &&
     setFilteredCategories ? (
     <Filters
-      category={category}
+      categories={categories}
       filteredCategories={filteredCategories}
       setFilteredCategories={setFilteredCategories}
     >

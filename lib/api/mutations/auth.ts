@@ -1,21 +1,26 @@
-import { gql } from "@apollo/client"
-
-import { userAuthFragment } from "./fragments"
+import { gql } from "urql"
 
 export const registerMutation = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
     registerUser(input: $input) {
-      ${userAuthFragment}
+      user {
+        ...userAuth
+      }
     }
   }
 `
 export const loginMutation = gql`
-  mutation LoginUser($cookiesInput: LoginWithCookiesInput!, $jwtInput: LoginInput!) {
+  mutation LoginUser(
+    $cookiesInput: LoginWithCookiesInput!
+    $jwtInput: LoginInput!
+  ) {
     loginWithCookies(input: $cookiesInput) {
       status
     }
     login(input: $jwtInput) {
-      ${userAuthFragment}
+      user {
+        ...userAuth
+      }
     }
   }
 `

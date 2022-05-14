@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
 
@@ -9,10 +8,10 @@ import { Underlined, underSelect } from "styles/utils"
 // #### Dynamic Imports
 // ####
 
-const importOpts = {}
+const clientOpts = {}
 
-const Icon = dynamic(() => import("@components/ui/Icon"), importOpts)
-const Image = dynamic(() => import("@components/Image"), importOpts)
+const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
+const Image = dynamic(() => import("@components/Image"), clientOpts)
 
 // ####
 // #### Types
@@ -27,8 +26,8 @@ export type SupplierPropsType = {
   headerText?: string
   featured?: boolean
   isOpen?: boolean
-  setIsOpen?: Dispatch<SetStateAction<boolean>>
-  setChosenSupplier?: Dispatch<SetStateAction<ChosenSupplierType | undefined>>
+  setIsOpen?: (open: boolean) => void
+  setChosenSupplier?: (chosen: ChosenSupplierType | undefined) => void
   chosenSupplier?: ChosenSupplierType
 }
 

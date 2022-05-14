@@ -20,6 +20,8 @@ type Props = {
   width?: string | number | undefined | null
   title?: string | undefined | null
   rounded?: "sm" | "md" | "lg"
+  priority?: boolean
+  sizes?: string | undefined
 }
 
 const Image = ({
@@ -31,6 +33,8 @@ const Image = ({
   height,
   width,
   rounded,
+  priority,
+  sizes,
 }: Props) => {
   return (
     <ImageContainer rounded={rounded}>
@@ -42,6 +46,8 @@ const Image = ({
         objectFit={objectFit}
         height={height || 250}
         width={width || 250}
+        priority={priority}
+        sizes={sizes}
       />
     </ImageContainer>
   )

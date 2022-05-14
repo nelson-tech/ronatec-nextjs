@@ -1,14 +1,15 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/router"
-import { gql, useApolloClient } from "@apollo/client"
+import { gql, useQuery } from "urql"
+import debounce from "lodash.debounce"
 import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import { CheckIcon } from "@heroicons/react/solid"
 import { Combobox, Transition } from "@headlessui/react"
 
-import { Product } from "@api/gql/types"
+import { Product, useQuickSearchQuery } from "@api/gql/types"
 
 const searchQuery = gql`
-  query QuickSearchQuery($search: String) {
+  query QuickSearch($search: String) {
     products(where: { search: $search }) {
       nodes {
         id
@@ -33,29 +34,28 @@ const SearchForm = ({
 }: {
   setModalClosed?: (value: boolean) => void
 }) => {
-  const [query, setQuery] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [query, setQuery] = useState<string | undefined>()
   const [results, setResults] = useState<Product[] | undefined>()
 
   const router = useRouter()
-  const apolloClient = useApolloClient()
+
+  const [{ data: searchData, error: searchError, fetching: searchFetching }] =
+    useQuickSearchQuery({ variables: { search: query }, pause: !query })
+
+  const debounceSearchInput = useMemo(() => debounce(setQuery, 500), [])
 
   const handleSearchField = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     const search = event.target.value
-    setQuery(search)
-    setLoading(true)
-
-    const { data, error } = await apolloClient.query({
-      query: searchQuery,
-      variables: { search },
-      errorPolicy: "all",
-    })
-
-    data.products?.nodes && setResults(data.products.nodes)
-
-    setLoading(false)
+    debounceSearchInput(search)
   }
+
+  useEffect(() => {
+    if (searchData) {
+      searchData.products?.nodes &&
+        setResults(searchData.products.nodes as Product[])
+    }
+  }, [searchData])
 
   const handleChange = (product: Product | undefined) => {
     if (product) {
@@ -87,10 +87,10 @@ const SearchForm = ({
             className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm ring-transparent focus:outline-none sm:text-sm"
             onChange={handleSearchField}
             placeholder="Product Name"
-            displayValue={(product: Product) => product.name || ""}
+            displayValue={(product: Product) => product?.name || ""}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
-            {loading && (
+            {searchFetching && (
               <RefreshIcon
                 className="h-5 w-5 text-gray-400 animate-reverse-spin"
                 aria-hidden="true"

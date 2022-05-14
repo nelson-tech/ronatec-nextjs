@@ -1,17 +1,26 @@
+import withUrql from "@api/urql/hoc"
+
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
 
 const Dashboard = ({}) => {
   return (
     <>
-      <PageTitle
-        title="User Dashboard"
-        description="User information and settings."
-        banner={false}
-      />
+      <Layout>
+        <PageTitle
+          title="User Dashboard"
+          description="User information and settings."
+          banner={false}
+        />
 
-      <div className="p-8">User Dashboard</div>
+        <div className="p-8">User Dashboard</div>
+      </Layout>
     </>
   )
 }
 
-export default Dashboard
+// ####
+// #### API
+// ####
+
+export default withUrql(Dashboard)

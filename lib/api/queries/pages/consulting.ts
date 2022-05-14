@@ -1,26 +1,54 @@
-import { gql } from "@apollo/client/core"
+import { gql } from "urql"
 
-import {
-  pageCommonFragment,
-  slidesFragment,
-  calloutFragment,
-  cardsFragment,
-} from "@api/queries/fragments"
-
-export const getConsultingData = gql`
-  query ConsultingQuery {
+const getConsultingDataQuery = gql`
+  query GetConsultingData {
     page(id: "consulting", idType: URI) {
-      ${pageCommonFragment}
+      ...PageCommonBase
       page_consulting {
         acf {
-          ${slidesFragment}
+          slides {
+            image {
+              ...ImageBase
+            }
+          }
           content
-          ${calloutFragment}
+          callout {
+            content
+            style
+          }
           cards {
-            ${cardsFragment}
+            cards {
+              title
+              content
+              icon {
+                name
+                type
+              }
+              image {
+                ...ImageBase
+              }
+              link {
+                url
+                label
+              }
+            }
           }
           certificates {
-            ${cardsFragment}
+            cards {
+              title
+              content
+              icon {
+                name
+                type
+              }
+              image {
+                ...ImageBase
+              }
+              link {
+                url
+                label
+              }
+            }
           }
         }
       }

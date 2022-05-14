@@ -5148,6 +5148,55 @@
         "description": "A Comment Author object",
         "fields": [
           {
+            "name": "avatar",
+            "description": "Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.",
+            "args": [
+              {
+                "name": "forceDefault",
+                "description": "Whether to always show the default image, never the Gravatar. Default false",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "rating",
+                "description": "The rating level of the avatar.",
+                "type": {
+                  "kind": "ENUM",
+                  "name": "AvatarRatingEnum",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "size",
+                "description": "The size attribute of the avatar field can be used to fetch avatars of different sizes. The value corresponds to the dimension in pixels to fetch. The default is 96 pixels.",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": "96",
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Avatar",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "databaseId",
             "description": "Identifies the primary key from the database.",
             "args": [],
@@ -6247,6 +6296,18 @@
         "description": "The author of a comment",
         "fields": [
           {
+            "name": "avatar",
+            "description": "Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "Avatar",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "databaseId",
             "description": "Identifies the primary key from the database.",
             "args": [],
@@ -7288,17 +7349,17 @@
         "possibleTypes": [
           {
             "kind": "OBJECT",
-            "name": "CoverTemplate",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
             "name": "DefaultTemplate",
             "ofType": null
           },
           {
             "kind": "OBJECT",
-            "name": "FullWidthTemplate",
+            "name": "Template_FullWidth",
+            "ofType": null
+          },
+          {
+            "kind": "OBJECT",
+            "name": "Template_Homepage",
             "ofType": null
           }
         ]
@@ -7872,30 +7933,6 @@
             "deprecationReason": null
           },
           {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PRODUCT_VARIATION",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SHOP_ORDER",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SHOP_ORDER_REFUND",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "SUPPLIERS",
             "description": "The Type of Content object",
             "isDeprecated": false,
@@ -8402,23 +8439,6 @@
       },
       {
         "kind": "ENUM",
-        "name": "ContentTypesOfPaColorEnum",
-        "description": "Allowed Content Types of the PaColor taxonomy.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
         "name": "ContentTypesOfPostFormatEnum",
         "description": "Allowed Content Types of the PostFormat taxonomy.",
         "fields": null,
@@ -8436,80 +8456,6 @@
       },
       {
         "kind": "ENUM",
-        "name": "ContentTypesOfProductCategoryEnum",
-        "description": "Allowed Content Types of the ProductCategory taxonomy.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "ContentTypesOfProductTagEnum",
-        "description": "Allowed Content Types of the ProductTag taxonomy.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "ContentTypesOfProductTypeEnum",
-        "description": "Allowed Content Types of the ProductType taxonomy.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "ContentTypesOfShippingClassEnum",
-        "description": "Allowed Content Types of the ShippingClass taxonomy.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PRODUCT_VARIATION",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
         "name": "ContentTypesOfTagEnum",
         "description": "Allowed Content Types of the Tag taxonomy.",
         "fields": null,
@@ -8518,29 +8464,6 @@
         "enumValues": [
           {
             "name": "POST",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "possibleTypes": null
-      },
-      {
-        "kind": "ENUM",
-        "name": "ContentTypesOfVisibleProductEnum",
-        "description": "Allowed Content Types of the VisibleProduct taxonomy.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
-        "enumValues": [
-          {
-            "name": "PRODUCT",
-            "description": "The Type of Content object",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "PRODUCT_VARIATION",
             "description": "The Type of Content object",
             "isDeprecated": false,
             "deprecationReason": null
@@ -11988,18 +11911,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -12982,18 +12893,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -13063,35 +12962,6 @@
           }
         ],
         "interfaces": null,
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
-        "name": "CoverTemplate",
-        "description": "The template assigned to the node",
-        "fields": [
-          {
-            "name": "templateName",
-            "description": "The name of the template",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "ContentTemplate",
-            "ofType": null
-          }
-        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -24645,6 +24515,79 @@
         "description": "A external product object",
         "fields": [
           {
+            "name": "allPaColor",
+            "description": "Connection between the Product type and the paColor type",
+            "args": [
+              {
+                "name": "after",
+                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "first",
+                "description": "The number of items to return after the referenced \"after\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "The number of items to return before the referenced \"before\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProductToPaColorConnectionWhereArgs",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProductToPaColorConnection",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "attributes",
             "description": "Connection between the Product type and the ProductAttribute type",
             "args": [
@@ -25649,79 +25592,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "paColors",
-            "description": "Connection between the Product type and the paColor type",
-            "args": [
-              {
-                "name": "after",
-                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "before",
-                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "first",
-                "description": "The number of items to return after the referenced \"after\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "last",
-                "description": "The number of items to return before the referenced \"before\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": "Arguments for filtering the connection",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ProductToPaColorConnectionWhereArgs",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ProductToPaColorConnection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -27185,35 +27055,6 @@
       },
       {
         "kind": "OBJECT",
-        "name": "FullWidthTemplate",
-        "description": "The template assigned to the node",
-        "fields": [
-          {
-            "name": "templateName",
-            "description": "The name of the template",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "ContentTemplate",
-            "ofType": null
-          }
-        ],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "GeneralSettings",
         "description": "The general setting type",
         "fields": [
@@ -27974,6 +27815,79 @@
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "allPaColor",
+            "description": "Connection between the Product type and the paColor type",
+            "args": [
+              {
+                "name": "after",
+                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "first",
+                "description": "The number of items to return after the referenced \"after\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "The number of items to return before the referenced \"before\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProductToPaColorConnectionWhereArgs",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProductToPaColorConnection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -28960,79 +28874,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "paColors",
-            "description": "Connection between the Product type and the paColor type",
-            "args": [
-              {
-                "name": "after",
-                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "before",
-                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "first",
-                "description": "The number of items to return after the referenced \"after\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "last",
-                "description": "The number of items to return before the referenced \"before\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": "Arguments for filtering the connection",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ProductToPaColorConnectionWhereArgs",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ProductToPaColorConnection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -30488,18 +30329,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -31762,11 +31591,11 @@
           },
           {
             "name": "product",
-            "description": "Line item&#039;s product object",
+            "description": "Connection between the LineItem type and the Product type",
             "args": [],
             "type": {
-              "kind": "INTERFACE",
-              "name": "Product",
+              "kind": "OBJECT",
+              "name": "LineItemToProductConnectionEdge",
               "ofType": null
             },
             "isDeprecated": false,
@@ -31886,11 +31715,11 @@
           },
           {
             "name": "variation",
-            "description": "Line item&#039;s product variation object",
+            "description": "Connection between the LineItem type and the ProductVariation type",
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "ProductVariation",
+              "name": "LineItemToProductVariationConnectionEdge",
               "ofType": null
             },
             "isDeprecated": false,
@@ -32046,6 +31875,52 @@
           }
         ],
         "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "LineItemToProductConnectionEdge",
+        "description": "Connection between the LineItem type and the Product type",
+        "fields": [
+          {
+            "name": "node",
+            "description": "The node of the connection, without the edges",
+            "args": [],
+            "type": {
+              "kind": "INTERFACE",
+              "name": "Product",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "LineItemToProductVariationConnectionEdge",
+        "description": "Connection between the LineItem type and the ProductVariation type",
+        "fields": [
+          {
+            "name": "node",
+            "description": "The node of the connection, without the edges",
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProductVariation",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -35533,6 +35408,18 @@
         "name": "MenuItem_Menufields",
         "description": "Field Group",
         "fields": [
+          {
+            "name": "column",
+            "description": "If true, menu item will be a column header (not a link).",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "fieldGroupName",
             "description": "The name of the ACF Field Group",
@@ -41353,8 +41240,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "ContentTypesOfPaColorEnum",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -42140,18 +42027,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -42759,18 +42634,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -48443,6 +48306,59 @@
           }
         ],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "PluginStatusEnum",
+        "description": "The status of the WordPress plugin.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "ACTIVE",
+            "description": "The plugin is currently active.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "DROP_IN",
+            "description": "The plugin is a drop-in plugin.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "INACTIVE",
+            "description": "The plugin is currently inactive.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "MUST_USE",
+            "description": "The plugin is a must-use plugin.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PAUSED",
+            "description": "The plugin is technically active but was paused while loading.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "RECENTLY_ACTIVE",
+            "description": "The plugin was active recently.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "UPGRADE",
+            "description": "The plugin has an upgrade available.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -56287,6 +56203,79 @@
         "description": "Product object",
         "fields": [
           {
+            "name": "allPaColor",
+            "description": "Connection between the Product type and the paColor type",
+            "args": [
+              {
+                "name": "after",
+                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "first",
+                "description": "The number of items to return after the referenced \"after\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "The number of items to return before the referenced \"before\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProductToPaColorConnectionWhereArgs",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProductToPaColorConnection",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "attributes",
             "description": "Connection between the Product type and the ProductAttribute type",
             "args": [
@@ -56831,79 +56820,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "paColors",
-            "description": "Connection between the Product type and the paColor type",
-            "args": [
-              {
-                "name": "after",
-                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "before",
-                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "first",
-                "description": "The number of items to return after the referenced \"after\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "last",
-                "description": "The number of items to return before the referenced \"before\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": "Arguments for filtering the connection",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ProductToPaColorConnectionWhereArgs",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ProductToPaColorConnection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -58933,8 +58849,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "ContentTypesOfProductCategoryEnum",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -60112,18 +60028,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -61104,8 +61008,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "ContentTypesOfProductTagEnum",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -61885,18 +61789,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -64707,18 +64599,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -66439,18 +66319,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -67471,8 +67339,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "ContentTypesOfProductTypeEnum",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -73985,6 +73853,79 @@
         "description": "The root entry point into the Graph",
         "fields": [
           {
+            "name": "allPaColor",
+            "description": "Connection between the RootQuery type and the paColor type",
+            "args": [
+              {
+                "name": "after",
+                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "first",
+                "description": "The number of items to return after the referenced \"after\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "The number of items to return before the referenced \"before\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "RootQueryToPaColorConnectionWhereArgs",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "RootQueryToPaColorConnection",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "allSettings",
             "description": "Entry point to get all settings for the site",
             "args": [],
@@ -75779,79 +75720,6 @@
             "deprecationReason": null
           },
           {
-            "name": "paColors",
-            "description": "Connection between the RootQuery type and the paColor type",
-            "args": [
-              {
-                "name": "after",
-                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "before",
-                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "first",
-                "description": "The number of items to return after the referenced \"after\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "last",
-                "description": "The number of items to return before the referenced \"before\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": "Arguments for filtering the connection",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "RootQueryToPaColorConnectionWhereArgs",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "RootQueryToPaColorConnection",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "page",
             "description": "An object of the page Type. ",
             "args": [
@@ -76174,6 +76042,18 @@
                 "type": {
                   "kind": "SCALAR",
                   "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "RootQueryToPluginConnectionWhereArgs",
                   "ofType": null
                 },
                 "defaultValue": null,
@@ -83535,6 +83415,57 @@
         "possibleTypes": null
       },
       {
+        "kind": "INPUT_OBJECT",
+        "name": "RootQueryToPluginConnectionWhereArgs",
+        "description": "Arguments for filtering the RootQueryToPluginConnection connection",
+        "fields": null,
+        "inputFields": [
+          {
+            "name": "search",
+            "description": "Show plugin based on a keyword search.",
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "stati",
+            "description": "Retrieve plugins where plugin status is in an array.",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "PluginStatusEnum",
+                "ofType": null
+              }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "status",
+            "description": "Show plugins with a specific status.",
+            "type": {
+              "kind": "ENUM",
+              "name": "PluginStatusEnum",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "interfaces": null,
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
         "kind": "OBJECT",
         "name": "RootQueryToPostConnection",
         "description": "Connection between the RootQuery type and the post type",
@@ -85340,18 +85271,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -89928,8 +89847,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "ContentTypesOfShippingClassEnum",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -90736,6 +90655,79 @@
         "name": "SimpleProduct",
         "description": "A product object",
         "fields": [
+          {
+            "name": "allPaColor",
+            "description": "Connection between the Product type and the paColor type",
+            "args": [
+              {
+                "name": "after",
+                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "first",
+                "description": "The number of items to return after the referenced \"after\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "The number of items to return before the referenced \"before\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProductToPaColorConnectionWhereArgs",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProductToPaColorConnection",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "attributes",
             "description": "Connection between the Product type and the ProductAttribute type",
@@ -91902,79 +91894,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "paColors",
-            "description": "Connection between the Product type and the paColor type",
-            "args": [
-              {
-                "name": "after",
-                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "before",
-                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "first",
-                "description": "The number of items to return after the referenced \"after\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "last",
-                "description": "The number of items to return before the referenced \"before\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": "Arguments for filtering the connection",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ProductToPaColorConnectionWhereArgs",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ProductToPaColorConnection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -93546,18 +93465,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -96949,6 +96856,64 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Template_FullWidth",
+        "description": "The template assigned to the node",
+        "fields": [
+          {
+            "name": "templateName",
+            "description": "The name of the template",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "ContentTemplate",
+            "ofType": null
+          }
+        ],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Template_Homepage",
+        "description": "The template assigned to the node",
+        "fields": [
+          {
+            "name": "templateName",
+            "description": "The name of the template",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "inputFields": null,
+        "interfaces": [
+          {
+            "kind": "INTERFACE",
+            "name": "ContentTemplate",
+            "ofType": null
+          }
+        ],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -101436,7 +101401,7 @@
           },
           {
             "name": "discussionSettings",
-            "description": "Update the discussion setting.",
+            "description": "Update the DiscussionSettings setting.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -101448,7 +101413,7 @@
           },
           {
             "name": "generalSettings",
-            "description": "Update the general setting.",
+            "description": "Update the GeneralSettings setting.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -101460,7 +101425,7 @@
           },
           {
             "name": "readingSettings",
-            "description": "Update the reading setting.",
+            "description": "Update the ReadingSettings setting.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -101472,7 +101437,7 @@
           },
           {
             "name": "writingSettings",
-            "description": "Update the writing setting.",
+            "description": "Update the WritingSettings setting.",
             "args": [],
             "type": {
               "kind": "OBJECT",
@@ -106136,6 +106101,79 @@
         "description": "A variable product object",
         "fields": [
           {
+            "name": "allPaColor",
+            "description": "Connection between the Product type and the paColor type",
+            "args": [
+              {
+                "name": "after",
+                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "before",
+                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "first",
+                "description": "The number of items to return after the referenced \"after\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "last",
+                "description": "The number of items to return before the referenced \"before\" cursor",
+                "type": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "where",
+                "description": "Arguments for filtering the connection",
+                "type": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "ProductToPaColorConnectionWhereArgs",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "OBJECT",
+              "name": "ProductToPaColorConnection",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "attributes",
             "description": "Connection between the Product type and the ProductAttribute type",
             "args": [
@@ -107249,79 +107287,6 @@
             "type": {
               "kind": "SCALAR",
               "name": "Boolean",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "paColors",
-            "description": "Connection between the Product type and the paColor type",
-            "args": [
-              {
-                "name": "after",
-                "description": "Cursor used along with the \"first\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "before",
-                "description": "Cursor used along with the \"last\" argument to reference where in the dataset to get data",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "first",
-                "description": "The number of items to return after the referenced \"after\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "last",
-                "description": "The number of items to return before the referenced \"before\" cursor",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": "Arguments for filtering the connection",
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ProductToPaColorConnectionWhereArgs",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ProductToPaColorConnection",
               "ofType": null
             },
             "isDeprecated": false,
@@ -108960,18 +108925,6 @@
             "deprecationReason": null
           },
           {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "taxonomyFilter",
             "description": "Limit result set with complex set of taxonomy filters.",
             "type": {
@@ -109579,18 +109532,6 @@
                 "name": "String",
                 "ofType": null
               }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "taxClass",
-            "description": "Limit result set to products with a specific tax class.",
-            "type": {
-              "kind": "ENUM",
-              "name": "TaxClassEnum",
-              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -110419,8 +110360,8 @@
               "kind": "LIST",
               "name": null,
               "ofType": {
-                "kind": "ENUM",
-                "name": "ContentTypesOfVisibleProductEnum",
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               }
             },

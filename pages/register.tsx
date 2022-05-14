@@ -1,17 +1,8 @@
-import dynamic from "next/dist/shared/lib/dynamic"
+import withUrql from "@api/urql/hoc"
 
+import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const importOpts = {}
-
-const RegisterForm = dynamic(
-  () => import("@components/RegisterForm"),
-  importOpts,
-)
+import RegisterForm from "@components/RegisterForm"
 
 // ####
 // #### Component
@@ -20,15 +11,21 @@ const RegisterForm = dynamic(
 const Register = ({}) => {
   return (
     <>
-      <PageTitle
-        title="Register"
-        description="Register an account to track future orders."
-        banner={false}
-      />
+      <Layout>
+        <PageTitle
+          title="Register"
+          description="Register an account to track future orders."
+          banner={false}
+        />
 
-      <RegisterForm />
+        <RegisterForm />
+      </Layout>
     </>
   )
 }
 
-export default Register
+// ####
+// #### API
+// ####
+
+export default withUrql(Register)

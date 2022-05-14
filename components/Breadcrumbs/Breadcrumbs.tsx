@@ -1,12 +1,22 @@
-import Link from "next/link"
 import InformationCircleIcon from "@heroicons/react/outline/InformationCircleIcon"
+
 import { ProductCategory } from "@api/gql/types"
+
+import Link from "@components/Link"
+
+// ####
+// #### Types
+// ####
 
 type BreadcrumbsProps = {
   category: ProductCategory
   product?: boolean
   info?: boolean
 }
+
+// ####
+// #### Component
+// ####
 
 const Breadcrumbs = ({
   category,
@@ -25,13 +35,12 @@ const Breadcrumbs = ({
         >
           <li>
             <div className="flex items-center">
-              <Link href={"/products"} passHref>
-                <a
-                  className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
-                  title="View all products"
-                >
-                  Shop
-                </a>
+              <Link
+                href={"/products"}
+                className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
+                title="View all products"
+              >
+                Shop
               </Link>
               <svg
                 viewBox="0 0 6 20"
@@ -52,13 +61,12 @@ const Breadcrumbs = ({
                 return (
                   <li key={ancestor.id}>
                     <div className="flex items-center">
-                      <Link href={`/products/${ancestor.slug}`}>
-                        <a
-                          title={`View all ${category.name} products`}
-                          className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
-                        >
-                          {ancestor.name}
-                        </a>
+                      <Link
+                        href={`/products/${ancestor.slug}`}
+                        title={`View all ${category.name} products`}
+                        className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
+                      >
+                        {ancestor.name}
                       </Link>
                       <svg
                         viewBox="0 0 6 20"
@@ -83,43 +91,41 @@ const Breadcrumbs = ({
             >
               {product ? (
                 <>
-                  <Link href={`/products/${category.slug}`}>
-                    <a
-                      title={`View all ${category.name} products`}
-                      className="transition hover:text-green-main"
-                    >
-                      {category.name}
-                    </a>
+                  <Link
+                    href={`/products/${category.slug}`}
+                    title={`View all ${category.name} products`}
+                    className="transition hover:text-green-main"
+                  >
+                    {category.name}
                   </Link>
                   <div className="ml-2 hover:text-green-main">
-                    <Link href={`/products/${category.slug}/info`}>
-                      <a title="Learn more">
-                        <InformationCircleIcon className="h-4 w-4" />
-                      </a>
+                    <Link
+                      href={`/products/${category.slug}/info`}
+                      title="Learn more"
+                    >
+                      <InformationCircleIcon className="h-4 w-4" />
                     </Link>
                   </div>
                 </>
               ) : info ? (
                 <>
-                  <Link href={`/products/${category.slug}`}>
-                    <a
-                      title={`View all ${category.name} products`}
-                      className="transition hover:text-green-main"
-                    >
-                      {category.name}
-                      <span className="text-green-main pl-4">
-                        View products
-                      </span>
-                    </a>
+                  <Link
+                    href={`/products/${category.slug}`}
+                    title={`View all ${category.name} products`}
+                    className="transition hover:text-green-main"
+                  >
+                    {category.name}
+                    <span className="text-green-main pl-4">View products</span>
                   </Link>
                 </>
               ) : (
                 <>
                   {category.name}
-                  <Link href={`/products/${category.slug}/info`}>
-                    <a title="Learn more">
-                      <InformationCircleIcon className="h-4 w-4 ml-2 hover:text-green-main" />
-                    </a>
+                  <Link
+                    href={`/products/${category.slug}/info`}
+                    title="Learn more"
+                  >
+                    <InformationCircleIcon className="h-4 w-4 ml-2 hover:text-green-main" />
                   </Link>
                 </>
               )}
