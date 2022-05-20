@@ -7,7 +7,7 @@ export type CartSliceType = typeof initialState & {
     setOpen: (open: boolean) => void
     setCart: (cart: Cart | null) => void
     setAddItem: (item: AddCartItemsInput | null) => void
-
+    setLoading: (loading: boolean) => void
     setCheckout: (shouldCheckout: boolean) => void
     setWarnGuest: (warnGuest: boolean) => void
     setSessionError: (error: string | null) => void
@@ -21,6 +21,7 @@ const initialState = {
     shouldAddItem: null as AddCartItemsInput | null,
     shouldCheckout: false,
     warnGuest: false,
+    loading: false,
     errors: {
       session: null as string | null,
       adding: null as string | null,
@@ -34,15 +35,14 @@ const createCartSlice: StateCreator<CartSliceType, [], []> = set => ({
   cart: {
     ...initialState.cart,
     setOpen: open => set(state => ({ cart: { ...state.cart, open } })),
-    setCart: (cart: Cart | null) =>
-      set(state => ({ cart: { ...state.cart, state: cart } })),
-    setAddItem: (item: AddCartItemsInput | null) =>
-      set(state => ({ cart: { ...state.cart, item } })),
-    setCheckout: (shouldCheckout: boolean) =>
+    setCart: cart => set(state => ({ cart: { ...state.cart, state: cart } })),
+    setAddItem: item => set(state => ({ cart: { ...state.cart, item } })),
+    setLoading: loading => set(state => ({ cart: { ...state.cart, loading } })),
+    setCheckout: shouldCheckout =>
       set(state => ({ cart: { ...state.cart, shouldCheckout } })),
-    setWarnGuest: (warnGuest: boolean) =>
+    setWarnGuest: warnGuest =>
       set(state => ({ cart: { ...state.cart, warnGuest } })),
-    setSessionError: (error: string | null) =>
+    setSessionError: error =>
       set(state => ({
         cart: {
           ...state.cart,

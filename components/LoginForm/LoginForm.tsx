@@ -9,7 +9,7 @@ import useLogin from "@lib/hooks/auth/useLogin"
 import useStore from "@lib/hooks/useStore"
 
 import Link from "@components/Link"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Types
@@ -213,14 +213,8 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-main"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  {" "}
                   {loading ? (
-                    <div className="flip">
-                      <RefreshIcon
-                        className="h-5 w-5 animate-reverse-spin text-white"
-                        aria-hidden="true"
-                      />
-                    </div>
+                    <LoadingSpinner size={5} color="white" />
                   ) : (
                     <LockClosedIcon
                       className="h-5 w-5 text-gray-300 group-hover:text-white"

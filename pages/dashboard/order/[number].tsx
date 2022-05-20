@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import { useRouter } from "next/dist/client/router"
 import ArrowLeftIcon from "@heroicons/react/outline/ArrowLeftIcon"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
 import withUrql from "@api/urql/hoc"
 import { Order, useGetUserOrderDataQuery } from "@api/gql/types"
@@ -10,6 +9,7 @@ import { Order, useGetUserOrderDataQuery } from "@api/gql/types"
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
 import Link from "@components/Link"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Dynamic Imports
@@ -71,12 +71,7 @@ const OrderDetailsPage = ({}) => {
                 <ArrowLeftIcon className={"h-6 w-6"} />
               </Link>
               {orderLoading && (
-                <div className="flip ml-4">
-                  <RefreshIcon
-                    className="h-6 w-6 animate-reverse-spin text-green-main
-                    "
-                  />
-                </div>
+                <LoadingSpinner className="ml-4" size={6} opacity={100} />
               )}
             </div>
             <p className="mt-2 text-sm text-gray-500">

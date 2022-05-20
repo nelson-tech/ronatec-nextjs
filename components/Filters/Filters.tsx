@@ -41,11 +41,6 @@ const Filters = ({
     grandchild?: boolean
   }) => {
     if (category.slug) {
-      console.log(filteredCategories)
-      console.log(category.slug)
-      console.log("CHECKED")
-      filteredCategories.includes(`${category.slug}`)
-
       return (
         <div
           className={`flex items-center w-full text-base sm:text-sm${

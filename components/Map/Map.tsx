@@ -6,7 +6,7 @@ import twConfig from "../../tailwind.config"
 import { Maybe, Post_Maps_MapOptions, Post_Maps_Markers } from "@api/gql/types"
 import useMobileDetect from "@lib/hooks/useMobileDetect"
 
-import LoadingDots from "@components/ui/LoadingDots"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Variables
@@ -180,8 +180,10 @@ const Map = ({
         </GoogleMap>
       ) : (
         <div className="w-full flex items-center justify-center">
-          <div className="aspect-3 w-2/3">
-            <LoadingDots />
+          <div className="aspect-2 md:aspect-3 w-full">
+            <div className="w-full h-full flex items-center justify-center">
+              <LoadingSpinner className="w-1/12" opacity={50} />
+            </div>
           </div>
         </div>
       )}

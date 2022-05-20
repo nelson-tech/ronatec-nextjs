@@ -7,11 +7,11 @@ import {
   useWatch,
 } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
 import withUrql from "@api/urql/hoc"
 
 import Layout from "@components/ui/Layout"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 import PageTitle from "@components/PageTitle"
 
 const Quote = ({}) => {
@@ -511,9 +511,14 @@ const Quote = ({}) => {
 
                     <div className="flex justify-end items-center">
                       {loading && (
-                        <div className="flip">
-                          <RefreshIcon className="text-green-main w-6 animate-reverse-spin mr-4" />
-                        </div>
+                        <>
+                          <LoadingSpinner
+                            size={6}
+                            color="#37b679"
+                            opacity={100}
+                            className="mr-4"
+                          />
+                        </>
                       )}
                       <input
                         type="reset"

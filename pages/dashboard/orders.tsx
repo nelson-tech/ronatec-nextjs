@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import isEqual from "lodash.isequal"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
 import { Order, useGetUserOrdersDataQuery } from "@api/gql/types"
 
 import PageTitle from "@components/PageTitle"
 import Layout from "@components/ui/Layout"
 import withUrql from "@api/urql/hoc"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Dynamic Imports
@@ -63,12 +63,7 @@ const Orders = ({}) => {
                   title="Refresh orders"
                 >
                   <h2 className="sr-only">Refresh orders</h2>
-                  <div className="flip">
-                    <RefreshIcon
-                      className="h-6 w-6 animate-reverse-spin text-green-main
-                    "
-                    />
-                  </div>
+                  <LoadingSpinner size={6} opacity={100} />
                 </div>
               )}
             </div>

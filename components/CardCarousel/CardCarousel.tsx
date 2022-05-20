@@ -1,6 +1,6 @@
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
-
 import { Product, ProductCategory } from "@api/gql/types"
+
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 import MenuLink from "@components/Link"
 
 import CarouselCard from "./CarouselCard"
@@ -77,9 +77,12 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                   ) : (
                     <div className="ml-8 flex items-center h-64 justify-center text-gray-400">
                       Loading...
-                      <div className="flip ml-2">
-                        <RefreshIcon className="h-5 w-5 text-green-main animate-reverse-spin" />
-                      </div>
+                      <LoadingSpinner
+                        size={5}
+                        color="#37b679"
+                        opacity={100}
+                        className="ml-2"
+                      />
                     </div>
                   )
                 }

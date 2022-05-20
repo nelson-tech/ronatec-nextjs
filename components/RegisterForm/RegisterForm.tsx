@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
 
 import useStore from "@lib/hooks/useStore"
 import useRegister from "@lib/hooks/auth/useRegister"
 
 import MenuLink from "@components/Link"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Component
@@ -156,12 +156,7 @@ const RegisterForm = () => {
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3 ">
                   {loading ? (
-                    <div className="flip">
-                      <RefreshIcon
-                        className="h-5 w-5 animate-reverse-spin text-white"
-                        aria-hidden="true"
-                      />
-                    </div>
+                    <LoadingSpinner size={5} color="white" />
                   ) : (
                     <LockClosedIcon
                       className="h-5 w-5 text-gray-200 group-hover:text-white"

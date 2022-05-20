@@ -1,6 +1,8 @@
 import { FormEventHandler, useEffect, useState } from "react"
+import dynamic from "next/dist/shared/lib/dynamic"
 import { RadioGroup } from "@headlessui/react"
-import CheckIcon from "@heroicons/react/solid/CheckIcon"
+import PlusIcon from "@heroicons/react/solid/PlusIcon"
+import MinusIcon from "@heroicons/react/solid/MinusIcon"
 
 import useCart from "@lib/hooks/useCart"
 import { htmlParserOptions, isServer, parse } from "@lib/utils"
@@ -12,7 +14,6 @@ import {
 } from "@api/gql/types"
 
 import Image from "@components/Image"
-import LoadingDots from "@components/ui/LoadingDots"
 
 import {
   Container,
@@ -20,16 +21,21 @@ import {
   ProductTopContainer,
   TopContainer,
 } from "./style"
-import PlusIcon from "@heroicons/react/solid/PlusIcon"
-import MinusIcon from "@heroicons/react/solid/MinusIcon"
 
 // ####
 // #### Dynamic Imports
 // ####
 
-const clientOpts = {}
+const clientOpts = { ssr: false }
 
-// const Image = dynamic(() => import("@components/Image"), clientOpts)
+const CheckIcon = dynamic(
+  () => import("@heroicons/react/solid/CheckIcon"),
+  clientOpts,
+)
+const LoadingSpinner = dynamic(
+  () => import("@components/ui/LoadingSpinner"),
+  clientOpts,
+)
 
 // ####
 // #### Types
@@ -87,7 +93,6 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
   const [addLoading, setAddLoading] = useState(false)
   const [itemAdded, setItemAdded] = useState(false)
   const [quantity, setQuantity] = useState(1)
-  const [checkoutLoading, setCheckoutLoading] = useState(false)
 
   useEffect(() => {
     if (itemAdded) {
@@ -133,10 +138,10 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
       const { data, error } = await addToCart(input)
 
       if (data) {
+        setItemAdded(true)
         if (!isServer) {
           window.scrollTo({ top: 0, behavior: "smooth" })
         }
-        setItemAdded(true)
         setAddLoading(false)
       } else {
         setError(
@@ -146,7 +151,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
       }
 
       if (error) {
-        console.log("ERROR", error)
+        console.warn("ERROR", error)
 
         setError(error.message)
       }
@@ -290,19 +295,24 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
               </div>
               <button
                 type="submit"
-                className="mt-8 relative w-full bg-blue-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
+                className="mt-8 relative w-full bg-blue-main border border-transparent rounded-md py-3 px-8 flex items-center justify-center hover:bg-blue-dark focus:outline-none focus:ring-0"
               >
-                {addLoading && (
-                  <div className="h-6 w-6 absolute left-0 ml-4">
-                    <LoadingDots color="white" />
-                  </div>
+                {itemAdded ? (
+                  <CheckIcon className="w-6 h-6 text-green-main" />
+                ) : addLoading ? (
+                  <span>
+                    <LoadingSpinner size={6} color="white" opacity={75} />
+                  </span>
+                ) : (
+                  <span className="text-base font-medium text-white">
+                    Add to cart
+                  </span>
                 )}
-                <span>Add to cart</span>
-                {itemAdded && (
+                {/* {itemAdded && (
                   <div className="absolute left-1/2 ml-16 text-green-main">
                     <CheckIcon className="w-6 h-6" />
                   </div>
-                )}
+                )} */}
               </button>
             </form>
             {/* <button

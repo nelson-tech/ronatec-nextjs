@@ -6,6 +6,7 @@ import GlobalStyles from "@styles/emotion-global"
 import { emotionTheme } from "@styles/emotion-theme"
 
 import Header from "./Header"
+import Tracking from "./Tracking"
 
 // ####
 // #### Dynamic Imports
@@ -21,7 +22,6 @@ const ScrollArrow = dynamic(
 )
 const Logic = dynamic(() => import("./Logic"), clientOpts)
 const Footer = dynamic(() => import("@components/ui/Layout/Footer"), clientOpts)
-const Tracking = dynamic(() => import("./Tracking"), clientOpts)
 
 // ####
 // #### Types

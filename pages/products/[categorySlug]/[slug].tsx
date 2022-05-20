@@ -4,7 +4,6 @@ import {
   InferGetStaticPropsType,
 } from "next"
 import { ParsedUrlQuery } from "querystring"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 
 import { FullProduct } from "@lib/types"
 import withUrql from "@api/urql/hoc"
@@ -20,6 +19,7 @@ import {
 } from "@api/gql/types"
 
 import Layout from "@components/ui/Layout"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 import PageTitle from "@components/PageTitle"
 import ProductBySku from "@components/Pages/ProductBySku"
 
@@ -61,12 +61,7 @@ const SKUProduct = ({
             <div className="h-screen -mt-20 justify-center items-center flex flex-col mx-auto text-lg lg:text-xl text-blue-dark">
               <div>Loading Product Information...</div>
 
-              <div className="flip mt-4">
-                <RefreshIcon
-                  className="h-8 w-8 animate-reverse-spin text-green-main"
-                  aria-hidden="true"
-                />
-              </div>
+              <LoadingSpinner size={8} color="#37b679" className="mt-4" />
             </div>
           </>
         )}

@@ -14,10 +14,6 @@ import Image from "@components/Image"
 const clientOpts = { ssr: false }
 
 const IconCard = dynamic(() => import("@components/Cards/Icon"), clientOpts)
-// const LoadingDots = dynamic(
-//   () => import("@components/ui/LoadingDots"),
-//   clientOpts,
-// )
 const SupplierCard = dynamic(
   () => import("@components/Cards/Supplier"),
   clientOpts,

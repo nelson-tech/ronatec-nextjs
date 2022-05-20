@@ -4,7 +4,6 @@ import Link from "next/link"
 import shallow from "zustand/shallow"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
 import MailIcon from "@heroicons/react/solid/MailIcon"
 
@@ -12,6 +11,7 @@ import useStore from "@lib/hooks/useStore"
 import useResetPassword from "@lib/hooks/useResetPassword"
 
 import MenuLink from "@components/Link"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Component
@@ -102,7 +102,7 @@ const ResetPasswordForm = () => {
       const sentStatus = await sendResetPasswordEmail(username)
       sentStatus && setSentEmail(true)
     }
-    console.log(data)
+    console.warn(data)
   }
 
   const onResetPasswordSubmit: SubmitHandler<FieldValues> = async data => {
@@ -112,7 +112,7 @@ const ResetPasswordForm = () => {
         resetStatus && setPasswordReset(true)
       }
     }
-    console.log(data)
+    console.warn(data)
   }
 
   const ErrorField = ({ name }: { name: string }) => {
@@ -248,12 +248,7 @@ const ResetPasswordForm = () => {
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
-                      <div className="flip">
-                        <RefreshIcon
-                          aria-hidden="true"
-                          className="h-5 w-5 animate-reverse-spin text-white"
-                        />
-                      </div>
+                      <LoadingSpinner size={5} color="white" />
                     ) : (
                       <LockClosedIcon
                         className="h-5 w-5 text-gray-300 group-hover:text-white"
@@ -319,12 +314,7 @@ const ResetPasswordForm = () => {
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
-                      <div className="flip">
-                        <RefreshIcon
-                          aria-hidden="true"
-                          className="h-5 w-5 animate-reverse-spin text-white"
-                        />
-                      </div>
+                      <LoadingSpinner size={5} color="white" />
                     ) : (
                       <MailIcon
                         className="h-5 w-5 text-gray-300 group-hover:text-white"

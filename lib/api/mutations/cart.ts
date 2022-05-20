@@ -25,6 +25,9 @@ export const clearCart = gql`
   mutation ClearCart($input: EmptyCartInput!) {
     emptyCart(input: $input) {
       clientMutationId
+      cart {
+        isEmpty
+      }
     }
   }
 `
@@ -33,6 +36,9 @@ export const removeCartItem = gql`
   mutation RemoveCartItem($input: RemoveItemsFromCartInput!) {
     removeItemsFromCart(input: $input) {
       clientMutationId
+      cart {
+        isEmpty
+      }
     }
   }
 `

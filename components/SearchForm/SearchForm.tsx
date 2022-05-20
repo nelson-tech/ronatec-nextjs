@@ -1,29 +1,12 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/router"
-import { gql, useQuery } from "urql"
 import debounce from "lodash.debounce"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import { CheckIcon } from "@heroicons/react/solid"
 import { Combobox, Transition } from "@headlessui/react"
 
 import { Product, useQuickSearchQuery } from "@api/gql/types"
 
-const searchQuery = gql`
-  query QuickSearch($search: String) {
-    products(where: { search: $search }) {
-      nodes {
-        id
-        slug
-        name
-        productCategories {
-          nodes {
-            slug
-          }
-        }
-      }
-    }
-  }
-`
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ")
@@ -90,12 +73,7 @@ const SearchForm = ({
             displayValue={(product: Product) => product?.name || ""}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
-            {searchFetching && (
-              <RefreshIcon
-                className="h-5 w-5 text-gray-400 animate-reverse-spin"
-                aria-hidden="true"
-              />
-            )}
+            {searchFetching && <LoadingSpinner size={5} opacity={50} />}
           </Combobox.Button>
 
           {results && results.length > 0 && (

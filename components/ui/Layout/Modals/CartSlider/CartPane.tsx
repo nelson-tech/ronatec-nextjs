@@ -1,18 +1,21 @@
-import { Fragment, memo } from "react"
+import { Fragment, memo, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import shallow from "zustand/shallow"
 import ArrowRightIcon from "@heroicons/react/outline/ArrowRightIcon"
 import XIcon from "@heroicons/react/outline/XIcon"
 
+import useCart from "@lib/hooks/useCart"
 import useStore from "@lib/hooks/useStore"
 
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 import Link from "@components/Link"
 import CartItem from "./CartItem"
 
 import { StyledCartPane } from "./style"
-import useCart from "@lib/hooks/useCart"
 
-const CartPane = memo(function CartPane() {
+const CartPane = () => {
+  const [loading, setLoading] = useState(false)
+
   const { cart, setCheckout, setOpen } = useStore(
     state => ({
       cart: state.cart.state,
@@ -29,7 +32,10 @@ const CartPane = memo(function CartPane() {
   }
 
   const handleClearCart = async () => {
-    await clearCart()
+    setLoading(true)
+    const { data, error } = await clearCart()
+    // TODO - Handle error case
+    setLoading(false)
   }
 
   return (
@@ -44,7 +50,12 @@ const CartPane = memo(function CartPane() {
           leaveFrom="translate-x-0"
           leaveTo="translate-x-full"
         >
-          <Dialog.Panel className="w-screen max-w-md">
+          <Dialog.Panel className="w-screen max-w-md relative">
+            {false && (
+              <div className="absolute z-40 w-full h-full items-center justify-center flex bg-black bg-opacity-10 transition">
+                <LoadingSpinner className="h-24" />
+              </div>
+            )}
             <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
               <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                 <div className="flex items-start justify-between">
@@ -143,6 +154,6 @@ const CartPane = memo(function CartPane() {
       </StyledCartPane>
     </>
   )
-})
+}
 
 export default CartPane

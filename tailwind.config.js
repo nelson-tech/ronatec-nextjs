@@ -57,6 +57,8 @@ module.exports = {
         teal: "#32de8a",
         green: { main: "var(--green)" },
         red: { main: "#d72638" },
+        // white: "#fffaff",
+        black: "#0d1821",
       },
       fontFamily: {
         exo: ["Exo", "sans-serif"],

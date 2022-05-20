@@ -1,7 +1,6 @@
 import { Fragment } from "react"
 import shallow from "zustand/shallow"
 import { Menu, Transition } from "@headlessui/react"
-import RefreshIcon from "@heroicons/react/outline/RefreshIcon"
 import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
 import ViewGridIcon from "@heroicons/react/solid/ViewGridIcon"
 import ViewListIcon from "@heroicons/react/solid/ViewListIcon"
@@ -11,6 +10,7 @@ import useStore from "@lib/hooks/useStore"
 import { ProductCategory } from "@api/gql/types"
 
 import Filters from "@components/Filters"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 import AZIcon from "./Icons/AZ"
 import ZAIcon from "./Icons/ZA"
 import NewestIcon from "./Icons/Newest"
@@ -89,12 +89,12 @@ const Sort = ({
             >
               <span className="sr-only">Sort options</span>Sort
               {loading ? (
-                <div className="flex-shrink-0 -mr-1 ml-2 flip transition">
-                  <RefreshIcon
-                    className="h-5 w-5 animate-reverse-spin text-green-main "
-                    aria-hidden="true"
-                  />
-                </div>
+                <LoadingSpinner
+                  size={5}
+                  color="#37b679"
+                  opacity={100}
+                  className="flex-shrink-0 -mr-1 ml-2"
+                />
               ) : (
                 <SortIcon
                   className="flex-shrink-0 -mr-1 ml-2 h-5 w-5 transition text-gray-400 group-hover:text-gray-500"

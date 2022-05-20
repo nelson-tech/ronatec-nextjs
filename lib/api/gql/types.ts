@@ -19801,14 +19801,14 @@ export type ClearCartMutationVariables = Exact<{
 }>;
 
 
-export type ClearCartMutation = { emptyCart?: { clientMutationId?: string | null } | null };
+export type ClearCartMutation = { emptyCart?: { clientMutationId?: string | null, cart?: { isEmpty?: boolean | null } | null } | null };
 
 export type RemoveCartItemMutationVariables = Exact<{
   input: RemoveItemsFromCartInput;
 }>;
 
 
-export type RemoveCartItemMutation = { removeItemsFromCart?: { clientMutationId?: string | null } | null };
+export type RemoveCartItemMutation = { removeItemsFromCart?: { clientMutationId?: string | null, cart?: { isEmpty?: boolean | null } | null } | null };
 
 export type GetCartQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -20329,6 +20329,9 @@ export const ClearCartDocument = gql`
     mutation ClearCart($input: EmptyCartInput!) {
   emptyCart(input: $input) {
     clientMutationId
+    cart {
+      isEmpty
+    }
   }
 }
     `;
@@ -20340,6 +20343,9 @@ export const RemoveCartItemDocument = gql`
     mutation RemoveCartItem($input: RemoveItemsFromCartInput!) {
   removeItemsFromCart(input: $input) {
     clientMutationId
+    cart {
+      isEmpty
+    }
   }
 }
     `;
