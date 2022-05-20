@@ -8,10 +8,6 @@ import { Product, useQuickSearchQuery } from "@api/gql/types"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ")
-}
-
 const SearchForm = ({
   setModalClosed,
 }: {
@@ -91,29 +87,26 @@ const SearchForm = ({
                     key={product.id}
                     value={product}
                     className={({ active }) =>
-                      classNames(
-                        "relative cursor-pointer select-none py-2 pl-8 pr-4 ring-transparent focus:outline-none ",
-                        active ? "bg-blue-main text-white" : "text-gray-900",
-                      )
+                      `relative cursor-pointer select-none py-2 pl-8 pr-4 ring-transparent focus:outline-none 
+                        ${active ? "bg-blue-main text-white" : "text-gray-900"}`
                     }
                   >
                     {({ active, selected }) => (
                       <>
                         <span
-                          className={classNames(
-                            "block truncate",
-                            selected && "font-semibold",
-                          )}
+                          className={`block truncate ${
+                            selected ? "font-semibold" : ""
+                          }
+                          `}
                         >
                           {product.name}
                         </span>
 
                         {selected && (
                           <span
-                            className={classNames(
-                              "absolute inset-y-0 left-0 flex items-center pl-1.5",
-                              active ? "text-white" : "text-blue-main",
-                            )}
+                            className={`absolute inset-y-0 left-0 flex items-center pl-1.5 ${
+                              active ? "text-white" : "text-blue-main"
+                            }`}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
