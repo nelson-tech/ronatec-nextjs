@@ -1,7 +1,14 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
-import dynamic from "next/dist/shared/lib/dynamic"
+import shallow from "zustand/shallow"
 
+import useStore from "@lib/hooks/useStore"
+import {
+  OrderEnum,
+  ProductsOrderByEnum,
+  SortOptionType,
+} from "@lib/store/slices/shop"
+import { defaultPagination, PaginationType } from "@lib/pagination"
 import urql from "@api/urql/serverClient"
 import withUrql from "@api/urql/hoc"
 import {
@@ -10,32 +17,19 @@ import {
   GetProductsByCategoryDocument,
   GetProductsByCategoryQuery,
   GetProductsByCategoryQueryVariables,
-  OrderEnum,
+  InputMaybe,
   Product,
   ProductCategory,
-  ProductsOrderByEnum,
   useGetProductsByCategoryQuery,
 } from "@api/gql/types"
 
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
-import { sortOptions, SortOptionType } from "@lib/store/slices/ui"
-import useStore from "@lib/hooks/useStore"
-import shallow from "zustand/shallow"
 import Image from "@components/Image"
 import ProductGrid from "@components/Category/ProductGrid"
 import Link from "@components/Link"
-
-// TODO - Add pagination
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = { ssr: false }
-
-const ProductCard = dynamic(() => import("@components/ProductCard"), clientOpts)
-const Sort = dynamic(() => import("@components/Sort"), clientOpts)
+import Pagination from "@components/Pagination"
+import Sort from "@components/Sort"
 
 // ####
 // #### Component
@@ -43,83 +37,55 @@ const Sort = dynamic(() => import("@components/Sort"), clientOpts)
 
 const Products = ({
   categories,
-  products: initialProducts,
+  categorySlugs,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const { selectedSort, setSelectedSort, viewMode } = useStore(
+  const productRef = useRef<HTMLDivElement>(null)
+
+  const { selectedSort, setGlobalSort } = useStore(
     state => ({
-      selectedSort: state.ui.selectedSort,
-      setSelectedSort: state.ui.setSelectedSort,
-      viewMode: state.ui.viewMode,
+      selectedSort: state.shop.selectedSort,
+      setGlobalSort: state.shop.setGlobalSort,
     }),
     shallow,
   )
 
-  const defaultFilteredCategories = categories
-    ? (categories
-        .map(category => {
-          let filteredCategories = [category.slug]
+  const defaultQuery: GetProductsByCategoryQueryVariables = {
+    field: selectedSort.id.field,
+    order: selectedSort.id.order,
+    categories: categorySlugs,
+    ...defaultPagination,
+  }
 
-          category?.children?.nodes &&
-            category.children.nodes.map(child => {
-              let childCategories = [child?.slug]
-
-              child?.children?.nodes &&
-                child.children.nodes.map(grandchild => {
-                  childCategories.push(grandchild?.slug)
-                })
-
-              filteredCategories = filteredCategories.concat(childCategories)
-            })
-
-          return filteredCategories.flat().filter(a => !!a)
-        })
-        .flat() as string[])
-    : []
-
-  const [pause, setPause] = useState(true)
-  const [products, setProducts] = useState(initialProducts)
-  const [filteredCategories, setFilteredCategories] = useState<string[]>(
-    defaultFilteredCategories,
-  )
-
-  const productRef = useRef<HTMLDivElement>(null)
+  const [queryVars, setQueryVars] = useState(defaultQuery)
 
   // Products Query
   const [
     { data: productsData, error: productsError, fetching: productsFetching },
   ] = useGetProductsByCategoryQuery({
-    variables: {
-      field: selectedSort.id.field as ProductsOrderByEnum,
-      order: selectedSort.id.order as OrderEnum,
-      categories: filteredCategories,
-    },
-    pause,
+    variables: queryVars,
   })
 
-  // Unpause if selectedSort changes from default
-  useEffect(() => {
-    if (selectedSort.name !== sortOptions[0].name) {
-      setPause(false)
-    }
-  }, [selectedSort, setPause])
-
-  // Unpause if filteredCategories changes from default
-  useEffect(() => {
-    if (filteredCategories.length !== defaultFilteredCategories.length) {
-      setPause(false)
-    }
-  }, [filteredCategories, setPause, defaultFilteredCategories.length])
-
-  // Update products if new products fetched
-  useEffect(() => {
-    if (productsData?.products?.nodes) {
-      setProducts(productsData.products.nodes as Product[])
-    }
-  }, [productsData?.products?.nodes, setProducts])
-
-  const handleSort = async (option: SortOptionType) => {
-    setSelectedSort(option)
+  const setPagination = (pagination: PaginationType) => {
+    setQueryVars({ ...queryVars, ...pagination })
   }
+
+  const setSelectedCategories = (
+    categories: InputMaybe<string> | InputMaybe<string>[],
+  ) => {
+    setQueryVars({ ...queryVars, ...defaultPagination, categories })
+  }
+
+  const setSelectedSort = (option: SortOptionType) => {
+    setQueryVars({
+      ...queryVars,
+      ...defaultPagination,
+      field: option.id.field,
+      order: option.id.order,
+    })
+    setGlobalSort(option)
+  }
+
+  productsError && console.warn("ERROR", productsError)
 
   return (
     <>
@@ -129,14 +95,6 @@ const Products = ({
           description="Main shopping page."
           banner={false}
         />
-
-        {/* <div className="max-w-7xl mx-auto relative px-4 sm:px-6 lg:px-8 flex items-baseline justify-between pt-6 pb-6 border-gray-200">
-          <div className="flex items-center">
-            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-              Products
-            </h1>
-          </div>
-        </div> */}
 
         {categories && categories.length > 0 && (
           <div className="px-4 sm:px-6 lg:px-8 text-gray-500 py-6 lg:max-w-7xl">
@@ -209,17 +167,34 @@ const Products = ({
           Products
         </h2>
 
-        {categories && products && (
-          <ProductGrid
+        {categories && (
+          <Sort
+            setSelectedSort={setSelectedSort}
             loading={productsFetching}
             categories={categories}
-            products={products}
-            filteredCategories={filteredCategories}
-            setFilteredCategories={setFilteredCategories}
+            filter
             productRef={productRef}
-            withFilter
+            selectedCategories={queryVars.categories}
+            setSelectedCategories={setSelectedCategories}
           />
         )}
+
+        {productsData?.products?.nodes &&
+          (queryVars.categories ? queryVars.categories.length > 0 : true) && (
+            <>
+              <ProductGrid
+                products={productsData.products.nodes as Product[]}
+              />
+
+              {productsData?.products?.pageInfo && (
+                <Pagination
+                  productRef={productRef}
+                  setPagination={setPagination}
+                  pageInfo={productsData.products.pageInfo}
+                />
+              )}
+            </>
+          )}
       </Layout>
     </>
   )
@@ -252,23 +227,29 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       }
     })
 
+  const getSlugs = (categories: ProductCategory[]) => {
+    return categories
+      .map(category => category?.slug)
+      .filter(category => {
+        if (typeof category === "string") {
+          return true
+        } else return false
+      }) as string[]
+  }
+
   const categorySlugs = rootCategories
-    ? rootCategories
-        .map(category => category?.slug)
-        .filter(category => {
-          if (typeof category === "string") {
-            return true
-          } else return false
-        })
+    ? getSlugs(rootCategories as ProductCategory[])
     : []
 
-  const field = "MENU_ORDER" as ProductsOrderByEnum
-  const order = "ASC" as OrderEnum
-
-  const { data: productData } = await client
+  await client
     .query<GetProductsByCategoryQuery, GetProductsByCategoryQueryVariables>(
       GetProductsByCategoryDocument,
-      { field, order, categories: categorySlugs as string[] },
+      {
+        field: ProductsOrderByEnum.MenuOrder,
+        order: OrderEnum.Asc,
+        categories: categorySlugs,
+        ...defaultPagination,
+      },
     )
     .toPromise()
 
@@ -276,8 +257,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     props: {
       categories:
         (rootCategories as ProductCategory[] | null | undefined) || null,
-      products:
-        (productData?.products?.nodes as Product[] | null | undefined) || null,
+      categorySlugs,
       urqlState: ssrCache.extractData(),
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

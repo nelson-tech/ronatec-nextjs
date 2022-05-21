@@ -1,34 +1,61 @@
-import { FormEvent, ReactNode } from "react"
+import { FormEvent, ReactNode, RefObject } from "react"
 import { Disclosure } from "@headlessui/react"
 import XIcon from "@heroicons/react/solid/XIcon"
 import FilterIcon from "@heroicons/react/solid/FilterIcon"
 import { useForm } from "react-hook-form"
 
-import { ProductCategory } from "@api/gql/types"
+import { InputMaybe, ProductCategory } from "@api/gql/types"
 
 type FiltersProps = {
   children: ReactNode
-  filteredCategories: string[]
-  setFilteredCategories: (f: string[]) => void
   categories: ProductCategory[]
+  productRef: RefObject<HTMLDivElement>
+  selectedCategories: InputMaybe<string> | InputMaybe<string>[]
+  setSelectedCategories: (
+    categories: InputMaybe<string> | InputMaybe<string>[],
+  ) => void
 }
 
 const Filters = ({
   children,
-  filteredCategories,
-  setFilteredCategories,
   categories,
+  productRef,
+  selectedCategories,
+  setSelectedCategories,
 }: FiltersProps) => {
+  const defaultFilteredCategories = categories
+    ? (categories
+        .map(category => {
+          let filteredCategories = [category.slug]
+
+          category?.children?.nodes &&
+            category.children.nodes.map(child => {
+              let childCategories = [child?.slug]
+
+              child?.children?.nodes &&
+                child.children.nodes.map(grandchild => {
+                  childCategories.push(grandchild?.slug)
+                })
+
+              filteredCategories = filteredCategories.concat(childCategories)
+            })
+
+          return filteredCategories.flat().filter(a => !!a)
+        })
+        .flat() as string[])
+    : []
+
+  const categoryList = selectedCategories ?? defaultFilteredCategories
+
   const {
     register,
-    handleSubmit,
     getValues,
     formState: { errors },
   } = useForm()
 
   const handleChange = (event: FormEvent<HTMLFieldSetElement>) => {
     const selected = Object.values(getValues()).filter(v => v)
-    setFilteredCategories(selected)
+    setSelectedCategories(selected)
   }
 
   const CategoryItem = ({
@@ -46,13 +73,14 @@ const Filters = ({
           className={`flex items-center w-full text-base sm:text-sm${
             child && " pl-4 py-2 "
           }${grandchild && " pl-8 "}`}
+          ref={productRef}
         >
           <input
             id={`category-${category.slug}`}
             defaultValue={category.slug}
             type="checkbox"
             className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-blue-main focus:ring-blue-main"
-            defaultChecked={filteredCategories.includes(`${category.slug}`)}
+            defaultChecked={categoryList.includes(`${category.slug}`)}
             {...register(`category-${category.slug}`)}
           />
           <label
@@ -93,7 +121,7 @@ const Filters = ({
                     ) : (
                       <FilterIcon
                         className={`flex-none w-5 h-5 mr-2 group-hover:text-gray-500 ${
-                          filteredCategories.length > 0
+                          categoryList.length > 0
                             ? " text-green-main"
                             : " text-red-main"
                         }`}

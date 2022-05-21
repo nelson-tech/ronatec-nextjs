@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import {
   GetStaticPaths,
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
+import shallow from "zustand/shallow"
 import { ParsedUrlQuery } from "querystring"
 
+import useStore from "@lib/hooks/useStore"
+import { SortOptionType } from "@lib/store/slices/shop"
+import { defaultPagination, PaginationType } from "@lib/pagination"
 import urql from "@api/urql/serverClient"
 import withUrql from "@api/urql/hoc"
 import {
@@ -16,28 +20,22 @@ import {
   GetCategorySlugsQuery,
   GetProductsByCategoryDocument,
   GetProductsByCategoryQuery,
+  GetProductsByCategoryQueryVariables,
+  InputMaybe,
   OrderEnum,
   Product,
   ProductCategory,
   ProductsOrderByEnum,
   useGetProductsByCategoryQuery,
 } from "@api/gql/types"
-import { sortOptions } from "@lib/store/slices/ui"
 
 import Layout from "@components/ui/Layout"
 import Breadcrumbs from "@components/Breadcrumbs"
 import PageTitle from "@components/PageTitle"
 import Summary from "@components/Category/Summary"
 import ProductGrid from "@components/Category/ProductGrid"
-import useStore from "@lib/hooks/useStore"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = {}
-
-// const Sort = dynamic(() => import("@components/Sort"), clientOpts)
+import Sort from "@components/Sort"
+import Pagination from "@components/Pagination"
 
 // ####
 // #### Component
@@ -45,52 +43,55 @@ const clientOpts = {}
 
 const CategoryPage = ({
   category,
-  products: initialProducts,
+  categorySlug,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const selectedSort = useStore(state => state.ui.selectedSort)
+  const productRef = useRef<HTMLDivElement>(null)
 
-  const defaultFilteredCategories = category?.slug ? [category.slug] : []
-
-  const [pause, setPause] = useState(true)
-  const [products, setProducts] = useState(initialProducts)
-  const [filteredCategories, setFilteredCategories] = useState<string[]>(
-    defaultFilteredCategories,
+  const { selectedSort, setGlobalSort } = useStore(
+    state => ({
+      selectedSort: state.shop.selectedSort,
+      setGlobalSort: state.shop.setGlobalSort,
+    }),
+    shallow,
   )
 
-  const productRef = useRef<HTMLDivElement>(null)
+  const defaultQuery: GetProductsByCategoryQueryVariables = {
+    field: selectedSort.id.field,
+    order: selectedSort.id.order,
+    categories: [categorySlug],
+    ...defaultPagination,
+  }
+
+  const [queryVars, setQueryVars] = useState(defaultQuery)
 
   // Products Query
   const [
     { data: productsData, error: productsError, fetching: productsFetching },
   ] = useGetProductsByCategoryQuery({
-    variables: {
-      field: selectedSort.id.field as ProductsOrderByEnum,
-      order: selectedSort.id.order as OrderEnum,
-      categories: filteredCategories,
-    },
-    pause,
+    variables: queryVars,
   })
 
-  // Unpause if selectedSort changes from default
-  useEffect(() => {
-    if (selectedSort.name !== sortOptions[0].name) {
-      setPause(false)
-    }
-  }, [selectedSort, setPause])
+  const setPagination = (pagination: PaginationType) => {
+    setQueryVars({ ...queryVars, ...pagination })
+  }
 
-  // Unpause if filteredCategories changes from default
-  useEffect(() => {
-    if (filteredCategories.length !== defaultFilteredCategories.length) {
-      setPause(false)
-    }
-  }, [filteredCategories, setPause, defaultFilteredCategories.length])
+  const setSelectedCategories = (
+    categories: InputMaybe<string> | InputMaybe<string>[],
+  ) => {
+    setQueryVars({ ...queryVars, ...defaultPagination, categories })
+  }
 
-  // Update products if new products fetched
-  useEffect(() => {
-    if (productsData?.products?.nodes) {
-      setProducts(productsData.products.nodes as Product[])
-    }
-  }, [productsData?.products?.nodes, setProducts])
+  const setSelectedSort = (option: SortOptionType) => {
+    setQueryVars({
+      ...queryVars,
+      ...defaultPagination,
+      field: option.id.field,
+      order: option.id.order,
+    })
+    setGlobalSort(option)
+  }
+
+  productsError && console.warn("ERROR", productsError)
 
   return (
     <>
@@ -103,23 +104,38 @@ const CategoryPage = ({
           banner={false}
         />
 
-        {category && products ? (
+        {category && (
           <>
             <Breadcrumbs category={category} />
             <Summary category={category} productRef={productRef} />
-
-            <ProductGrid
-              products={products}
-              productRef={productRef}
+            <Sort
+              setSelectedSort={setSelectedSort}
               loading={productsFetching}
               categories={[category]}
-              filteredCategories={filteredCategories}
-              setFilteredCategories={setFilteredCategories}
+              filter
+              productRef={productRef}
+              selectedCategories={queryVars.categories}
+              setSelectedCategories={setSelectedCategories}
             />
+          </>
+        )}
+
+        {productsData?.products?.nodes &&
+        (queryVars.categories ? queryVars.categories.length > 0 : true) ? (
+          <>
+            <ProductGrid products={productsData.products.nodes as Product[]} />
+
+            {productsData?.products?.pageInfo && (
+              <Pagination
+                productRef={productRef}
+                setPagination={setPagination}
+                pageInfo={productsData.products.pageInfo}
+              />
+            )}
           </>
         ) : (
           <>
-            <div>No category found.</div>
+            <div className="m-8">No category found.</div>
           </>
         )}
       </Layout>
@@ -153,23 +169,24 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   categoryError && console.warn("Error fetching category data.", categoryError)
 
-  const { data: productsData, error: productsError } = await client
-    .query<GetProductsByCategoryQuery>(GetProductsByCategoryDocument, {
-      field: sortOptions[0].id.field,
-      order: sortOptions[0].id.order,
-      categories: [categorySlug],
-    })
+  await client
+    .query<GetProductsByCategoryQuery, GetProductsByCategoryQueryVariables>(
+      GetProductsByCategoryDocument,
+      {
+        field: ProductsOrderByEnum.MenuOrder,
+        order: OrderEnum.Asc,
+        categories: [categorySlug],
+        ...defaultPagination,
+      },
+    )
     .toPromise()
-
-  productsError && console.warn("Error fetching products data.", productsError)
 
   const staticProps = {
     props: {
       category:
         (categoryData?.productCategory as ProductCategory | null | undefined) ||
         null,
-      products:
-        (productsData?.products?.nodes as Product[] | null | undefined) || null,
+      categorySlug,
       urqlState: ssrCache.extractData(),
     },
     revalidate: 4 * 60 * 60, // Every 4 hours

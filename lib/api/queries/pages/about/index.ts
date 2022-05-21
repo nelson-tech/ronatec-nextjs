@@ -1,6 +1,6 @@
 import { gql } from "urql"
 
-export const getAboutDataQuery = gql`
+const getAboutDataQuery = gql`
   query GetAboutData {
     page(id: "about", idType: URI) {
       ...PageCommonBase

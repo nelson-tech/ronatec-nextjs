@@ -1,6 +1,6 @@
 import { gql } from "urql"
 
-export const getProductsWithCategories = gql`
+const getProductsWithCategories = gql`
   query GetProductsWithCategories {
     products(first: 200) {
       nodes {
@@ -21,17 +21,25 @@ export const getProductsWithCategories = gql`
   }
 `
 
-export const getProductsByCategories = gql`
+const getProductsByCategories = gql`
   query GetProductsByCategory(
     $field: ProductsOrderByEnum!
     $order: OrderEnum!
-    $categories: [String]
+    $categories: [String]!
+    $first: Int
+    $last: Int
+    $after: String
+    $before: String
   ) {
     products(
       where: {
         orderby: { field: $field, order: $order }
         categoryIn: $categories
       }
+      first: $first
+      last: $last
+      after: $after
+      before: $before
     ) {
       nodes {
         ...ProductMinBase
@@ -48,11 +56,17 @@ export const getProductsByCategories = gql`
         ...ProductPriceBase
         shortDescription
       }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
 `
 
-export const getProductCategories = gql`
+const getProductCategories = gql`
   query GetProductCategories {
     productCategories(where: { hideEmpty: true }, first: 99) {
       nodes {
@@ -77,7 +91,7 @@ export const getProductCategories = gql`
   }
 `
 
-export const getProductDataFromSlug = gql`
+const getProductDataFromSlug = gql`
   query GetProductDataFromSlug($id: ID!) {
     product(id: $id, idType: SLUG) {
       ...VariableProductFragment
@@ -86,7 +100,7 @@ export const getProductDataFromSlug = gql`
   }
 `
 
-export const getCategorySlugs = gql`
+const getCategorySlugs = gql`
   query GetCategorySlugs {
     productCategories(first: 200) {
       nodes {
@@ -96,7 +110,7 @@ export const getCategorySlugs = gql`
   }
 `
 
-export const getCategoryFromSlug = gql`
+const getCategoryFromSlug = gql`
   query GetCategoryFromSlug($id: ID!) {
     productCategory(id: $id, idType: SLUG) {
       ...ProductCategoryBase

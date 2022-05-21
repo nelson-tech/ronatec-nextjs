@@ -1,13 +1,13 @@
-import { Fragment } from "react"
+import { Fragment, RefObject } from "react"
 import shallow from "zustand/shallow"
 import { Menu, Transition } from "@headlessui/react"
 import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
 import ViewGridIcon from "@heroicons/react/solid/ViewGridIcon"
 import ViewListIcon from "@heroicons/react/solid/ViewListIcon"
 
-import { sortOptions, SortOptionType } from "@lib/store/slices/ui"
+import { sortOptions, SortOptionType } from "@lib/store/slices/shop"
 import useStore from "@lib/hooks/useStore"
-import { ProductCategory } from "@api/gql/types"
+import { InputMaybe, ProductCategory } from "@api/gql/types"
 
 import Filters from "@components/Filters"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
@@ -22,10 +22,14 @@ import OldestIcon from "./Icons/Oldest"
 
 type PropsType = {
   loading: boolean
-  withFilter?: boolean
+  filter?: boolean
   categories: ProductCategory[] | null
-  filteredCategories: string[]
-  setFilteredCategories: (f: string[]) => void
+  productRef: RefObject<HTMLDivElement>
+  selectedCategories: InputMaybe<string> | InputMaybe<string>[]
+  setSelectedCategories: (
+    categories: InputMaybe<string> | InputMaybe<string>[],
+  ) => void
+  setSelectedSort: (option: SortOptionType) => void
 }
 
 // ####
@@ -38,17 +42,18 @@ type PropsType = {
 
 const Sort = ({
   loading,
-  withFilter,
+  filter,
   categories,
-  filteredCategories,
-  setFilteredCategories,
+  productRef,
+  selectedCategories,
+  setSelectedCategories,
+  setSelectedSort,
 }: PropsType) => {
-  const { selectedSort, setSelectedSort, viewMode, setViewMode } = useStore(
+  const { selectedSort, viewMode, setViewMode } = useStore(
     state => ({
-      selectedSort: state.ui.selectedSort,
-      setSelectedSort: state.ui.setSelectedSort,
-      viewMode: state.ui.viewMode,
-      setViewMode: state.ui.setViewMode,
+      selectedSort: state.shop.selectedSort,
+      viewMode: state.shop.viewMode,
+      setViewMode: state.shop.setViewMode,
     }),
     shallow,
   )
@@ -85,7 +90,7 @@ const Sort = ({
           <div className="flex">
             <Menu.Button
               className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900 outline-none ring-transparent"
-              disabled={filteredCategories && filteredCategories.length === 0}
+              disabled={selectedCategories?.length === 0}
             >
               <span className="sr-only">Sort options</span>Sort
               {loading ? (
@@ -165,19 +170,17 @@ const Sort = ({
     </div>
   )
 
-  return withFilter &&
-    categories &&
-    filteredCategories &&
-    setFilteredCategories ? (
+  return filter && categories ? (
     <Filters
       categories={categories}
-      filteredCategories={filteredCategories}
-      setFilteredCategories={setFilteredCategories}
+      productRef={productRef}
+      selectedCategories={selectedCategories}
+      setSelectedCategories={setSelectedCategories}
     >
       <BaseSort />
     </Filters>
   ) : (
-    <section className={sectionClasses}>
+    <section className={sectionClasses} ref={productRef}>
       <BaseSort />
     </section>
   )

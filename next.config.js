@@ -5,7 +5,7 @@ const nextConfig = {
     platform: process.env.NEXT_PUBLIC_ECOMMERCE_PLATFORM,
   },
   images: {
-    domains: ["cdn.ronatec.us", "ronatec.us"],
+    domains: ["cdn.ronatec.us", "ronatec.us", "shy.nelson.tech"],
   },
   reactStrictMode: true,
   experimental: {

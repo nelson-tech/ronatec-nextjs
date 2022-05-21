@@ -1,6 +1,6 @@
 import { gql } from "urql"
 
-export const getDistributionDataQuery = gql`
+const getDistributionDataQuery = gql`
   query GetDistributionData {
     suppliers(first: 99) {
       nodes {

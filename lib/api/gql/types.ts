@@ -19697,13 +19697,6 @@ export type WritingSettings = {
   useSmilies?: Maybe<Scalars['Boolean']>;
 };
 
-export type QuickSearchQueryVariables = Exact<{
-  search?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type QuickSearchQuery = { products?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null> | null } | null };
-
 export type ImageBaseFragment = { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null };
 
 export type CardsFragmentFragment = { cards?: Array<{ title?: string | null, content?: string | null, icon?: { name?: string | null, type?: string | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, link?: { url?: string | null, label?: string | null } | null } | null> | null };
@@ -19857,11 +19850,6 @@ export type GetHomeDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetHomeDataQuery = { page?: { id: string, databaseId: number, title?: string | null, slug?: string | null, page_home?: { acf?: { hero?: { cards?: Array<{ title?: string | null, content?: string | null, icon?: { name?: string | null, type?: string | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, link?: { url?: string | null, label?: string | null } | null } | null> | null } | null, cards?: Array<{ title?: string | null, content?: string | null, icon?: { name?: string | null, type?: string | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, link?: { url?: string | null, label?: string | null } | null } | null> | null, videoLink?: { title?: string | null, provider?: string | null, videoId?: string | null, videoUrl?: string | null } | null, featuredSupplier?: { title?: string | null, slug?: string | null, id: string, databaseId: number, supplier?: { url?: string | null, text?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null } | null } | null } | null } | null } | null };
 
-export type RonatankQueryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type RonatankQueryQuery = { page?: { content?: string | null } | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, products?: { nodes?: Array<{ name?: string | null, slug?: string | null, productCategories?: { nodes?: Array<{ name?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null } | { name?: string | null, slug?: string | null, productCategories?: { nodes?: Array<{ name?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null } | { name?: string | null, slug?: string | null, productCategories?: { nodes?: Array<{ name?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null } | { name?: string | null, slug?: string | null, productCategories?: { nodes?: Array<{ name?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null } | null> | null } | null, children?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null };
-
 export type GetProductsWithCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -19870,11 +19858,15 @@ export type GetProductsWithCategoriesQuery = { products?: { nodes?: Array<{ slug
 export type GetProductsByCategoryQueryVariables = Exact<{
   field: ProductsOrderByEnum;
   order: OrderEnum;
-  categories?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
+  categories: Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  last?: InputMaybe<Scalars['Int']>;
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetProductsByCategoryQuery = { products?: { nodes?: Array<{ shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | null> | null } | null };
+export type GetProductsByCategoryQuery = { products?: { nodes?: Array<{ shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null } | null> | null } | null } | null> | null, pageInfo?: { hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } | null } | null };
 
 export type GetProductCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -19899,6 +19891,13 @@ export type GetCategoryFromSlugQueryVariables = Exact<{
 
 
 export type GetCategoryFromSlugQuery = { productCategory?: { name?: string | null, slug?: string | null, id: string, count?: number | null, description?: string | null, ancestors?: { nodes?: Array<{ id: string, databaseId: number, name?: string | null, slug?: string | null } | null> | null } | null, children?: { nodes?: Array<{ name?: string | null, slug?: string | null, id: string, count?: number | null, description?: string | null, products?: { nodes?: Array<{ id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | null> | null } | null, children?: { nodes?: Array<{ name?: string | null, slug?: string | null, id: string, count?: number | null, description?: string | null, products?: { nodes?: Array<{ id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, product_category?: { acf?: { description?: string | null } | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, product_category?: { acf?: { description?: string | null } | null } | null } | null> | null } | null, products?: { nodes?: Array<{ shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null } | { shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, product_category?: { acf?: { description?: string | null } | null } | null } | null };
+
+export type QuickSearchQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type QuickSearchQuery = { products?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null> | null } | null };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -20230,26 +20229,6 @@ export const OrderProductBaseFragmentDoc = gql`
 }
     ${SimpleProductFragmentFragmentDoc}
 ${VariableProductFragmentFragmentDoc}`;
-export const QuickSearchDocument = gql`
-    query QuickSearch($search: String) {
-  products(where: {search: $search}) {
-    nodes {
-      id
-      slug
-      name
-      productCategories {
-        nodes {
-          slug
-        }
-      }
-    }
-  }
-}
-    `;
-
-export function useQuickSearchQuery(options?: Omit<Urql.UseQueryArgs<QuickSearchQueryVariables>, 'query'>) {
-  return Urql.useQuery<QuickSearchQuery>({ query: QuickSearchDocument, ...options });
-};
 export const RegisterUserDocument = gql`
     mutation RegisterUser($input: RegisterUserInput!) {
   registerUser(input: $input) {
@@ -20660,46 +20639,6 @@ ${FeaturedSupplierFragmentFragmentDoc}`;
 export function useGetHomeDataQuery(options?: Omit<Urql.UseQueryArgs<GetHomeDataQueryVariables>, 'query'>) {
   return Urql.useQuery<GetHomeDataQuery>({ query: GetHomeDataDocument, ...options });
 };
-export const RonatankQueryDocument = gql`
-    query RonatankQuery {
-  page(id: "ronatank", idType: URI) {
-    content
-  }
-  productCategories(where: {parent: 23}) {
-    nodes {
-      name
-      slug
-      products {
-        nodes {
-          name
-          slug
-          productCategories {
-            nodes {
-              name
-              ancestors {
-                nodes {
-                  name
-                  slug
-                }
-              }
-            }
-          }
-        }
-      }
-      children {
-        nodes {
-          name
-          slug
-        }
-      }
-    }
-  }
-}
-    `;
-
-export function useRonatankQueryQuery(options?: Omit<Urql.UseQueryArgs<RonatankQueryQueryVariables>, 'query'>) {
-  return Urql.useQuery<RonatankQueryQuery>({ query: RonatankQueryDocument, ...options });
-};
 export const GetProductsWithCategoriesDocument = gql`
     query GetProductsWithCategories {
   products(first: 200) {
@@ -20725,9 +20664,13 @@ export function useGetProductsWithCategoriesQuery(options?: Omit<Urql.UseQueryAr
   return Urql.useQuery<GetProductsWithCategoriesQuery>({ query: GetProductsWithCategoriesDocument, ...options });
 };
 export const GetProductsByCategoryDocument = gql`
-    query GetProductsByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $categories: [String]) {
+    query GetProductsByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $categories: [String]!, $first: Int, $last: Int, $after: String, $before: String) {
   products(
     where: {orderby: {field: $field, order: $order}, categoryIn: $categories}
+    first: $first
+    last: $last
+    after: $after
+    before: $before
   ) {
     nodes {
       ...ProductMinBase
@@ -20743,6 +20686,12 @@ export const GetProductsByCategoryDocument = gql`
       }
       ...ProductPriceBase
       shortDescription
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
     }
   }
 }
@@ -20858,6 +20807,26 @@ ${ProductPriceBaseFragmentDoc}`;
 
 export function useGetCategoryFromSlugQuery(options: Omit<Urql.UseQueryArgs<GetCategoryFromSlugQueryVariables>, 'query'>) {
   return Urql.useQuery<GetCategoryFromSlugQuery>({ query: GetCategoryFromSlugDocument, ...options });
+};
+export const QuickSearchDocument = gql`
+    query QuickSearch($search: String) {
+  products(where: {search: $search}) {
+    nodes {
+      id
+      slug
+      name
+      productCategories {
+        nodes {
+          slug
+        }
+      }
+    }
+  }
+}
+    `;
+
+export function useQuickSearchQuery(options?: Omit<Urql.UseQueryArgs<QuickSearchQueryVariables>, 'query'>) {
+  return Urql.useQuery<QuickSearchQuery>({ query: QuickSearchDocument, ...options });
 };
 export const GetUserDocument = gql`
     query GetUser($id: ID!) {
