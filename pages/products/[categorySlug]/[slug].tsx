@@ -102,7 +102,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     })
     .toPromise()
 
-  console.warn(productError)
+  productError && console.warn(productError)
 
   const { data: categoryData, error: categoryError } = await client
     .query<GetCategoryFromSlugQuery>(GetCategoryFromSlugDocument, {

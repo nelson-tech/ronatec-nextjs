@@ -1,6 +1,6 @@
 import useStore from "@lib/hooks/useStore"
 
-import CartItem from "./CartItem"
+import CartItem from "@components/ui/Layout/Modals/CartSlider/CartItem"
 
 // ####
 // #### Types
@@ -15,19 +15,15 @@ type PropsType = {
 // ####
 
 const CartSummary = ({ hidePrices }: PropsType) => {
-  const cartItems = useStore(state => state.cart.state)?.contents?.nodes
+  const lineItems = useStore(state => state.cart.state)?.contents?.nodes
 
   return (
     <>
-      {cartItems &&
-        cartItems.map(cartItem => {
-          if (cartItem)
+      {lineItems &&
+        lineItems.map(lineItem => {
+          if (lineItem)
             return (
-              <CartItem
-                cartItem={cartItem}
-                hidePrices={hidePrices}
-                key={cartItem?.product?.node?.id}
-              />
+              <CartItem lineItem={lineItem} key={lineItem.product?.node?.id} />
             )
         })}
     </>

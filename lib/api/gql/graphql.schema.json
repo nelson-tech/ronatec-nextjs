@@ -22061,56 +22061,8 @@
             "deprecationReason": null
           },
           {
-            "name": "INITIAL_CART",
-            "description": "Initial payment discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "PERCENT",
             "description": "Percentage discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RECURRING_FEE",
-            "description": "Recurring Product Discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RECURRING_PERCENT",
-            "description": "Recurring Product % Discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RENEWAL_CART",
-            "description": "Renewal cart discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RENEWAL_FEE",
-            "description": "Renewal product discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "RENEWAL_PERCENT",
-            "description": "Renewal % discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SIGN_UP_FEE",
-            "description": "Sign Up Fee Discount",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "SIGN_UP_FEE_PERCENT",
-            "description": "Sign Up Fee % Discount",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -51574,12 +51526,6 @@
             "deprecationReason": null
           },
           {
-            "name": "WC_ACTIVE",
-            "description": "Objects with the wc-active status",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "WC_CANCELLED",
             "description": "Objects with the wc-cancelled status",
             "isDeprecated": false,
@@ -51588,12 +51534,6 @@
           {
             "name": "WC_COMPLETED",
             "description": "Objects with the wc-completed status",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "WC_EXPIRED",
-            "description": "Objects with the wc-expired status",
             "isDeprecated": false,
             "deprecationReason": null
           },
@@ -51616,12 +51556,6 @@
             "deprecationReason": null
           },
           {
-            "name": "WC_PENDING_CANCEL",
-            "description": "Objects with the wc-pending-cancel status",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "WC_PROCESSING",
             "description": "Objects with the wc-processing status",
             "isDeprecated": false,
@@ -51630,12 +51564,6 @@
           {
             "name": "WC_REFUNDED",
             "description": "Objects with the wc-refunded status",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "WC_SWITCHED",
-            "description": "Objects with the wc-switched status",
             "isDeprecated": false,
             "deprecationReason": null
           }

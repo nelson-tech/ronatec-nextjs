@@ -3877,24 +3877,8 @@ export enum DiscountTypeEnum {
   FixedCart = 'FIXED_CART',
   /** Fixed product discount */
   FixedProduct = 'FIXED_PRODUCT',
-  /** Initial payment discount */
-  InitialCart = 'INITIAL_CART',
   /** Percentage discount */
-  Percent = 'PERCENT',
-  /** Recurring Product Discount */
-  RecurringFee = 'RECURRING_FEE',
-  /** Recurring Product % Discount */
-  RecurringPercent = 'RECURRING_PERCENT',
-  /** Renewal cart discount */
-  RenewalCart = 'RENEWAL_CART',
-  /** Renewal product discount */
-  RenewalFee = 'RENEWAL_FEE',
-  /** Renewal % discount */
-  RenewalPercent = 'RENEWAL_PERCENT',
-  /** Sign Up Fee Discount */
-  SignUpFee = 'SIGN_UP_FEE',
-  /** Sign Up Fee % Discount */
-  SignUpFeePercent = 'SIGN_UP_FEE_PERCENT'
+  Percent = 'PERCENT'
 }
 
 /** The discussion setting type */
@@ -9050,28 +9034,20 @@ export enum PostStatusEnum {
   RequestPending = 'REQUEST_PENDING',
   /** Objects with the trash status */
   Trash = 'TRASH',
-  /** Objects with the wc-active status */
-  WcActive = 'WC_ACTIVE',
   /** Objects with the wc-cancelled status */
   WcCancelled = 'WC_CANCELLED',
   /** Objects with the wc-completed status */
   WcCompleted = 'WC_COMPLETED',
-  /** Objects with the wc-expired status */
-  WcExpired = 'WC_EXPIRED',
   /** Objects with the wc-failed status */
   WcFailed = 'WC_FAILED',
   /** Objects with the wc-on-hold status */
   WcOnHold = 'WC_ON_HOLD',
   /** Objects with the wc-pending status */
   WcPending = 'WC_PENDING',
-  /** Objects with the wc-pending-cancel status */
-  WcPendingCancel = 'WC_PENDING_CANCEL',
   /** Objects with the wc-processing status */
   WcProcessing = 'WC_PROCESSING',
   /** Objects with the wc-refunded status */
-  WcRefunded = 'WC_REFUNDED',
-  /** Objects with the wc-switched status */
-  WcSwitched = 'WC_SWITCHED'
+  WcRefunded = 'WC_REFUNDED'
 }
 
 /** Set relationships between the post to tags */
@@ -19703,7 +19679,7 @@ export type ImageBaseFragment = { id: string, databaseId: number, altText?: stri
 
 export type CardsFragmentFragment = { cards?: Array<{ title?: string | null, content?: string | null, icon?: { name?: string | null, type?: string | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, link?: { url?: string | null, label?: string | null } | null } | null> | null };
 
-export type CustomerBaseFragment = { firstName?: string | null, email?: string | null, lastName?: string | null, orderCount?: number | null, id: string, displayName?: string | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null };
+export type CustomerBaseFragment = { id: string, firstName?: string | null, lastName?: string | null, displayName?: string | null, email?: string | null, orderCount?: number | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null };
 
 export type OrderProductBaseFragment = { date?: string | null, orderNumber?: string | null, total?: string | null, status?: OrderStatusEnum | null, lineItems?: { nodes?: Array<{ quantity?: number | null, total?: string | null, product?: { node?: { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, variations?: { nodes?: Array<{ sku?: string | null, id: string, databaseId: number, description?: string | null, name?: string | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null } | null> | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId: number, name: string, label: string } | { id: string, attributeId: number, name: string, label: string } | null> | null } | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | {} | null } | null } | null> | null } | null };
 
@@ -19791,28 +19767,35 @@ export type AddToCartMutationVariables = Exact<{
 }>;
 
 
-export type AddToCartMutation = { addToCart?: { cart?: { isEmpty?: { itemCount?: number | null, productCount?: number | null, edges?: Array<{ node?: { extraData?: Array<{ key: string, value?: string | null } | null> | null } | null } | null> | null } | null } | null } | null };
+export type AddToCartMutation = { addToCart?: { cart?: { isEmpty?: boolean | null, contents?: { itemCount?: number | null, productCount?: number | null, edges?: Array<{ node?: { extraData?: Array<{ key: string, value?: string | null } | null> | null } | null } | null> | null } | null } | null } | null };
 
 export type ClearCartMutationVariables = Exact<{
   input: EmptyCartInput;
 }>;
 
 
-export type ClearCartMutation = { emptyCart?: { clientMutationId?: string | null, cart?: { isEmpty?: boolean | null } | null } | null };
+export type ClearCartMutation = { emptyCart?: { clientMutationId?: string | null, cart?: { contentsTotal?: string | null, isEmpty?: boolean | null, subtotal?: string | null, total?: string | null, contents?: { itemCount?: number | null, productCount?: number | null, nodes?: Array<{ quantity?: number | null, subtotal?: string | null, total?: string | null, key: string, variation?: { attributes?: Array<{ value?: string | null, id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null, product?: { node?: { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null } | null } | null> | null } | null } | null } | null };
 
 export type RemoveCartItemMutationVariables = Exact<{
   input: RemoveItemsFromCartInput;
 }>;
 
 
-export type RemoveCartItemMutation = { removeItemsFromCart?: { clientMutationId?: string | null, cart?: { isEmpty?: boolean | null } | null } | null };
+export type RemoveCartItemMutation = { removeItemsFromCart?: { clientMutationId?: string | null, cart?: { contentsTotal?: string | null, isEmpty?: boolean | null, subtotal?: string | null, total?: string | null, contents?: { itemCount?: number | null, productCount?: number | null, nodes?: Array<{ quantity?: number | null, subtotal?: string | null, total?: string | null, key: string, variation?: { attributes?: Array<{ value?: string | null, id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null, product?: { node?: { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null } | null } | null> | null } | null } | null } | null };
+
+export type UpdateCartItemQuantityMutationVariables = Exact<{
+  input: UpdateItemQuantitiesInput;
+}>;
+
+
+export type UpdateCartItemQuantityMutation = { updateItemQuantities?: { cart?: { contentsTotal?: string | null, isEmpty?: boolean | null, subtotal?: string | null, total?: string | null, contents?: { itemCount?: number | null, productCount?: number | null, nodes?: Array<{ quantity?: number | null, subtotal?: string | null, total?: string | null, key: string, variation?: { attributes?: Array<{ value?: string | null, id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null, product?: { node?: { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null } | null } | null> | null } | null } | null } | null };
 
 export type CheckoutMutationVariables = Exact<{
   input: CheckoutInput;
 }>;
 
 
-export type CheckoutMutation = { checkout?: { result?: string | null, customer?: { firstName?: string | null, email?: string | null, lastName?: string | null, orderCount?: number | null, id: string, displayName?: string | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null } | null, order?: { date?: string | null, orderNumber?: string | null, total?: string | null, status?: OrderStatusEnum | null, lineItems?: { nodes?: Array<{ quantity?: number | null, total?: string | null, product?: { node?: { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, variations?: { nodes?: Array<{ sku?: string | null, id: string, databaseId: number, description?: string | null, name?: string | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null } | null> | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId: number, name: string, label: string } | { id: string, attributeId: number, name: string, label: string } | null> | null } | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | {} | null } | null } | null> | null } | null } | null } | null };
+export type CheckoutMutation = { checkout?: { result?: string | null, customer?: { id: string, firstName?: string | null, lastName?: string | null, displayName?: string | null, email?: string | null, orderCount?: number | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null } | null, order?: { date?: string | null, orderNumber?: string | null, total?: string | null, status?: OrderStatusEnum | null, lineItems?: { nodes?: Array<{ quantity?: number | null, total?: string | null, product?: { node?: { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, variations?: { nodes?: Array<{ sku?: string | null, id: string, databaseId: number, description?: string | null, name?: string | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null } | null> | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId: number, name: string, label: string } | { id: string, attributeId: number, name: string, label: string } | null> | null } | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | {} | null } | null } | null> | null } | null } | null } | null };
 
 export type GetCartQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -19822,7 +19805,7 @@ export type GetCartQuery = { cart?: { contentsTotal?: string | null, isEmpty?: b
 export type GetCustomerDataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCustomerDataQuery = { customer?: { firstName?: string | null, email?: string | null, lastName?: string | null, orderCount?: number | null, id: string, displayName?: string | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null } | null };
+export type GetCustomerDataQuery = { customer?: { id: string, firstName?: string | null, lastName?: string | null, displayName?: string | null, email?: string | null, orderCount?: number | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null } | null };
 
 export type GetContactDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -19971,12 +19954,12 @@ export const CardsFragmentFragmentDoc = gql`
     ${ImageBaseFragmentDoc}`;
 export const CustomerBaseFragmentDoc = gql`
     fragment CustomerBase on Customer {
-  firstName
-  email
-  lastName
-  orderCount
   id
+  firstName
+  lastName
   displayName
+  email
+  orderCount
   billing {
     address1
     address2
@@ -20335,7 +20318,8 @@ export const AddToCartDocument = gql`
     mutation AddToCart($input: AddToCartInput!) {
   addToCart(input: $input) {
     cart {
-      isEmpty: contents {
+      isEmpty
+      contents {
         itemCount
         productCount
         edges {
@@ -20360,11 +20344,11 @@ export const ClearCartDocument = gql`
   emptyCart(input: $input) {
     clientMutationId
     cart {
-      isEmpty
+      ...CartBase
     }
   }
 }
-    `;
+    ${CartBaseFragmentDoc}`;
 
 export function useClearCartMutation() {
   return Urql.useMutation<ClearCartMutation, ClearCartMutationVariables>(ClearCartDocument);
@@ -20374,14 +20358,27 @@ export const RemoveCartItemDocument = gql`
   removeItemsFromCart(input: $input) {
     clientMutationId
     cart {
-      isEmpty
+      ...CartBase
     }
   }
 }
-    `;
+    ${CartBaseFragmentDoc}`;
 
 export function useRemoveCartItemMutation() {
   return Urql.useMutation<RemoveCartItemMutation, RemoveCartItemMutationVariables>(RemoveCartItemDocument);
+};
+export const UpdateCartItemQuantityDocument = gql`
+    mutation UpdateCartItemQuantity($input: UpdateItemQuantitiesInput!) {
+  updateItemQuantities(input: $input) {
+    cart {
+      ...CartBase
+    }
+  }
+}
+    ${CartBaseFragmentDoc}`;
+
+export function useUpdateCartItemQuantityMutation() {
+  return Urql.useMutation<UpdateCartItemQuantityMutation, UpdateCartItemQuantityMutationVariables>(UpdateCartItemQuantityDocument);
 };
 export const CheckoutDocument = gql`
     mutation Checkout($input: CheckoutInput!) {

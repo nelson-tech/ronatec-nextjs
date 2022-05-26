@@ -1,4 +1,6 @@
 import { memo, useState } from "react"
+import MinusIcon from "@heroicons/react/solid/MinusIcon"
+import PlusIcon from "@heroicons/react/solid/PlusIcon"
 
 import useCart from "@lib/hooks/useCart"
 import { CartItem as CartItemType, Maybe } from "@api/gql/types"
@@ -9,13 +11,14 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 type PropsType = {
   lineItem: Maybe<CartItemType>
-  setOpen: (open: boolean) => void
+  setOpen?: (open: boolean) => void
 }
 
 const CartItem = memo(
   function CartItem({ lineItem, setOpen }: PropsType) {
     const [loading, setLoading] = useState(false)
-    const removeItem = useCart().removeItem
+    const [quantity, setQuantity] = useState(lineItem?.quantity)
+    const { updateCart, removeItem } = useCart()
 
     const handleRemoveItem = async (key: string) => {
       setLoading(true)
@@ -28,13 +31,29 @@ const CartItem = memo(
         lineItem?.product?.node.productCategories.nodes[0]?.slug) ||
       ""
 
+    const handleQuantityUpdate = async (newQuantity: number) => {
+      setQuantity(newQuantity)
+
+      console.log(newQuantity)
+
+      if (quantity && lineItem?.key) {
+        const { data, error } = await updateCart({
+          items: [{ key: lineItem?.key, quantity: newQuantity }],
+        })
+        data && console.log(data)
+        error && console.warn(error)
+      }
+    }
+
     return (
       <>
         <div className="py-6 relative">
           {lineItem?.product?.node && (
             <li className="flex items-center">
               {lineItem?.product?.node?.image && (
-                <div className="flex-shrink-0 w-16 h-16 md:w-24 md:h-24 border border-gray-200 rounded-md overflow-hidden">
+                <div
+                  className={`flex-shrink-0 w-16 h-16 md:w-24 md:h-24 border border-gray-200 rounded-md overflow-hidden`}
+                >
                   <Image
                     src={lineItem?.product?.node.image.sourceUrl || ""}
                     alt={lineItem?.product?.node.image.altText || ""}
@@ -46,9 +65,9 @@ const CartItem = memo(
                 </div>
               )}
 
-              <div className="ml-4 flex-1 flex flex-col mb-1">
+              <div className="ml-4 flex-1 flex flex-col mb-1 justify-between">
                 <div className="flex justify-between items-center ">
-                  <h3 onClick={() => setOpen(false)}>
+                  <h3 onClick={() => setOpen && setOpen(false)}>
                     <Link
                       href={`/products/${category}/${lineItem?.product?.node.slug}`}
                       className="font-bold text-sm text-gray-900"
@@ -68,17 +87,48 @@ const CartItem = memo(
                     .join(" - ")}
                 </p>
 
-                <div className="flex-1 flex items-start justify-between text-sm mt-1">
-                  <p className="text-gray-500">Qty {lineItem.quantity}</p>
-                  <div className="flex">
+                <div className="flex-1 flex items-center justify-between text-sm mt-3">
+                  {quantity && (
+                    <div className="flex items-center space-x-2 text-xs text-gray-600">
+                      <label htmlFor="quantity" className="pr-2">
+                        Quantity:{" "}
+                      </label>
+                      <MinusIcon
+                        className="h-3 w-3 cursor-pointer"
+                        onClick={() => handleQuantityUpdate(quantity - 1)}
+                      />
+                      <input
+                        className="w-16 text-center border py-1 text-xs rounded outline-none focus:bg-white ring-transparent"
+                        value={quantity}
+                        id="quantity"
+                        name="quantity"
+                        type="number"
+                        min={1}
+                        onChange={async e => {
+                          if (Number(e.target.value)) {
+                            await handleQuantityUpdate(Number(e.target.value))
+                          }
+                        }}
+                      />
+                      <PlusIcon
+                        className="h-3 w-3 cursor-pointer"
+                        onClick={async () =>
+                          await handleQuantityUpdate(quantity + 1)
+                        }
+                      />
+                    </div>
+                  )}
+                  <div className="">
                     {loading ? (
                       <LoadingSpinner className="mr-4" size={4} />
                     ) : (
                       <button
                         type="button"
                         title="Remove"
-                        className="font-medium text-blue-main hover:text-red-600"
-                        onClick={() => handleRemoveItem(lineItem.key)}
+                        className="font-medium text-blue-main hover:text-red-600 transition"
+                        onClick={async () =>
+                          await handleRemoveItem(lineItem.key)
+                        }
                       >
                         Remove
                       </button>
@@ -93,7 +143,10 @@ const CartItem = memo(
     )
   },
   function areEqual(prev, next) {
-    if (prev.lineItem?.product?.node?.id === next.lineItem?.product?.node?.id)
+    if (
+      prev.lineItem?.product?.node?.id === next.lineItem?.product?.node?.id &&
+      prev.lineItem?.quantity === next.lineItem?.quantity
+    )
       return true
     return false
   },

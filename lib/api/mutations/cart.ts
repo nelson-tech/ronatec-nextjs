@@ -1,10 +1,11 @@
 import { gql } from "urql"
 
-export const addToCartMutation = gql`
+const addToCartMutation = gql`
   mutation AddToCart($input: AddToCartInput!) {
     addToCart(input: $input) {
       cart {
-        isEmpty: contents {
+        isEmpty
+        contents {
           itemCount
           productCount
           edges {
@@ -21,23 +22,33 @@ export const addToCartMutation = gql`
   }
 `
 
-export const clearCart = gql`
+const clearCart = gql`
   mutation ClearCart($input: EmptyCartInput!) {
     emptyCart(input: $input) {
       clientMutationId
       cart {
-        isEmpty
+        ...CartBase
       }
     }
   }
 `
 
-export const removeCartItem = gql`
+const removeCartItem = gql`
   mutation RemoveCartItem($input: RemoveItemsFromCartInput!) {
     removeItemsFromCart(input: $input) {
       clientMutationId
       cart {
-        isEmpty
+        ...CartBase
+      }
+    }
+  }
+`
+
+const updateCartItemQuantity = gql`
+  mutation UpdateCartItemQuantity($input: UpdateItemQuantitiesInput!) {
+    updateItemQuantities(input: $input) {
+      cart {
+        ...CartBase
       }
     }
   }

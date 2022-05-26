@@ -1,9 +1,11 @@
 import {
   AddToCartInput,
   RemoveItemsFromCartInput,
+  UpdateItemQuantitiesInput,
   useAddToCartMutation,
   useClearCartMutation,
   useRemoveCartItemMutation,
+  useUpdateCartItemQuantityMutation,
 } from "@api/gql/types"
 import { CombinedError, OperationResult } from "urql"
 
@@ -11,6 +13,7 @@ const useCart = () => {
   const [_remove, removeMutation] = useRemoveCartItemMutation()
   const [_clear, clearMutation] = useClearCartMutation()
   const [_add, addMutation] = useAddToCartMutation()
+  const [_update, updateMutation] = useUpdateCartItemQuantityMutation()
 
   const getReturnData = (res: OperationResult) => {
     const { data, error } = res
@@ -41,7 +44,11 @@ const useCart = () => {
     return await addMutation({ input }).then(getReturnData)
   }
 
-  return { clearCart, removeItem, addToCart }
+  const updateCart = async (input: UpdateItemQuantitiesInput) => {
+    return await updateMutation({ input }).then(getReturnData)
+  }
+
+  return { clearCart, removeItem, addToCart, updateCart }
 }
 
 export default useCart
