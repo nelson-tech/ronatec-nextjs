@@ -1,8 +1,8 @@
 import { FullProduct } from "@lib/types"
+import { ProductCategory } from "@api/gql/types"
 
 import Breadcrumbs from "@components/Breadcrumbs"
 import DefaultProduct from "@components/Products"
-import { ProductCategory } from "@api/gql/types"
 
 // ####
 // #### Dynamic Imports
@@ -12,10 +12,18 @@ import { ProductCategory } from "@api/gql/types"
 
 // const DefaultProduct = dynamic(() => import("@components/Products"), importOpts)
 
+// ####
+// #### Types
+// ####
+
 type PropsType = {
   category: ProductCategory
   product: FullProduct
 }
+
+// ####
+// #### Component
+// ####
 
 const ProductBySku = ({ product, category }: PropsType) => {
   return (

@@ -1,5 +1,10 @@
 import { default as NextImage } from "next/image"
+
 import { ImageContainer } from "./style"
+
+// ####
+// #### Types
+// ####
 
 type Props = {
   src: string
@@ -23,6 +28,10 @@ type Props = {
   priority?: boolean
   sizes?: string | undefined
 }
+
+// ####
+// #### Component
+// ####
 
 const Image = ({
   src,

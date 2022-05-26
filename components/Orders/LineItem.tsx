@@ -1,10 +1,10 @@
+import { FullProduct } from "@lib/types"
+
 import Image from "@components/Image"
 
 // ####
 // #### Types
 // ####
-
-import { FullProduct } from "@lib/types"
 
 type PropsType = {
   product: FullProduct

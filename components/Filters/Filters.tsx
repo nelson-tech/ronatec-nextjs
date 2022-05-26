@@ -1,10 +1,14 @@
 import { FormEvent, ReactNode, RefObject } from "react"
 import { Disclosure } from "@headlessui/react"
+import { useForm } from "react-hook-form"
 import XIcon from "@heroicons/react/solid/XIcon"
 import FilterIcon from "@heroicons/react/solid/FilterIcon"
-import { useForm } from "react-hook-form"
 
 import { InputMaybe, ProductCategory } from "@api/gql/types"
+
+// ####
+// #### Types
+// ####
 
 type FiltersProps = {
   children: ReactNode
@@ -15,6 +19,10 @@ type FiltersProps = {
     categories: InputMaybe<string> | InputMaybe<string>[],
   ) => void
 }
+
+// ####
+// #### Component
+// ####
 
 const Filters = ({
   children,

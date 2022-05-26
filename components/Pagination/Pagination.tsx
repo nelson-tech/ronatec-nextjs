@@ -4,11 +4,19 @@ import useStore from "@lib/hooks/useStore"
 import { PaginationType } from "@lib/pagination"
 import { WpPageInfo } from "@api/gql/types"
 
+// ####
+// #### Types
+// ####
+
 type PropsType = {
   setPagination: (pagination: PaginationType) => void
   pageInfo: WpPageInfo
   productRef: RefObject<HTMLDivElement>
 }
+
+// ####
+// #### Component
+// ####
 
 const Pagination = ({ pageInfo, setPagination, productRef }: PropsType) => {
   const productsPerPage = useStore(state => state.shop.productsPerPage)

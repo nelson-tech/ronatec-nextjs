@@ -8,11 +8,19 @@ import { Product, useQuickSearchQuery } from "@api/gql/types"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
-const SearchForm = ({
-  setModalClosed,
-}: {
+// ####
+// #### Types
+// ####
+
+type PropsType = {
   setModalClosed?: (value: boolean) => void
-}) => {
+}
+
+// ####
+// #### Component
+// ####
+
+const SearchForm = ({ setModalClosed }: PropsType) => {
   const [query, setQuery] = useState<string | undefined>()
   const [results, setResults] = useState<Product[] | undefined>()
 
