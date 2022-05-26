@@ -135,7 +135,7 @@ const CategoryPage = ({
           </>
         ) : (
           <>
-            <div className="m-8">No category found.</div>
+            <div className="max-w-7xl p-8 mx-auto">No category found.</div>
           </>
         )}
       </Layout>

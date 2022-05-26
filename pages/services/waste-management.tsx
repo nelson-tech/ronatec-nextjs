@@ -14,7 +14,7 @@ const WasteManagement = () => {
       control."
         />
 
-        <div className="max-w-7xl p-8">
+        <div className="max-w-7xl p-8 mx-auto">
           <div className="text-gray-500">
             <div className="pb-4">
               Ronatec C2C is a specialty chemical and service solutions provider

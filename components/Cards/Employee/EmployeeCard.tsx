@@ -3,6 +3,10 @@ import { Employee } from "@api/gql/types"
 
 import Icon from "@components/ui/Icon"
 
+// ####
+// #### Component
+// ####
+
 const EmployeeCard = ({ employee }: { employee: Employee }) => {
   const contact = employee.contact?.contact
   return (

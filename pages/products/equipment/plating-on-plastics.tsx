@@ -20,7 +20,7 @@ const PlatingOnPlastics = () => {
       superior plating applications, and a high production yield."
         />
 
-        <div className="max-w-7xl p-8">
+        <div className="max-w-7xl p-8 mx-auto">
           <div className="text-gray-800 md:p-8 space-y-4">
             <p>
               Ronatec C2C plastics plating products meet industry environmental

@@ -9,7 +9,7 @@ import { StyledTable } from "./style"
 const HeatedTankSystemComponent = () => {
   return (
     <>
-      <div className="max-w-7xl p-8">
+      <div className="max-w-7xl p-8 mx-auto">
         <div className="md:flex pb-4">
           <div className="md:flex md:flex-col md:w-2/3">
             <div className="text-sm text-gray-500">

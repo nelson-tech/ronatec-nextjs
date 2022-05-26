@@ -11,7 +11,7 @@ const CarbonateRemovalSystemComponent = () => {
 
   return (
     <>
-      <div className="max-w-7xl px-8 lg:px-16 my-8">
+      <div className="max-w-7xl px-8 lg:px-16 my-8 mx-auto">
         <div className="text-gray-500">
           The Ronatec DeCarb is the premier domestically designed and
           manufactured sodium carbonate removal system. By increasing process
@@ -24,7 +24,7 @@ const CarbonateRemovalSystemComponent = () => {
         </div>
       </div>
       <div className="w-screen bg-gray-800">
-        <div className="max-w-7xl px-16 py-8">
+        <div className="max-w-7xl px-16 py-8 mx-auto">
           <div className="pb-4">
             <h2 className="text-xl font-extrabold text-gray-100">Features</h2>
           </div>
@@ -102,7 +102,7 @@ const CarbonateRemovalSystemComponent = () => {
           </dl>
         </div>
       </div>
-      <div className="max-w-7xl px-16">
+      <div className="max-w-7xl px-16 mx-auto">
         <div className="my-8">
           <h2 className="text-xl font-extrabold text-gray-800 pb-8">
             See it in action:

@@ -13,7 +13,7 @@ const WasteRemoval = () => {
       the issues associated with special waste removal and disposal."
         />
 
-        <div className="max-w-7xl p-8">
+        <div className="max-w-7xl p-8 mx-auto">
           <div className="text-gray-500">
             <div className="pb-4 space-y-4">
               <p>

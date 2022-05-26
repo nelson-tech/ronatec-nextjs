@@ -97,7 +97,7 @@ const Products = ({
         />
 
         {categories && categories.length > 0 && (
-          <div className="px-4 sm:px-6 lg:px-8 text-gray-500 py-6 lg:max-w-7xl">
+          <div className="px-4 sm:px-6 lg:px-8 text-gray-500 py-6 lg:max-w-7xl mx-auto">
             <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
               Categories
               <span
