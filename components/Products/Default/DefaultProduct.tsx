@@ -1,8 +1,8 @@
 import { FormEventHandler, useEffect, useState } from "react"
-import dynamic from "next/dist/shared/lib/dynamic"
 import { RadioGroup } from "@headlessui/react"
 import PlusIcon from "@heroicons/react/solid/PlusIcon"
 import MinusIcon from "@heroicons/react/solid/MinusIcon"
+import CheckIcon from "@heroicons/react/solid/CheckIcon"
 
 import useCart from "@lib/hooks/useCart"
 import { htmlParserOptions, isServer, parse } from "@lib/utils"
@@ -14,6 +14,7 @@ import {
 } from "@api/gql/types"
 
 import Image from "@components/Image"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 import {
   Container,
@@ -21,21 +22,6 @@ import {
   ProductTopContainer,
   TopContainer,
 } from "./style"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = { ssr: false }
-
-const CheckIcon = dynamic(
-  () => import("@heroicons/react/solid/CheckIcon"),
-  clientOpts,
-)
-const LoadingSpinner = dynamic(
-  () => import("@components/ui/LoadingSpinner"),
-  clientOpts,
-)
 
 // ####
 // #### Types

@@ -12,24 +12,3 @@ export const userAuthBaseFragment = gql`
     email
   }
 `
-
-const orderProductBase = gql`
-  fragment OrderProductBase on Order {
-    date
-    orderNumber
-    total
-    status
-    lineItems {
-      nodes {
-        quantity
-        total
-        product {
-          node {
-            ...SimpleProductFragment
-            ...VariableProductFragment
-          }
-        }
-      }
-    }
-  }
-`

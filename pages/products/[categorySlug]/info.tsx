@@ -79,7 +79,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
   const { client, ssrCache } = urql()
 
-  const { data } = await client
+  const { data, error } = await client
     .query<GetCategoryFromSlugQuery, GetCategoryFromSlugQueryVariables>(
       GetCategoryFromSlugDocument,
       {

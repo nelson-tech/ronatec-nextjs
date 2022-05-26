@@ -54,8 +54,8 @@ const About = ({ page }: InferGetStaticPropsType<typeof getStaticProps>) => {
                 cards.map(card => {
                   if (card) {
                     return (
-                      <div className="pt-8">
-                        <IconCard card={card} key={"contact" + card.title} />
+                      <div className="pt-8" key={"contact" + card.title}>
+                        <IconCard card={card} />
                       </div>
                     )
                   }

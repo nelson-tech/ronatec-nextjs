@@ -9,6 +9,7 @@ import {
   isTokenValid,
   login,
   logout,
+  setAuthReady,
 } from "./utils"
 import { refreshMutation } from "@api/mutations/auth"
 import {
@@ -131,8 +132,10 @@ const authExchange = authExchanges({
 
         if (authToken) {
           login()
+          setAuthReady()
           return authToken
         }
+        setAuthReady()
         // Skip returning here to allow trying for refresh
       }
 

@@ -59,6 +59,9 @@ module.exports = {
         red: { main: "#d72638" },
         // white: "#fffaff",
         black: "#0d1821",
+        accent: "#5375A0",
+        highlight: "#37b679",
+        error: "#d72638",
       },
       fontFamily: {
         exo: ["Exo", "sans-serif"],

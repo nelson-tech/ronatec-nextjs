@@ -22,6 +22,15 @@ import Layout from "@components/ui/Layout"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import PageTitle from "@components/PageTitle"
 import ProductBySku from "@components/Pages/ProductBySku"
+import Link from "@components/Link"
+
+const messages = {
+  seo: { title: "Product", description: "No product found." },
+  productMissing: {
+    title: "No product found.",
+    buttonText: "Visit our shop",
+  },
+}
 
 // ####
 // #### Types
@@ -36,8 +45,6 @@ interface IParams extends ParsedUrlQuery {
 // #### Component
 // ####
 
-// TODO - Change loading message for error message or redirect
-
 const SKUProduct = ({
   product,
   category,
@@ -46,10 +53,8 @@ const SKUProduct = ({
     <>
       <Layout>
         <PageTitle
-          title={product?.name || "Product"}
-          description={
-            product?.shortDescription || "Shopping page for a product."
-          }
+          title={product?.name || messages.seo.title}
+          description={product?.shortDescription || messages.seo.description}
           banner={false}
         />
         {product && category ? (
@@ -59,9 +64,15 @@ const SKUProduct = ({
         ) : (
           <>
             <div className="h-screen -mt-20 justify-center items-center flex flex-col mx-auto text-lg lg:text-xl text-blue-dark">
-              <div>Loading Product Information...</div>
+              <div>{messages.productMissing.title}</div>
 
-              <LoadingSpinner size={8} color="#37b679" className="mt-4" />
+              <Link
+                href="/products"
+                title={messages.productMissing.buttonText}
+                className="mt-8 py-4 px-6 rounded-md bg-blue-main hover:bg-green-main text-white transition"
+              >
+                {messages.productMissing.buttonText}
+              </Link>
             </div>
           </>
         )}
@@ -91,7 +102,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     })
     .toPromise()
 
-  // TODO - Account for errors or non-existant products
+  console.warn(productError)
 
   const { data: categoryData, error: categoryError } = await client
     .query<GetCategoryFromSlugQuery>(GetCategoryFromSlugDocument, {

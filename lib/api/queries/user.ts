@@ -1,8 +1,8 @@
 import { gql } from "urql"
 
-const getUser = gql`
-  query GetUser($id: ID!) {
-    user(id: $id, idType: DATABASE_ID) {
+const getUserQuery = gql`
+  query GetUser {
+    customer {
       id
       databaseId
       firstName

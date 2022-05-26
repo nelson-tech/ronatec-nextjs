@@ -101,3 +101,5 @@ const Orders = ({}) => {
 // ####
 
 export default withUrql(Orders)
+
+export const getStaticProps = () => ({ props: { protected: true } })

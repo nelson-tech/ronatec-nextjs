@@ -6,7 +6,6 @@ import {
   AUTH_TOKEN_KEY,
   LOGGED_OUT_KEY,
   REFRESH_TOKEN_KEY,
-  USER_ID_KEY,
   WOO_SESSION_KEY,
 } from "@lib/constants"
 import { InMemoryAuthTokenType } from "@lib/types/auth"
@@ -37,13 +36,16 @@ export const login = (authToken?: string) => {
   store.getState().auth.setLoggedIn(true)
 }
 
+export const setAuthReady = (ready: boolean = true) => {
+  store.getState().auth.setReady(ready)
+}
+
 export const logout = (full: boolean = false) => {
   if (!isServer) {
     localStorage.removeItem(AUTH_TOKEN_KEY)
 
     if (full) {
       localStorage.removeItem(REFRESH_TOKEN_KEY)
-      localStorage.removeItem(USER_ID_KEY)
 
       localStorage.setItem(LOGGED_OUT_KEY, JSON.stringify(Date.now()))
       store.getState().auth.setLoggedIn(false)
@@ -65,7 +67,6 @@ export const setAuthToken = (serverAuthToken: string) => {
 
     const authToken = {
       authToken: serverAuthToken,
-      userId: authTokenData.data.user.id,
       authExpiration: authTokenData.exp || null,
     }
 
@@ -109,16 +110,10 @@ export const getWooSession = (): {
   if (!isServer) {
     const raw = localStorage.getItem(WOO_SESSION_KEY)
     if (raw) {
-      const clientShopId =
-        jwt_decode<{ data: { customer_id: string } }>(raw).data.customer_id
+      const clientShopId = jwt_decode<{ data: { customer_id: string } }>(raw)
+        .data.customer_id
       return { raw, clientShopId }
     }
   }
-  return null
-}
-
-export const getUserId = (): string | null => {
-  if (!isServer) return localStorage.getItem(USER_ID_KEY)
-
   return null
 }

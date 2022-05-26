@@ -7,6 +7,14 @@ import { DefaultSeo } from "next-seo"
 
 import { ProgressBar } from "@lib"
 import { useCreateStore, Provider } from "@lib/store"
+import { useEffect, useState } from "react"
+import { getAuthToken } from "@api/urql/utils"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
+import dynamic from "next/dynamic"
+
+const Unauthorized = dynamic(() => import("@components/Unauthorized"), {
+  ssr: false,
+})
 
 // ####
 // #### Variables
@@ -34,6 +42,29 @@ function RonatecWebsite({ Component, pageProps }: AppProps) {
 
   const cdnURL = process.env.NEXT_PUBLIC_CDN_BASE_URL
   const faviconURL = `${cdnURL}/ronatec/favicons`
+
+  // User authentication
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    let auth = false
+    if (pageProps.protected) {
+      const authToken = getAuthToken()?.authToken
+      authToken && (auth = true)
+    }
+    if (auth !== isAuthorized) setIsAuthorized(true)
+  }, [pageProps, isAuthorized, setIsAuthorized])
+
+  if (pageProps.protected && isAuthorized === null) {
+    return (
+      <>
+        <div className="flex flex-col w-full h-screen justify-center items-center">
+          <div className="text-gray-600 mb-8">Checking authorization...</div>
+          <LoadingSpinner size={24} />
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -110,7 +141,11 @@ function RonatecWebsite({ Component, pageProps }: AppProps) {
         ]}
       />
       <Provider createStore={createStore}>
-        <Component {...pageProps} />
+        {pageProps.protected && !isAuthorized ? (
+          <Unauthorized {...pageProps} />
+        ) : (
+          <Component {...pageProps} />
+        )}
       </Provider>
     </>
   )

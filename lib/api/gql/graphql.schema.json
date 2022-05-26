@@ -13198,7 +13198,7 @@
           },
           {
             "name": "commentOn",
-            "description": "The ID of the post object the comment belongs to.",
+            "description": "The database ID of the post object the comment belongs to.",
             "type": {
               "kind": "SCALAR",
               "name": "Int",
@@ -13234,7 +13234,7 @@
           },
           {
             "name": "parent",
-            "description": "Parent comment of current comment.",
+            "description": "Parent comment ID of current comment.",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -14038,7 +14038,7 @@
           },
           {
             "name": "parentId",
-            "description": "The WordPress post ID or the graphQL postId of the parent object",
+            "description": "The ID of the parent object",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -35000,6 +35000,18 @@
             "deprecationReason": null
           },
           {
+            "name": "uri",
+            "description": "The uri of the resource the menu item links to",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "url",
             "description": "URL or destination of the menu item.",
             "args": [],
@@ -51227,13 +51239,13 @@
         "enumValues": [
           {
             "name": "RAW",
-            "description": "Provide the field value directly from database",
+            "description": "Provide the field value directly from database. Null on unauthenticated requests.",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
             "name": "RENDERED",
-            "description": "Apply the default WordPress rendering",
+            "description": "Provide the field value as rendered by WordPress. Default.",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -98111,7 +98123,7 @@
           },
           {
             "name": "commentOn",
-            "description": "The ID of the post object the comment belongs to.",
+            "description": "The database ID of the post object the comment belongs to.",
             "type": {
               "kind": "SCALAR",
               "name": "Int",
@@ -98163,7 +98175,7 @@
           },
           {
             "name": "parent",
-            "description": "Parent comment of current comment.",
+            "description": "Parent comment ID of current comment.",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -99487,7 +99499,7 @@
           },
           {
             "name": "parentId",
-            "description": "The WordPress post ID or the graphQL postId of the parent object",
+            "description": "The ID of the parent object",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -101037,7 +101049,7 @@
           },
           {
             "name": "commentOn",
-            "description": "The ID of the post object the comment belongs to.",
+            "description": "The database ID of the post object the comment belongs to.",
             "type": {
               "kind": "SCALAR",
               "name": "Int",
@@ -101089,7 +101101,7 @@
           },
           {
             "name": "parent",
-            "description": "Parent comment of current comment.",
+            "description": "Parent comment ID of current comment.",
             "type": {
               "kind": "SCALAR",
               "name": "ID",
@@ -110764,7 +110776,7 @@
           },
           {
             "name": "commentOn",
-            "description": "The ID of the post object the comment belongs to.",
+            "description": "The database ID of the post object the comment belongs to.",
             "type": {
               "kind": "SCALAR",
               "name": "Int",
@@ -110800,7 +110812,7 @@
           },
           {
             "name": "parent",
-            "description": "Parent comment of current comment.",
+            "description": "Parent comment ID of current comment.",
             "type": {
               "kind": "SCALAR",
               "name": "ID",

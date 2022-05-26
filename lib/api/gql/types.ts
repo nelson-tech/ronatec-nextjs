@@ -2247,13 +2247,13 @@ export type CreateCommentInput = {
   authorUrl?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The ID of the post object the comment belongs to. */
+  /** The database ID of the post object the comment belongs to. */
   commentOn?: InputMaybe<Scalars['Int']>;
   /** Content of the comment. */
   content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day ( e.g. 01/31/2017 ) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
   date?: InputMaybe<Scalars['String']>;
-  /** Parent comment of current comment. */
+  /** Parent comment ID of current comment. */
   parent?: InputMaybe<Scalars['ID']>;
   /** Type of comment. */
   type?: InputMaybe<Scalars['String']>;
@@ -2397,7 +2397,7 @@ export type CreateMediaItemInput = {
   filePath?: InputMaybe<Scalars['String']>;
   /** The file type of the mediaItem */
   fileType?: InputMaybe<MimeTypeEnum>;
-  /** The WordPress post ID or the graphQL postId of the parent object */
+  /** The ID of the parent object */
   parentId?: InputMaybe<Scalars['ID']>;
   /** The ping status for the mediaItem */
   pingStatus?: InputMaybe<Scalars['String']>;
@@ -6129,6 +6129,8 @@ export type MenuItem = DatabaseIdentifier & Node & {
   target?: Maybe<Scalars['String']>;
   /** Title attribute for the menu item link */
   title?: Maybe<Scalars['String']>;
+  /** The uri of the resource the menu item links to */
+  uri?: Maybe<Scalars['String']>;
   /** URL or destination of the menu item. */
   url?: Maybe<Scalars['String']>;
 };
@@ -8954,9 +8956,9 @@ export enum PostIdType {
 
 /** The format of post field data. */
 export enum PostObjectFieldFormatEnum {
-  /** Provide the field value directly from database */
+  /** Provide the field value directly from database. Null on unauthenticated requests. */
   Raw = 'RAW',
-  /** Apply the default WordPress rendering */
+  /** Provide the field value as rendered by WordPress. Default. */
   Rendered = 'RENDERED'
 }
 
@@ -17443,7 +17445,7 @@ export type UpdateCommentInput = {
   authorUrl?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The ID of the post object the comment belongs to. */
+  /** The database ID of the post object the comment belongs to. */
   commentOn?: InputMaybe<Scalars['Int']>;
   /** Content of the comment. */
   content?: InputMaybe<Scalars['String']>;
@@ -17451,7 +17453,7 @@ export type UpdateCommentInput = {
   date?: InputMaybe<Scalars['String']>;
   /** The ID of the comment being updated. */
   id: Scalars['ID'];
-  /** Parent comment of current comment. */
+  /** Parent comment ID of current comment. */
   parent?: InputMaybe<Scalars['ID']>;
   /** Type of comment. */
   type?: InputMaybe<Scalars['String']>;
@@ -17680,7 +17682,7 @@ export type UpdateMediaItemInput = {
   fileType?: InputMaybe<MimeTypeEnum>;
   /** The ID of the mediaItem object */
   id: Scalars['ID'];
-  /** The WordPress post ID or the graphQL postId of the parent object */
+  /** The ID of the parent object */
   parentId?: InputMaybe<Scalars['ID']>;
   /** The ping status for the mediaItem */
   pingStatus?: InputMaybe<Scalars['String']>;
@@ -17967,7 +17969,7 @@ export type UpdateReviewInput = {
   authorUrl?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The ID of the post object the comment belongs to. */
+  /** The database ID of the post object the comment belongs to. */
   commentOn?: InputMaybe<Scalars['Int']>;
   /** Content of the comment. */
   content?: InputMaybe<Scalars['String']>;
@@ -17975,7 +17977,7 @@ export type UpdateReviewInput = {
   date?: InputMaybe<Scalars['String']>;
   /** The ID of the review being updated. */
   id: Scalars['ID'];
-  /** Parent comment of current comment. */
+  /** Parent comment ID of current comment. */
   parent?: InputMaybe<Scalars['ID']>;
   /** Product rating */
   rating: Scalars['Int'];
@@ -19665,13 +19667,13 @@ export type WriteReviewInput = {
   authorUrl?: InputMaybe<Scalars['String']>;
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId?: InputMaybe<Scalars['String']>;
-  /** The ID of the post object the comment belongs to. */
+  /** The database ID of the post object the comment belongs to. */
   commentOn?: InputMaybe<Scalars['Int']>;
   /** Content of the comment. */
   content?: InputMaybe<Scalars['String']>;
   /** The date of the object. Preferable to enter as year/month/day ( e.g. 01/31/2017 ) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
   date?: InputMaybe<Scalars['String']>;
-  /** Parent comment of current comment. */
+  /** Parent comment ID of current comment. */
   parent?: InputMaybe<Scalars['ID']>;
   /** Product rating */
   rating: Scalars['Int'];
@@ -19700,6 +19702,10 @@ export type WritingSettings = {
 export type ImageBaseFragment = { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null };
 
 export type CardsFragmentFragment = { cards?: Array<{ title?: string | null, content?: string | null, icon?: { name?: string | null, type?: string | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, link?: { url?: string | null, label?: string | null } | null } | null> | null };
+
+export type CustomerBaseFragment = { firstName?: string | null, email?: string | null, lastName?: string | null, orderCount?: number | null, id: string, displayName?: string | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null };
+
+export type OrderProductBaseFragment = { date?: string | null, orderNumber?: string | null, total?: string | null, status?: OrderStatusEnum | null, lineItems?: { nodes?: Array<{ quantity?: number | null, total?: string | null, product?: { node?: { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, variations?: { nodes?: Array<{ sku?: string | null, id: string, databaseId: number, description?: string | null, name?: string | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null } | null> | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId: number, name: string, label: string } | { id: string, attributeId: number, name: string, label: string } | null> | null } | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | {} | null } | null } | null> | null } | null };
 
 export type EmployeeBaseFragment = { id: string, databaseId: number, slug?: string | null, title?: string | null, position?: { position?: string | null } | null, departments?: { nodes?: Array<{ name?: string | null } | null> | null } | null, contact?: { contact?: { office?: string | null, fax?: string | null, email?: string | null, address?: string | null, orders?: string | null } | null } | null };
 
@@ -19751,8 +19757,6 @@ export type FeaturedSupplierFragmentFragment = { featuredSupplier?: { title?: st
 
 export type UserAuthFragment = { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null };
 
-export type OrderProductBaseFragment = { date?: string | null, orderNumber?: string | null, total?: string | null, status?: OrderStatusEnum | null, lineItems?: { nodes?: Array<{ quantity?: number | null, total?: string | null, product?: { node?: { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, variations?: { nodes?: Array<{ sku?: string | null, id: string, databaseId: number, description?: string | null, name?: string | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null } | null> | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId: number, name: string, label: string } | { id: string, attributeId: number, name: string, label: string } | null> | null } | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | {} | null } | null } | null> | null } | null };
-
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
 }>;
@@ -19803,10 +19807,22 @@ export type RemoveCartItemMutationVariables = Exact<{
 
 export type RemoveCartItemMutation = { removeItemsFromCart?: { clientMutationId?: string | null, cart?: { isEmpty?: boolean | null } | null } | null };
 
+export type CheckoutMutationVariables = Exact<{
+  input: CheckoutInput;
+}>;
+
+
+export type CheckoutMutation = { checkout?: { result?: string | null, customer?: { firstName?: string | null, email?: string | null, lastName?: string | null, orderCount?: number | null, id: string, displayName?: string | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null } | null, order?: { date?: string | null, orderNumber?: string | null, total?: string | null, status?: OrderStatusEnum | null, lineItems?: { nodes?: Array<{ quantity?: number | null, total?: string | null, product?: { node?: { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | { price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, description?: string | null, shortDescription?: string | null, id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, variations?: { nodes?: Array<{ sku?: string | null, id: string, databaseId: number, description?: string | null, name?: string | null, price?: string | null, salePrice?: string | null, onSale?: boolean | null, dateOnSaleFrom?: string | null, dateOnSaleTo?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null } | null> | null } | null, attributes?: { nodes?: Array<{ id: string, attributeId: number, name: string, label: string } | { id: string, attributeId: number, name: string, label: string } | null> | null } | null, metaData?: Array<{ key: string, value?: string | null } | null> | null, productCategories?: { nodes?: Array<{ name?: string | null, slug?: string | null, ancestors?: { nodes?: Array<{ name?: string | null, slug?: string | null } | null> | null } | null } | null> | null } | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, galleryImages?: { nodes?: Array<{ id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null> | null } | null } | {} | null } | null } | null> | null } | null } | null } | null };
+
 export type GetCartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetCartQuery = { cart?: { contentsTotal?: string | null, isEmpty?: boolean | null, subtotal?: string | null, total?: string | null, contents?: { itemCount?: number | null, productCount?: number | null, nodes?: Array<{ quantity?: number | null, subtotal?: string | null, total?: string | null, key: string, variation?: { attributes?: Array<{ value?: string | null, id: string, attributeId?: number | null, name?: string | null, label?: string | null } | null> | null } | null, product?: { node?: { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, databaseId: number, name?: string | null, slug?: string | null, type?: ProductTypesEnum | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null } | null } | null> | null } | null } | null };
+
+export type GetCustomerDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCustomerDataQuery = { customer?: { firstName?: string | null, email?: string | null, lastName?: string | null, orderCount?: number | null, id: string, displayName?: string | null, date?: string | null, billing?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null, shipping?: { address1?: string | null, address2?: string | null, city?: string | null, company?: string | null, country?: CountriesEnum | null, email?: string | null, firstName?: string | null, lastName?: string | null, phone?: string | null, postcode?: string | null, state?: string | null } | null } | null };
 
 export type GetContactDataQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -19899,12 +19915,10 @@ export type QuickSearchQueryVariables = Exact<{
 
 export type QuickSearchQuery = { products?: { nodes?: Array<{ id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | { id: string, slug?: string | null, name?: string | null, productCategories?: { nodes?: Array<{ slug?: string | null } | null> | null } | null } | null> | null } | null };
 
-export type GetUserQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
+export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUserQuery = { user?: { id: string, databaseId: number, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null };
+export type GetUserQuery = { customer?: { id: string, databaseId?: number | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null };
 
 export type ResetUserPasswordMutationVariables = Exact<{
   key: Scalars['String'];
@@ -19955,81 +19969,41 @@ export const CardsFragmentFragmentDoc = gql`
   }
 }
     ${ImageBaseFragmentDoc}`;
-export const EmployeeBaseFragmentDoc = gql`
-    fragment EmployeeBase on Employee {
+export const CustomerBaseFragmentDoc = gql`
+    fragment CustomerBase on Customer {
+  firstName
+  email
+  lastName
+  orderCount
   id
-  databaseId
-  slug
-  title
-  position {
-    position
+  displayName
+  billing {
+    address1
+    address2
+    city
+    company
+    country
+    email
+    firstName
+    lastName
+    phone
+    postcode
+    state
   }
-  departments {
-    nodes {
-      name
-    }
+  date
+  shipping {
+    address1
+    address2
+    city
+    company
+    country
+    email
+    firstName
+    lastName
+    phone
+    postcode
+    state
   }
-  contact {
-    contact {
-      office
-      fax
-      email
-      address
-      orders
-    }
-  }
-}
-    `;
-export const SalesRepFragmentFragmentDoc = gql`
-    fragment SalesRepFragment on Page_PageAboutContact_Acf {
-  salesReps {
-    ... on Employee {
-      ...EmployeeBase
-      regions {
-        regions
-      }
-    }
-  }
-}
-    ${EmployeeBaseFragmentDoc}`;
-export const PageCommonBaseFragmentDoc = gql`
-    fragment PageCommonBase on Page {
-  id
-  databaseId
-  title
-  slug
-}
-    `;
-export const ProductPriceBaseFragmentDoc = gql`
-    fragment ProductPriceBase on VariableProduct {
-  price
-  salePrice
-  onSale
-}
-    `;
-export const ProductCategoryBaseFragmentDoc = gql`
-    fragment ProductCategoryBase on ProductCategory {
-  name
-  slug
-  id
-  count
-  description
-  image {
-    ...ImageBase
-  }
-  product_category {
-    acf {
-      description
-    }
-  }
-}
-    ${ImageBaseFragmentDoc}`;
-export const VariationAttributeBaseFragmentDoc = gql`
-    fragment VariationAttributeBase on VariationAttribute {
-  id
-  attributeId
-  name
-  label
 }
     `;
 export const ProductMinBaseFragmentDoc = gql`
@@ -20039,76 +20013,6 @@ export const ProductMinBaseFragmentDoc = gql`
   name
   slug
   type
-}
-    `;
-export const CartBaseFragmentDoc = gql`
-    fragment CartBase on Cart {
-  contentsTotal
-  isEmpty
-  subtotal
-  total
-  contents {
-    itemCount
-    productCount
-    nodes {
-      quantity
-      subtotal
-      total
-      variation {
-        attributes {
-          ...VariationAttributeBase
-          value
-        }
-      }
-      key
-      product {
-        node {
-          ...ProductMinBase
-          image {
-            ...ImageBase
-          }
-          productCategories {
-            nodes {
-              slug
-            }
-          }
-        }
-      }
-    }
-  }
-}
-    ${VariationAttributeBaseFragmentDoc}
-${ProductMinBaseFragmentDoc}
-${ImageBaseFragmentDoc}`;
-export const FeaturedSupplierFragmentFragmentDoc = gql`
-    fragment FeaturedSupplierFragment on Page_PageHome_Acf {
-  featuredSupplier {
-    ... on Supplier {
-      title
-      slug
-      id
-      databaseId
-      supplier {
-        url
-        text
-        image {
-          ...ImageBase
-        }
-      }
-    }
-  }
-}
-    ${ImageBaseFragmentDoc}`;
-export const UserAuthFragmentDoc = gql`
-    fragment userAuth on User {
-  id
-  databaseId
-  jwtAuthToken
-  jwtRefreshToken
-  firstName
-  lastName
-  username
-  email
 }
     `;
 export const ProductBaseFragmentDoc = gql`
@@ -20155,6 +20059,14 @@ export const SimpleProductFragmentFragmentDoc = gql`
   }
 }
     ${ProductBaseFragmentDoc}`;
+export const VariationAttributeBaseFragmentDoc = gql`
+    fragment VariationAttributeBase on VariationAttribute {
+  id
+  attributeId
+  name
+  label
+}
+    `;
 export const ProductVariationBaseFragmentDoc = gql`
     fragment ProductVariationBase on ProductVariation {
   sku
@@ -20229,6 +20141,145 @@ export const OrderProductBaseFragmentDoc = gql`
 }
     ${SimpleProductFragmentFragmentDoc}
 ${VariableProductFragmentFragmentDoc}`;
+export const EmployeeBaseFragmentDoc = gql`
+    fragment EmployeeBase on Employee {
+  id
+  databaseId
+  slug
+  title
+  position {
+    position
+  }
+  departments {
+    nodes {
+      name
+    }
+  }
+  contact {
+    contact {
+      office
+      fax
+      email
+      address
+      orders
+    }
+  }
+}
+    `;
+export const SalesRepFragmentFragmentDoc = gql`
+    fragment SalesRepFragment on Page_PageAboutContact_Acf {
+  salesReps {
+    ... on Employee {
+      ...EmployeeBase
+      regions {
+        regions
+      }
+    }
+  }
+}
+    ${EmployeeBaseFragmentDoc}`;
+export const PageCommonBaseFragmentDoc = gql`
+    fragment PageCommonBase on Page {
+  id
+  databaseId
+  title
+  slug
+}
+    `;
+export const ProductPriceBaseFragmentDoc = gql`
+    fragment ProductPriceBase on VariableProduct {
+  price
+  salePrice
+  onSale
+}
+    `;
+export const ProductCategoryBaseFragmentDoc = gql`
+    fragment ProductCategoryBase on ProductCategory {
+  name
+  slug
+  id
+  count
+  description
+  image {
+    ...ImageBase
+  }
+  product_category {
+    acf {
+      description
+    }
+  }
+}
+    ${ImageBaseFragmentDoc}`;
+export const CartBaseFragmentDoc = gql`
+    fragment CartBase on Cart {
+  contentsTotal
+  isEmpty
+  subtotal
+  total
+  contents {
+    itemCount
+    productCount
+    nodes {
+      quantity
+      subtotal
+      total
+      variation {
+        attributes {
+          ...VariationAttributeBase
+          value
+        }
+      }
+      key
+      product {
+        node {
+          ...ProductMinBase
+          image {
+            ...ImageBase
+          }
+          productCategories {
+            nodes {
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    ${VariationAttributeBaseFragmentDoc}
+${ProductMinBaseFragmentDoc}
+${ImageBaseFragmentDoc}`;
+export const FeaturedSupplierFragmentFragmentDoc = gql`
+    fragment FeaturedSupplierFragment on Page_PageHome_Acf {
+  featuredSupplier {
+    ... on Supplier {
+      title
+      slug
+      id
+      databaseId
+      supplier {
+        url
+        text
+        image {
+          ...ImageBase
+        }
+      }
+    }
+  }
+}
+    ${ImageBaseFragmentDoc}`;
+export const UserAuthFragmentDoc = gql`
+    fragment userAuth on User {
+  id
+  databaseId
+  jwtAuthToken
+  jwtRefreshToken
+  firstName
+  lastName
+  username
+  email
+}
+    `;
 export const RegisterUserDocument = gql`
     mutation RegisterUser($input: RegisterUserInput!) {
   registerUser(input: $input) {
@@ -20332,6 +20383,24 @@ export const RemoveCartItemDocument = gql`
 export function useRemoveCartItemMutation() {
   return Urql.useMutation<RemoveCartItemMutation, RemoveCartItemMutationVariables>(RemoveCartItemDocument);
 };
+export const CheckoutDocument = gql`
+    mutation Checkout($input: CheckoutInput!) {
+  checkout(input: $input) {
+    customer {
+      ...CustomerBase
+    }
+    order {
+      ...OrderProductBase
+    }
+    result
+  }
+}
+    ${CustomerBaseFragmentDoc}
+${OrderProductBaseFragmentDoc}`;
+
+export function useCheckoutMutation() {
+  return Urql.useMutation<CheckoutMutation, CheckoutMutationVariables>(CheckoutDocument);
+};
 export const GetCartDocument = gql`
     query GetCart {
   cart {
@@ -20342,6 +20411,17 @@ export const GetCartDocument = gql`
 
 export function useGetCartQuery(options?: Omit<Urql.UseQueryArgs<GetCartQueryVariables>, 'query'>) {
   return Urql.useQuery<GetCartQuery>({ query: GetCartDocument, ...options });
+};
+export const GetCustomerDataDocument = gql`
+    query GetCustomerData {
+  customer {
+    ...CustomerBase
+  }
+}
+    ${CustomerBaseFragmentDoc}`;
+
+export function useGetCustomerDataQuery(options?: Omit<Urql.UseQueryArgs<GetCustomerDataQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCustomerDataQuery>({ query: GetCustomerDataDocument, ...options });
 };
 export const GetContactDataDocument = gql`
     query GetContactData {
@@ -20829,8 +20909,8 @@ export function useQuickSearchQuery(options?: Omit<Urql.UseQueryArgs<QuickSearch
   return Urql.useQuery<QuickSearchQuery>({ query: QuickSearchDocument, ...options });
 };
 export const GetUserDocument = gql`
-    query GetUser($id: ID!) {
-  user(id: $id, idType: DATABASE_ID) {
+    query GetUser {
+  customer {
     id
     databaseId
     firstName
@@ -20841,7 +20921,7 @@ export const GetUserDocument = gql`
 }
     `;
 
-export function useGetUserQuery(options: Omit<Urql.UseQueryArgs<GetUserQueryVariables>, 'query'>) {
+export function useGetUserQuery(options?: Omit<Urql.UseQueryArgs<GetUserQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserQuery>({ query: GetUserDocument, ...options });
 };
 export const ResetUserPasswordDocument = gql`

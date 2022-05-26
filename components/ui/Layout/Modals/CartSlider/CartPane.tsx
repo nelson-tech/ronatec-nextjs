@@ -16,7 +16,7 @@ import { StyledCartPane } from "./style"
 const CartPane = () => {
   const [loading, setLoading] = useState(false)
 
-  const { cart, setCheckout, setOpen } = useStore(
+  const { cart, setOpen } = useStore(
     state => ({
       cart: state.cart.state,
       setCheckout: state.cart.setCheckout,
@@ -26,10 +26,6 @@ const CartPane = () => {
   )
 
   const { clearCart } = useCart()
-
-  const handleCheckout = () => {
-    setCheckout(true)
-  }
 
   const handleClearCart = async () => {
     setLoading(true)
@@ -120,12 +116,14 @@ const CartPane = () => {
                     <p>{cart?.subtotal}</p>
                   </div> */}
                 <div className="mt-2">
-                  <button
-                    onClick={handleCheckout}
+                  <Link
+                    href="/checkout"
+                    title="Checkout"
+                    onClick={() => setOpen(false)}
                     className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-main hover:bg-green-main"
                   >
                     Checkout
-                  </button>
+                  </Link>
                 </div>
                 <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                   <button

@@ -14,7 +14,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 // ####
 
 const RegisterForm = () => {
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState(false)
 
   const error = useStore(state => state.auth.errors.register)
 
