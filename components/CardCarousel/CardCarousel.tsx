@@ -21,6 +21,12 @@ type PropsType = {
 // ####
 
 const CardCarousel = ({ header, link, items, products }: PropsType) => {
+  const categories = items
+    ? items.filter(item => {
+        return item.ancestors === null
+      })
+    : null
+
   return (
     <div className="bg-white">
       <div className="pb-8 xl:max-w-7xl xl:mx-auto xl:px-8">
@@ -46,8 +52,8 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                 {
                   // Show loading icon if no items set
                   // TODO - Account for error cases
-                  items ? (
-                    items.map((item, index) => {
+                  categories ? (
+                    categories.map((item, index) => {
                       return (
                         <CarouselCard
                           name={item.name || ""}

@@ -19,7 +19,11 @@ query GetCarouselItems${query.split("(")[0]} {
         }
         fileSize
       }
-      ${product ? `productCategories { nodes { slug } }` : ""}
+      ${
+        product
+          ? `productCategories { nodes { slug } }`
+          : "ancestors { nodes { id } }"
+      }
     }
   }
 }
