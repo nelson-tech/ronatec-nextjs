@@ -2,7 +2,12 @@ import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
 import { Post_Common_VideoLink } from "@api/gql/types"
+
 import VideoPlayer from "@components/VideoPlayer"
+
+// ####
+// #### Types
+// ####
 
 export type VideoCardPropsType = {
   rounded?: boolean
@@ -12,6 +17,10 @@ export type VideoCardPropsType = {
   playerStyle?: SerializedStyles | TwStyle
   videoLink: Post_Common_VideoLink
 }
+
+// ####
+// #### Component
+// ####
 
 const VideoCard = ({
   rounded = true,

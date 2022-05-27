@@ -7,14 +7,11 @@ import XIcon from "@heroicons/react/outline/XIcon"
 import ChevronUpIcon from "@heroicons/react/solid/ChevronUpIcon"
 
 import mobileMenu from "@lib/menus/mobile"
-import useStore from "@lib/hooks/useStore"
-import Link from "@components/Link"
 import userMenu from "@lib/userMenu"
 import useLogout from "@lib/hooks/auth/useLogout"
+import useStore from "@lib/hooks/useStore"
 
-// ####
-// #### Types
-// ####
+import Link from "@components/Link"
 
 // ####
 // #### Component

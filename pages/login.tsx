@@ -9,7 +9,7 @@ import PageTitle from "@components/PageTitle"
 import LoginForm from "@components/LoginForm"
 
 // ####
-// #### Dynamic Imports
+// #### Component
 // ####
 
 const Login = ({}) => {

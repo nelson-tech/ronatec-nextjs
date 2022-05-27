@@ -1,6 +1,10 @@
 import SearchIcon from "@heroicons/react/outline/SearchIcon"
 import useStore from "@lib/hooks/useStore"
 
+// ####
+// #### Component
+// ####
+
 const SearchButton = () => {
   const setSearchOpen = useStore(state => state.ui.setSearchOpen)
   return (

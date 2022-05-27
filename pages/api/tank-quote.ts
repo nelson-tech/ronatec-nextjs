@@ -2,8 +2,16 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import nodemailer from "nodemailer"
 require("dotenv").config()
 
+// ####
+// #### Variables
+// ####
+
 const USERNAME = process.env.MAIL_USERNAME
 const PASSWORD = process.env.MAIL_PASSWORD
+
+// ####
+// #### Component
+// ####
 
 const TankQuote = (req: NextApiRequest, res: NextApiResponse) => {
   const smtpConfig = {

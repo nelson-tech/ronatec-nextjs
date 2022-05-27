@@ -1,10 +1,10 @@
+import { useLayoutEffect } from "react"
 import create, { StoreApi, UseBoundStore } from "zustand"
 import createContext from "zustand/context"
 
 import isServer from "@lib/utils/isServer"
 
 import vanillaStore, { StoreType } from "./vanilla"
-import { useLayoutEffect } from "react"
 
 //
 // TYPES

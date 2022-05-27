@@ -15,6 +15,10 @@ const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
 const Image = dynamic(() => import("@components/Image"), clientOpts)
 const MenuLink = dynamic(() => import("@components/Link"), clientOpts)
 
+// ####
+// #### Component
+// ####
+
 const navigation = {
   solutions: [
     { name: "Marketing", href: "#" },

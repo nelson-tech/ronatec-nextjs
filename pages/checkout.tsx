@@ -1,13 +1,13 @@
 import dynamic from "next/dist/shared/lib/dynamic"
+import shallow from "zustand/shallow"
 
+import useStore from "@lib/hooks/useStore"
 import withUrql from "@api/urql/hoc"
 
 import Layout from "@components/ui/Layout"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import PageTitle from "@components/PageTitle"
-import useStore from "@lib/hooks/useStore"
 import Link from "@components/Link"
-import shallow from "zustand/shallow"
 
 // ####
 // #### Dynamic Imports

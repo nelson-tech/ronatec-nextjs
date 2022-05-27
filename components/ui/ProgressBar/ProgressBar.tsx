@@ -2,6 +2,10 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/dist/client/router"
 import { css } from "@emotion/react"
 
+// ####
+// #### Component
+// ####
+
 const ProgressBar = () => {
   const router = useRouter()
   const [progress, setProgress] = useState(0)

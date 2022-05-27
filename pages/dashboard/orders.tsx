@@ -2,11 +2,11 @@ import { useEffect, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 import isEqual from "lodash.isequal"
 
+import withUrql from "@api/urql/hoc"
 import { Order, useGetUserOrdersDataQuery } from "@api/gql/types"
 
 import PageTitle from "@components/PageTitle"
 import Layout from "@components/ui/Layout"
-import withUrql from "@api/urql/hoc"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####

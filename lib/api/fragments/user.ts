@@ -1,7 +1,7 @@
 import { gql } from "urql"
 
-export const userAuthBaseFragment = gql`
-  fragment userAuth on User {
+const userAuthBaseFragment = gql`
+  fragment UserAuthBase on User {
     id
     databaseId
     jwtAuthToken

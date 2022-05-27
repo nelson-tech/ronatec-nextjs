@@ -5,7 +5,8 @@ import MinusIcon from "@heroicons/react/solid/MinusIcon"
 import CheckIcon from "@heroicons/react/solid/CheckIcon"
 
 import useCart from "@lib/hooks/useCart"
-import { htmlParserOptions, isServer, parse } from "@lib/utils"
+import { htmlParserOptions, parse } from "@lib/utils"
+import isServer from "@lib/utils/isServer"
 import { AttributeType, FullProduct } from "@lib/types"
 import {
   AddToCartInput,

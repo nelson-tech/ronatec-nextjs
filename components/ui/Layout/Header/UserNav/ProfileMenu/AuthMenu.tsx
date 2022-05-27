@@ -2,12 +2,14 @@ import { memo } from "react"
 import { Menu } from "@headlessui/react"
 import LogoutIcon from "@heroicons/react/outline/LogoutIcon"
 
-// import useStore from "@lib/hooks/useStore"
 import useLogout from "@lib/hooks/auth/useLogout"
+import userMenu from "@lib/userMenu"
 
 import Link from "@components/Link"
 
-import userMenu from "@lib/userMenu"
+// ####
+// #### Component
+// ####
 
 const AuthMenu = memo(function AuthMenu() {
   // const user = useStore(state => state.auth.user)

@@ -13,6 +13,10 @@ import CartItem from "./CartItem"
 
 import { StyledCartPane } from "./style"
 
+// ####
+// #### Component
+// ####
+
 const CartPane = () => {
   const [loading, setLoading] = useState(false)
 

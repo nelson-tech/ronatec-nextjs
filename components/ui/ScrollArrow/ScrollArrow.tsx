@@ -4,9 +4,9 @@ import ArrowCircleUpIcon from "@heroicons/react/solid/ArrowCircleUpIcon"
 import styled from "@emotion/styled"
 import smoothscroll from "smoothscroll-polyfill"
 
-// kick off the polyfill!
-
-// import '../App.css';
+// ####
+// #### Styling
+// ####
 
 const FaderKeyframes = keyframes`
   0% {
@@ -32,6 +32,10 @@ const ArrowIcon = styled(ArrowCircleUpIcon)`
   -webkit-animation: ${FaderKeyframes} 0.3s;
   animation: ${FaderKeyframes} 0.3s;
 `
+
+// ####
+// #### Component
+// ####
 
 const ScrollArrow = () => {
   const [showScroll, setShowScroll] = useState(false)

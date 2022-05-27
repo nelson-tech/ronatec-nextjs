@@ -1,12 +1,12 @@
 import Headroom from "react-headroom"
 
 import Link from "@components/Link"
+import Image from "@components/Image"
 
 import Promo from "./Promo"
 import MainMenu from "./MainMenu"
 import Usernav from "./UserNav"
 import MobileNav from "./MobileNav"
-import Image from "@components/Image"
 
 // ####
 // #### Types

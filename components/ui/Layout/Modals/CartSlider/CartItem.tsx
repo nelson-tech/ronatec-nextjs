@@ -9,10 +9,18 @@ import Image from "@components/Image"
 import Link from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
+// ####
+// #### Types
+// ####
+
 type PropsType = {
   lineItem: Maybe<CartItemType>
   setOpen?: (open: boolean) => void
 }
+
+// ####
+// #### Component
+// ####
 
 const CartItem = memo(
   function CartItem({ lineItem, setOpen }: PropsType) {

@@ -3,6 +3,10 @@ import SearchIcon from "@heroicons/react/outline/SearchIcon"
 
 import useStore from "@lib/hooks/useStore"
 
+// ####
+// #### Component
+// ####
+
 const MobileNav = () => {
   const { setMobileMenuOpen, setSearchOpen } = useStore(state => ({
     setMobileMenuOpen: state.ui.setMobileMenuOpen,

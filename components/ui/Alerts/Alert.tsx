@@ -8,6 +8,10 @@ import XIcon from "@heroicons/react/outline/XIcon"
 
 import { AlertProps } from "@lib/types/alerts"
 
+// ####
+// #### Styling
+// ####
+
 const iconSize = "h-5 w-5"
 
 const Container = styled.div<{
@@ -22,6 +26,10 @@ const Container = styled.div<{
       ? tw`bg-yellow-100 border-yellow-600 text-yellow-800`
       : ""}
 `
+
+// ####
+// #### Component
+// ####
 
 const Alert = (props: AlertProps) => {
   const { type, icon, primary, secondary, onClose } = props

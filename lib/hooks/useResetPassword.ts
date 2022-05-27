@@ -1,11 +1,13 @@
 import { useState } from "react"
 
 import { setAuthToken, setRefreshToken } from "@api/urql/utils"
-import { User } from "@api/gql/types"
+import {
+  User,
+  useResetUserPasswordMutation,
+  useSendPasswordResetEmailMutation,
+} from "@api/gql/types"
 
 import useStore from "./useStore"
-import { useSendPasswordResetEmail } from "./mutations"
-import { useResetUserPassword } from "./mutations"
 
 const errorCodes: { [key: string]: string } = {}
 
@@ -16,8 +18,8 @@ const useResetPassword = () => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const { sendPasswordResetEmail: emailMutation } = useSendPasswordResetEmail()
-  const { resetUserPassword: resetMutation } = useResetUserPassword()
+  const [_sendEmail, emailMutation] = useSendPasswordResetEmailMutation()
+  const [_resetPassword, resetMutation] = useResetUserPasswordMutation()
 
   const { setAlert, setLoggedIn, setUser } = useStore(state => ({
     setAlert: state.alert.setAlert,
@@ -28,7 +30,7 @@ const useResetPassword = () => {
   const sendResetPasswordEmail = (username: string) => {
     setError(null)
     setLoading(true)
-    return emailMutation(username)
+    return emailMutation({ username })
       .then(() => {
         setLoading(false)
         return true
@@ -50,9 +52,9 @@ const useResetPassword = () => {
   ) => {
     setError(null)
     setLoading(true)
-    return resetMutation(key, username, password)
+    return resetMutation({ key, login: username, password })
       .then(response => {
-        const user = (response.data.resetUserPassword?.user as User) || null
+        const user = (response.data?.resetUserPassword?.user as User) || null
 
         if (user) {
           const { jwtAuthToken, jwtRefreshToken, ...plainUser } = user

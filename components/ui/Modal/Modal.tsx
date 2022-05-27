@@ -1,4 +1,3 @@
-import { Dialog, Transition } from "@headlessui/react"
 import {
   Children,
   cloneElement,
@@ -7,12 +6,21 @@ import {
   ReactElement,
   useRef,
 } from "react"
+import { Dialog, Transition } from "@headlessui/react"
+
+// ####
+// #### Types
+// ####
 
 interface Props {
   open: boolean
   setOpen: (value: boolean) => void
   children: ReactElement
 }
+
+// ####
+// #### Component
+// ####
 
 const Modal: FC<Props> = ({ open, setOpen, children }) => {
   const firstFocusRef = useRef(null)

@@ -1,11 +1,12 @@
+import shallow from "zustand/shallow"
+
+import useStore from "@lib/hooks/useStore"
+import { setAuthToken, setRefreshToken } from "@api/urql/utils"
 import {
   RegisterUserInput,
   User,
   useRegisterUserMutation,
 } from "@api/gql/types"
-import useStore from "@lib/hooks/useStore"
-import { setAuthToken, setRefreshToken } from "@api/urql/utils"
-import shallow from "zustand/shallow"
 
 const useRegister = () => {
   const { loggedIn, error, setUser, setLoggedIn, setAlert } = useStore(

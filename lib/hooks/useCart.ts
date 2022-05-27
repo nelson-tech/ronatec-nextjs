@@ -1,3 +1,5 @@
+import { CombinedError, OperationResult } from "urql"
+
 import {
   AddToCartInput,
   RemoveItemsFromCartInput,
@@ -7,7 +9,6 @@ import {
   useRemoveCartItemMutation,
   useUpdateCartItemQuantityMutation,
 } from "@api/gql/types"
-import { CombinedError, OperationResult } from "urql"
 
 const useCart = () => {
   const [_remove, removeMutation] = useRemoveCartItemMutation()

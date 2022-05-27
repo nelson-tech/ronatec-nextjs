@@ -64,8 +64,6 @@ const UserNav = () => {
           <SearchButton />
 
           <ProfileMenu />
-          {/* <LoaderButton /> */}
-          {/* Cart */}
           <div className="ml-4 flow-root lg:ml-8">
             <CartButton />
           </div>

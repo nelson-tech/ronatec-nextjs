@@ -5,7 +5,7 @@ import PageTitle from "@components/PageTitle"
 import Link from "@components/Link"
 
 // ####
-// #### Dynamic Imports
+// #### Component
 // ####
 
 const Unauthorized = ({}) => {

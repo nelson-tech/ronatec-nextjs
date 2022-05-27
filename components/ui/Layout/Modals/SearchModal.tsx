@@ -1,8 +1,13 @@
+import shallow from "zustand/shallow"
+
 import useStore from "@lib/hooks/useStore"
 
 import Modal from "@components/ui/Modal"
 import SearchForm from "@components/SearchForm"
-import shallow from "zustand/shallow"
+
+// ####
+// #### Component
+// ####
 
 const SearchModal = () => {
   const { searchOpen, setSearchOpen } = useStore(

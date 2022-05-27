@@ -5,6 +5,10 @@ import useStore from "@lib/hooks/useStore"
 import Modal from "@components/ui/Modal"
 import LoginForm from "@components/LoginForm"
 
+// ####
+// #### Component
+// ####
+
 const LoginModal = () => {
   const { login, setLoginOpen } = useStore(
     state => ({

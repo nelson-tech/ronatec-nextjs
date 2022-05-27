@@ -7,6 +7,10 @@ import useStore from "@lib/hooks/useStore"
 
 import Link from "@components/Link"
 
+// ####
+// #### Component
+// ####
+
 const GuestMenu = memo(function GuestMenu() {
   const setLoginOpen = useStore(state => state.auth.setLoginModalOpen)
 

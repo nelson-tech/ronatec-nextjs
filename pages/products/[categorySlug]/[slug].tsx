@@ -19,7 +19,6 @@ import {
 } from "@api/gql/types"
 
 import Layout from "@components/ui/Layout"
-import LoadingSpinner from "@components/ui/LoadingSpinner"
 import PageTitle from "@components/PageTitle"
 import ProductBySku from "@components/Pages/ProductBySku"
 import Link from "@components/Link"

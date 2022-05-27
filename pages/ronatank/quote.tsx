@@ -14,6 +14,10 @@ import Layout from "@components/ui/Layout"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import PageTitle from "@components/PageTitle"
 
+// ####
+// #### Component
+// ####
+
 const Quote = ({}) => {
   const [loading, setLoading] = useState<boolean>(false)
   const [formStatus, setFormStatus] = useState<string | null>(null)

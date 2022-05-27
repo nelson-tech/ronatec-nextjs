@@ -19731,7 +19731,7 @@ export type CartBaseFragment = { contentsTotal?: string | null, isEmpty?: boolea
 
 export type FeaturedSupplierFragmentFragment = { featuredSupplier?: { title?: string | null, slug?: string | null, id: string, databaseId: number, supplier?: { url?: string | null, text?: string | null, image?: { id: string, databaseId: number, altText?: string | null, sourceUrl?: string | null, mimeType?: string | null, fileSize?: number | null, mediaDetails?: { height?: number | null, width?: number | null } | null } | null } | null } | null };
 
-export type UserAuthFragment = { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null };
+export type UserAuthBaseFragment = { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null };
 
 export type RegisterUserMutationVariables = Exact<{
   input: RegisterUserInput;
@@ -19910,7 +19910,7 @@ export type ResetUserPasswordMutationVariables = Exact<{
 }>;
 
 
-export type ResetUserPasswordMutation = { resetUserPassword?: { clientMutationId?: string | null } | null };
+export type ResetUserPasswordMutation = { resetUserPassword?: { clientMutationId?: string | null, user?: { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null } | null };
 
 export type SendPasswordResetEmailMutationVariables = Exact<{
   username: Scalars['String'];
@@ -20251,8 +20251,8 @@ export const FeaturedSupplierFragmentFragmentDoc = gql`
   }
 }
     ${ImageBaseFragmentDoc}`;
-export const UserAuthFragmentDoc = gql`
-    fragment userAuth on User {
+export const UserAuthBaseFragmentDoc = gql`
+    fragment UserAuthBase on User {
   id
   databaseId
   jwtAuthToken
@@ -20267,11 +20267,11 @@ export const RegisterUserDocument = gql`
     mutation RegisterUser($input: RegisterUserInput!) {
   registerUser(input: $input) {
     user {
-      ...userAuth
+      ...UserAuthBase
     }
   }
 }
-    ${UserAuthFragmentDoc}`;
+    ${UserAuthBaseFragmentDoc}`;
 
 export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
@@ -20283,11 +20283,11 @@ export const LoginUserDocument = gql`
   }
   login(input: $jwtInput) {
     user {
-      ...userAuth
+      ...UserAuthBase
     }
   }
 }
-    ${UserAuthFragmentDoc}`;
+    ${UserAuthBaseFragmentDoc}`;
 
 export function useLoginUserMutation() {
   return Urql.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument);
@@ -20925,9 +20925,12 @@ export const ResetUserPasswordDocument = gql`
     mutation ResetUserPassword($key: String!, $login: String!, $password: String!) {
   resetUserPassword(input: {key: $key, login: $login, password: $password}) {
     clientMutationId
+    user {
+      ...UserAuthBase
+    }
   }
 }
-    `;
+    ${UserAuthBaseFragmentDoc}`;
 
 export function useResetUserPasswordMutation() {
   return Urql.useMutation<ResetUserPasswordMutation, ResetUserPasswordMutationVariables>(ResetUserPasswordDocument);

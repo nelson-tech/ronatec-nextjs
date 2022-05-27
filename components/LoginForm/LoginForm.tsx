@@ -201,6 +201,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                 href="/reset-password"
                 className="font-medium text-blue-main hover:text-green-main"
                 title="Reset your password."
+                onClick={() => setOpen && setOpen(false)}
               >
                 Forgot your password?
               </Link>

@@ -2,15 +2,19 @@ import "@styles/tailwind.css"
 // import "keen-slider/keen-slider.min.css"
 
 import { AppProps } from "next/app"
+import dynamic from "next/dynamic"
 import { Router } from "next/router"
 import { DefaultSeo } from "next-seo"
 
-import { ProgressBar } from "@lib"
+import ProgressBar from "@lib/progressBar"
 import { useCreateStore, Provider } from "@lib/store"
 import { useEffect, useState } from "react"
 import { getAuthToken } from "@api/urql/utils"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
-import dynamic from "next/dynamic"
+
+// ####
+// #### Dynamic Imports
+// ####
 
 const Unauthorized = dynamic(() => import("@components/Unauthorized"), {
   ssr: false,

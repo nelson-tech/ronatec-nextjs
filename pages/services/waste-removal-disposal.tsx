@@ -3,6 +3,10 @@ import withUrql from "@api/urql/hoc"
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
 
+// ####
+// #### Component
+// ####
+
 const WasteRemoval = () => {
   return (
     <>

@@ -11,8 +11,8 @@ import {
   logout,
   setAuthReady,
 } from "./utils"
-import { refreshMutation } from "@api/mutations/auth"
 import {
+  RefreshAuthTokenDocument,
   RefreshJwtAuthTokenInput,
   RefreshJwtAuthTokenPayload,
 } from "@api/gql/types"
@@ -150,7 +150,7 @@ const authExchange = authExchanges({
           { refreshJwtAuthToken: RefreshJwtAuthTokenPayload },
           RefreshJwtAuthTokenInput
         > = await mutate(
-          refreshMutation,
+          RefreshAuthTokenDocument,
           { input: { jwtRefreshToken } },
           { requestPolicy: "network-only" },
         )

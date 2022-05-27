@@ -3,6 +3,10 @@ import { useEffect } from "react"
 import useStore from "@lib/hooks/useStore"
 import { Cart, useGetCartQuery } from "@api/gql/types"
 
+// ####
+// #### Component
+// ####
+
 const CartLogic = () => {
   const { setCart, setLoading } = useStore(state => ({
     setCart: state.cart.setCart,

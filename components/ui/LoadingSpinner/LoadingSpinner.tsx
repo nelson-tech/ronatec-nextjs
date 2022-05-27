@@ -1,9 +1,17 @@
+// ####
+// #### Types
+// ####
+
 type PropsType = {
   className?: string
   color?: string
   opacity?: number
   size?: number
 }
+
+// ####
+// #### Component
+// ####
 
 const LoadingSpinner = ({ className, color, opacity, size }: PropsType) => {
   return (

@@ -1,15 +1,15 @@
 import { gql } from "urql"
 
-export const registerMutation = gql`
+const registerMutation = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
     registerUser(input: $input) {
       user {
-        ...userAuth
+        ...UserAuthBase
       }
     }
   }
 `
-export const loginMutation = gql`
+const loginMutation = gql`
   mutation LoginUser(
     $cookiesInput: LoginWithCookiesInput!
     $jwtInput: LoginInput!
@@ -19,13 +19,13 @@ export const loginMutation = gql`
     }
     login(input: $jwtInput) {
       user {
-        ...userAuth
+        ...UserAuthBase
       }
     }
   }
 `
 
-export const logoutMutation = gql`
+const logoutMutation = gql`
   mutation LogoutUser($input: LogoutInput!) {
     logout(input: $input) {
       status
@@ -33,10 +33,35 @@ export const logoutMutation = gql`
   }
 `
 
-export const refreshMutation = gql`
+const refreshMutation = gql`
   mutation RefreshAuthToken($input: RefreshJwtAuthTokenInput!) {
     refreshJwtAuthToken(input: $input) {
       authToken
+    }
+  }
+`
+
+const resetUserPasswordMutation = gql`
+  mutation ResetUserPassword(
+    $key: String!
+    $login: String!
+    $password: String!
+  ) {
+    resetUserPassword(
+      input: { key: $key, login: $login, password: $password }
+    ) {
+      clientMutationId
+      user {
+        ...UserAuthBase
+      }
+    }
+  }
+`
+
+const sendPasswordResetEmailMutation = gql`
+  mutation SendPasswordResetEmail($username: String!) {
+    sendPasswordResetEmail(input: { username: $username }) {
+      clientMutationId
     }
   }
 `

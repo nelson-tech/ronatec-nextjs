@@ -1,4 +1,3 @@
-import { imageFragment } from "@api/fragments/common"
 import { gql } from "urql"
 
 const getCarouselItemQuery = (query: string, product = false) => gql`
@@ -8,7 +7,18 @@ query GetCarouselItems${query.split("(")[0]} {
       id
       name
       slug
-      ${imageFragment}
+      image {
+        id
+        databaseId
+        altText
+        sourceUrl
+        mimeType
+        mediaDetails {
+          height
+          width
+        }
+        fileSize
+      }
       ${product ? `productCategories { nodes { slug } }` : ""}
     }
   }

@@ -4,6 +4,10 @@ import shallow from "zustand/shallow"
 import useStore from "@lib/hooks/useStore"
 import { useGetCustomerDataQuery, User } from "@api/gql/types"
 
+// ####
+// #### Component
+// ####
+
 const UserLogic = () => {
   const { loggedIn, user, authActions } = useStore(
     state => ({

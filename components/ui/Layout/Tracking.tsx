@@ -1,5 +1,9 @@
 import Image from "next/image"
 
+// ####
+// #### Component
+// ####
+
 const Tracking = () => {
   return (
     <>

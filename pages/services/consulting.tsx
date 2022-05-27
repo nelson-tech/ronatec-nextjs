@@ -13,9 +13,8 @@ import {
   Post_Common_Cards,
 } from "@api/gql/types"
 
-import PageTitle from "@components/PageTitle"
-
 import Layout from "@components/ui/Layout"
+import PageTitle from "@components/PageTitle"
 
 // ####
 // #### Dynamic Imports
