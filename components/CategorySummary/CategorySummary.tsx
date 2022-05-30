@@ -9,9 +9,9 @@ import Image from "@components/Image"
 // #### Types
 // ####
 
-type PropsType = {
+export type PropsType = {
   category: ProductCategory
-  productRef: RefObject<HTMLDivElement>
+  productRef?: RefObject<HTMLDivElement>
 }
 
 // ####
@@ -21,7 +21,10 @@ type PropsType = {
 const Summary = ({ category, productRef }: PropsType) => {
   return (
     <>
-      <div className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl">
+      <div
+        className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl"
+        data-testid="category-summary"
+      >
         <div className="flex items-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
             {category.name}
@@ -41,15 +44,17 @@ const Summary = ({ category, productRef }: PropsType) => {
       {/* Sub-categories */}
 
       {category.children?.nodes && category.children.nodes.length > 0 && (
-        <div className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl">
+        <div
+          className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl"
+          data-testid="sub-categories"
+        >
           <h2 className="font-bold text-2xl text-gray-900 uppercase">
             Sub-Categories{" "}
             <span
               className="ml-4 text-sm hidden md:inline font-normal text-gray-400 normal-case cursor-pointer"
+              data-testid="sub-categories-clickable-medium"
               onClick={() => {
-                if (process.browser) {
-                  productRef.current?.scrollIntoView({ behavior: "smooth" })
-                }
+                productRef?.current?.scrollIntoView({ behavior: "smooth" })
               }}
             >
               Scroll down for Products
@@ -58,10 +63,9 @@ const Summary = ({ category, productRef }: PropsType) => {
 
           <div
             className="text-sm md:hidden font-normal text-gray-400 normal-case cursor-pointer"
+            data-testid="sub-categories-clickable-small"
             onClick={() => {
-              if (process.browser) {
-                productRef.current?.scrollIntoView({ behavior: "smooth" })
-              }
+              productRef?.current?.scrollIntoView({ behavior: "smooth" })
             }}
           >
             Scroll down for Products
@@ -109,6 +113,7 @@ const Summary = ({ category, productRef }: PropsType) => {
       <h2
         ref={productRef}
         className="max-w-7xl mx-auto px-8 pb-4 text-2xl font-bold text-gray-900 uppercase"
+        data-testid="products-header"
       >
         Products
       </h2>

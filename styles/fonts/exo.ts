@@ -5,10 +5,10 @@ const exoFonts = (fontsCDN: string) => {
     @font-face {
       font-family: "Exo";
       src: local("Exo"),
-        url("${fontsCDN}/Exo/Exo-VariableFont_wght.ttf")
-          format("truetype-variations");
+        url("${fontsCDN}/Exo/Exo-VariableFont.woff2") format("woff2"),
+        url("${fontsCDN}/Exo/Exo-VariableFont.woff") format("woff");
       font-weight: 1 999;
-      font-display: swap;
+      font-display: optional;
     }
   `
 }

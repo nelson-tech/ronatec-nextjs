@@ -1,27 +1,36 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-const getMobileDetect = (userAgent: NavigatorID["userAgent"]) => {
-  const isAndroid = () => Boolean(userAgent.match(/Android/i))
-  const isIos = () => Boolean(userAgent.match(/iPhone|iPad|iPod/i))
-  const isOpera = () => Boolean(userAgent.match(/Opera Mini/i))
-  const isWindows = () => Boolean(userAgent.match(/IEMobile/i))
-  const isSSR = () => Boolean(userAgent.match(/SSR/i))
-  const isMobile = () =>
-    Boolean(isAndroid() || isIos() || isOpera() || isWindows())
-  const isDesktop = () => Boolean(!isMobile() && !isSSR())
-  return {
-    isMobile,
-    isDesktop,
-    isAndroid,
-    isIos,
-    isSSR,
-  }
-}
 const useMobileDetect = () => {
-  useEffect(() => {}, [])
-  const userAgent =
-    typeof navigator === "undefined" ? "SSR" : navigator.userAgent
-  return getMobileDetect(userAgent)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    let hasTouchScreen = false
+    if ("maxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.maxTouchPoints > 0
+    } else if ("msMaxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.msMaxTouchPoints > 0
+    } else {
+      const mQ = !!window.matchMedia && matchMedia("(pointer:coarse)")
+      if (mQ && mQ.media === "(pointer:coarse)") {
+        hasTouchScreen = !!mQ.matches
+      } else if ("orientation" in window) {
+        hasTouchScreen = true // deprecated, but good fallback
+      } else {
+        // Only as a last resort, fall back to user agent sniffing
+        var UA = navigator.userAgent
+        hasTouchScreen =
+          /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+      }
+    }
+    if (hasTouchScreen) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  }, [])
+
+  return { isMobile }
 }
 
 export default useMobileDetect
