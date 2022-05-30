@@ -4,18 +4,24 @@ import { Employee } from "@api/gql/types"
 import Icon from "@components/ui/Icon"
 
 // ####
+// #### Types
+// ####
+
+export type PropsType = {
+  employee: Employee
+}
+
+// ####
 // #### Component
 // ####
 
-const EmployeeCard = ({ employee }: { employee: Employee }) => {
+const EmployeeCard = ({ employee }: PropsType) => {
   const contact = employee.contact?.contact
   return (
     <>
       <div
-        className={`flow-root rounded-lg px-6 pb-0 md:pt-0 h-full${
-          false && " text-center"
-        }`}
-        key={employee.id}
+        className="flow-root rounded-lg px-6 pb-0 md:pt-0 h-full"
+        data-testid="employee-card"
       >
         {employee.title && (
           <h2 className="mt-0 text-xl font-bold text-black tracking-tight border-b-2">

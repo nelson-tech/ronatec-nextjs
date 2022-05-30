@@ -57,18 +57,12 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   }> = async data => {
     setLoading(true)
     if (data.email && data.password) {
-      const cookiesInput = {
-        login: data.email,
+      const input = {
+        username: data.email,
         password: data.password,
-        rememberMe: true,
       }
 
-      const jwtInput = {
-        username: cookiesInput.login,
-        password: cookiesInput.password,
-      }
-
-      await login({ jwtInput, cookiesInput })
+      await login({ input })
     }
     setLoading(false)
   }

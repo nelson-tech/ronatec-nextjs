@@ -8,7 +8,7 @@ import Link from "@components/Link"
 // #### Types
 // ####
 
-type BreadcrumbsProps = {
+export type PropsType = {
   category: ProductCategory
   product?: boolean
   info?: boolean
@@ -22,7 +22,7 @@ const Breadcrumbs = ({
   category,
   product = false,
   info = false,
-}: BreadcrumbsProps) => {
+}: PropsType) => {
   return (
     <div className="border-b border-gray-200 w-screen">
       <nav
@@ -37,6 +37,7 @@ const Breadcrumbs = ({
             <div className="flex items-center">
               <Link
                 href={"/products"}
+                data-testid="shop-link"
                 className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
                 title="View all products"
               >
@@ -63,6 +64,7 @@ const Breadcrumbs = ({
                     <div className="flex items-center">
                       <Link
                         href={`/products/${ancestor.slug}`}
+                        data-testid={ancestor.name}
                         title={`View all ${category.name} products`}
                         className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
                       >
@@ -93,6 +95,7 @@ const Breadcrumbs = ({
                 <>
                   <Link
                     href={`/products/${category.slug}`}
+                    data-testid={category.name}
                     title={`View all ${category.name} products`}
                     className="transition hover:text-green-main"
                   >
@@ -111,6 +114,7 @@ const Breadcrumbs = ({
                 <>
                   <Link
                     href={`/products/${category.slug}`}
+                    data-testid={category.name}
                     title={`View all ${category.name} products`}
                     className="transition hover:text-green-main"
                   >
@@ -123,6 +127,7 @@ const Breadcrumbs = ({
                   {category.name}
                   <Link
                     href={`/products/${category.slug}/info`}
+                    data-testid={category.name}
                     title="Learn more"
                   >
                     <InformationCircleIcon className="h-4 w-4 ml-2 hover:text-green-main" />

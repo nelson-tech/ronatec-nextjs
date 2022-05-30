@@ -13,7 +13,7 @@ const ICON_BASE = `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/icons`
 // #### Types
 // ####
 
-export interface IconPropsType {
+export type PropsType = {
   name: string
   type?: Maybe<string>
   className?: string
@@ -33,7 +33,7 @@ const Icon = ({
   ariaHidden = true,
   iconStyling,
   iconKey,
-}: IconPropsType) => {
+}: PropsType) => {
   let iconType: string
   const types = ["brands", "duotone", "light", "regular", "solid"]
   if (type && types.includes(type)) {
@@ -46,7 +46,7 @@ const Icon = ({
   const { loading, svgEl } = SVGUrl({ uri, iconKey })
 
   return (
-    <div className={className + " transition icon"}>
+    <div className={className + " transition icon"} data-testid="icon">
       <span className={`fill-current ${iconStyling}`} aria-hidden={ariaHidden}>
         {svgEl}
       </span>

@@ -8,7 +8,7 @@ export type UISliceType = typeof initialState & {
   }
 }
 
-const initialState = {
+export const initialState = {
   ui: {
     dark: false,
     mobileMenuOpen: false,

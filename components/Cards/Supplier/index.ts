@@ -1,2 +1,2 @@
-export { default } from "./Supplier"
-export type { ChosenSupplierType } from "./Supplier"
+export { default } from "./SupplierCard"
+export type { ChosenSupplierType } from "./SupplierCard"

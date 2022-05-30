@@ -26,7 +26,7 @@ import {
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"
 import Image from "@components/Image"
-import ProductGrid from "@components/Category/ProductGrid"
+import ProductGrid from "@components/ProductGrid"
 import Link from "@components/Link"
 import Pagination from "@components/Pagination"
 import Sort from "@components/Sort"

@@ -9,21 +9,32 @@ const registerMutation = gql`
     }
   }
 `
+
 const loginMutation = gql`
-  mutation LoginUser(
-    $cookiesInput: LoginWithCookiesInput!
-    $jwtInput: LoginInput!
-  ) {
-    loginWithCookies(input: $cookiesInput) {
-      status
-    }
-    login(input: $jwtInput) {
+  mutation LoginUser($input: LoginInput!) {
+    login(input: $input) {
       user {
         ...UserAuthBase
       }
     }
   }
 `
+
+// const loginMutation = gql`
+//   mutation LoginUser(
+//     $cookiesInput: LoginWithCookiesInput!
+//     $jwtInput: LoginInput!
+//   ) {
+//     loginWithCookies(input: $cookiesInput) {
+//       status
+//     }
+//     login(input: $jwtInput) {
+//       user {
+//         ...UserAuthBase
+//       }
+//     }
+//   }
+// `
 
 const logoutMutation = gql`
   mutation LogoutUser($input: LogoutInput!) {

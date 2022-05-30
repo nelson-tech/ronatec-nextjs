@@ -10,7 +10,7 @@ import { InputMaybe, ProductCategory } from "@api/gql/types"
 // #### Types
 // ####
 
-type FiltersProps = {
+export type PropsType = {
   children: ReactNode
   categories: ProductCategory[]
   productRef: RefObject<HTMLDivElement>
@@ -30,28 +30,26 @@ const Filters = ({
   productRef,
   selectedCategories,
   setSelectedCategories,
-}: FiltersProps) => {
+}: PropsType) => {
   const defaultFilteredCategories = categories
-    ? (categories
-        .map(category => {
-          let filteredCategories = [category.slug]
+    .map(category => {
+      let filteredCategories = [category.slug]
 
-          category?.children?.nodes &&
-            category.children.nodes.map(child => {
-              let childCategories = [child?.slug]
+      category?.children?.nodes &&
+        category.children.nodes.map(child => {
+          let childCategories = [child?.slug]
 
-              child?.children?.nodes &&
-                child.children.nodes.map(grandchild => {
-                  childCategories.push(grandchild?.slug)
-                })
-
-              filteredCategories = filteredCategories.concat(childCategories)
+          child?.children?.nodes &&
+            child.children.nodes.map(grandchild => {
+              childCategories.push(grandchild?.slug)
             })
 
-          return filteredCategories.flat().filter(a => !!a)
+          filteredCategories = filteredCategories.concat(childCategories)
         })
-        .flat() as string[])
-    : []
+
+      return filteredCategories.flat().filter(a => !!a)
+    })
+    .flat() as string[]
 
   const categoryList = selectedCategories ?? defaultFilteredCategories
 
@@ -66,21 +64,11 @@ const Filters = ({
     setSelectedCategories(selected)
   }
 
-  const CategoryItem = ({
-    category,
-    child,
-    grandchild,
-  }: {
-    category: ProductCategory
-    child?: boolean
-    grandchild?: boolean
-  }) => {
+  const CategoryItem = ({ category }: { category: ProductCategory }) => {
     if (category.slug) {
       return (
         <div
-          className={`flex items-center w-full text-base sm:text-sm${
-            child && " pl-4 py-2 "
-          }${grandchild && " pl-8 "}`}
+          className="flex items-center w-full text-base sm:text-sm"
           ref={productRef}
         >
           <input
@@ -89,6 +77,7 @@ const Filters = ({
             type="checkbox"
             className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-blue-main focus:ring-blue-main"
             defaultChecked={categoryList.includes(`${category.slug}`)}
+            data-testid={`${category.name}-input`}
             {...register(`category-${category.slug}`)}
           />
           <label
@@ -102,7 +91,7 @@ const Filters = ({
         </div>
       )
     }
-    return <></>
+    return <div data-testid="categories-error"></div>
   }
 
   return (
@@ -110,6 +99,7 @@ const Filters = ({
       as="section"
       aria-labelledby="filter-heading"
       className="relative w-screen border-t border-b border-gray-200 grid items-center"
+      data-testid="filters"
     >
       {({ open }) => {
         return (
@@ -120,7 +110,10 @@ const Filters = ({
             <div className="relative col-start-1 row-start-1 py-4">
               <div className="max-w-7xl mx-auto flex space-x-6 divide-x divide-gray-200 text-sm px-4 sm:px-6 lg:px-8">
                 <div>
-                  <Disclosure.Button className="group text-gray-700 font-medium flex items-center">
+                  <Disclosure.Button
+                    className="group text-gray-700 font-medium flex items-center"
+                    data-testid="filters-button"
+                  >
                     {open ? (
                       <XIcon
                         className="flex-none w-5 h-5 mr-2 text-gray-400 group-hover:text-gray-500"
@@ -155,36 +148,6 @@ const Filters = ({
                           return (
                             <div key={category.id}>
                               <CategoryItem category={category} />
-
-                              {/* {category.children?.nodes &&
-                                category.children.nodes.length > 0 &&
-                                category.children.nodes.map(subCategory => {
-                                  if (subCategory?.slug) {
-                                    return (
-                                      <div key={subCategory.id}>
-                                        <CategoryItem
-                                          category={subCategory}
-                                          child
-                                        />
-                                        {subCategory?.children?.nodes &&
-                                          subCategory.children.nodes.length >
-                                            0 &&
-                                          subCategory.children.nodes.map(
-                                            subSubCategory => {
-                                              if (subSubCategory?.slug) {
-                                                return (
-                                                  <CategoryItem
-                                                    category={subSubCategory}
-                                                    grandchild
-                                                  />
-                                                )
-                                              }
-                                            },
-                                          )}
-                                      </div>
-                                    )
-                                  }
-                                })} */}
                             </div>
                           )
                         })}

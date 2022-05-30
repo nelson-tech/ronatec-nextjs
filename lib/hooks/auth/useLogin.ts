@@ -5,14 +5,9 @@ import { setAuthToken, setRefreshToken } from "@api/urql/utils"
 import { useLoginUserMutation, User } from "@api/gql/types"
 
 type LoginPropsType = {
-  jwtInput: {
+  input: {
     username: string
     password: string
-  }
-  cookiesInput: {
-    login: string
-    password: string
-    rememberMe: boolean
   }
 }
 
@@ -29,34 +24,29 @@ const useLogin = () => {
 
   const [_, loginMutation] = useLoginUserMutation()
 
-  const login = async ({ jwtInput, cookiesInput }: LoginPropsType) => {
-    await loginMutation({
-      jwtInput,
-      cookiesInput,
-    }).then(res => {
+  const login = async ({ input }: LoginPropsType) => {
+    await loginMutation({ input }).then(res => {
       const { data, error } = res
       if (data) {
-        const { login, loginWithCookies } = data
-        if (loginWithCookies?.status === "SUCCESS") {
-          if (login?.user) {
-            const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
+        const { login } = data
+        if (login?.user?.jwtAuthToken) {
+          const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
 
-            setUser(user as User)
+          setUser(user as User)
 
-            jwtAuthToken && setAuthToken(jwtAuthToken)
-            jwtRefreshToken && setRefreshToken(jwtRefreshToken)
+          jwtAuthToken && setAuthToken(jwtAuthToken)
+          jwtRefreshToken && setRefreshToken(jwtRefreshToken)
 
-            setAlert({
-              open: true,
-              type: "success",
-              primary: `Welcome back${
-                (user?.firstName || user?.lastName) && ","
-              }${user?.firstName && ` ${user.firstName}`}${
-                user?.lastName && ` ${user.lastName}`
-              }!`,
-              secondary: "You are now logged in.",
-            })
-          }
+          setAlert({
+            open: true,
+            type: "success",
+            primary: `Welcome back${
+              (user?.firstName || user?.lastName) && ","
+            }${user?.firstName && ` ${user.firstName}`}${
+              user?.lastName && ` ${user.lastName}`
+            }!`,
+            secondary: "You are now logged in.",
+          })
 
           setLoggedIn(true)
         }

@@ -1,18 +1,10 @@
-import dynamic from "next/dist/shared/lib/dynamic"
 import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
 
 import { Supplier, Supplier_Supplier } from "@api/gql/types"
 
-import { Underlined, underSelect } from "styles/utils"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = {}
-
-const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
-const Image = dynamic(() => import("@components/Image"), clientOpts)
+import Image from "@components/Image"
+import Icon from "@components/ui/Icon"
+import { Underlined, underSelect } from "@styles/utils"
 
 // ####
 // #### Types
@@ -22,7 +14,7 @@ export type ChosenSupplierType = Supplier_Supplier & {
   title: string
 }
 
-export type SupplierPropsType = {
+export type PropsType = {
   supplier: Supplier
   headerText?: string
   featured?: boolean
@@ -44,13 +36,16 @@ const SupplierCard = ({
   setIsOpen,
   setChosenSupplier,
   chosenSupplier,
-}: SupplierPropsType) => {
+}: PropsType) => {
   const { title, supplier } = givenSupplier
 
   if (supplier) {
     if (featured) {
       return (
-        <div className="bg-grey-50 w-full mx-auto mt-0 flex flex-col rounded-lg overflow-hidden shadow mb-8">
+        <div
+          className="bg-grey-50 w-full mx-auto mt-0 flex flex-col rounded-lg overflow-hidden shadow mb-8"
+          data-testid="supplier-card-featured"
+        >
           {headerText && (
             <div className="py-2 bg-blue-main text-white w-full text-center align-center mx-auto">
               <h2 className="text-2xl">{headerText}</h2>
@@ -70,7 +65,7 @@ const SupplierCard = ({
                   alt={supplier.image.altText || undefined}
                   layout="responsive"
                   objectFit="fill"
-                  title={title || undefined}
+                  title={title}
                 />
               </a>
             </div>
@@ -108,17 +103,20 @@ const SupplierCard = ({
         </div>
       )
     }
+
     if (setIsOpen && setChosenSupplier) {
       const active = isOpen && chosenSupplier?.title === title
       return (
-        <div className="bg-grey-50 mx-auto w-full flex items-center flex-row rounded-lg shadow mb-8 cursor-pointer">
+        <div
+          className="bg-grey-50 mx-auto w-full flex items-center flex-row rounded-lg shadow mb-8 cursor-pointer"
+          data-testid="supplier-card"
+        >
           <div
             onClick={() => {
               setIsOpen(true)
-              if (givenSupplier.supplier && title) {
-                setChosenSupplier({ ...givenSupplier.supplier, title })
-              }
+              title && setChosenSupplier({ ...givenSupplier.supplier, title })
             }}
+            data-testid="supplier-card-clickable"
             className={`
                 ${active ? "" : "text-opacity-90"}
                 group transition relative px-3 py-2 rounded-md inline-flex items-center w-full hover:text-opacity-100 focus:outline-none `}
@@ -140,7 +138,7 @@ const SupplierCard = ({
       )
     }
   }
-  return <div>Error</div>
+  return <div data-testid="supplier-card-error">Error</div>
 }
 
 export default SupplierCard

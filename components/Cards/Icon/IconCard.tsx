@@ -16,7 +16,7 @@ const clientOpts = {}
 // #### Types
 // ####
 
-export type IconCardPropsType = {
+export type PropsType = {
   card: Post_Common_Cards
   centerText?: boolean
   contentStyle?: SerializedStyles | TwStyle
@@ -26,16 +26,13 @@ export type IconCardPropsType = {
 // #### Component
 // ####
 
-const IconCard = ({
-  card,
-  centerText = true,
-  contentStyle,
-}: IconCardPropsType) => {
+const IconCard = ({ card, centerText = true, contentStyle }: PropsType) => {
   return (
     <div
       className={`flow-root bg-gray-50 rounded-lg px-6 pb-8 md:pt-0 h-full${
         centerText && " text-center"
       }`}
+      data-testid="icon-card"
     >
       <div className="-mt-6">
         {card.icon && card.icon.name && (

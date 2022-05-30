@@ -30,7 +30,7 @@ const AuthMenu = memo(function AuthMenu() {
     <>
       {userMenu.map(item => {
         return (
-          <Menu.Item key={"usernav" + item.name}>
+          <Menu.Item key={"usernav" + item.name} data-testid="auth-menu">
             <div>
               <Link
                 href={item.href}

@@ -2,6 +2,12 @@ import { HTMLProps } from "react"
 import NextLink from "next/link"
 
 // ####
+// #### Types
+// ####
+
+export type PropsType = HTMLProps<HTMLAnchorElement> & { passHref?: boolean }
+
+// ####
 // #### Component
 // ####
 
@@ -13,9 +19,9 @@ const Link = ({
   children,
   passHref = true,
   ...rest
-}: HTMLProps<HTMLAnchorElement> & { passHref?: boolean }) => {
+}: PropsType) => {
   return (
-    <NextLink href={href || ""} passHref>
+    <NextLink href={href || ""} passHref id="nextlink">
       <a title={title} target={target} {...rest} className={className}>
         {children}
       </a>

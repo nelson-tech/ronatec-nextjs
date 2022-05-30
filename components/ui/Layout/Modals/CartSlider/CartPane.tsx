@@ -23,7 +23,6 @@ const CartPane = () => {
   const { cart, setOpen } = useStore(
     state => ({
       cart: state.cart.state,
-      setCheckout: state.cart.setCheckout,
       setOpen: state.cart.setOpen,
     }),
     shallow,

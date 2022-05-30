@@ -21,8 +21,10 @@
       "@assets/*": ["assets/*"],
       "@lib": ["lib"],
       "@lib/*": ["lib/*"],
+      "@pages/*": ["pages/*"],
       "@styles": ["styles"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@mocks/*": ["__mocks__/*"]
     },
     "incremental": false
   },
@@ -33,5 +35,5 @@
     "components/cart/CartItem/CartItem.s.js"
   ],
   "exclude": ["node_modules"],
-  "types": ["types"]
+  "types": ["types", "./node_modules/user-agent-data-types"]
 }

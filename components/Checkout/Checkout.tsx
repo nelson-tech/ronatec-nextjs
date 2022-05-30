@@ -1,6 +1,7 @@
 import { Customer, useGetCustomerDataQuery } from "@api/gql/types"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import useStore from "@lib/hooks/useStore"
 import CartSummary from "./CartSummary"
 import CheckoutForm from "./CheckoutForm"
 import DiscountForm from "./DiscountForm"
@@ -21,7 +22,8 @@ type PropsType = {
 // ####
 
 const Checkout = ({ hidePrices, discounts }: PropsType) => {
-  const [{ data }] = useGetCustomerDataQuery()
+  const loggedIn = useStore(state => state.auth.loggedIn)
+  const [{ data }] = useGetCustomerDataQuery({ requestPolicy: "network-only" })
 
   return (
     <>
@@ -55,7 +57,9 @@ const Checkout = ({ hidePrices, discounts }: PropsType) => {
           )}
         </section>
 
-        {data?.customer ? (
+        {data?.customer?.id &&
+        ((loggedIn && data.customer.id !== "guest") ||
+          (!loggedIn && data.customer.id === "guest")) ? (
           <CheckoutForm customer={data.customer as Customer} />
         ) : (
           <>

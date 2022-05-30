@@ -26,16 +26,16 @@ const Unauthorized = dynamic(() => import("@components/Unauthorized"), {
 
 // const Noop: FC = ({ children }) => <>{children}</>
 
-const progress = new ProgressBar({
+export const progress = new ProgressBar({
   size: 2,
   color: "#32de8a",
   className: "progress-bar",
   delay: 100,
 })
 
-Router.events.on("routeChangeStart", progress.start)
-Router.events.on("routeChangeComplete", progress.finish)
-Router.events.on("routeChangeError", progress.finish)
+Router.events.on("routeChangeStart", () => progress.start())
+Router.events.on("routeChangeComplete", () => progress.finish())
+Router.events.on("routeChangeError", () => progress.finish())
 
 // ####
 // #### Component
@@ -56,13 +56,18 @@ function RonatecWebsite({ Component, pageProps }: AppProps) {
       const authToken = getAuthToken()?.authToken
       authToken && (auth = true)
     }
-    if (auth !== isAuthorized) setIsAuthorized(true)
+    if (isAuthorized === null) {
+      setIsAuthorized(auth)
+    }
   }, [pageProps, isAuthorized, setIsAuthorized])
 
   if (pageProps.protected && isAuthorized === null) {
     return (
       <>
-        <div className="flex flex-col w-full h-screen justify-center items-center">
+        <div
+          className="flex flex-col w-full h-screen justify-center items-center"
+          data-testid="app-protected-loading"
+        >
           <div className="text-gray-600 mb-8">Checking authorization...</div>
           <LoadingSpinner size={24} />
         </div>
@@ -71,7 +76,7 @@ function RonatecWebsite({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <>
+    <div data-testid="custom-app">
       <DefaultSeo
         openGraph={{
           type: "website",
@@ -151,7 +156,7 @@ function RonatecWebsite({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         )}
       </Provider>
-    </>
+    </div>
   )
 }
 

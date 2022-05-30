@@ -8,7 +8,7 @@ export type AlertSliceType = typeof initialState & {
   }
 }
 
-const initialState = {
+export const initialState = {
   alert: {
     open: false,
     primary: "",

@@ -19741,12 +19741,11 @@ export type RegisterUserMutationVariables = Exact<{
 export type RegisterUserMutation = { registerUser?: { user?: { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null } | null };
 
 export type LoginUserMutationVariables = Exact<{
-  cookiesInput: LoginWithCookiesInput;
-  jwtInput: LoginInput;
+  input: LoginInput;
 }>;
 
 
-export type LoginUserMutation = { loginWithCookies?: { status?: string | null } | null, login?: { user?: { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null } | null };
+export type LoginUserMutation = { login?: { user?: { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null } | null };
 
 export type LogoutUserMutationVariables = Exact<{
   input: LogoutInput;
@@ -19761,6 +19760,22 @@ export type RefreshAuthTokenMutationVariables = Exact<{
 
 
 export type RefreshAuthTokenMutation = { refreshJwtAuthToken?: { authToken?: string | null } | null };
+
+export type ResetUserPasswordMutationVariables = Exact<{
+  key: Scalars['String'];
+  login: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type ResetUserPasswordMutation = { resetUserPassword?: { clientMutationId?: string | null, user?: { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null } | null };
+
+export type SendPasswordResetEmailMutationVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type SendPasswordResetEmailMutation = { sendPasswordResetEmail?: { clientMutationId?: string | null } | null };
 
 export type AddToCartMutationVariables = Exact<{
   input: AddToCartInput;
@@ -19902,22 +19917,6 @@ export type GetUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUserQuery = { customer?: { id: string, databaseId?: number | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null };
-
-export type ResetUserPasswordMutationVariables = Exact<{
-  key: Scalars['String'];
-  login: Scalars['String'];
-  password: Scalars['String'];
-}>;
-
-
-export type ResetUserPasswordMutation = { resetUserPassword?: { clientMutationId?: string | null, user?: { id: string, databaseId: number, jwtAuthToken?: string | null, jwtRefreshToken?: string | null, firstName?: string | null, lastName?: string | null, username?: string | null, email?: string | null } | null } | null };
-
-export type SendPasswordResetEmailMutationVariables = Exact<{
-  username: Scalars['String'];
-}>;
-
-
-export type SendPasswordResetEmailMutation = { sendPasswordResetEmail?: { clientMutationId?: string | null } | null };
 
 export const ImageBaseFragmentDoc = gql`
     fragment ImageBase on MediaItem {
@@ -20277,11 +20276,8 @@ export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
 export const LoginUserDocument = gql`
-    mutation LoginUser($cookiesInput: LoginWithCookiesInput!, $jwtInput: LoginInput!) {
-  loginWithCookies(input: $cookiesInput) {
-    status
-  }
-  login(input: $jwtInput) {
+    mutation LoginUser($input: LoginInput!) {
+  login(input: $input) {
     user {
       ...UserAuthBase
     }
@@ -20313,6 +20309,31 @@ export const RefreshAuthTokenDocument = gql`
 
 export function useRefreshAuthTokenMutation() {
   return Urql.useMutation<RefreshAuthTokenMutation, RefreshAuthTokenMutationVariables>(RefreshAuthTokenDocument);
+};
+export const ResetUserPasswordDocument = gql`
+    mutation ResetUserPassword($key: String!, $login: String!, $password: String!) {
+  resetUserPassword(input: {key: $key, login: $login, password: $password}) {
+    clientMutationId
+    user {
+      ...UserAuthBase
+    }
+  }
+}
+    ${UserAuthBaseFragmentDoc}`;
+
+export function useResetUserPasswordMutation() {
+  return Urql.useMutation<ResetUserPasswordMutation, ResetUserPasswordMutationVariables>(ResetUserPasswordDocument);
+};
+export const SendPasswordResetEmailDocument = gql`
+    mutation SendPasswordResetEmail($username: String!) {
+  sendPasswordResetEmail(input: {username: $username}) {
+    clientMutationId
+  }
+}
+    `;
+
+export function useSendPasswordResetEmailMutation() {
+  return Urql.useMutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables>(SendPasswordResetEmailDocument);
 };
 export const AddToCartDocument = gql`
     mutation AddToCart($input: AddToCartInput!) {
@@ -20920,29 +20941,4 @@ export const GetUserDocument = gql`
 
 export function useGetUserQuery(options?: Omit<Urql.UseQueryArgs<GetUserQueryVariables>, 'query'>) {
   return Urql.useQuery<GetUserQuery>({ query: GetUserDocument, ...options });
-};
-export const ResetUserPasswordDocument = gql`
-    mutation ResetUserPassword($key: String!, $login: String!, $password: String!) {
-  resetUserPassword(input: {key: $key, login: $login, password: $password}) {
-    clientMutationId
-    user {
-      ...UserAuthBase
-    }
-  }
-}
-    ${UserAuthBaseFragmentDoc}`;
-
-export function useResetUserPasswordMutation() {
-  return Urql.useMutation<ResetUserPasswordMutation, ResetUserPasswordMutationVariables>(ResetUserPasswordDocument);
-};
-export const SendPasswordResetEmailDocument = gql`
-    mutation SendPasswordResetEmail($username: String!) {
-  sendPasswordResetEmail(input: {username: $username}) {
-    clientMutationId
-  }
-}
-    `;
-
-export function useSendPasswordResetEmailMutation() {
-  return Urql.useMutation<SendPasswordResetEmailMutation, SendPasswordResetEmailMutationVariables>(SendPasswordResetEmailDocument);
 };

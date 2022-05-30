@@ -32,8 +32,8 @@ import {
 import Layout from "@components/ui/Layout"
 import Breadcrumbs from "@components/Breadcrumbs"
 import PageTitle from "@components/PageTitle"
-import Summary from "@components/Category/Summary"
-import ProductGrid from "@components/Category/ProductGrid"
+import CategorySummary from "@components/CategorySummary"
+import ProductGrid from "@components/ProductGrid"
 import Sort from "@components/Sort"
 import Pagination from "@components/Pagination"
 
@@ -107,7 +107,7 @@ const CategoryPage = ({
         {category && (
           <>
             <Breadcrumbs category={category} />
-            <Summary category={category} productRef={productRef} />
+            <CategorySummary category={category} productRef={productRef} />
             <Sort
               setSelectedSort={setSelectedSort}
               loading={productsFetching}

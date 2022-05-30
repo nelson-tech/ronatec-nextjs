@@ -25,6 +25,7 @@ const ProfileMenu = () => {
     <>
       <Menu
         as="div"
+        data-testid="user-menu"
         className="hidden lg:block relative lg:flex-shrink-0 h-full"
       >
         {({ open }) => (
@@ -32,8 +33,9 @@ const ProfileMenu = () => {
             <div className="h-full">
               <Menu.Button
                 className={`font-bold text-sm rounded-md py-2 outline-none ${
-                  loggedIn ? " text-green-main " : "text-gray-400"
+                  loggedIn ? "text-green-main" : "text-gray-400"
                 } hover:text-gray-500`}
+                data-testid="user-menu-button"
               >
                 <span className="sr-only">Open user menu</span>
                 <UserIcon className="h-6 w-6" />
@@ -47,7 +49,11 @@ const ProfileMenu = () => {
             >
               <div className="origin-top-right z-20 absolute -right-2 pt-2 w-48">
                 <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
-                  {loggedIn ? <AuthMenu /> : <GuestMenu />}
+                  {loggedIn ? (
+                    <AuthMenu data-testid="auth-menu" />
+                  ) : (
+                    <GuestMenu data-testid="guest-menu" />
+                  )}
                 </Menu.Items>
               </div>
             </Transition>

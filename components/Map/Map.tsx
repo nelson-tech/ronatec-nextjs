@@ -92,7 +92,7 @@ const Map = ({
   if (options) {
     mapOptions = {
       mapTypeId: options.mapType,
-      zoom: isMobile() ? (options.zoom || 4) - 1 : options.zoom,
+      zoom: isMobile ? (options.zoom || 4) - 1 : options.zoom,
       styles: options.mapTypeStyle?.map<google.maps.MapTypeStyle>(style => {
         let givenStyle: google.maps.MapTypeStyle = { stylers: [] }
         if (style?.featureType) {

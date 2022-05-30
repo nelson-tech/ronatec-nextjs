@@ -9,7 +9,7 @@ import CarouselCard from "./CarouselCard"
 // #### Types
 // ####
 
-type PropsType = {
+export type PropsType = {
   header: string
   link?: { label: string; path: string }
   items?: ProductCategory[] | null | undefined
@@ -28,7 +28,7 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
     : null
 
   return (
-    <div className="bg-white">
+    <div className="bg-white" data-testid="card-carousel">
       <div className="pb-8 xl:max-w-7xl xl:mx-auto xl:px-8">
         <div className="px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
@@ -67,13 +67,17 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                   ) : products ? (
                     products.map((cardProduct, index) => {
                       const path = `${
-                        cardProduct.productCategories?.nodes![0]?.slug
-                      }/${cardProduct.slug}`
+                        cardProduct.productCategories?.nodes
+                          ? cardProduct.productCategories.nodes[0]
+                            ? cardProduct.productCategories.nodes[0].slug + "/"
+                            : ""
+                          : ""
+                      }${cardProduct.slug}`
 
                       return (
                         <CarouselCard
                           name={cardProduct.name || ""}
-                          slug={path || ""}
+                          slug={path}
                           image={cardProduct.image ?? undefined}
                           key={cardProduct.name || "" + cardProduct.slug}
                           index={index}

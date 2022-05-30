@@ -12,7 +12,7 @@ export type AuthSliceType = typeof initialState & {
   }
 }
 
-const initialState = {
+export const initialState = {
   auth: {
     loggedIn: false,
     errors: { login: null as string | null, register: null as string | null },
