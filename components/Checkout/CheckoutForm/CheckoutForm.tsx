@@ -28,7 +28,7 @@ type PropsType = {
   customer: Customer
 }
 
-type BillingAndShippingType = {
+type ContactInformationType = {
   address1: Maybe<string>
   address2: Maybe<string>
   city: Maybe<string>
@@ -43,10 +43,9 @@ type BillingAndShippingType = {
 }
 
 type FormDataType = {
-  billing: BillingAndShippingType
-  shipping: BillingAndShippingType & {
-    shipToDifferentAddress: boolean
-  }
+  billing: ContactInformationType
+  shipping: ContactInformationType
+  shipToDifferentAddress: boolean
 }
 
 // ####
@@ -86,8 +85,8 @@ const CheckoutForm = ({ customer }: PropsType) => {
         firstName: customer?.billing?.firstName,
         lastName: customer?.billing?.lastName,
       },
+      shipToDifferentAddress: false,
       shipping: {
-        shipToDifferentAddress: false,
         address1: customer?.shipping?.address1,
         address2: customer?.shipping?.address2,
         city: customer?.shipping?.city,
@@ -105,18 +104,21 @@ const CheckoutForm = ({ customer }: PropsType) => {
 
   const shippingDifferent = useWatch({
     control,
-    name: "shipping.shipToDifferentAddress",
+    name: "shipToDifferentAddress",
   })
 
   const onSubmit: SubmitHandler<FormDataType> = async formData => {
     setLoading(true)
 
-    // Exclude shipping unless billing and shipping different
-    const { shipping: shippingSection, ...baseData } = formData
-    const { shipToDifferentAddress, ...shipping } = shippingSection
+    // Exclude shipping unless billing and shipping should be different
+    const { shipping, shipToDifferentAddress, ...baseData } = formData
 
     const input: CheckoutInput = shipToDifferentAddress
-      ? { ...baseData, shipToDifferentAddress, shipping }
+      ? {
+          ...baseData,
+          shipToDifferentAddress,
+          shipping: { ...shipping, overwrite: true },
+        }
       : { ...baseData, shipToDifferentAddress }
 
     // Set paymentMethod to cash-on-delivery as no payments will be collected
@@ -155,8 +157,9 @@ const CheckoutForm = ({ customer }: PropsType) => {
   }
 
   const billingValues = useWatch({ control, name: "billing" })
+
   const handleCopyBilling = () => {
-    setValue("shipping", { shipToDifferentAddress: true, ...billingValues })
+    setValue("shipping", billingValues)
   }
 
   return (
@@ -283,7 +286,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
               <FormField
                 register={register}
                 errors={errors}
-                name="shipping.shipToDifferentAddress"
+                name="shipToDifferentAddress"
                 label="Ship to a different address than billing address"
                 labelAfter
                 type="checkbox"

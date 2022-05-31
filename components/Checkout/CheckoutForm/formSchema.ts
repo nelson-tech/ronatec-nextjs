@@ -1,8 +1,38 @@
-import { string, boolean, object, ZodIssueCode } from "zod"
+import { string, object, boolean, discriminatedUnion, literal } from "zod"
+
+type OptionalStringFieldType = {
+  optional: true
+}
+
+type MinStringFieldType = {
+  min: number
+  max?: number
+  message: string
+}
+
+type MaxStringFieldType = {
+  min?: number
+  max: number
+  message: string
+}
+
+type EmailStringFieldType = {
+  message: string
+}
+
+type StringFieldType =
+  | OptionalStringFieldType
+  | MinStringFieldType
+  | MaxStringFieldType
+  | EmailStringFieldType
+
+type FormInputRequirementsType = {
+  [key: string]: StringFieldType
+}
 
 const messages = {
   email: "Valid email is required.",
-  phone: "Phone number is required (7-12 characters long).",
+  phone: "Phone number is required (5-17 characters long).",
   firstName: "First name is required.",
   lastName: "Last name is required.",
   address1: "Valid address is required.",
@@ -12,55 +42,57 @@ const messages = {
   country: "Country is required.",
 }
 
-const billingSchema = object({
-  email: string().email({ message: messages.email }),
-  phone: string().min(5, messages.phone).max(12, messages.phone),
-  firstName: string().min(1, messages.firstName),
-  lastName: string().min(1, messages.lastName),
+const contactSchema = object({
+  email: string({
+    required_error: messages.email,
+    invalid_type_error: messages.email,
+  }).email({
+    message: messages.email,
+  }),
+  phone: string({ invalid_type_error: messages.phone })
+    .min(5, messages.phone)
+    .max(17, messages.phone),
+  firstName: string({ invalid_type_error: messages.firstName }).min(
+    1,
+    messages.firstName,
+  ),
+  lastName: string({ invalid_type_error: messages.lastName }).min(
+    1,
+    messages.lastName,
+  ),
   company: string().nullable(),
-  address1: string().min(1, messages.address1),
+  address1: string({ invalid_type_error: messages.address1 }).min(
+    3,
+    messages.address1,
+  ),
   address2: string().nullable(),
-  city: string().min(1, messages.city),
-  state: string().min(2, messages.state),
-  postcode: string().min(1, messages.postcode),
-  country: string().min(1, messages.country),
+  city: string({ invalid_type_error: messages.city }).min(2, messages.city),
+  state: string({ invalid_type_error: messages.state }).min(2, messages.state),
+  postcode: string({ invalid_type_error: messages.postcode }).min(
+    3,
+    messages.postcode,
+  ),
+  country: string({ invalid_type_error: messages.country }).min(
+    2,
+    messages.country,
+  ),
 })
 
-const shippingSchema = object({
-  shipToDifferentAddress: boolean(),
-  email: string().nullish(),
-  phone: string().nullish(),
-  firstName: string().nullish(),
-  lastName: string().nullish(),
-  company: string().nullish(),
-  address1: string().nullish(),
-  address2: string().nullish(),
-  city: string().nullish(),
-  state: string().nullish(),
-  postcode: string().nullish(),
-  country: string().nullish(),
-}).superRefine((data, ctx) => {
-  if (data?.shipToDifferentAddress) {
-    const shipping = data as { [key: string]: any }
-    const contacts = billingSchema.shape as { [key: string]: any }
-    Object.keys(data).map(entry => {
-      if ((messages as { [key: string]: string })[entry]) {
-        ;(!shipping[entry] ||
-          shipping[entry] < (contacts[entry].minLength ?? 1)) &&
-          ctx.addIssue({
-            code: ZodIssueCode.custom,
-            path: [entry],
-            message: (messages as { [key: string]: string })[entry],
-          })
-      }
-    })
-  }
-})
+const truf = literal(true)
+truf.value
 
-const schema = object({
-  billing: billingSchema,
-  shipping: shippingSchema,
-  customerNote: string().nullish(),
-})
+const schema = discriminatedUnion("shipToDifferentAddress", [
+  object({
+    shipToDifferentAddress: literal(false),
+    billing: contactSchema,
+    customerNote: string().nullish(),
+  }),
+  object({
+    shipToDifferentAddress: literal(true),
+    billing: contactSchema,
+    shipping: contactSchema,
+    customerNote: string().nullish(),
+  }),
+])
 
 export default schema
