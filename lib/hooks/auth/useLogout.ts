@@ -2,8 +2,8 @@ import { useRouter } from "next/router"
 import shallow from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
-import { logout as logoutClient } from "@api/urql/utils"
-import { useLogoutUserMutation } from "@api/gql/types"
+// import { logout as logoutClient } from "@api/urql/utils"
+// import { useLogoutUserMutation } from "@api/codegen/graphql"
 
 const useLogout = () => {
   const router = useRouter()
@@ -18,29 +18,25 @@ const useLogout = () => {
     shallow,
   )
 
-  const [_, logoutMutation] = useLogoutUserMutation()
+  // const [_, logoutMutation] = useLogoutUserMutation()
 
   const logout = async () => {
-    logoutMutation({ input: {} }).then(res => {
-      const { data, error } = res
-
-      if (loggedIn && data) {
-        setLoggedIn(false)
-        setUser(null)
-        logoutClient(true)
-
-        setAlert({
-          open: true,
-          primary: "Logged out.",
-          secondary: "",
-          type: "info",
-        })
-
-        // Redirect to homepage
-        router.push("/")
-      }
-    })
-
+    // logoutMutation({ input: {} }).then(res => {
+    //   const { data, error } = res
+    //   if (loggedIn && data) {
+    //     setLoggedIn(false)
+    //     setUser(null)
+    //     logoutClient(true)
+    //     setAlert({
+    //       open: true,
+    //       primary: "Logged out.",
+    //       secondary: "",
+    //       type: "info",
+    //     })
+    //     // Redirect to homepage
+    //     router.push("/")
+    //   }
+    // })
     // TODO - Set errors
   }
   return { logout }

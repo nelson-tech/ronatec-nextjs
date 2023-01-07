@@ -1,20 +1,20 @@
 import { CombinedError, OperationResult } from "urql"
 
-import {
-  AddToCartInput,
-  RemoveItemsFromCartInput,
-  UpdateItemQuantitiesInput,
-  useAddToCartMutation,
-  useClearCartMutation,
-  useRemoveCartItemMutation,
-  useUpdateCartItemQuantityMutation,
-} from "@api/gql/types"
+// import {
+//   AddToCartInput,
+//   RemoveItemsFromCartInput,
+//   UpdateItemQuantitiesInput,
+//   useAddToCartMutation,
+//   useClearCartMutation,
+//   useRemoveCartItemMutation,
+//   useUpdateCartItemQuantityMutation,
+// } from "@api/codegen/graphql"
 
 const useCart = () => {
-  const [_remove, removeMutation] = useRemoveCartItemMutation()
-  const [_clear, clearMutation] = useClearCartMutation()
-  const [_add, addMutation] = useAddToCartMutation()
-  const [_update, updateMutation] = useUpdateCartItemQuantityMutation()
+  // const [_remove, removeMutation] = useRemoveCartItemMutation()
+  // const [_clear, clearMutation] = useClearCartMutation()
+  // const [_add, addMutation] = useAddToCartMutation()
+  // const [_update, updateMutation] = useUpdateCartItemQuantityMutation()
 
   const getReturnData = (res: OperationResult) => {
     const { data, error } = res
@@ -34,19 +34,19 @@ const useCart = () => {
   }
 
   const clearCart = async () => {
-    return await clearMutation({ input: {} }).then(getReturnData)
+    // return await clearMutation({ input: {} }).then(getReturnData)
   }
 
-  const removeItem = async (input: RemoveItemsFromCartInput) => {
-    return await removeMutation({ input }).then(getReturnData)
+  const removeItem = async (input: any) => {
+    // return await removeMutation({ input }).then(getReturnData)
   }
 
-  const addToCart = async (input: AddToCartInput) => {
-    return await addMutation({ input }).then(getReturnData)
+  const addToCart = async (input: any) => {
+    // return await addMutation({ input }).then(getReturnData)
   }
 
-  const updateCart = async (input: UpdateItemQuantitiesInput) => {
-    return await updateMutation({ input }).then(getReturnData)
+  const updateCart = async (input: any) => {
+    // return await updateMutation({ input }).then(getReturnData)
   }
 
   return { clearCart, removeItem, addToCart, updateCart }

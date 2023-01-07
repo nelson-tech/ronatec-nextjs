@@ -1,9 +1,11 @@
 import dynamic from "next/dynamic"
-import UserIcon from "@heroicons/react/outline/UserIcon"
-import TranslateIcon from "@heroicons/react/outline/TranslateIcon"
-import SearchIcon from "@heroicons/react/outline/SearchIcon"
+import UserIcon from "@heroicons/react/24/outline/UserIcon"
+// import TranslateIcon from "@heroicons/react/24/outline/LanguageIcon"
+import SearchIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon"
 
 import CartButton from "./CartButton"
+import SearchButton from "./SearchButton"
+import ProfileMenu from "./ProfileMenu"
 
 // ####
 // #### Dynamic Imports
@@ -20,16 +22,16 @@ const MenuLoaderButton = () => (
   </div>
 )
 
-const LanguageLoaderButton = () => (
-  <div className="block relative lg:flex-shrink-0 h-full mr-4 lg:mr-8">
-    <div className="h-full">
-      <button className="font-bold text-sm rounded-md py-2 outline-none text-white">
-        <span className="sr-only">Open user menu</span>
-        <TranslateIcon className="h-6 w-6" />
-      </button>
-    </div>
-  </div>
-)
+// const LanguageLoaderButton = () => (
+//   <div className="block relative lg:flex-shrink-0 h-full mr-4 lg:mr-8">
+//     <div className="h-full">
+//       <button className="font-bold text-sm rounded-md py-2 outline-none text-white">
+//         <span className="sr-only">Open user menu</span>
+//         <TranslateIcon className="h-6 w-6" />
+//       </button>
+//     </div>
+//   </div>
+// )
 
 const SearchLoaderButton = () => (
   <>
@@ -40,13 +42,13 @@ const SearchLoaderButton = () => (
   </>
 )
 
-const ProfileMenu = dynamic(() => import("./ProfileMenu"), {
-  loading: () => <MenuLoaderButton />,
-})
+// const ProfileMenu = dynamic(() => import("./ProfileMenu"), {
+//   loading: () => <MenuLoaderButton />,
+// })
 
-const SearchButton = dynamic(() => import("./SearchButton"), {
-  loading: () => <SearchLoaderButton />,
-})
+// const SearchButton = dynamic(() => import("./SearchButton"), {
+//   loading: () => <SearchLoaderButton />,
+// })
 
 // ####
 // #### Component

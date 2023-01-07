@@ -1,4 +1,4 @@
-import { Customer, useGetCustomerDataQuery } from "@api/gql/types"
+import { Customer, useGetCustomerDataQuery } from "@api/codegen/graphql"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import useStore from "@lib/hooks/useStore"

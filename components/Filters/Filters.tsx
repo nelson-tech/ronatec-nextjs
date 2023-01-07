@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import XIcon from "@heroicons/react/solid/XIcon"
 import FilterIcon from "@heroicons/react/solid/FilterIcon"
 
-import { InputMaybe, ProductCategory } from "@api/gql/types"
+import { InputMaybe, ProductCategory } from "@api/codegen/graphql"
 
 // ####
 // #### Types

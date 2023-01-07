@@ -1,9 +1,11 @@
+"use client"
+
 import { MutableRefObject, useEffect, useState } from "react"
-import { useRouter } from "next/dist/client/router"
+import { useRouter, useSearchParams } from "next/navigation"
 import shallow from "zustand/shallow"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
+import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 
 import useLogin from "@lib/hooks/auth/useLogin"
 import useStore from "@lib/hooks/useStore"
@@ -26,6 +28,8 @@ type LoginFormProps = {
 
 const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const [loading, setLoading] = useState(false)
+  const params = useSearchParams()
+  const redirect = params.get("redirect")
   const router = useRouter()
 
   const { loggedIn, error } = useStore(
@@ -77,7 +81,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
     return (
       <ErrorMessage
         errors={errors}
-        name={name}
+        name={name as any}
         render={({ message }) => (
           <p className="text-red-main text-sm pt-2 pl-2">{message}</p>
         )}
@@ -95,7 +99,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
         <div className="max-w-md w-full space-y-8">
           <div>
             <h2 className="text-center text-3xl font-extrabold text-gray-700">
-              Sign in to your account
+              Log in to your account
             </h2>
             <div className="mt-2 flex justify-center text-sm text-gray-600">
               <div>
@@ -103,13 +107,9 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
               </div>
               <div onClick={() => setOpen && setOpen(false)}>
                 <Link
-                  href={`/register${
-                    router.query?.redirect
-                      ? `?redirect=${router.query.redirect}`
-                      : ""
-                  }`}
+                  href={`/register${redirect ? `/${redirect}` : ""}`}
                   title="Click to register."
-                  className="font-medium text-blue-main hover:text-green-main"
+                  className="font-medium text-accent hover:text-highlight"
                 >
                   <span>click here to register</span>
                 </Link>
@@ -137,7 +137,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                   }}
                   autoComplete="email"
                   {...restEmail}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -160,7 +160,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                     },
                     required: "Password is required.",
                   })}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
@@ -177,7 +177,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                 id="rememberMe"
                 {...register("rememberMe")}
                 name="rememberMe"
-                className="focus:ring-blue-main h-4 w-4 text-blue-main border-blue-main rounded"
+                className="focus:ring-accent h-4 w-4 text-accent border-accent rounded"
                 defaultValue="false"
               />
             </div>
@@ -193,7 +193,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
             <div className="text-sm text-center pt-2">
               <Link
                 href="/reset-password"
-                className="font-medium text-blue-main hover:text-green-main"
+                className="font-medium text-accent hover:text-highlight"
                 title="Reset your password."
                 onClick={() => setOpen && setOpen(false)}
               >
@@ -205,7 +205,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
               <button
                 type="submit"
                 title="Click to sign in."
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-main"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   {loading ? (

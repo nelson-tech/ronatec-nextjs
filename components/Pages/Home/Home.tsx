@@ -1,11 +1,16 @@
-import dynamic from "next/dist/shared/lib/dynamic"
-import tw from "twin.macro"
-
-import { Page, Product, ProductCategory } from "@api/gql/types"
-
 import CardCarousel from "@components/CardCarousel"
 import Link from "@components/Link"
 import Image from "@components/Image"
+import VideoCard from "@components/VideoCard"
+import SupplierCard from "@components/Cards/Supplier"
+import IconCard from "@components/Cards/Icon"
+import {
+  GetHomeDataQuery,
+  Post_Common_Cards,
+  Product,
+  ProductCategory,
+  Supplier,
+} from "@api/codegen/graphql"
 
 // ####
 // #### Dynamic Imports
@@ -13,19 +18,19 @@ import Image from "@components/Image"
 
 const clientOpts = { ssr: false }
 
-const IconCard = dynamic(() => import("@components/Cards/Icon"), clientOpts)
-const SupplierCard = dynamic(
-  () => import("@components/Cards/Supplier"),
-  clientOpts,
-)
-const VideoCard = dynamic(() => import("@components/VideoCard"), clientOpts)
+// const IconCard = dynamic(() => import("@components/Cards/Icon"), clientOpts)
+// const SupplierCard = dynamic(
+//   () => import("@components/Cards/Supplier"),
+//   clientOpts,
+// )
+// const VideoCard = dynamic(() => import("@components/VideoCard"), clientOpts)
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  home: Page | null | undefined
+  home: GetHomeDataQuery["page"]
   topSellers: Product[] | null | undefined
   categories: ProductCategory[] | null | undefined
 }
@@ -35,8 +40,8 @@ type PropsType = {
 // ####
 
 const Home = ({ home, categories, topSellers }: PropsType) => {
-  const cards = home?.page_home?.acf?.cards
-  const supplier = home?.page_home?.acf?.featuredSupplier
+  const cards = home?.page_home?.acf?.cards as Post_Common_Cards[]
+  const supplier = home?.page_home?.acf?.featuredSupplier as Supplier
   const videoLink = home?.page_home?.acf?.videoLink
 
   return (
@@ -79,8 +84,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
             <Image
               src="https://cdn.ronatec.us/ronatec/20211130031916/san-diego.jpg"
               alt="Image"
-              objectFit="fill"
-              layout="responsive"
+              fill
               priority
               sizes="50vw"
             />
@@ -117,7 +121,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
         {videoLink && (
           <VideoCard
             videoLink={videoLink}
-            cardStyle={tw`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
+            cardStyle={`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
             light
           />
         )}

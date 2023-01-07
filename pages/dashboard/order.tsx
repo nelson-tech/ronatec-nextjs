@@ -4,7 +4,7 @@ import { useRouter } from "next/dist/client/router"
 import ArrowLeftIcon from "@heroicons/react/outline/ArrowLeftIcon"
 
 import withUrql from "@api/urql/hoc"
-import { Order, useGetUserOrderDataQuery } from "@api/gql/types"
+import { Order, useGetUserOrderDataQuery } from "@api/codegen/graphql"
 
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"

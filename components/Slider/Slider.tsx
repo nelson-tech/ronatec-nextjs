@@ -4,7 +4,7 @@ import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
-import { Maybe, Post_Common_Slides } from "@api/gql/types"
+import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 
 // ####
 // #### Types

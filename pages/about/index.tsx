@@ -4,7 +4,11 @@ import Image from "next/image"
 import { parseNewLines } from "@lib/utils"
 import urql from "@api/urql/serverClient"
 import withUrql from "@api/urql/hoc"
-import { GetAboutDataDocument, GetAboutDataQuery, Page } from "@api/gql/types"
+import {
+  GetAboutDataDocument,
+  GetAboutDataQuery,
+  Page,
+} from "@api/codegen/graphql"
 
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"

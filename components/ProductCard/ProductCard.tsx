@@ -2,7 +2,7 @@ import Link from "next/link"
 import { default as parse } from "html-react-parser"
 
 import useStore from "@lib/hooks/useStore"
-import { Product } from "@api/gql/types"
+import { Product } from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 

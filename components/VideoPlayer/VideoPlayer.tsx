@@ -1,29 +1,17 @@
-import dynamic from "next/dist/shared/lib/dynamic"
-import { SerializedStyles } from "@emotion/react"
-import { TwStyle } from "twin.macro"
-
-import { Post_Common_VideoLink } from "@api/gql/types"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = { ssr: false }
-
-const ReactPlayer = dynamic(() => import("react-player"), clientOpts)
-
 // ####
 // #### Types
 // ####
+
+import { Page_PageHome_Acf_VideoLink } from "@api/codegen/graphql"
+import ReactPlayer from "react-player"
 
 export type VideoPlayerPropsType = {
   source?: string
   rounded?: boolean
   light?: boolean
-  divStyle?: SerializedStyles | TwStyle
-  videoLink: Post_Common_VideoLink
+  divStyle?: string
+  videoLink: Page_PageHome_Acf_VideoLink
 }
-
 // ####
 // #### Component
 // ####
@@ -47,16 +35,15 @@ const VideoPlayer = ({
     <div
       className={`relative w-full aspect-video h-full${
         rounded && " overflow-hidden rounded-lg"
-      }`}
-      css={[divStyle]}
+      } ${divStyle}`}
     >
-      <ReactPlayer
+      {/* <ReactPlayer
         className="absolute top-0 left-0 h-full w-full"
         light={light}
         width="100%"
         height="100%"
         url={url}
-      />
+      /> */}
     </div>
   )
 }

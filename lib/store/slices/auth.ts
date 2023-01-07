@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand"
 
-import { User } from "@api/gql/types"
+import { User } from "@api/codegen/graphql"
 
 export type AuthSliceType = typeof initialState & {
   auth: {

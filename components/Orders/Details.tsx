@@ -1,5 +1,5 @@
 import { FullProduct } from "@lib/types"
-import { Order } from "@api/gql/types"
+import { Order } from "@api/codegen/graphql"
 
 import OrderSummary from "./Summary"
 import LineItem from "./LineItem"

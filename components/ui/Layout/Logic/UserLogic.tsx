@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import shallow from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
-import { useGetCustomerDataQuery, User } from "@api/gql/types"
+// import { useGetCustomerDataQuery, User } from "@api/codegen/graphql"
 
 // ####
 // #### Component
@@ -19,19 +19,19 @@ const UserLogic = () => {
   )
   const { setUser } = authActions
 
-  const [{ data: getUserData }, _] = useGetCustomerDataQuery({
-    pause: !loggedIn, // Pause if not logged in
-  })
+  // const [{ data: getUserData }, _] = useGetCustomerDataQuery({
+  //   pause: !loggedIn, // Pause if not logged in
+  // })
 
-  // Set user if retrieved and different
-  useEffect(() => {
-    const newUser = getUserData?.customer
-    if (loggedIn && newUser?.email) {
-      if (user?.username !== newUser.email) {
-        setUser(newUser as User)
-      }
-    }
-  }, [loggedIn, user, getUserData?.customer, setUser])
+  // // Set user if retrieved and different
+  // useEffect(() => {
+  //   const newUser = getUserData?.customer
+  //   if (loggedIn && newUser?.email) {
+  //     if (user?.username !== newUser.email) {
+  //       setUser(newUser as User)
+  //     }
+  //   }
+  // }, [loggedIn, user, getUserData?.customer, setUser])
 
   return <></>
 }

@@ -1,6 +1,6 @@
 import InformationCircleIcon from "@heroicons/react/outline/InformationCircleIcon"
 
-import { ProductCategory } from "@api/gql/types"
+import { ProductCategory } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 

@@ -1,4 +1,4 @@
-import { Order } from "@api/gql/types"
+import { Order } from "@api/codegen/graphql"
 import CheckIcon from "@heroicons/react/solid/CheckIcon"
 
 import Link from "@components/Link"

@@ -27,7 +27,7 @@ import {
   ProductCategory,
   ProductsOrderByEnum,
   useGetProductsByCategoryQuery,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 import Layout from "@components/ui/Layout"
 import Breadcrumbs from "@components/Breadcrumbs"

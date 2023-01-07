@@ -7,7 +7,7 @@ import ViewListIcon from "@heroicons/react/solid/ViewListIcon"
 
 import { sortOptions, SortOptionType } from "@lib/store/slices/shop"
 import useStore from "@lib/hooks/useStore"
-import { InputMaybe, ProductCategory } from "@api/gql/types"
+import { InputMaybe, ProductCategory } from "@api/codegen/graphql"
 
 import Filters from "@components/Filters"
 import LoadingSpinner from "@components/ui/LoadingSpinner"

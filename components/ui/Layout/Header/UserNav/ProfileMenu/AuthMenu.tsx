@@ -1,6 +1,8 @@
+"use client"
+
 import { memo } from "react"
 import { Menu } from "@headlessui/react"
-import LogoutIcon from "@heroicons/react/outline/LogoutIcon"
+import LogoutIcon from "@heroicons/react/24/outline/ArrowRightCircleIcon"
 
 import useLogout from "@lib/hooks/auth/useLogout"
 import userMenu from "@lib/userMenu"

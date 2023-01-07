@@ -3,7 +3,7 @@ import { useRouter } from "next/dist/client/router"
 
 import useStore from "@lib/hooks/useStore"
 import withUrql from "@api/urql/hoc"
-import { Order, useGetUserOrderDataQuery } from "@api/gql/types"
+import { Order, useGetUserOrderDataQuery } from "@api/codegen/graphql"
 
 import Layout from "@components/ui/Layout"
 import LoadingSpinner from "@components/ui/LoadingSpinner"

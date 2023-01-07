@@ -1,7 +1,7 @@
 import { useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 
-import { Supplier } from "@api/gql/types"
+import { Supplier } from "@api/codegen/graphql"
 
 import SupplierCard, { ChosenSupplierType } from "@components/Cards/Supplier"
 

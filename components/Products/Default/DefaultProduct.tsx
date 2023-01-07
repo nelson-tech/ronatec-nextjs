@@ -12,7 +12,7 @@ import {
   AddToCartInput,
   ProductAttributeInput,
   ProductVariation,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 import LoadingSpinner from "@components/ui/LoadingSpinner"

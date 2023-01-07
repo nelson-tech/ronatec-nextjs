@@ -21,7 +21,7 @@ import {
   Product,
   ProductCategory,
   useGetProductsByCategoryQuery,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"

@@ -6,9 +6,17 @@ import useStore from "@lib/hooks/useStore"
 
 import MenuPane from "./MenuPane"
 
-// import CurrencySelector from "../CurrencySelector"
+// ####
+// #### Types
+// ####
 
-const MobileMenu = () => {
+type MobileMenuInputType = { menuItems: MenuItemsType }
+
+// ####
+// #### Component
+// ####
+
+const MobileMenu = ({ menuItems }: MobileMenuInputType) => {
   const { open, setOpen } = useStore(
     state => ({
       open: state.ui.mobileMenuOpen,
@@ -36,7 +44,7 @@ const MobileMenu = () => {
           >
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75" />
           </Transition.Child>
-          <MenuPane />
+          <MenuPane menuItems={menuItems} />
         </Dialog>
       </Transition>
     </>

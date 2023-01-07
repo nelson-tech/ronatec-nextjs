@@ -1,7 +1,9 @@
+"use client"
+
 import { memo } from "react"
 import { Menu } from "@headlessui/react"
-import ClipboardCheckIcon from "@heroicons/react/outline/ClipboardCheckIcon"
-import LoginIcon from "@heroicons/react/outline/LoginIcon"
+import ClipboardCheckIcon from "@heroicons/react/24/outline/ClipboardDocumentCheckIcon"
+import LoginIcon from "@heroicons/react/24/outline/ArrowLeftCircleIcon"
 
 import useStore from "@lib/hooks/useStore"
 
@@ -29,7 +31,7 @@ const GuestMenu = memo(function GuestMenu() {
         <div className="group">
           <Link
             href="/register"
-            className="transition flex items-center text-blue-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-blue-main hover:text-white"
+            className="transition flex items-center text-accent-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-accent hover:text-white"
           >
             <ClipboardCheckIcon className="h-4 w-4 mr-2" />
             <div className="target">Register</div>

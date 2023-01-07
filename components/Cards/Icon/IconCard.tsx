@@ -1,8 +1,10 @@
+"use client"
+
 import { SerializedStyles } from "@emotion/react"
 import { TwStyle } from "twin.macro"
 
 import { parseNewLines } from "@lib/utils"
-import { Post_Common_Cards } from "@api/gql/types"
+import { Post_Common_Cards } from "@api/codegen/graphql"
 
 import Icon from "@components/ui/Icon"
 

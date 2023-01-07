@@ -1,6 +1,6 @@
 import { StateCreator } from "zustand"
 
-import { Cart } from "@api/gql/types"
+import { Cart } from "@api/codegen/graphql"
 
 export type CartSliceType = typeof initialState & {
   cart: {

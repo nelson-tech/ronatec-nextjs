@@ -1,0 +1,17 @@
+fragment CardsFragment on Page_PageAboutContact_Acf {
+  cards {
+    title
+    content
+    icon {
+      name
+      type
+    }
+    image {
+      ...ImageBase
+    }
+    link {
+      url
+      label
+    }
+  }
+}

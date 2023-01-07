@@ -17,14 +17,21 @@ const Link = ({
   target,
   className,
   children,
-  passHref = true,
+  onClick,
+  passHref = false,
   ...rest
 }: PropsType) => {
   return (
-    <NextLink href={href || ""} passHref id="nextlink">
-      <a title={title} target={target} {...rest} className={className}>
-        {children}
-      </a>
+    <NextLink
+      href={href || ""}
+      title={title}
+      target={target}
+      onClick={onClick}
+      passHref
+      id="nextlink"
+      className={className}
+    >
+      {children}
     </NextLink>
   )
 }

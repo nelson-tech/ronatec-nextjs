@@ -1,8 +1,8 @@
 import { Fragment, memo, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import shallow from "zustand/shallow"
-import ArrowRightIcon from "@heroicons/react/outline/ArrowRightIcon"
-import XIcon from "@heroicons/react/outline/XIcon"
+import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon"
+import XIcon from "@heroicons/react/24/outline/XCircleIcon"
 
 import useCart from "@lib/hooks/useCart"
 import useStore from "@lib/hooks/useStore"
@@ -96,11 +96,11 @@ const CartPane = () => {
                         <div className="mt-8 h-full">
                           <Link
                             href="/products"
-                            className="text-gray-800 h-full transition hover:text-green-main font-bold flex justify-center items-center"
+                            className="text-gray-800 h-full transition hover:text-accent font-bold flex justify-center items-center"
                             onClick={() => setOpen(false)}
                           >
                             Visit our shop!
-                            <ArrowRightIcon className="h-4 w-4 text-green-main ml-2" />
+                            <ArrowRightIcon className="h-4 w-4 text-accent ml-2" />
                           </Link>
                         </div>
                       </div>
@@ -123,7 +123,7 @@ const CartPane = () => {
                     href="/checkout"
                     title="Checkout"
                     onClick={() => setOpen(false)}
-                    className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-main hover:bg-green-main"
+                    className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-accent hover:bg-highlight"
                   >
                     Checkout
                   </Link>
@@ -140,7 +140,7 @@ const CartPane = () => {
                     or{" "}
                     <button
                       type="button"
-                      className="text-blue-main font-medium hover:text-green-main"
+                      className="text-accent font-medium hover:text-highlight"
                       onClick={() => setOpen(false)}
                     >
                       Continue Shopping

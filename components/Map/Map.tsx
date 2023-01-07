@@ -3,7 +3,11 @@ import { css } from "@emotion/react"
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
 
 import twConfig from "../../tailwind.config"
-import { Maybe, Post_Maps_MapOptions, Post_Maps_Markers } from "@api/gql/types"
+import {
+  Maybe,
+  Post_Maps_MapOptions,
+  Post_Maps_Markers,
+} from "@api/codegen/graphql"
 import useMobileDetect from "@lib/hooks/useMobileDetect"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"

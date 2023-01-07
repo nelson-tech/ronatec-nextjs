@@ -8,7 +8,7 @@ import {
   GetWarehousesDataDocument,
   GetWarehousesDataQuery,
   Page,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 import PageTitle from "@components/PageTitle"
 import Layout from "@components/ui/Layout"

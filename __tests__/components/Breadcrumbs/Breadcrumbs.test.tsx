@@ -1,4 +1,4 @@
-import { ProductCategory } from "@api/gql/types"
+import { ProductCategory } from "@api/codegen/graphql"
 import { render, screen } from "@testing-library/react"
 import Breadcrumbs, { PropsType } from "@components/Breadcrumbs/Breadcrumbs"
 

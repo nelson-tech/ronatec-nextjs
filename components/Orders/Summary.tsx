@@ -1,4 +1,4 @@
-import { Order } from "@api/gql/types"
+import { Order } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 

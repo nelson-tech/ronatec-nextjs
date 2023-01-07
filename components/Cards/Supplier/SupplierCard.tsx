@@ -1,10 +1,10 @@
-import InformationCircleIcon from "@heroicons/react/solid/InformationCircleIcon"
+import InformationCircleIcon from "@heroicons/react/20/solid/InformationCircleIcon"
 
-import { Supplier, Supplier_Supplier } from "@api/gql/types"
+import { Supplier, Supplier_Supplier } from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 import Icon from "@components/ui/Icon"
-import { Underlined, underSelect } from "@styles/utils"
+// import { Underlined, underSelect } from "@styles/utils"
 
 // ####
 // #### Types
@@ -63,8 +63,6 @@ const SupplierCard = ({
                   width={supplier.image.mediaDetails?.width || undefined}
                   height={supplier.image.mediaDetails?.height || undefined}
                   alt={supplier.image.altText || undefined}
-                  layout="responsive"
-                  objectFit="fill"
                   title={title}
                 />
               </a>
@@ -79,17 +77,14 @@ const SupplierCard = ({
             </div>
           )}
 
-          <div
-            className="bg-blue-main text-gray-100 text-center w-full"
-            css={underSelect}
-          >
+          <div className="bg-blue-main text-gray-100 text-center w-full">
             <a
               href={supplier.url || undefined}
               target="_blank"
               rel="noreferrer"
               className="flex py-2 items-center justify-center w-full h-full pl-4"
             >
-              <Underlined className="target">Visit {title}</Underlined>
+              <div className="target">Visit {title}</div>
               <div className="px-4">
                 <Icon
                   name="external-link"

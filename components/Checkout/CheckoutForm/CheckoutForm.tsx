@@ -13,7 +13,7 @@ import {
   Customer,
   Maybe,
   useCheckoutMutation,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import FormField from "@components/ui/FormField"

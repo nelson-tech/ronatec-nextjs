@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
+import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 
 import useStore from "@lib/hooks/useStore"
 import useRegister from "@lib/hooks/auth/useRegister"
@@ -60,7 +62,7 @@ const RegisterForm = () => {
     return (
       <ErrorMessage
         errors={errors}
-        name={name}
+        name={name as any}
         render={({ message }) => (
           <p className="text-red-main text-sm pt-2 pl-2">{message}</p>
         )}
@@ -94,7 +96,7 @@ const RegisterForm = () => {
                   {...register("firstName")}
                   type="text"
                   autoComplete="given-name"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="First Name"
                 />
               </div>
@@ -108,7 +110,7 @@ const RegisterForm = () => {
                   {...register("lastName")}
                   type="text"
                   autoComplete="family-name"
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Last Name"
                 />
               </div>
@@ -121,7 +123,7 @@ const RegisterForm = () => {
                   type="email"
                   autoComplete="email"
                   {...register("email", { required: "Email is required." })}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -138,7 +140,7 @@ const RegisterForm = () => {
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
@@ -152,7 +154,7 @@ const RegisterForm = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium hover:font-bold rounded-md text-white bg-blue-main hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium hover:font-bold rounded-md text-white bg-accent hover:bg-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3 ">
                   {loading ? (
@@ -174,7 +176,7 @@ const RegisterForm = () => {
                 <MenuLink
                   title="Login"
                   href="/login"
-                  className="text-blue-main hover:text-green-main transition"
+                  className="text-accent hover:text-highlight transition"
                 >
                   Click here to login.
                 </MenuLink>

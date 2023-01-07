@@ -6,7 +6,7 @@ import {
   GetDistributionDataDocument,
   GetDistributionDataQuery,
   Supplier,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 import Layout from "@components/ui/Layout"
 import PageTitle from "@components/PageTitle"

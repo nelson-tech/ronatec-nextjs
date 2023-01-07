@@ -1,20 +1,13 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  ecommerce: {
-    platform: process.env.NEXT_PUBLIC_ECOMMERCE_PLATFORM,
-  },
-  images: {
-    domains: ["cdn.ronatec.us", "ronatec.us", "shy.nelson.tech"],
+  experimental: {
+    appDir: true,
   },
   reactStrictMode: true,
-  experimental: {
-    outputStandalone: true,
-    runtime: "nodejs",
-  },
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
+  swcMinify: true,
+  images: {
+    domains: ["cdn.ronatec.us", "ronatec.us", "shy.nelson.tech"],
   },
 }
 

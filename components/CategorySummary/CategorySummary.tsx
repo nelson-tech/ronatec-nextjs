@@ -1,6 +1,6 @@
 import { RefObject } from "react"
 
-import { ProductCategory } from "@api/gql/types"
+import { ProductCategory } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 import Image from "@components/Image"

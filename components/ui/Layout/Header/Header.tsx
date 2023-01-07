@@ -1,4 +1,4 @@
-import Headroom from "react-headroom"
+// import Headroom from "react-headroom"
 
 import Link from "@components/Link"
 import Image from "@components/Image"
@@ -6,7 +6,8 @@ import Image from "@components/Image"
 import Promo from "./Promo"
 import MainMenu from "./MainMenu"
 import Usernav from "./UserNav"
-import MobileNav from "./MobileNav"
+// import MobileNav from "./MobileNav"
+import { GetMenuQuery } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -14,21 +15,20 @@ import MobileNav from "./MobileNav"
 
 type HeaderProps = {
   promo?: boolean
+  menuItems: NonNullable<
+    NonNullable<GetMenuQuery["menu"]>["menuItems"]
+  >["nodes"]
 }
 
 // ####
 // #### Component
 // ####
 
-const Header = ({ promo = false }: HeaderProps) => {
+const Header = ({ promo = false, menuItems }: HeaderProps) => {
   const logo = (
     <>
-      <div className={`w-10 h-10 text-center text-blue-main`}>
-        <Image
-          src="/images/ronatec.png"
-          alt="Ronatec Logo"
-          layout="responsive"
-        />
+      <div className={`w-10 h-10 text-center text-blue-main relative`}>
+        <Image src="/images/ronatec.png" alt="Ronatec Logo" fill />
         {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
           <path
             fill="#5375A0"
@@ -51,7 +51,7 @@ const Header = ({ promo = false }: HeaderProps) => {
   return (
     <>
       <header>
-        <Headroom style={{ zIndex: 11 }} upTolerance={2} className={` h-26`}>
+        <div style={{ zIndex: 11 }} className={` h-26`}>
           <nav aria-label="Top" className="border-b bg-white border-gray-200">
             {/* Top navigation */}
             {promo && <Promo />}
@@ -69,10 +69,10 @@ const Header = ({ promo = false }: HeaderProps) => {
                       </Link>
                     </div>
 
-                    <MainMenu />
+                    <MainMenu menuItems={menuItems} />
 
                     {/* Mobile menu and search (lg-) */}
-                    <MobileNav />
+                    {/* <MobileNav /> */}
 
                     {/* Logo (lg-) */}
                     <div className="h-8 w-8 lg:hidden">
@@ -88,7 +88,7 @@ const Header = ({ promo = false }: HeaderProps) => {
               </div>
             </div>
           </nav>
-        </Headroom>
+        </div>
       </header>
     </>
   )

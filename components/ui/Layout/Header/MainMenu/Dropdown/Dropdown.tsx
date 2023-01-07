@@ -1,18 +1,20 @@
+"use client"
+
 import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
-import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
+import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
 
-import { NormalizedMenuItem } from "@lib/types"
 import { GetDesktopLinkStyleType } from "../MainMenu"
 
 import Link from "@components/Link"
+import { GetMenuQuery } from "@api/codegen/graphql"
 
 // ####
 // #### Types
 // ####
 
 type DropdownProps = {
-  menuItem: NormalizedMenuItem
+  menuItem: MenuItemType
   getStyle: GetDesktopLinkStyleType
 }
 
@@ -21,14 +23,14 @@ type DropdownProps = {
 // ####
 
 const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
-  const path = menuItem.path || "/"
+  const path = menuItem.url || "/"
   return (
     <Menu as="div" className="relative h-full">
       {({ open }) => (
         <>
           <div className="flex h-full">
             <Menu.Button
-              title={menuItem.label}
+              title={menuItem.label ?? ""}
               className={getStyle({
                 open,
                 path,
@@ -57,19 +59,22 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 
                 {menuItem.children &&
-                  menuItem.children.map((item, index) => (
-                    <Menu.Item key={menuItem.label + index + item.label}>
-                      <div>
-                        <Link
-                          href={item.path}
-                          title={item.label}
-                          className="transition hover:bg-blue-main hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
-                        >
-                          {item.label}
-                        </Link>
-                      </div>
-                    </Menu.Item>
-                  ))}
+                  menuItem.children.map(
+                    (item, index) =>
+                      item.label && (
+                        <Menu.Item key={item.id}>
+                          <div>
+                            <Link
+                              href={item.url ?? ""}
+                              title={item.label}
+                              className="transition hover:bg-accent hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
+                            >
+                              {item.label}
+                            </Link>
+                          </div>
+                        </Menu.Item>
+                      ),
+                  )}
               </Menu.Items>
             </div>
           </Transition>

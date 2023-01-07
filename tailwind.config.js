@@ -60,6 +60,8 @@ module.exports = {
         // white: "#fffaff",
         black: "#0d1821",
         accent: "#5375A0",
+        "accent-dark": "#485D7D",
+        "accent-light": "#5375A0",
         highlight: "#37b679",
         error: "#d72638",
       },

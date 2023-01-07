@@ -1,9 +1,12 @@
+"use client"
+
 import { Fragment } from "react"
-import dynamic from "next/dynamic"
 import { Menu, Transition } from "@headlessui/react"
-import UserIcon from "@heroicons/react/outline/UserIcon"
+import UserIcon from "@heroicons/react/24/outline/UserCircleIcon"
 
 import useStore from "@lib/hooks/useStore"
+import AuthMenu from "./AuthMenu"
+import GuestMenu from "./GuestMenu"
 
 // ####
 // #### Dynamic Imports
@@ -11,8 +14,8 @@ import useStore from "@lib/hooks/useStore"
 
 const clientOpts = { ssr: false }
 
-const AuthMenu = dynamic(() => import("./AuthMenu"), clientOpts)
-const GuestMenu = dynamic(() => import("./GuestMenu"), {})
+// const AuthMenu = dynamic(() => import("./AuthMenu"), clientOpts)
+// const GuestMenu = dynamic(() => import("./GuestMenu"), {})
 
 // ####
 // #### Component

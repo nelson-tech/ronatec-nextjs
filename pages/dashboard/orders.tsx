@@ -3,7 +3,7 @@ import dynamic from "next/dist/shared/lib/dynamic"
 import isEqual from "lodash.isequal"
 
 import withUrql from "@api/urql/hoc"
-import { Order, useGetUserOrdersDataQuery } from "@api/gql/types"
+import { Order, useGetUserOrdersDataQuery } from "@api/codegen/graphql"
 
 import PageTitle from "@components/PageTitle"
 import Layout from "@components/ui/Layout"

@@ -1,19 +1,21 @@
 import dynamic from "next/dist/shared/lib/dynamic"
-import AtSymbolIcon from "@heroicons/react/solid/AtSymbolIcon"
-import GlobeAltIcon from "@heroicons/react/solid/GlobeAltIcon"
-import LocationMarkerIcon from "@heroicons/react/solid/LocationMarkerIcon"
-import PhoneIcon from "@heroicons/react/solid/PhoneIcon"
-import PrinterIcon from "@heroicons/react/solid/PrinterIcon"
-
+import AtSymbolIcon from "@heroicons/react/20/solid/AtSymbolIcon"
+import GlobeAltIcon from "@heroicons/react/20/solid/GlobeAltIcon"
+import LocationMarkerIcon from "@heroicons/react/20/solid/MapPinIcon"
+import PhoneIcon from "@heroicons/react/20/solid/PhoneIcon"
+import PrinterIcon from "@heroicons/react/20/solid/PrinterIcon"
+// import Icon from "@components/ui/Icon"
+import Image from "@components/Image"
+import MenuLink from "@components/Link"
 // ####
 // #### Dynamic Imports
 // ####
 
 const clientOpts = {}
 
-const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
-const Image = dynamic(() => import("@components/Image"), clientOpts)
-const MenuLink = dynamic(() => import("@components/Link"), clientOpts)
+// const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
+// const Image = dynamic(() => import("@components/Image"), clientOpts)
+// const MenuLink = dynamic(() => import("@components/Link"), clientOpts)
 
 // ####
 // #### Component
@@ -79,8 +81,6 @@ const Footer = () => {
                     src={`${process.env.NEXT_PUBLIC_CDN_BASE_URL}/ronatec/iso9001.png`}
                     width={593}
                     height={596}
-                    objectFit="cover"
-                    layout="responsive"
                     alt="ISO 9001 Certificate"
                   />
                 </div>
@@ -94,8 +94,8 @@ const Footer = () => {
                     src={`${process.env.NEXT_PUBLIC_CDN_BASE_URL}/ronatec/iso17025.png`}
                     width={218}
                     height={300}
-                    objectFit="cover"
-                    layout="responsive"
+                    // objectFit="cover"
+                    // layout="responsive"
                     alt="ISO 17025 Certificate"
                   />
                 </div>
@@ -153,7 +153,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center justify-between">
           <div className="flex space-x-6 md:order-2">
-            {navigation.payments.map(item => (
+            {/* {navigation.payments.map(item => (
               <Icon
                 name={`cc-${item.name.toLowerCase()}`}
                 type="brands"
@@ -161,7 +161,7 @@ const Footer = () => {
                 key={item.name}
                 iconKey={`icon-${item.name}`}
               />
-            ))}
+            ))} */}
           </div>
           <p className="mt-8 text-base text-gray-200 md:mt-0 md:order-1">
             &copy; {new Date().getFullYear()} Ronatec C2C, Inc. All rights

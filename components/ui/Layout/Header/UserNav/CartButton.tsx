@@ -1,5 +1,7 @@
+"use client"
+
 import shallow from "zustand/shallow"
-import ShoppingCartIcon from "@heroicons/react/outline/ShoppingCartIcon"
+import ShoppingCartIcon from "@heroicons/react/24/outline/ShoppingCartIcon"
 
 import useStore from "@lib/hooks/useStore"
 

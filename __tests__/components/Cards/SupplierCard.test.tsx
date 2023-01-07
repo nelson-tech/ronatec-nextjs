@@ -1,4 +1,4 @@
-import { MediaItem } from "@api/gql/types"
+import { MediaItem } from "@api/codegen/graphql"
 import { act, cleanup, render } from "@testing-library/react"
 import SupplierCard, {
   PropsType,
