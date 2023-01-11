@@ -5,13 +5,33 @@ import {
   GetProductsByCategoryDocument,
   GetProductsByCategoryQuery,
   GetProductsByCategoryQueryVariables,
+  Product,
 } from "@api/codegen/graphql"
 import { useState } from "react"
 
-const useFilteredProducts = () => {
+// ####
+// #### Types
+// ####
+
+type UseFilteredProductsPropsType = {
+  initialProducts: Product[]
+}
+
+type PageDataType = DeepNull<
+  GetProductsByCategoryQuery,
+  "products"
+>["products"]["pageInfo"]
+
+// ####
+// #### Hook
+// ####
+
+const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
   const [loading, setLoading] = useState(false)
-  const [products, setProducts] =
-    useState<GetProductsByCategoryQuery["products"]>()
+  const [products, setProducts] = useState<Product[] | null>(
+    props?.initialProducts ?? null,
+  )
+  const [pageData, setPageData] = useState<PageDataType>()
 
   const client = useClient()
 
@@ -25,11 +45,14 @@ const useFilteredProducts = () => {
       queryVars,
     )
 
-    productsData.products?.nodes && setProducts(productsData.products)
+    productsData.products?.nodes &&
+      setProducts(productsData.products.nodes as Product[])
+    productsData.products?.pageInfo &&
+      setPageData(productsData.products.pageInfo)
 
     setLoading(false)
   }
-  return { products, loading, fetchProducts }
+  return { products, pageData, loading, fetchProducts }
 }
 
 export default useFilteredProducts

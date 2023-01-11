@@ -31,7 +31,7 @@ const font = localFont({
 })
 
 // ####
-// #### Server Calls
+// #### API
 // ####
 
 const getMenuItems = async () => {

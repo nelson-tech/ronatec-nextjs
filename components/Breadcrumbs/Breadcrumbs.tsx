@@ -1,4 +1,4 @@
-import InformationCircleIcon from "@heroicons/react/outline/InformationCircleIcon"
+import InformationCircleIcon from "@heroicons/react/24/outline/InformationCircleIcon"
 
 import { ProductCategory } from "@api/codegen/graphql"
 
@@ -57,7 +57,7 @@ const Breadcrumbs = ({
             </div>
           </li>
           {category.ancestors?.nodes &&
-            category.ancestors.nodes.map((ancestor, index) => {
+            category.ancestors.nodes.map((ancestor: ProductCategory, index) => {
               if (ancestor) {
                 return (
                   <li key={ancestor.id}>

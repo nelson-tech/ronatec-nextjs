@@ -27,13 +27,18 @@ import useFilteredProducts from "@lib/hooks/useFilteredProducts"
 type ProductsInputType = {
   categories: ProductCategory[]
   categorySlugs: string[]
+  initialProducts: Product[]
 }
 
 // ####
 // #### Component
 // ####
 
-const Products = ({ categories, categorySlugs }: ProductsInputType) => {
+const Products = ({
+  categories,
+  categorySlugs,
+  initialProducts,
+}: ProductsInputType) => {
   const productRef = useRef<HTMLDivElement>(null)
 
   const { selectedSort, setGlobalSort } = useStore(
@@ -53,7 +58,9 @@ const Products = ({ categories, categorySlugs }: ProductsInputType) => {
 
   const [queryVars, setQueryVars] = useState(defaultQuery)
 
-  const { products, loading, fetchProducts } = useFilteredProducts()
+  const { products, pageData, loading, fetchProducts } = useFilteredProducts({
+    initialProducts,
+  })
 
   useEffect(() => {
     fetchProducts(queryVars)
@@ -155,16 +162,16 @@ const Products = ({ categories, categorySlugs }: ProductsInputType) => {
         selectedCategories={queryVars.categories}
         setSelectedCategories={setSelectedCategories}
       />
-      {products?.nodes &&
+      {products &&
         (queryVars.categories ? queryVars.categories.length > 0 : true) && (
           <>
-            <ProductGrid products={products.nodes as Product[]} />
+            <ProductGrid products={products as Product[]} />
 
-            {products?.pageInfo && (
+            {pageData && (
               <Pagination
                 productRef={productRef}
                 setPagination={setPagination}
-                pageInfo={products.pageInfo}
+                pageInfo={pageData}
               />
             )}
           </>
