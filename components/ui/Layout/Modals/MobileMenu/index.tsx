@@ -5,6 +5,7 @@ import { Dialog, Transition } from "@headlessui/react"
 import useStore from "@lib/hooks/useStore"
 
 import MenuPane from "./MenuPane"
+import { MenuItemsType } from "@api/types/menu"
 
 // ####
 // #### Types

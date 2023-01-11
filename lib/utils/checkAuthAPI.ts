@@ -12,14 +12,14 @@ type CheckAuthAPIInputType = {
   cookies: Partial<{
     [key: string]: string
   }>
-  tokens?: WP_AuthTokensType
+  tokens?: CLIENT_TokensType
 }
 
 const checkAuthAPI = async ({
   cookies,
   tokens: incomingTokens,
 }: CheckAuthAPIInputType): Promise<API_AuthCheckResultType> => {
-  let tokens: WP_AuthTokensType = {
+  let tokens: CLIENT_TokensType = {
     auth: cookies[AUTH_TOKEN_KEY] ?? incomingTokens?.auth,
     refresh: cookies[REFRESH_TOKEN_KEY] ?? incomingTokens?.refresh,
     cart: cookies[CART_TOKEN_KEY] ?? incomingTokens?.cart,

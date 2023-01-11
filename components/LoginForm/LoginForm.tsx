@@ -50,14 +50,12 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
     defaultValues: {
       email: "",
       password: "",
-      rememberMe: false,
     },
   })
 
   const onSubmit: SubmitHandler<{
     email: string
     password: string
-    rememberMe: boolean
   }> = async data => {
     setLoading(true)
     if (data.email && data.password) {
@@ -65,6 +63,8 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
         username: data.email,
         password: data.password,
       }
+
+      console.log("Submitting")
 
       await login({ input })
     }
@@ -165,22 +165,6 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                 />
               </div>
             </div>
-            <div className="mr-2 justify-end items-center flex">
-              <label
-                htmlFor="rememberMe"
-                className="text-sm italic text-gray-400 mr-2"
-              >
-                Remember me?
-              </label>
-              <input
-                type="checkbox"
-                id="rememberMe"
-                {...register("rememberMe")}
-                name="rememberMe"
-                className="focus:ring-accent h-4 w-4 text-accent border-accent rounded"
-                defaultValue="false"
-              />
-            </div>
 
             <div className="pt-2">
               <ErrorField name="email" />
@@ -217,7 +201,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                     />
                   )}
                 </span>
-                Sign in
+                Log in
               </button>
             </div>
           </form>

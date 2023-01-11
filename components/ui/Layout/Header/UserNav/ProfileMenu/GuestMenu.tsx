@@ -24,7 +24,7 @@ const GuestMenu = memo(function GuestMenu() {
           className="transition cursor-pointer flex items-center outline-none ring-transparent text-green-main px-4 py-2 text-sm hover:bg-green-main hover:text-white"
         >
           <LoginIcon className="h-4 w-4 mr-1.5" />
-          <div className="target">Sign in</div>
+          <div className="target">Log in</div>
         </div>
       </Menu.Item>
       <Menu.Item>

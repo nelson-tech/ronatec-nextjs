@@ -9,6 +9,7 @@ import Link from "@components/Link"
 import MegaMenu from "./MegaMenu"
 import Dropdown from "./Dropdown"
 import { GetMenuQuery } from "@api/codegen/graphql"
+import { MenuItemsType } from "@api/types/menu"
 
 // ####
 // #### Dynamic Imports
@@ -60,7 +61,10 @@ const MainMenu = ({ menuItems }: MainMenuInputType) => {
         <Popover.Group className="ml-8">
           <div className="h-full flex items-center space-x-2 text-sm font-medium text-gray-600">
             {menuItems.map(menuItem => {
-              if (menuItem.children && menuItem.children.length > 0) {
+              if (
+                menuItem.childItems?.nodes &&
+                menuItem.childItems.nodes.length > 0
+              ) {
                 if (menuItem.menuFields?.mega) {
                   // Mega Menu Column
                   return (

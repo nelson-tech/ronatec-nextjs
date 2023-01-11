@@ -12,12 +12,19 @@ export type StoreType = AlertSliceType &
   ShopSliceType &
   UISliceType
 
-const vanillaStore = create<StoreType>()((...a) => ({
-  ...createAlertSlice(...a),
-  ...createAuthSlice(...a),
-  ...createCartSlice(...a),
-  ...createShopSlice(...a),
-  ...createUISlice(...a),
-}))
+export type initialState = DeepPartial<AuthSliceType> &
+  DeepPartial<CartSliceType>
+
+const vanillaStore = (initialState?: initialState) => {
+  console.log("initial state", initialState)
+
+  return create<StoreType>()((...a) => ({
+    ...createAlertSlice(...a),
+    ...createAuthSlice(initialState?.auth)(...a),
+    ...createCartSlice(initialState?.cart)(...a),
+    ...createShopSlice(...a),
+    ...createUISlice(...a),
+  }))
+}
 
 export default vanillaStore

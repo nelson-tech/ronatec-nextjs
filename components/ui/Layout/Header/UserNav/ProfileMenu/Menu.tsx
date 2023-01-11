@@ -50,7 +50,7 @@ const ProfileMenu = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <div className="origin-top-right z-20 absolute -right-2 pt-2 w-48">
+              <div className=" z-20 absolute -right-[5.25rem] pt-2 w-48">
                 <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
                   {loggedIn ? (
                     <AuthMenu data-testid="auth-menu" />

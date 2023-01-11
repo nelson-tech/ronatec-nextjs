@@ -25,20 +25,26 @@ export const initialState = {
   },
 }
 
-const createCartSlice: StateCreator<CartSliceType, [], []> = set => ({
-  cart: {
-    ...initialState.cart,
-    setOpen: open => set(state => ({ cart: { ...state.cart, open } })),
-    setCart: cart => set(state => ({ cart: { ...state.cart, state: cart } })),
-    setLoading: loading => set(state => ({ cart: { ...state.cart, loading } })),
-    setSessionError: error =>
-      set(state => ({
-        cart: {
-          ...state.cart,
-          errors: { ...state.cart.errors, session: error },
-        },
-      })),
-  },
-})
+const createCartSlice = (
+  defaultValues?: Partial<typeof initialState["cart"]> | undefined,
+): StateCreator<CartSliceType, [], []> => {
+  return set => ({
+    cart: {
+      ...initialState.cart,
+      ...defaultValues,
+      setOpen: open => set(state => ({ cart: { ...state.cart, open } })),
+      setCart: cart => set(state => ({ cart: { ...state.cart, state: cart } })),
+      setLoading: loading =>
+        set(state => ({ cart: { ...state.cart, loading } })),
+      setSessionError: error =>
+        set(state => ({
+          cart: {
+            ...state.cart,
+            errors: { ...state.cart.errors, session: error },
+          },
+        })),
+    },
+  })
+}
 
 export default createCartSlice

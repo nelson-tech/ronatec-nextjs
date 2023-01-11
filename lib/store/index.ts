@@ -4,7 +4,7 @@ import createContext from "zustand/context"
 
 import isServer from "@lib/utils/isServer"
 
-import vanillaStore, { StoreType } from "./vanilla"
+import vanillaStore, { initialState, StoreType } from "./vanilla"
 
 //
 // TYPES
@@ -20,15 +20,15 @@ export const storeHook = zustandContext.useStore
 export const storeAPI = zustandContext.useStoreApi
 
 export const useCreateStore = (
-  initialState?: StoreType,
+  initialState?: initialState,
 ): (() => BoundStoreType) => {
   // For SSR & SSG, always use a new store.
   if (isServer) {
-    return () => create(vanillaStore)
+    return () => create(vanillaStore(initialState))
   }
 
   // For CSR, always re-use same store.
-  store = store ?? create(vanillaStore)
+  store = store ?? create(vanillaStore(initialState))
   // And if initialState changes, then merge states in the next render cycle.
   //
   // eslint complaining "React Hooks must be called in the exact same order in every component render"

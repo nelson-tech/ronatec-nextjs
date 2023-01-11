@@ -1,24 +1,40 @@
 query GetMenu {
   menu(id: "main", idType: SLUG) {
     id
-    menuItems(first: 100) {
+    menuItems(first: 100, where: { parentDatabaseId: 0 }) {
       pageInfo {
         hasNextPage
         endCursor
       }
       nodes {
         id
-        databaseId
         url
         label
-        parentDatabaseId
         menuFields {
           mega
-          column
         }
         childItems {
           nodes {
             id
+            url
+            label
+            menuFields {
+              column
+            }
+            childItems {
+              nodes {
+                id
+                url
+                label
+                childItems {
+                  nodes {
+                    id
+                    url
+                    label
+                  }
+                }
+              }
+            }
           }
         }
       }

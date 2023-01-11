@@ -7,7 +7,7 @@ import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
 import { GetDesktopLinkStyleType } from "../MainMenu"
 
 import Link from "@components/Link"
-import { GetMenuQuery } from "@api/codegen/graphql"
+import { MenuItemType } from "@api/types/menu"
 
 // ####
 // #### Types
@@ -58,8 +58,8 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
               <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-40">
                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 
-                {menuItem.children &&
-                  menuItem.children.map(
+                {menuItem.childItems?.nodes &&
+                  menuItem.childItems.nodes.map(
                     (item, index) =>
                       item.label && (
                         <Menu.Item key={item.id}>

@@ -1,5 +1,5 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
-import { useRouter } from "next/router"
+import { ChangeEvent, use, useEffect, useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 import debounce from "lodash.debounce"
 import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 import { Combobox, Transition } from "@headlessui/react"
@@ -7,6 +7,8 @@ import { Combobox, Transition } from "@headlessui/react"
 // import { Product, useQuickSearchQuery } from "@api/codegen/graphql"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import useClient from "@api/client"
+import { Product, QuickSearchDocument } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -24,12 +26,19 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
   const [query, setQuery] = useState<string | undefined>()
   const [results, setResults] = useState<any[] | undefined>()
 
+  const client = useClient()
+
   const router = useRouter()
 
   // const [{ data: searchData, error: searchError, fetching: searchFetching }] =
   //   useQuickSearchQuery({ variables: { search: query }, pause: !query })
 
-  const debounceSearchInput = useMemo(() => debounce(setQuery, 500), [])
+  const getSearchResult = async (search: string) => {
+    const data = await client.request(QuickSearchDocument, { search })
+    data.products?.nodes && setResults(data.products.nodes)
+  }
+
+  const debounceSearchInput = useMemo(() => debounce(getSearchResult, 500), [])
 
   const handleSearchField = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()

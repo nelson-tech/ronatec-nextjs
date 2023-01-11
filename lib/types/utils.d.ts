@@ -26,3 +26,7 @@ type PathsToStringArray<T extends string> =
     : [T]
 
 type DeepNull<T, P extends string> = DeepRequired<T, PathsToStringArray<P>>
+
+type DeepPartial<T extends object> = {
+  [K in keyof T]?: T[K] extends object ? partial<T[K]> : T[K]
+}

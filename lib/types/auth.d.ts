@@ -1,28 +1,24 @@
-type InMemoryAuthTokenType = {
-  authToken: string | null
-  authExpiration: number | null
-}
-
-type WP_AuthTokensType = {
+type CLIENT_TokensType = {
   auth?: string | null | undefined
   refresh?: string | null | undefined
   user?: string | null | undefined
   cart?: string | null | undefined
   session?: string | null | undefined
+  remove?: boolean | null | undefined
 }
 
-type WP_AUTH_LoginInputType = {
+type WP_LoginInputType = {
   username: string
   password: string
 }
 
-type WP_AUTH_LoginType = {
+type ENDPOINT_LoginInputType = {
   action: "LOGIN"
 
-  input?: WP_AUTH_LoginInputType | null | undefined
+  input?: WP_LoginInputType | null | undefined
 }
 
-type WP_RegisterUserInputType = {
+type WP_RegisterInputType = {
   username: string
   name?: string
   first_name?: string
@@ -38,54 +34,38 @@ type WP_RegisterUserInputType = {
   meta?: { [key: string]: string }[]
 }
 
-type WP_AUTH_RegisterType = {
+type ENDPOINT_RegisterInputType = {
   action: "REGISTER"
-  input: WP_RegisterUserInputType
+  input: WP_RegisterInputType
 }
 
-type WP_AUTH_CartType = {
+type ENDPOINT_CartInputType = {
   action: "CART"
   cartKey: string | null | undefined
 }
 
-type API_SetInputType = {
+type ENDPOINT_SetInputType = {
   action: "SET"
-  newCookies: string
+  tokens: CLIENT_TokensType
 }
 
-type API_AuthInputType =
+type ENDPOINT_AuthInputType =
   | (
-      | WP_AUTH_LoginType
-      | WP_AUTH_RegisterType
-      | WP_AUTH_CartType
-      | API_SetInputType
+      | ENDPOINT_LoginInputType
+      | ENDPOINT_RegisterInputType
+      | ENDPOINT_CartInputType
+      | ENDPOINT_SetInputType
       | {
           action: "CHECKING" | "INIT" | "LOGOUT"
         }
     ) & {
-      tokens?: WP_AuthTokensType
+      tokens?: CLIENT_TokensType
     }
 
-type WP_AUTH_LoginResponseType = {
-  success: boolean
-  statusCode: number
-  code: string
-  message: string
-  data: WP_AUTH_UserDataType & {
-    token: string
-  }
-}
-
-type CLIENT_AuthTokensType = {
-  authToken: string
-  refreshToken?: string
-  cartKey?: string
-}
-
-type API_AuthResponseType = {
+type ENDPOINT_AuthResponseType = {
   isAuth: boolean
   needsRefresh?: null | string
-  tokens?: WP_AuthTokensType
+  tokens?: CLIENT_TokensType
   cart?: WC_CartType
   user?: CLIENT_UserDataType
 }
@@ -94,5 +74,5 @@ type API_AuthCheckResultType = {
   isAuth: boolean
   newCookies: string[]
   user: WP_AUTH_UserDataType
-  tokens: WP_AuthTokensType
+  tokens: CLIENT_TokensType
 }

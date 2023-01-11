@@ -8,7 +8,11 @@ import {
   USER_TOKEN_KEY,
 } from "@lib/constants"
 
-const getTokens = (): { tokens: WP_AuthTokensType } => {
+// ####
+// #### Function (Can only be called on server)
+// ####
+
+const getTokens = (): { tokens: CLIENT_TokensType } => {
   const cookies = nextCookies()
 
   const authToken = cookies.get(AUTH_TOKEN_KEY)?.value
@@ -16,6 +20,8 @@ const getTokens = (): { tokens: WP_AuthTokensType } => {
   const cartToken = cookies.get(CART_TOKEN_KEY)?.value
   const cartSession = cookies.get(WOO_SESSION_KEY)?.value
   const userToken = cookies.get(USER_TOKEN_KEY)?.value
+
+  console.log("USER", cookies)
 
   return {
     tokens: {
