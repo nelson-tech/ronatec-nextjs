@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
 // import { useGetCustomerDataQuery, User } from "@api/codegen/graphql"

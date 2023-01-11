@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
 import {

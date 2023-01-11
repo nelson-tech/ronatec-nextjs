@@ -21,8 +21,6 @@ const getTokens = (): { tokens: CLIENT_TokensType } => {
   const cartSession = cookies.get(WOO_SESSION_KEY)?.value
   const userToken = cookies.get(USER_TOKEN_KEY)?.value
 
-  console.log("USER", cookies)
-
   return {
     tokens: {
       auth: authToken,

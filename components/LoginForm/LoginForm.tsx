@@ -2,7 +2,7 @@
 
 import { MutableRefObject, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"

@@ -44,8 +44,6 @@ const getMenuItems = async () => {
 const getAuthData = async (): Promise<LayoutAuthDataType> => {
   const { tokens } = getTokens()
 
-  console.log("SERVER", tokens)
-
   let isAuth = false
 
   const setTokens: LayoutAuthDataType["setTokens"] = []

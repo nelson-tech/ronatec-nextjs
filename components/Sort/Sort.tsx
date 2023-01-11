@@ -1,9 +1,9 @@
 import { Fragment, RefObject } from "react"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 import { Menu, Transition } from "@headlessui/react"
-import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
-import ViewGridIcon from "@heroicons/react/solid/ViewGridIcon"
-import ViewListIcon from "@heroicons/react/solid/ViewListIcon"
+import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
+import ViewGridIcon from "@heroicons/react/20/solid/ViewColumnsIcon"
+import ViewListIcon from "@heroicons/react/20/solid/ListBulletIcon"
 
 import { sortOptions, SortOptionType } from "@lib/store/slices/shop"
 import useStore from "@lib/hooks/useStore"
@@ -31,10 +31,6 @@ type PropsType = {
   ) => void
   setSelectedSort: (option: SortOptionType) => void
 }
-
-// ####
-// #### Variables
-// ####
 
 // ####
 // #### Component

@@ -1,5 +1,5 @@
 import dynamic from "next/dist/shared/lib/dynamic"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
 import withUrql from "@api/urql/hoc"

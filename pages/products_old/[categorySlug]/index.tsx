@@ -4,7 +4,7 @@ import {
   GetStaticPropsContext,
   InferGetStaticPropsType,
 } from "next"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 import { ParsedUrlQuery } from "querystring"
 
 import useStore from "@lib/hooks/useStore"

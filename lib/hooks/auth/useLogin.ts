@@ -1,4 +1,4 @@
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 
 import useClient from "@api/client"
 import {

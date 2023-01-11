@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
 // import { logout as logoutClient } from "@api/urql/utils"
