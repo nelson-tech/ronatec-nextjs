@@ -53,7 +53,7 @@ const RegisterForm = () => {
       password,
     }
 
-    await registerUser(input)
+    await registerUser({ input })
 
     setLoading(false)
   }

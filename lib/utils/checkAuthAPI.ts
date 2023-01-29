@@ -5,6 +5,7 @@ import {
   USER_TOKEN_KEY,
   WOO_SESSION_KEY,
 } from "@lib/constants"
+import { API_AuthCheckResultType, CLIENT_TokensType } from "@lib/types/auth"
 import { isTokenValid } from "@lib/utils/validateToken"
 // import loginOrRefresh from "../api/loginOrRefresh"
 
@@ -23,7 +24,7 @@ const checkAuthAPI = async ({
     auth: cookies[AUTH_TOKEN_KEY] ?? incomingTokens?.auth,
     refresh: cookies[REFRESH_TOKEN_KEY] ?? incomingTokens?.refresh,
     cart: cookies[CART_TOKEN_KEY] ?? incomingTokens?.cart,
-    session: cookies[WOO_SESSION_KEY] ?? incomingTokens?.session,
+    session: cookies[WOO_SESSION_KEY],
     user: cookies[USER_TOKEN_KEY] ?? incomingTokens?.user,
   }
 

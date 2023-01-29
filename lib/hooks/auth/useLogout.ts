@@ -2,8 +2,10 @@ import { useRouter } from "next/navigation"
 import { shallow } from "zustand/shallow"
 
 import useStore from "@lib/hooks/useStore"
-// import { logout as logoutClient } from "@api/urql/utils"
-// import { useLogoutUserMutation } from "@api/codegen/graphql"
+import useClient from "@api/client"
+import { LogoutUserDocument } from "@api/codegen/graphql"
+import { ENDPOINT_LogoutInputType } from "@lib/types/auth"
+import { AUTH_ENDPOINT } from "@lib/constants"
 
 const useLogout = () => {
   const router = useRouter()
@@ -18,25 +20,31 @@ const useLogout = () => {
     shallow,
   )
 
-  // const [_, logoutMutation] = useLogoutUserMutation()
+  const client = useClient()
 
   const logout = async () => {
-    // logoutMutation({ input: {} }).then(res => {
-    //   const { data, error } = res
-    //   if (loggedIn && data) {
-    //     setLoggedIn(false)
-    //     setUser(null)
-    //     logoutClient(true)
-    //     setAlert({
-    //       open: true,
-    //       primary: "Logged out.",
-    //       secondary: "",
-    //       type: "info",
-    //     })
-    //     // Redirect to homepage
-    //     router.push("/")
-    //   }
-    // })
+    const logoutData = await client.request(LogoutUserDocument, { input: {} })
+
+    if (logoutData.logout?.status) {
+      setLoggedIn(false)
+      setUser(null)
+      setAlert({
+        open: true,
+        primary: "Logged out.",
+        secondary: "",
+        type: "info",
+      })
+      // Make client call to API to set cookies for frontend
+      const body: ENDPOINT_LogoutInputType = {
+        action: "LOGOUT",
+      }
+
+      await fetch(AUTH_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify(body),
+      })
+      router.push("/")
+    }
     // TODO - Set errors
   }
   return { logout }

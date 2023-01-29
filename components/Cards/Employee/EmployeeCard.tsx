@@ -1,4 +1,4 @@
-import { parseNewLines } from "@lib/utils"
+import parseNewLines from "@lib/utils/parseNewLines"
 import { Employee } from "@api/codegen/graphql"
 
 import Icon from "@components/ui/Icon"

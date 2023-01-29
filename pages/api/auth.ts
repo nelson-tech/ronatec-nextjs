@@ -8,6 +8,10 @@ import {
   WOO_SESSION_KEY,
 } from "@lib/constants"
 import checkAuthAPI from "@lib/utils/checkAuthAPI"
+import {
+  ENDPOINT_AuthInputType,
+  ENDPOINT_AuthResponseType,
+} from "@lib/types/auth"
 // import getCart from "@lib/wp/api/getCart"
 // import checkAuthAPI from "@lib/wp/utils/checkAuthAPI"
 // import loginOrRefresh from "@lib/wp/api/loginOrRefresh"
@@ -19,11 +23,11 @@ export default async function handler(
   const data: ENDPOINT_AuthInputType =
     typeof req.body === "string" ? JSON.parse(req.body) : req.body
 
+  let { tokens } = data
+
   const cookies = req.cookies
 
-  const authData = await checkAuthAPI({ cookies, tokens: data.tokens })
-
-  let { tokens } = data
+  const authData = await checkAuthAPI({ cookies, tokens })
 
   // Set user from authCheck or from cookie/token
   const user = authData.user
@@ -196,9 +200,9 @@ export default async function handler(
           tokens.session &&
             tokens.session !== authData.tokens.session &&
             newCookies.push(
-              `${WOO_SESSION_KEY}=${JSON.stringify(
-                tokens.session,
-              )}; HttpOnly; Path=/; SameSite=None; Secure; expires=${new Date(
+              `${WOO_SESSION_KEY}=${
+                tokens.session
+              }; HttpOnly; Path=/; SameSite=None; Secure; expires=${new Date(
                 Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
               ).toUTCString()}`,
             )

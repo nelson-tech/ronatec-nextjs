@@ -35,7 +35,7 @@ const font = localFont({
 // ####
 
 const getMenuItems = async () => {
-  const client = useClient()
+  const client = useClient({ auth: null })
   const { menu } = await client.request(GetMenuDocument)
   const menuItems = menu?.menuItems?.nodes
   return menuItems
@@ -85,7 +85,6 @@ const getAuthData = async (): Promise<LayoutAuthDataType> => {
 
       if (result.viewer?.id) {
         // Tokenize user to pass as cookie
-        console.log("Viewer:", result.viewer, JSON.stringify(result.viewer))
 
         const viewer = encodeURIComponent(JSON.stringify(result.viewer))
 

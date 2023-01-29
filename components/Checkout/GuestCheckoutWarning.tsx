@@ -1,4 +1,4 @@
-import { ExclamationIcon } from "@heroicons/react/solid"
+import ExclamationIcon from "@heroicons/react/20/solid/ExclamationCircleIcon"
 
 import Link from "@components/Link"
 

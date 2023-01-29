@@ -16,6 +16,7 @@ type Props = {
   rounded?: "sm" | "md" | "lg"
   priority?: boolean
   sizes?: string | undefined
+  className?: string | undefined
 }
 
 // ####
@@ -31,6 +32,7 @@ const Image = ({
   width,
   rounded,
   priority,
+  className,
   sizes,
 }: Props) => {
   const fillSize: { [key: string]: any } = { fill }
@@ -39,6 +41,7 @@ const Image = ({
   return (
     // <ImageContainer rounded={rounded}>
     <NextImage
+      className={className}
       src={src}
       alt={alt ?? ""}
       title={title || alt || ""}

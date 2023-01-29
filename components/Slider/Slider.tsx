@@ -1,8 +1,8 @@
+"use client"
+
 import { useState } from "react"
 import Image, { ImageProps } from "next/image"
 import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
-import { SerializedStyles } from "@emotion/react"
-import { TwStyle } from "twin.macro"
 
 import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 
@@ -12,7 +12,7 @@ import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 
 export type SliderPropsType = {
   slides: Maybe<Post_Common_Slides>[]
-  sliderStyle?: (SerializedStyles | TwStyle)[]
+  sliderStyle?: string
   imageFit?: ImageProps["objectFit"]
   rounded?: boolean
   options?: KeenSliderOptions
@@ -53,7 +53,7 @@ const Slider = ({
   })
 
   return (
-    <div css={sliderStyle} className={containerClassName}>
+    <div className={containerClassName + " " + sliderStyle}>
       <div
         ref={sliderRef}
         className="keen-slider top-0 left-0 w-full h-full"

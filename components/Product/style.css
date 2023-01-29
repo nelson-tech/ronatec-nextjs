@@ -1,29 +1,68 @@
-import { css } from "@emotion/react"
-import styled from "@emotion/styled"
-import tw from "twin.macro"
+.container {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-export const Container = styled.div`
-  // Quick Edits Below
-  ${tw`text-gray-700 w-full mx-auto lg:max-w-7xl`}
-`
+@media (min-width: 1024px) {
+  .container {
+    max-width: 80rem /* 1280px */;
+  }
 
-export const TopContainer = styled.div`
-  // Quick edits below
-  ${tw`flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 my-8 mx-auto px-8 w-full lg:max-w-7xl`}
-`
+  .top-container {
+    max-width: 80rem /* 1280px */;
+  }
+}
 
-export const ProductTopContainer = styled.div`
-  // Quick edits below
-  ${tw`w-full h-full mx-auto`}
-`
+@media (min-width: 768px) {
+  .top-container {
+    flex-direction: row;
+  }
 
-export const ProductMainContainer = styled.div`
-  ul {
+  .top-container > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(2rem * var(--tw-space-x-reverse));
+    margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)));
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0px * var(--tw-space-y-reverse));
+  }
+}
+
+.top-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem /* 32px */;
+  margin-bottom: 2rem /* 32px */;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem /* 32px */;
+  padding-right: 2rem /* 32px */;
+  width: 100%;
+}
+
+.top-container > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+
+.product-top-container {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product-container {
+  & ul {
     font-size: 1.25rem /* 20px */;
     line-height: 1.75rem /* 28px */;
     margin-left: 1rem /* 16px */;
 
-    li {
+    & li {
       font-size: 0.875rem /* 14px */;
       line-height: 1.25rem /* 20px */;
       list-style-type: disc;
@@ -32,11 +71,11 @@ export const ProductMainContainer = styled.div`
     }
   }
 
-  ol {
+  & ol {
     list-style-type: decimal;
     margin-left: 1rem /* 16px */;
 
-    li {
+    & li {
       font-size: 0.875rem /* 14px */;
       line-height: 1.25rem /* 20px */;
       margin-left: 1rem /* 16px */;
@@ -44,36 +83,55 @@ export const ProductMainContainer = styled.div`
     }
   }
 
-  hr {
+  & hr {
     margin-top: 0.5rem /* 8px */;
     margin-bottom: 0.5rem /* 8px */;
   }
 
-  div {
+  & div {
     padding-top: 0.5rem /* 8px */;
     padding-bottom: 0.5rem /* 8px */;
   }
 
-  h2 {
-    ${tw`text-xl font-bold py-4`}
+  & h2 {
+    font-size: 1.25rem /* 20px */;
+    line-height: 1.75rem /* 28px */;
+    font-weight: 700;
+    padding-top: 1rem /* 16px */;
+    padding-bottom: 1rem /* 16px */;
   }
-  .column-container {
-    ${tw`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-4 px-0`}
-    .column {
-      ${tw`px-4 pb-4`}
-      img {
-        ${tw`mx-8`}
+  & .column-container {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    padding-bottom: 1rem /* 16px */;
+    padding-left: 0px;
+    padding-right: 0px;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    & .column {
+      padding-left: 1rem /* 16px */;
+      padding-right: 1rem /* 16px */;
+      padding-bottom: 1rem /* 16px */;
+      & img {
+        margin-left: 2rem /* 32px */;
+        margin-right: 2rem /* 32px */;
       }
     }
   }
 
-  div {
-    ${tw`text-sm`}
+  & div {
+    font-size: 0.875rem /* 14px */;
+    line-height: 1.25rem /* 20px */;
   }
 
   /* TABS - Start */
 
-  .tab-group {
+  & .tab-group {
     display: flex;
     border-bottom-width: 1px;
     border-top-width: 1px;
@@ -82,7 +140,7 @@ export const ProductMainContainer = styled.div`
     margin-top: 1rem /* 16px */;
     padding: 0px;
 
-    [role="tab"] {
+    & [role="tab"] {
       border-color: transparent;
       --tw-text-opacity: 1;
       color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -107,7 +165,7 @@ export const ProductMainContainer = styled.div`
       outline-offset: 2px;
     }
 
-    [aria-selected="true"] {
+    & [aria-selected="true"] {
       --tw-border-opacity: 1;
       border-color: rgb(83 117 160 / var(--tw-border-opacity));
       --tw-text-opacity: 1;
@@ -115,7 +173,7 @@ export const ProductMainContainer = styled.div`
     }
   }
 
-  [role="tabpanel"] {
+  & [role="tabpanel"] {
     padding: 0.5rem /* 8px */;
     margin-top: 1rem /* 16px */;
     --tw-text-opacity: 1;
@@ -127,7 +185,7 @@ export const ProductMainContainer = styled.div`
   /* TABS - End */
 
   /* TABLE - Start */
-  .table-1 {
+  & .table-1 {
     --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),
       0 1px 2px -1px var(--tw-shadow-color);
@@ -146,7 +204,7 @@ export const ProductMainContainer = styled.div`
     margin-bottom: 1.5rem /* 24px */;
     padding: 0px;
 
-    table {
+    & table {
       min-width: 100%;
       > :not([hidden]) ~ :not([hidden]) {
         --tw-divide-y-reverse: 0;
@@ -156,7 +214,7 @@ export const ProductMainContainer = styled.div`
         border-color: rgb(229 231 235 / var(--tw-divide-opacity));
       }
 
-      thead {
+      & thead {
         --tw-bg-opacity: 1;
         background-color: rgb(249 250 251 / var(--tw-bg-opacity));
         th {
@@ -212,4 +270,4 @@ export const ProductMainContainer = styled.div`
     padding-left: 2rem /* 32px */;
     padding-right: 2rem /* 32px */;
   }
-`
+}

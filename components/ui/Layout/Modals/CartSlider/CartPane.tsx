@@ -11,7 +11,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 import Link from "@components/Link"
 import CartItem from "./CartItem"
 
-import { StyledCartPane } from "./style"
+// import { StyledCartPane } from "./style"
 
 // ####
 // #### Component
@@ -32,14 +32,17 @@ const CartPane = () => {
 
   const handleClearCart = async () => {
     setLoading(true)
-    const { data, error } = await clearCart()
+    await clearCart()
     // TODO - Handle error case
     setLoading(false)
   }
 
   return (
     <>
-      <StyledCartPane>
+      <div
+        className="fixed inset-y-0 right-0 md:max-w-full flex"
+        style={{ maxWidth: "380px" }}
+      >
         <Transition.Child
           as={Fragment}
           enter="transform transition ease-in-out duration-300"
@@ -152,7 +155,7 @@ const CartPane = () => {
             </div>
           </Dialog.Panel>
         </Transition.Child>
-      </StyledCartPane>
+      </div>
     </>
   )
 }

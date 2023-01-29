@@ -22,7 +22,7 @@ const Modals = ({ menuItems }: ModalsInputType) => {
       {menuItems && <MobileMenu menuItems={menuItems} />}
       <SearchModal />
       <LoginModal />
-      {/* <CartSlider /> */}
+      <CartSlider />
     </>
   )
 }

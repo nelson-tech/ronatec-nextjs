@@ -1,6 +1,8 @@
+"use client"
+
 import { htmlParserOptions, parse } from "@lib/utils"
 
-import Container from "./style"
+// import Container from "./style"
 
 // ####
 // #### Types
@@ -17,8 +19,11 @@ type PropsType = {
 const CategoryInfo = ({ content }: PropsType) => {
   return (
     <>
+      <div className="pt-4 mt-4 border-t-2 p-4"></div>
       <div className="w-full px-5">
-        <Container>{content && parse(content, htmlParserOptions)}</Container>
+        <div className="category-info pt-8 px-2 mb-8 text-gray-700 mx-auto lg:max-w-7xl">
+          {content && parse(content, htmlParserOptions)}
+        </div>
       </div>
     </>
   )

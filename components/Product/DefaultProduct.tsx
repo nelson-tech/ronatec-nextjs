@@ -1,8 +1,10 @@
+"use client"
+
 import { FormEventHandler, useEffect, useState } from "react"
 import { RadioGroup } from "@headlessui/react"
-import PlusIcon from "@heroicons/react/solid/PlusIcon"
-import MinusIcon from "@heroicons/react/solid/MinusIcon"
-import CheckIcon from "@heroicons/react/solid/CheckIcon"
+import PlusIcon from "@heroicons/react/20/solid/PlusIcon"
+import MinusIcon from "@heroicons/react/20/solid/MinusIcon"
+import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 
 import useCart from "@lib/hooks/useCart"
 import { htmlParserOptions, parse } from "@lib/utils"
@@ -12,17 +14,13 @@ import {
   AddToCartInput,
   ProductAttributeInput,
   ProductVariation,
+  VariationAttribute,
 } from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
-import {
-  Container,
-  ProductMainContainer,
-  ProductTopContainer,
-  TopContainer,
-} from "./style"
+import "./style.css"
 
 // ####
 // #### Types
@@ -43,11 +41,11 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
     let allAttributes: AttributeType[] = []
 
     product.variations?.nodes &&
-      product.variations.nodes.map(variation => {
+      product.variations.nodes.map((variation: ProductVariation) => {
         if (variation) {
-          const { attributes } = variation as ProductVariation
+          const { attributes } = variation
           attributes?.nodes &&
-            attributes.nodes.map(attribute => {
+            attributes.nodes.map((attribute: VariationAttribute) => {
               if (attribute && attribute.name) {
                 if (!allAttributes.some(a => a.name === attribute.label)) {
                   allAttributes.push({
@@ -110,7 +108,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
         const attributes = selectedVariation.attributes?.nodes
         if (attributes && attributes) {
           const variation: ProductAttributeInput[] = attributes.map(
-            attribute => {
+            (attribute: VariationAttribute) => {
               return {
                 attributeName: attribute?.name || "",
                 attributeValue: attribute?.value || "",
@@ -122,9 +120,9 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
         }
       }
 
-      const { data, error } = await addToCart(input)
+      const cartData = await addToCart({ input })
 
-      if (data) {
+      if (cartData.addToCart?.cart) {
         setItemAdded(true)
         if (!isServer) {
           window.scrollTo({ top: 0, behavior: "smooth" })
@@ -137,11 +135,11 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
         setAddLoading(false)
       }
 
-      if (error) {
-        console.warn("ERROR", error)
+      // if (error) {
+      //   console.warn("ERROR", error)
 
-        setError(error.message)
-      }
+      //   setError(error.message)
+      // }
     } else {
       setError("Product ID not found.")
       setAddLoading(false)
@@ -150,15 +148,13 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
 
   return (
     <>
-      <Container>
-        <TopContainer>
+      <div className="text-gray-700 w-full mx-auto lg:max-w-7xl">
+        <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-8 my-8 mx-auto px-8 w-full lg:max-w-7xl">
           <div className="w-full">
             {product.image?.sourceUrl && (
               <Image
                 src={product.image.sourceUrl}
                 alt={product.image.altText || ""}
-                layout="responsive"
-                objectFit="contain"
                 height={product.image?.mediaDetails?.height}
                 width={product.image?.mediaDetails?.width}
                 rounded="lg"
@@ -166,7 +162,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
               />
             )}
           </div>
-          <ProductTopContainer>
+          <div className="w-full h-full mx-auto">
             <h2 className="text-2xl font-extrabold">{product.name}</h2>
             {/* <div className="py-4">
               <span>{product.price}</span>
@@ -309,9 +305,9 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
             >
               Add & Checkout
             </button> */}
-          </ProductTopContainer>
-        </TopContainer>
-        <ProductMainContainer>
+          </div>
+        </div>
+        <div className="product-container">
           {selectedVariation && (
             <>
               <div className="flex border-t">
@@ -338,8 +334,8 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                 parse(product.description, htmlParserOptions)}
             </div>
           </div>
-        </ProductMainContainer>
-      </Container>
+        </div>
+      </div>
     </>
   )
 }

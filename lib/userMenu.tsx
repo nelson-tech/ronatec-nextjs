@@ -10,7 +10,7 @@ const userMenu: UserMenuItem[] = [
   // { name: "Your Profile", href: "/dashboard" },
   {
     name: "Orders",
-    href: "/dashboard/orders",
+    href: "/orders",
     icon: props => <CollectionIcon {...props} />,
   },
 ]

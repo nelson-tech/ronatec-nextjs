@@ -1,24 +1,25 @@
 import { useState } from "react"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { SubmitHandler, useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { DocumentDuplicateIcon } from "@heroicons/react/solid"
+import DocumentDuplicateIcon from "@heroicons/react/20/solid/DocumentDuplicateIcon"
 // import { LockClosedIcon } from "@heroicons/react/solid"
 
 import useCart from "@lib/hooks/useCart"
 import useStore from "@lib/hooks/useStore"
 import {
+  CheckoutDocument,
   CheckoutInput,
   CountriesEnum,
   Customer,
   Maybe,
-  useCheckoutMutation,
 } from "@api/codegen/graphql"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import FormField from "@components/ui/FormField"
 
 import schema from "./formSchema"
+import useClient from "@api/client"
 
 // ####
 // #### Types
@@ -61,7 +62,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
 
   const setAlert = useStore(state => state.alert.setAlert)
 
-  const [_, checkoutMutation] = useCheckoutMutation()
+  const client = useClient()
 
   const {
     formState: { errors },
@@ -125,33 +126,26 @@ const CheckoutForm = ({ customer }: PropsType) => {
     input.paymentMethod = "cod"
     input.isPaid = false
 
-    const { data, error } = await checkoutMutation({ input })
+    const checkoutData = await client.request(CheckoutDocument, { input })
 
-    data?.checkout?.order &&
+    if (checkoutData?.checkout?.order) {
       clearCart().then(r => {
-        data?.checkout?.order &&
+        checkoutData?.checkout?.order &&
           router.push(
-            {
-              pathname: "/thanks",
-              query: { orderData: JSON.stringify(data.checkout.order) },
-            },
             `/thanks${
-              data.checkout.order.orderNumber
-                ? `?order=${data.checkout.order.orderNumber}`
+              checkoutData.checkout.order.orderNumber
+                ? `?order=${checkoutData.checkout.order.orderNumber}`
                 : ""
             }`,
           )
       })
-
-    error &&
+    } else {
       setAlert({
         open: true,
         type: "error",
         primary: "Error Checking Out",
-        secondary: error.message.split("] ")[1],
       })
-
-    error && console.warn(error)
+    }
 
     setLoading(false)
   }

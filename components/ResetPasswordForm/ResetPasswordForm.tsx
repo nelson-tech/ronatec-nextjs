@@ -19,7 +19,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 // ####
 
 type ResetPasswordFormInputType = {
-  detectedEmail: string | null
+  detectedEmail: string | null | undefined
 }
 
 // ####
@@ -39,7 +39,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   )
 
   const [email, setEmail] = useState<string | null>(
-    searchParams.get("email") ?? detectedEmail,
+    searchParams.get("email") ?? detectedEmail ?? null,
   )
   const [key, setKey] = useState<string | null>(searchParams.get("key"))
   const [password, setPassword] = useState<string | null>(null)

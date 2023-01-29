@@ -1,55 +1,51 @@
+import useClient from "@api/client"
+import {
+  AddToCartDocument,
+  AddToCartMutationVariables,
+  Cart,
+  ClearCartDocument,
+  GetCartDocument,
+  RemoveCartItemDocument,
+  RemoveCartItemMutationVariables,
+  UpdateCartItemQuantityDocument,
+  UpdateCartItemQuantityMutationVariables,
+} from "@api/codegen/graphql"
 import { CombinedError, OperationResult } from "urql"
-
-// import {
-//   AddToCartInput,
-//   RemoveItemsFromCartInput,
-//   UpdateItemQuantitiesInput,
-//   useAddToCartMutation,
-//   useClearCartMutation,
-//   useRemoveCartItemMutation,
-//   useUpdateCartItemQuantityMutation,
-// } from "@api/codegen/graphql"
+import useStore from "./useStore"
 
 const useCart = () => {
-  // const [_remove, removeMutation] = useRemoveCartItemMutation()
-  // const [_clear, clearMutation] = useClearCartMutation()
-  // const [_add, addMutation] = useAddToCartMutation()
-  // const [_update, updateMutation] = useUpdateCartItemQuantityMutation()
+  const client = useClient()
 
-  const getReturnData = (res: OperationResult) => {
-    const { data, error } = res
+  const { state: cart, setCart, setLoading } = useStore(stores => stores.cart)
 
-    let returnData: { data: boolean; error: CombinedError | null } = {
-      data: false,
-      error: null,
-    }
+  const fetchCart = async () => {
+    const cartData = await client.request(GetCartDocument)
 
-    if (data) {
-      returnData.data = true
-    } else if (error) {
-      returnData.error = error
-    }
-
-    return returnData
+    cartData.cart && setCart(cartData.cart as Cart)
   }
 
   const clearCart = async () => {
-    // return await clearMutation({ input: {} }).then(getReturnData)
+    return await client.request(ClearCartDocument, { input: {} })
   }
 
-  const removeItem = async (input: any) => {
-    // return await removeMutation({ input }).then(getReturnData)
+  const removeItem = async (input: RemoveCartItemMutationVariables) => {
+    return await client.request(RemoveCartItemDocument, input)
   }
 
-  const addToCart = async (input: any) => {
-    // return await addMutation({ input }).then(getReturnData)
+  const addToCart = async (input: AddToCartMutationVariables) => {
+    setLoading(true)
+    const cartData = await client.request(AddToCartDocument, input)
+
+    cartData.addToCart?.cart && (await fetchCart())
+    setLoading(false)
+    return cartData
   }
 
-  const updateCart = async (input: any) => {
-    // return await updateMutation({ input }).then(getReturnData)
+  const updateCart = async (input: UpdateCartItemQuantityMutationVariables) => {
+    return await client.request(UpdateCartItemQuantityDocument, input)
   }
 
-  return { clearCart, removeItem, addToCart, updateCart }
+  return { clearCart, removeItem, addToCart, updateCart, fetchCart }
 }
 
 export default useCart

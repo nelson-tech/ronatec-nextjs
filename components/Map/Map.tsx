@@ -1,5 +1,7 @@
+"use client"
+
 import { useCallback, useState } from "react"
-import { css } from "@emotion/react"
+import "./style.css"
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
 
 import twConfig from "../../tailwind.config"
@@ -133,18 +135,12 @@ const Map = ({
     mapOptions = DEFAULT_OPTIONS
   }
 
+  const markerLoad = (marker: google.maps.Marker) => {
+    console.log("Marker: ", marker)
+  }
+
   return (
-    <div
-      className="w-screen"
-      css={css`
-        .gmnoprint {
-          visibility: hidden;
-        }
-        .gm-style div a img {
-          visibility: hidden;
-        }
-      `}
-    >
+    <div className="w-screen">
       {isLoaded ? (
         <GoogleMap
           mapContainerClassName={containerClassNames}
@@ -159,6 +155,9 @@ const Map = ({
               if (markerCenter && markerCenter.lat && markerCenter.lng) {
                 const { lat, lng } = markerCenter
 
+                const iconType = marker?.icon?.type ?? "regular"
+                const iconName = marker?.icon?.name ?? "location-dot"
+
                 return (
                   <Marker
                     position={{ lat, lng }}
@@ -167,16 +166,9 @@ const Map = ({
                         ? marker!.label || undefined
                         : undefined
                     }
-                    icon={
-                      marker!.icon
-                        ? marker!.icon.name
-                          ? `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/icons/${
-                              marker!.icon.type
-                            }/${marker!.icon.name}.svg`
-                          : undefined
-                        : undefined
-                    }
-                    key={"map_marker" + marker!.label + (lat + lng)}
+                    onLoad={markerLoad}
+                    icon={`${process.env.NEXT_PUBLIC_CDN_BASE_URL}/icons/${iconType}/${iconName}.svg`}
+                    key={"map_marker" + marker?.label + (lat + lng)}
                   />
                 )
               }

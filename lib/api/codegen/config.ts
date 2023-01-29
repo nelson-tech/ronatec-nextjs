@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     "lib/api/codegen/": {
-      config: { dedupeFragments: true },
+      config: { dedupeFragments: true, fragmentMasking: false },
       preset: "gql-tag-operations-preset",
       plugins: ["typescript", "typescript-operations"],
     },

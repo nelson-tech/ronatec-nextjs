@@ -34,12 +34,12 @@ const VideoCard = ({
   const { title, videoUrl, videoId, provider } = videoLink
   if (videoId || videoUrl) {
     return (
-      <div className={"w-full h-full" + cardStyle}>
+      <div className={"w-full h-full " + cardStyle}>
         {/* Title */}
         {title && (
           <div
             className={
-              "text-center pb-4 text-2xl divide-y-4 divide-gray-150 divide-double relative px-6" +
+              "text-center pb-4 text-2xl divide-y-4 divide-gray-150 divide-double relative px-6 " +
               titleStyle
             }
           >

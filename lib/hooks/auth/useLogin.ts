@@ -7,6 +7,7 @@ import {
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { AUTH_ENDPOINT } from "@lib/constants"
+import { ENDPOINT_SetInputType } from "@lib/types/auth"
 
 const useLogin = () => {
   const { setAlert, setUser, setLoggedIn, setLoginError } = useStore(

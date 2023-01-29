@@ -7,7 +7,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["cdn.ronatec.us", "ronatec.us", "shy.nelson.tech"],
+    domains: [
+      "cdn.ronatec.us",
+      "api.ronatec.us",
+      "ronatec.us",
+      "shy.nelson.tech",
+    ],
   },
 }
 

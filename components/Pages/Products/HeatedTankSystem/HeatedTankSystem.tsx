@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-import { StyledTable } from "./style"
+import "./style.css"
 
 // ####
 // #### Component
@@ -61,7 +61,7 @@ const HeatedTankSystemComponent = () => {
         </div>
 
         <div className="pt-4 text-gray-500 border-t">
-          <StyledTable>
+          <div className="styled-table">
             <table width="100%">
               <thead>
                 <tr>
@@ -151,7 +151,7 @@ const HeatedTankSystemComponent = () => {
                 </tr>
               </tbody>
             </table>
-          </StyledTable>
+          </div>
           <div className="text-sm text-gray-400 pb-4">
             <p>
               * The above evaporation rates are based on water. Evaporation

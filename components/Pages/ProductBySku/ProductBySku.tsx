@@ -2,7 +2,7 @@ import { FullProduct } from "@lib/types"
 import { ProductCategory } from "@api/codegen/graphql"
 
 import Breadcrumbs from "@components/Breadcrumbs"
-import DefaultProduct from "@components/Products"
+import DefaultProduct from "@components/Product"
 
 // ####
 // #### Dynamic Imports
