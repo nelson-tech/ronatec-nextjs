@@ -23,7 +23,7 @@ const useLogin = () => {
   const client = useClient()
 
   const login = async ({ input }: LoginUserMutationVariables) => {
-    client.setHeader("auth", "true")
+    client.setHeader("auth", "false")
     await client
       .request(LoginUserDocument, { input })
       .then(async data => {
@@ -35,6 +35,7 @@ const useLogin = () => {
             const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
 
             // Set authToken in client
+            client.setHeader("auth", "true")
             client.setHeader("Authorization", `Bearer ${jwtAuthToken}`)
 
             // Set cart session in client

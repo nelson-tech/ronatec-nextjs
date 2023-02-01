@@ -42,7 +42,6 @@ const requestMiddleware = async (request: any) => {
   if (!isServer) {
     // Client calls rely on localStorage
     const clientSession = localStorage.getItem(CART_TOKEN_KEY)
-    const headers: any = { ...request.headers }
     clientSession &&
       (headers["woocommerce-session"] = `Session ${clientSession}`)
   }

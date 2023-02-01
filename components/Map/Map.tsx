@@ -66,10 +66,10 @@ const Map = ({
   containerClassNames,
 }: Props) => {
   return (
-    <>
+    <div className={containerClassNames}>
       <ComposableMap
         projection="geoAlbersUsa"
-        className={"bg-accent " + containerClassNames}
+        className={"bg-accent aspect-[2] md:aspect-[3]"}
       >
         <Geographies geography={geoShape} className="">
           {({ geographies }) =>
@@ -104,7 +104,7 @@ const Map = ({
             )
           })}
       </ComposableMap>
-    </>
+    </div>
   )
 }
 

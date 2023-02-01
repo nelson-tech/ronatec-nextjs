@@ -37,7 +37,6 @@ const ContactPage = async () => {
     <>
       <Map
         markers={map?.markers as Post_Maps_Markers[]}
-        containerClassNames="aspect-2 md:aspect-3"
         key={map?.fieldGroupName + "map_contact"}
       />
 

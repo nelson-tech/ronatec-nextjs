@@ -33,10 +33,7 @@ const WarehousesPage = async () => {
 
   return (
     <>
-      <Map
-        markers={markers as Post_Maps_Markers[]}
-        containerClassNames="aspect-2 md:aspect-3"
-      />
+      <Map markers={markers as Post_Maps_Markers[]} />
 
       <div className="relative bg-white py-8 px-2">
         <div className="mx-auto max-w-md w-2/3 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
