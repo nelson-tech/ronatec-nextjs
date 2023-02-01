@@ -227,6 +227,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
                                     key={column.id}
                                     href={column.url ?? ""}
                                     title={column.label ?? ""}
+                                    onClick={() => setOpen(false)}
                                     className="py-3 text-gray-600 flex font-bold text-sm pl-8 pr-8 w-full h-full hover:bg-accent hover:text-white transition"
                                   >
                                     {column.label}

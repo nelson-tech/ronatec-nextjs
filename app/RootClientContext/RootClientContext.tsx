@@ -1,8 +1,11 @@
 "use client"
 
+import { AUTH_TOKEN_KEY } from "@lib/constants"
 import type { Layout_AuthData_Type } from "@lib/types/auth"
+import setCookie from "@lib/utils/setCookie"
+
 import APIContext from "./APIContext"
-import ClientInitContext from "./ClientInitContext"
+// import ClientInitContext from "./ClientInitContext"
 import StoreContext from "./StoreContext"
 
 //
@@ -17,14 +20,18 @@ type RootClientContextProps = {
 const RootClientContext = ({ children, authData }: RootClientContextProps) => {
   // useNavigationEvent()
 
+  const { newAuth, tokens } = authData
+
+  newAuth && setCookie(AUTH_TOKEN_KEY, tokens.auth)
+
   return (
-    <APIContext tokens={authData.tokens}>
+    <APIContext tokens={tokens}>
       <StoreContext authData={authData}>
-        <ClientInitContext authData={authData}>
-          {/* <RootStyleRegistry colors={colors}> */}
-          {children}
-          {/* </RootStyleRegistry> */}
-        </ClientInitContext>
+        {/* <ClientInitContext authData={authData}> */}
+        {/* <RootStyleRegistry colors={colors}> */}
+        {children}
+        {/* </RootStyleRegistry> */}
+        {/* </ClientInitContext> */}
       </StoreContext>
     </APIContext>
   )

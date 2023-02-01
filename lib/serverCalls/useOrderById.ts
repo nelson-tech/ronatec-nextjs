@@ -7,11 +7,9 @@ const useOrderById = async (number: string | undefined) => {
 
   const client = useClient(tokens)
 
-  client.setHeader("auth", "true")
   const orderData = await client.request(GetOrderDataByIdDocument, {
     id: number,
   })
-  client.setHeader("auth", "false")
 
   return orderData.order
 }

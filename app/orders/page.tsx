@@ -12,9 +12,7 @@ const getOrders = async () => {
 
   const client = useClient(tokens)
   try {
-    client.setHeader("auth", "true")
     const ordersData = await client.request(GetOrdersDataDocument)
-    client.setHeader("auth", "false")
 
     return ordersData.orders?.nodes
   } catch (error) {

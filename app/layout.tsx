@@ -12,7 +12,6 @@ import {
   GetViewerDocument,
   GetViewerQuery,
   MenuItem,
-  RefreshAuthTokenDocument,
 } from "@api/codegen/graphql"
 
 import RootClientContext from "./RootClientContext"
@@ -51,63 +50,20 @@ const getAuthData = async (): Promise<Layout_AuthData_Type> => {
 
   let isAuth = false
 
-  const setTokens: Layout_AuthData_Type["setTokens"] = []
-
-  // Set new authToken if fetching in getTokens
-  newAuth && tokens.auth && setTokens.push(["auth", tokens.auth])
-
   let client: GraphQLClient
 
-  let viewer: GetViewerQuery["viewer"] = null
+  isTokenValid(tokens.auth) && (isAuth = true)
 
-  if (isTokenValid(tokens.auth)) {
-    // User is authenticated
-    isAuth = true
+  // Create GraphQL client with any available authentication
+  client = useClient(tokens)
 
-    // Create GraphQL client with authentication
-    client = useClient(tokens)
-  } else if (tokens.refresh) {
-    // Try to refresh auth token
-
-    // Create unauthenticated client
-    client = useClient(tokens)
-
-    // Try to get refreshed authToken
-    const result = await client.request(RefreshAuthTokenDocument, {
-      input: { jwtRefreshToken: tokens.refresh },
+  // Fetch user if authenticated
+  let user: GetViewerQuery["viewer"] = null
+  if (isAuth) {
+    const viewerData = await client.request(GetViewerDocument).catch(e => {
+      console.warn("Error fetching user", e.response.errors)
     })
-
-    const authToken = result?.refreshJwtAuthToken?.authToken
-    if (authToken) {
-      // User is now authenticated
-      isAuth = true
-
-      // Add token to setTokens for client API call
-      // Remove this after next.js implements server cookie setting
-      setTokens.push(["auth", authToken])
-
-      // Set new token and apply to client
-      tokens.auth = authToken
-      client.setHeader("Authorization", `Bearer ${authToken}`)
-
-      // Get user details
-      // client.setHeader("auth", "true")
-      const userData = await client.request(GetViewerDocument)
-
-      if (userData.viewer?.id) {
-        viewer = userData.viewer
-      }
-    } else {
-      // Error getting new authToken. Remove all tokens and logout.
-      tokens.auth = null
-      tokens.refresh = null
-      setTokens.push(["remove", true])
-    }
-  } else {
-    // User is unauthenticated
-
-    // Create unauthenticated client (pass tokens in case cart session is present)
-    client = useClient(tokens)
+    viewerData?.viewer && (user = viewerData.viewer)
   }
 
   // Fetch cart
@@ -115,12 +71,9 @@ const getAuthData = async (): Promise<Layout_AuthData_Type> => {
     console.warn("Error fetching cart", e.response.errors)
   })
 
-  // Return client to public queries
-  // client.setHeader("auth", "false")
-
   const cart = cartResponse ? cartResponse.cart : null
 
-  return { tokens, setTokens, isAuth, cart, user: viewer }
+  return { tokens, isAuth, cart, user, newAuth }
 }
 
 // ####

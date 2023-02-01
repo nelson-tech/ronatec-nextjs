@@ -6,8 +6,8 @@ import {
   LoginUserMutationVariables,
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
-import { AUTH_ENDPOINT } from "@lib/constants"
-import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
+import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
+import setCookie from "@lib/utils/setCookie"
 
 const useLogin = () => {
   const { setAlert, setUser, setLoggedIn, setLoginError } = useStore(
@@ -23,45 +23,24 @@ const useLogin = () => {
   const client = useClient()
 
   const login = async ({ input }: LoginUserMutationVariables) => {
-    client.setHeader("auth", "false")
     await client
       .request(LoginUserDocument, { input })
       .then(async data => {
-        console.log("Login Data", data)
-
         if (data) {
           const { login } = data
-          if (login?.user?.jwtAuthToken) {
+          if (login?.user?.jwtAuthToken && login.user.jwtRefreshToken) {
             const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
 
             // Set authToken in client
-            client.setHeader("auth", "true")
-            client.setHeader("Authorization", `Bearer ${jwtAuthToken}`)
 
-            // Set cart session in client
-            user.wooSessionToken &&
-              client.setHeader(
-                "woocommerce-session",
-                `Session ${user.wooSessionToken}`,
-              )
+            client.setHeader("Authorization", `Bearer ${jwtAuthToken}`)
 
             // Set user in store
             setUser(user)
 
-            // Make client call to API to set cookies for frontend
-            const body: EP_Auth_Input_Set_Type = {
-              action: "SET",
-              tokens: {
-                auth: jwtAuthToken,
-                refresh: jwtRefreshToken,
-                cart: user.wooSessionToken,
-              },
-            }
-
-            await fetch(AUTH_ENDPOINT, {
-              method: "POST",
-              body: JSON.stringify(body),
-            })
+            // Set cookies
+            setCookie(AUTH_TOKEN_KEY, jwtAuthToken)
+            setCookie(REFRESH_TOKEN_KEY, jwtRefreshToken)
 
             setAlert({
               open: true,
@@ -84,8 +63,6 @@ const useLogin = () => {
           setLoginError("Email or password is incorrect.")
         }
       })
-
-    client.setHeader("auth", "false")
   }
 
   return { login }

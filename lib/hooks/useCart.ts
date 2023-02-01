@@ -30,9 +30,7 @@ const useCart = () => {
   const clearCart = async () => {
     setLoading(true)
 
-    client.setHeader("auth", "true")
     const clearCartData = await client.request(ClearCartDocument, { input: {} })
-    client.setHeader("auth", "false")
 
     await fetchCart()
 
@@ -42,9 +40,7 @@ const useCart = () => {
   const removeItem = async (input: RemoveCartItemMutationVariables) => {
     setLoading(true)
 
-    client.setHeader("auth", "true")
     const removeItemData = await client.request(RemoveCartItemDocument, input)
-    client.setHeader("auth", "false")
 
     await fetchCart()
 
@@ -54,9 +50,7 @@ const useCart = () => {
   const addToCart = async (input: AddToCartMutationVariables) => {
     setLoading(true)
 
-    client.setHeader("auth", "true")
     const cartData = await client.request(AddToCartDocument, input)
-    client.setHeader("auth", "false")
 
     await fetchCart()
 
@@ -66,12 +60,10 @@ const useCart = () => {
   const updateCart = async (input: UpdateCartItemQuantityMutationVariables) => {
     setLoading(true)
 
-    client.setHeader("auth", "true")
     const updateCartData = await client.request(
       UpdateCartItemQuantityDocument,
       input,
     )
-    client.setHeader("auth", "false")
 
     await fetchCart()
 
