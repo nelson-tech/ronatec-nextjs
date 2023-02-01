@@ -20,9 +20,9 @@ const YouTubeIcon = (
 // #### Component
 // ####
 
-const Promo = () => {
+const Promo = ({ className }: { className?: string }) => {
   return (
-    <div className="bg-blue-main">
+    <div className={"bg-blue-main " + className}>
       <div className="h-10 px-4 flex items-center justify-end text-white">
         <div className="h-6 w-6 mr-6 mt-1 hover:text-red-main">
           <a
