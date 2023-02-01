@@ -11,7 +11,7 @@ type StoreContextPropsType = {
 }
 
 const StoreContext = ({ children, authData }: StoreContextPropsType) => {
-  const { setTokens, isAuth, cart, tokens, user } = authData
+  const { isAuth, cart, user } = authData
 
   const initialState: initialStateType = {
     auth: {

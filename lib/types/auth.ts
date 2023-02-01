@@ -2,7 +2,7 @@ import { Cart, GetCartQuery, GetViewerQuery, User } from "@api/codegen/graphql"
 
 export type Layout_AuthData_Type = {
   tokens: CLIENT_Tokens_Type
-  setTokens: [string, string | boolean][]
+  newAuth: boolean
   isAuth: boolean
   user: GetViewerQuery["viewer"] | null
   cart?: GetCartQuery["cart"]

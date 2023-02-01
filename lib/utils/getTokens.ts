@@ -1,15 +1,15 @@
 import { cookies as nextCookies } from "next/headers"
+import { GraphQLClient } from "graphql-request"
 
+import { RefreshAuthTokenDocument } from "@api/codegen/graphql"
 import {
   API_URL,
   AUTH_TOKEN_KEY,
   CART_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
 } from "@lib/constants"
-import { CLIENT_Tokens_Type } from "@lib/types/auth"
+import type { CLIENT_Tokens_Type } from "@lib/types/auth"
 import { isTokenValid } from "./validateToken"
-import { GraphQLClient } from "graphql-request"
-import { RefreshAuthTokenDocument } from "@api/codegen/graphql"
 
 // ####
 // #### Function (Can only be called on server)
@@ -39,8 +39,10 @@ const getTokens = async (): Promise<{
     const newAuthToken = refreshData.refreshJwtAuthToken?.authToken
 
     if (newAuthToken) {
-      authToken = newAuthToken
+      console.log("New authToken generated")
+
       newAuth = true
+      authToken = newAuthToken
     }
   }
 

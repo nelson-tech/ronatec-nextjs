@@ -6,8 +6,8 @@ import {
   SendPasswordResetEmailDocument,
   User,
 } from "@api/codegen/graphql"
-import { AUTH_ENDPOINT } from "@lib/constants"
-import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
+import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
+import setCookie from "@lib/utils/setCookie"
 import { useState } from "react"
 
 import useStore from "./useStore"
@@ -61,15 +61,9 @@ const useResetPassword = () => {
           const { jwtAuthToken, jwtRefreshToken, ...plainUser } = user
           setUser(plainUser)
 
-          // Make call to endpoint to set cookies on client
-          const body: EP_Auth_Input_Set_Type = {
-            action: "SET",
-            tokens: { auth: jwtAuthToken, refresh: jwtRefreshToken },
-          }
-          await fetch(AUTH_ENDPOINT, {
-            method: "POST",
-            body: JSON.stringify(body),
-          })
+          // Set cookies
+          setCookie(AUTH_TOKEN_KEY, jwtAuthToken)
+          setCookie(REFRESH_TOKEN_KEY, jwtRefreshToken)
 
           setLoggedIn(true)
 

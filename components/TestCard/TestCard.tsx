@@ -7,8 +7,6 @@ const TestCard = () => {
   const client = useClient()
 
   const buttonAction = async () => {
-    client.setHeader("auth", "true")
-
     const viewerData = await client.request(GetViewerDocument)
   }
 
