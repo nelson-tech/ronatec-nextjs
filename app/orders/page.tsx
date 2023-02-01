@@ -8,13 +8,19 @@ import getTokens from "@lib/utils/getTokens"
 // ####
 
 const getOrders = async () => {
-  const { tokens } = getTokens()
+  const { tokens } = await getTokens()
 
   const client = useClient(tokens)
+  try {
+    client.setHeader("auth", "true")
+    const ordersData = await client.request(GetOrdersDataDocument)
+    client.setHeader("auth", "false")
 
-  const ordersData = await client.request(GetOrdersDataDocument)
-
-  return ordersData.orders?.nodes
+    return ordersData.orders?.nodes
+  } catch (error) {
+    console.warn("Error fetching orders:", error)
+    return null
+  }
 }
 
 // ####

@@ -58,7 +58,7 @@ const Sort = ({
     setSelectedSort(option)
   }
 
-  let SortIcon = ChevronDownIcon
+  let SortIcon: any = ChevronDownIcon
 
   const sectionClasses =
     "w-full border-t border-b border-gray-200 grid items-center"

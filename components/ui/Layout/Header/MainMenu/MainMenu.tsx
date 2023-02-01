@@ -3,22 +3,11 @@
 import { Popover } from "@headlessui/react"
 import { usePathname } from "next/navigation"
 
-// import mainMenu from "@lib/menus/main"
+import { MenuItem } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 import MegaMenu from "./MegaMenu"
 import Dropdown from "./Dropdown"
-import { GetMenuQuery } from "@api/codegen/graphql"
-import { MenuItemsType } from "@api/types/menu"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = { ssr: false }
-
-// const Dropdown = dynamic(() => import("./Dropdown"), clientOpts)
-// const MegaMenu = dynamic(() => import("./MegaMenu"), clientOpts)
 
 // ####
 // #### Types
@@ -35,7 +24,7 @@ export type GetDesktopLinkStyleType = ({
 }: DesktopLinkStyleProps) => string
 
 type MainMenuInputType = {
-  menuItems: MenuItemsType
+  menuItems: MenuItem[]
 }
 
 // ####
@@ -60,7 +49,7 @@ const MainMenu = ({ menuItems }: MainMenuInputType) => {
         {/* Mega menus */}
         <Popover.Group className="ml-8">
           <div className="h-full flex items-center space-x-2 text-sm font-medium text-gray-600">
-            {menuItems.map(menuItem => {
+            {menuItems.map((menuItem: MenuItem) => {
               if (
                 menuItem.childItems?.nodes &&
                 menuItem.childItems.nodes.length > 0

@@ -3,20 +3,20 @@
 import { Cart } from "@api/codegen/graphql"
 import StoreProvider from "@lib/store/StoreProvider"
 import type { initialStateType } from "@lib/store"
-import { LayoutAuthDataType } from "@lib/types/auth"
+import { Layout_AuthData_Type } from "@lib/types/auth"
 
 type StoreContextPropsType = {
   children: React.ReactNode
-  authData: LayoutAuthDataType
+  authData: Layout_AuthData_Type
 }
 
 const StoreContext = ({ children, authData }: StoreContextPropsType) => {
-  const { setTokens, isAuth, cart, tokens } = authData
+  const { setTokens, isAuth, cart, tokens, user } = authData
 
   const initialState: initialStateType = {
     auth: {
       loggedIn: isAuth,
-      user: tokens.user ? JSON.parse(decodeURIComponent(tokens.user)) : null,
+      user,
     },
     cart: { state: cart ? (cart as Cart) : null },
   }

@@ -13,6 +13,16 @@ const config: CodegenConfig = {
     // "lib/api/codegen/schema.ts": {
     //   plugins: ["typescript", "typescript-operations"],
     // },
+    // "lib/api/codegen/graphql.ts": {
+    //   plugins: [
+    //     "typescript",
+    //     "typescript-operations",
+    //     "typescript-graphql-request",
+    //   ],
+    //   config: {
+    //     rawRequest: true,
+    //   },
+    // },
   },
 }
 

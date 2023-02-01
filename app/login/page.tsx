@@ -10,7 +10,7 @@ const LoginPage = ({
     <>
       <AuthChecker
         forceGuest
-        redirect={`/${searchParams?.redirect ?? "shop"}`}
+        redirect={`/${searchParams?.redirect ?? "products"}`}
       />
       <LoginForm />
     </>

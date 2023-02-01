@@ -1,0 +1,18 @@
+query GetProductsWithCategories {
+  products(first: 200) {
+    nodes {
+      slug
+      productCategories {
+        nodes {
+          ...ProductCategoryBase
+          ancestors {
+            nodes {
+              name
+              slug
+            }
+          }
+        }
+      }
+    }
+  }
+}

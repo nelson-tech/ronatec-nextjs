@@ -6,8 +6,8 @@ import Image from "@components/Image"
 import Promo from "./Promo"
 import MainMenu from "./MainMenu"
 import Usernav from "./UserNav"
-// import MobileNav from "./MobileNav"
-import { GetMenuQuery } from "@api/codegen/graphql"
+import MobileNav from "./MobileNav"
+import { MenuItem } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -15,9 +15,7 @@ import { GetMenuQuery } from "@api/codegen/graphql"
 
 type HeaderProps = {
   promo?: boolean
-  menuItems: NonNullable<
-    NonNullable<GetMenuQuery["menu"]>["menuItems"]
-  >["nodes"]
+  menuItems: MenuItem[]
 }
 
 // ####
@@ -28,7 +26,7 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
   const logo = (
     <>
       <div className={`w-10 h-10 text-center text-blue-main relative`}>
-        <Image src="/images/ronatec.png" alt="Ronatec Logo" fill />
+        <Image src="/images/ronatec.png" alt="Ronatec Logo" fill sizes="10vw" />
         {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
           <path
             fill="#5375A0"
@@ -72,7 +70,7 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
                     <MainMenu menuItems={menuItems} />
 
                     {/* Mobile menu and search (lg-) */}
-                    {/* <MobileNav /> */}
+                    <MobileNav />
 
                     {/* Logo (lg-) */}
                     <div className="h-8 w-8 lg:hidden">

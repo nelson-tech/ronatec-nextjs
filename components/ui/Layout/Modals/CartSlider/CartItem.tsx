@@ -30,7 +30,7 @@ const CartItem = memo(
 
     const handleRemoveItem = async (key: string) => {
       setLoading(true)
-      const { data, error } = await removeItem({ keys: [key] })
+      const removeItemData = await removeItem({ input: { keys: [key] } })
       // TODO - Handle error case
     }
 
@@ -45,11 +45,14 @@ const CartItem = memo(
       console.log(newQuantity)
 
       if (quantity && lineItem?.key) {
-        const { data, error } = await updateCart({
-          items: [{ key: lineItem?.key, quantity: newQuantity }],
+        const updateCartData = await updateCart({
+          input: {
+            items: [{ key: lineItem?.key, quantity: newQuantity }],
+          },
         })
-        data && console.log(data)
-        error && console.warn(error)
+        updateCartData.updateItemQuantities?.cart &&
+          console.log(updateCartData.updateItemQuantities.cart)
+        // TODO - Handle error case
       }
     }
 

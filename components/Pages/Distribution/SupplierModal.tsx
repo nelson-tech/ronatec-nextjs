@@ -5,7 +5,7 @@ import Image from "@components/Image"
 import Icon from "@components/ui/Icon"
 import { ChosenSupplierType } from "@components/Cards/Supplier"
 
-import { Underlined, underSelect } from "@styles/utils"
+// import { Underlined, underSelect } from "@styles/utils"
 
 // ####
 // #### Types
@@ -71,6 +71,7 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
                           href={chosenSupplier.url || undefined}
                           target="_blank"
                           rel="noreferrer"
+                          className="flex justify-center"
                         >
                           <Image
                             src={chosenSupplier.image.sourceUrl}
@@ -83,9 +84,8 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
                               undefined
                             }
                             alt={chosenSupplier.image.altText || undefined}
-                            layout="responsive"
-                            objectFit="fill"
                             title={chosenSupplier.title || ""}
+                            className="object-cover"
                           />
                         </a>
                       </div>
@@ -99,19 +99,16 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
                       </div>
                     )}
 
-                    <div
-                      className="bg-blue-main text-gray-100 text-center w-full"
-                      css={underSelect}
-                    >
+                    <div className="bg-blue-main text-gray-100 text-center w-full">
                       <a
                         href={chosenSupplier.url || undefined}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex py-2 items-center justify-center w-full h-full pl-4"
+                        className="flex py-2 items-center justify-center w-full h-full pl-4 hover-underline-animation"
                       >
-                        <Underlined className="target">
-                          Visit {chosenSupplier.title}
-                        </Underlined>
+                        {/* <Underlined className="target"> */}
+                        Visit {chosenSupplier.title}
+                        {/* </Underlined> */}
                         <div className="px-4">
                           <Icon
                             name="external-link"

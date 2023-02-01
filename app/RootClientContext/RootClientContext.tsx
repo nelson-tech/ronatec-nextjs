@@ -1,6 +1,6 @@
 "use client"
 
-import type { LayoutAuthDataType } from "@lib/types/auth"
+import type { Layout_AuthData_Type } from "@lib/types/auth"
 import APIContext from "./APIContext"
 import ClientInitContext from "./ClientInitContext"
 import StoreContext from "./StoreContext"
@@ -11,7 +11,7 @@ import StoreContext from "./StoreContext"
 
 type RootClientContextProps = {
   children: React.ReactNode
-  authData: LayoutAuthDataType
+  authData: Layout_AuthData_Type
 }
 
 const RootClientContext = ({ children, authData }: RootClientContextProps) => {

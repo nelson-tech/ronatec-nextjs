@@ -13,6 +13,8 @@
   --text-primary: #000000;
   --text-secondary: white;
 
+  --accent: #5375a0;
+  --highlight: #37b679;
   --hover: rgba(0, 0, 0, 0.075);
   --hover-1: rgba(0, 0, 0, 0.15);
   --hover-2: rgba(0, 0, 0, 0.25);
@@ -38,10 +40,51 @@
     "Helvetica", sans-serif;
 }
 
+body {
+  -webkit-tap-highlight-color: #5375a0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 16px;
+}
+
+.body-text {
+  font-family: var(--next-font);
+  /* font-weight: 400; */
+}
+
+.progress-bar {
+  @media (min-width: 768px) {
+    height: 4px !important;
+  }
+
+  @media (min-width: 1024px) {
+    height: 4px !important;
+  }
+}
+
+.danger {
+  ul {
+    list-style: inside disc;
+    margin-left: 1rem /** 16px */;
+    font-size: 1rem /** 14px */;
+    line-height: 1.25rem /** 20px */;
+  }
+}
+
+.flip {
+  transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
+}
+
 .hover-underline-animation {
-  display: inline-block;
+  /* display: inline-block; */
   position: relative;
-  color: var(--accent);
+  /* color: var(--accent); */
 }
 
 .hover-underline-animation:after {
@@ -52,9 +95,9 @@
   height: 2px;
   bottom: 0;
   left: 0;
-  background-color: var(--accent);
+  background-color: var(--highlight);
   transform-origin: bottom right;
-  transition: transform 0.2s ease-out;
+  transition: transform 0.3s ease-out;
 }
 
 .hover-underline-animation:hover:after {

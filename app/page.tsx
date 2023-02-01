@@ -1,15 +1,14 @@
-import useClient from "@api/client"
-import {
-  GetHomeDataDocument,
-  Product,
-  ProductCategory,
-} from "@api/codegen/graphql"
+import { Product, ProductCategory } from "@api/codegen/graphql"
 import Home from "@components/Pages/Home"
+import { API_URL } from "@lib/constants"
 
 const getHomeData = async () => {
-  const client = useClient()
+  // Get persisted query for speed
+  const response = await fetch(API_URL + "?queryId=getHomeData", {
+    headers: { "content-type": "application/json" },
+  })
 
-  const data = await client.request(GetHomeDataDocument)
+  const { data } = await response.json()
 
   return {
     page: data?.page,

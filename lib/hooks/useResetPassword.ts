@@ -7,7 +7,7 @@ import {
   User,
 } from "@api/codegen/graphql"
 import { AUTH_ENDPOINT } from "@lib/constants"
-import { ENDPOINT_SetInputType } from "@lib/types/auth"
+import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
 import { useState } from "react"
 
 import useStore from "./useStore"
@@ -62,7 +62,7 @@ const useResetPassword = () => {
           setUser(plainUser)
 
           // Make call to endpoint to set cookies on client
-          const body: ENDPOINT_SetInputType = {
+          const body: EP_Auth_Input_Set_Type = {
             action: "SET",
             tokens: { auth: jwtAuthToken, refresh: jwtRefreshToken },
           }
@@ -75,7 +75,7 @@ const useResetPassword = () => {
 
           setAlert({
             open: true,
-            type: "success",
+            kind: "success",
             primary: `Welcome back${
               (user?.firstName || user?.lastName) && ","
             }${user?.firstName && ` ${user.firstName}`}${

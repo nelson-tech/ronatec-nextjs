@@ -1,16 +1,8 @@
-import { FullProduct } from "@lib/types"
 import { ProductCategory } from "@api/codegen/graphql"
+import { FullProduct } from "@lib/types/products"
 
 import Breadcrumbs from "@components/Breadcrumbs"
 import DefaultProduct from "@components/Product"
-
-// ####
-// #### Dynamic Imports
-// ####
-
-// const importOpts = { ssr: false }
-
-// const DefaultProduct = dynamic(() => import("@components/Products"), importOpts)
 
 // ####
 // #### Types

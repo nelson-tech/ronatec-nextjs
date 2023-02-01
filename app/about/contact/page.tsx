@@ -2,7 +2,6 @@ import {
   Employee,
   GetContactDataDocument,
   Post_Common_Cards,
-  Post_Maps_MapOptions,
   Post_Maps_Markers,
 } from "@api/codegen/graphql"
 import useClient from "@api/client"
@@ -38,7 +37,6 @@ const ContactPage = async () => {
     <>
       <Map
         markers={map?.markers as Post_Maps_Markers[]}
-        options={(map?.mapOptions as Post_Maps_MapOptions) || undefined}
         containerClassNames="aspect-2 md:aspect-3"
         key={map?.fieldGroupName + "map_contact"}
       />

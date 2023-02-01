@@ -15,7 +15,7 @@ const RegisterPage = ({
       <AuthChecker
         forceGuest
         redirect={`/${searchParams?.redirect ?? "products"}`}
-      ></AuthChecker>
+      />
       <RegisterForm />
     </>
   )

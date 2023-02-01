@@ -4,17 +4,17 @@ import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
 
+import { MenuItem } from "@api/codegen/graphql"
 import { GetDesktopLinkStyleType } from "../MainMenu"
 
 import Link from "@components/Link"
-import { MenuItemType } from "@api/types/menu"
 
 // ####
 // #### Types
 // ####
 
 type MegaMenuProps = {
-  megaItem: MenuItemType
+  megaItem: MenuItem
 
   getStyle: GetDesktopLinkStyleType
 }
@@ -65,13 +65,13 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                 <div className="relative grid grid-cols-3 min-w-full bg-white pl-8 pt-6 pb-6">
                   {/* <div className="grid grid-cols-2 gap-y-10 gap-x-8"> */}
                   {megaItem.childItems?.nodes &&
-                    megaItem.childItems.nodes.map((column, index) => {
+                    megaItem.childItems.nodes.map((column: MenuItem, index) => {
                       if (column.menuFields?.column) {
                         return (
                           <div key={column.id} className="">
                             {column.childItems?.nodes &&
                               column.childItems.nodes.map(
-                                (subColumn, subIndex) => {
+                                (subColumn: MenuItem, subIndex) => {
                                   return (
                                     subColumn.label && (
                                       <div
@@ -104,7 +104,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                         <ul role="list" className="">
                                           {subColumn.childItems?.nodes &&
                                             subColumn.childItems.nodes.map(
-                                              item =>
+                                              (item: MenuItem) =>
                                                 item.label && (
                                                   <li
                                                     key={item.id}
@@ -149,23 +149,25 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                               </p>
                               <ul role="list" className="mt-2">
                                 {column.childItems?.nodes &&
-                                  column.childItems.nodes.map(item => (
-                                    <li
-                                      key={item.id}
-                                      className="flex w-full group"
-                                      onClick={() => close()}
-                                    >
-                                      <Link
-                                        href={item.url ?? ""}
-                                        title={item.label ?? ""}
-                                        className="w-full hover:text-gray-800"
+                                  column.childItems.nodes.map(
+                                    (item: MenuItem) => (
+                                      <li
+                                        key={item.id}
+                                        className="flex w-full group"
+                                        onClick={() => close()}
                                       >
-                                        <div className="py-2 w-full">
-                                          {item.label}
-                                        </div>
-                                      </Link>
-                                    </li>
-                                  ))}
+                                        <Link
+                                          href={item.url ?? ""}
+                                          title={item.label ?? ""}
+                                          className="w-full hover:text-gray-800"
+                                        >
+                                          <div className="py-2 w-full">
+                                            {item.label}
+                                          </div>
+                                        </Link>
+                                      </li>
+                                    ),
+                                  )}
                               </ul>
                             </div>
                           )

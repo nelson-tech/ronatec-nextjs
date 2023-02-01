@@ -1,6 +1,7 @@
 "use client"
 
-import { MenuItemsType } from "@api/types/menu"
+import { MenuItem } from "@api/codegen/graphql"
+
 import CartSlider from "./CartSlider"
 import LoginModal from "./LoginModal"
 import MobileMenu from "./MobileMenu"
@@ -10,7 +11,7 @@ import SearchModal from "./SearchModal"
 // #### Types
 // ####
 
-type ModalsInputType = { menuItems: MenuItemsType | null | undefined }
+type ModalsInputType = { menuItems: MenuItem[] }
 
 // ####
 // #### Component

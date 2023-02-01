@@ -1,10 +1,8 @@
 import { StateCreator } from "zustand"
 
-import { AlertProps } from "@lib/types/alerts"
-
 export type AlertSliceType = typeof initialState & {
   alert: {
-    setAlert: (newAlert: AlertProps | null) => void
+    setAlert: (newAlert: AlertState | null) => void
   }
 }
 
@@ -13,7 +11,7 @@ export const initialState = {
     open: false,
     primary: "",
     secondary: "",
-    type: "success" as "info" | "warning" | "error" | "success",
+    kind: "success" as "info" | "warning" | "error" | "success",
     timeout: 2000,
   },
 }

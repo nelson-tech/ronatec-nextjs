@@ -4,7 +4,7 @@ import ResetPasswordForm from "@components/ResetPasswordForm"
 import getTokens from "@lib/utils/getTokens"
 
 const getUserEmail = async () => {
-  const { tokens } = getTokens()
+  const { tokens } = await getTokens()
 
   const client = useClient(tokens)
 

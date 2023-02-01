@@ -1,12 +1,13 @@
 "use client"
 
 import useClient from "@api/client"
-import { WOO_SESSION_KEY } from "@lib/constants"
-import { CLIENT_TokensType } from "@lib/types/auth"
+import { CART_TOKEN_KEY } from "@lib/constants"
+import { CLIENT_Tokens_Type } from "@lib/types/auth"
+import isServer from "@lib/utils/isServer"
 
 type APIContextPropsType = {
   children: React.ReactNode
-  tokens: CLIENT_TokensType
+  tokens: CLIENT_Tokens_Type
 }
 
 const APIContext = ({ children, tokens }: APIContextPropsType) => {
@@ -15,12 +16,12 @@ const APIContext = ({ children, tokens }: APIContextPropsType) => {
   //
 
   // Compare client-side shopping session with server-side
-  const clientSession = localStorage.getItem(WOO_SESSION_KEY)
+  const clientSession = !isServer ? localStorage.getItem(CART_TOKEN_KEY) : null
 
-  if (!clientSession && tokens.cart) {
+  if (!isServer && !clientSession && tokens.cart) {
     // Cookie exists, but client-side session does not
     // Set for client-side requests
-    localStorage.setItem(WOO_SESSION_KEY, tokens.cart)
+    localStorage.setItem(CART_TOKEN_KEY, tokens.cart)
   }
 
   // Create client-side GQL client with available tokens

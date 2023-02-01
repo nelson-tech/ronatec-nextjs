@@ -9,7 +9,7 @@ import getTokens from "@lib/utils/getTokens"
 // ####
 
 const getCustomerData = async () => {
-  const { tokens } = getTokens()
+  const { tokens } = await getTokens()
 
   const client = useClient(tokens)
 

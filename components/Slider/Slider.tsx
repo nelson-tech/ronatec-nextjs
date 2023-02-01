@@ -1,8 +1,11 @@
 "use client"
 
-import { useState } from "react"
 import Image, { ImageProps } from "next/image"
-import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
+
+import SlickSlider, { Settings as SliderSettings } from "react-slick"
+
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 
@@ -13,16 +16,19 @@ import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 export type SliderPropsType = {
   slides: Maybe<Post_Common_Slides>[]
   sliderStyle?: string
-  imageFit?: ImageProps["objectFit"]
   rounded?: boolean
-  options?: KeenSliderOptions
+  options?: SliderSettings
   containerClassName?: string
 }
 
-const defaultOptions: KeenSliderOptions = {
-  initial: 0,
-  loop: true,
-  mode: "free-snap",
+const defaultOptions: SliderSettings = {
+  dots: true,
+  infinite: true,
+  speed: 1500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+  autoplay: true,
 }
 
 // ####
@@ -32,56 +38,33 @@ const defaultOptions: KeenSliderOptions = {
 const Slider = ({
   slides,
   sliderStyle,
-  imageFit = "cover",
   rounded = false,
   options = defaultOptions,
   containerClassName,
 }: SliderPropsType) => {
-  const [currentSlid, setCurrentSlide] = useState(0)
-  const [loaded, setLoaded] = useState(false)
-  const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
-    ...options,
-    slideChanged(s) {
-      // console.log(s.options())
-    },
-    // slideChanged(slider) {
-    //   setCurrentSlide(slider.track.details.rel)
-    // },
-    created() {
-      setLoaded(true)
-    },
-  })
-
   return (
     <div className={containerClassName + " " + sliderStyle}>
-      <div
-        ref={sliderRef}
-        className="keen-slider top-0 left-0 w-full h-full"
-        style={{ position: "absolute" }}
-      >
+      <SlickSlider {...options} className="w-full h-96 ">
         {slides.map((slide, index) => {
-          if (slide) {
-            const { image } = slide
-            if (image && image.sourceUrl) {
-              return (
-                <div
-                  key={index}
-                  className={`keen-slider__slide relative${
-                    rounded && " rounded-lg overflow-hidden"
-                  }`}
-                >
-                  <Image
-                    src={image.sourceUrl}
-                    layout="fill"
-                    objectFit={imageFit}
-                    alt={image.altText || ""}
-                  />
-                </div>
-              )
-            }
-          }
+          const image = slide?.image
+          return (
+            <div
+              key={image?.id}
+              className={` relative w-full h-96 ${
+                rounded && " rounded-lg overflow-hidden"
+              }`}
+            >
+              <Image
+                src={image?.sourceUrl ?? ""}
+                fill
+                sizes="(max-width: 400px) 100vw,(max-width: 768px) 50vw,33vw"
+                alt={image?.altText ?? ""}
+                className="object-cover"
+              />
+            </div>
+          )
         })}
-      </div>
+      </SlickSlider>
     </div>
   )
 }

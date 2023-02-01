@@ -1,4 +1,4 @@
-import { FullProduct } from "@lib/types"
+import { FullProduct } from "@lib/types/products"
 
 import Image from "@components/Image"
 
@@ -28,8 +28,6 @@ const LineItem = ({ product, quantity }: PropsType) => {
                   alt={product.image.altText || ""}
                   height={product.image.mediaDetails?.height}
                   width={product.image.mediaDetails?.width}
-                  objectFit="contain"
-                  layout="responsive"
                 />
               </div>
             )}

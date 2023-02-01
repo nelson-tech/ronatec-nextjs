@@ -2,16 +2,16 @@ import { Fragment } from "react"
 import { shallow } from "zustand/shallow"
 import { Dialog, Transition } from "@headlessui/react"
 
+import { MenuItem } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 
 import MenuPane from "./MenuPane"
-import { MenuItemsType } from "@api/types/menu"
 
 // ####
 // #### Types
 // ####
 
-type MobileMenuInputType = { menuItems: MenuItemsType }
+type MobileMenuInputType = { menuItems: MenuItem[] }
 
 // ####
 // #### Component

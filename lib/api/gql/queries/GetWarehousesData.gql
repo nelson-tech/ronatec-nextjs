@@ -5,26 +5,6 @@ query GetWarehousesData {
       acf {
         map {
           fieldGroupName
-          mapOptions {
-            mapType
-            mapTypeStyle {
-              featureType
-              featureTypeChild
-              elementTypeChild
-              mapTypeStyleStylers {
-                color
-                gamma
-                saturation
-              }
-            }
-            center {
-              lat
-              lng
-            }
-            zoom
-            defaultUi
-            keyboardShortcuts
-          }
           markers {
             label
             center {

@@ -17,7 +17,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">Viable Methods Of Desalination</h3>
-            <ul className="list-disc ml-8 text-sm">
+            <ul className="list-disc ml-8">
               <li>
                 <strong>Distillation:</strong> Boiling water and condensing the
                 vapor, leaving behind the unwanted dissolved solids.
@@ -40,7 +40,7 @@ const DesalinationPage = () => {
             <h3 className="font-bold py-2">
               Ronatec Exclusively Uses The RDI Method
             </h3>
-            <ul className="list-disc ml-8 text-sm">
+            <ul className="list-disc ml-8">
               <li>3rd generation CDI system and design.</li>
               <li>Patented carbon electrodes.</li>
               <li>
@@ -56,7 +56,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">RDI Desalinization System</h3>
-            <ul className="list-disc ml-8 text-sm">
+            <ul className="list-disc ml-8">
               <li>Pump (if necessary)</li>
               <li>Standard pre-filtration (if necessary)</li>
               <li>Multiple stage RDI Process Cylinders</li>
@@ -68,7 +68,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">Advantages of RDITM System</h3>
-            <ul className="list-disc ml-8 text-sm">
+            <ul className="list-disc ml-8">
               <li>
                 <strong>Capital Costs</strong>: 42% less than distillation, 10 -
                 20% less than RO.
@@ -91,7 +91,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">History Of Technology</h3>
-            <ul className="list-disc ml-8 text-sm">
+            <ul className="list-disc ml-8">
               <li>
                 Research &amp; Development was funded by the US Department of
                 Defense in order to develop an alternative technology to RO.

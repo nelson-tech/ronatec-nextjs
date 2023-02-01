@@ -1,8 +1,6 @@
-import { ParsedUrlQuery } from "querystring"
-
 import Breadcrumbs from "@components/Breadcrumbs"
 import CategoryInfoComponent from "@components/Pages/CategoryInfo"
-import getCategoryBySlug from "@api/server/getCategoryBySlug"
+import useCategoryBySlug from "@lib/serverCalls/useCategoryBySlug"
 import { ProductCategory } from "@api/codegen/graphql"
 
 // ####
@@ -14,7 +12,7 @@ const CategoryInfoPage = async ({
 }: {
   params: { category: string }
 }) => {
-  const { category } = await getCategoryBySlug(params.category)
+  const { category } = await useCategoryBySlug(params.category)
 
   const content = category?.product_category?.acf?.description
 

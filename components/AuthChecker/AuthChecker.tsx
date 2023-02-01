@@ -20,7 +20,7 @@ const AuthChecker = ({
     if (isAuth == forceGuest) {
       router.push(redirect)
     }
-  }, [isAuth, router, redirect])
+  }, [isAuth, router, redirect, forceGuest])
 
   return <></>
 }

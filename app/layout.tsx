@@ -5,12 +5,13 @@ import { GraphQLClient } from "graphql-request"
 
 import getTokens from "@lib/utils/getTokens"
 import { isTokenValid } from "@lib/utils/validateToken"
-import { LayoutAuthDataType } from "@lib/types/auth"
+import { Layout_AuthData_Type } from "@lib/types/auth"
 import useClient from "@api/client"
 import {
   GetCartDocument,
-  GetMenuDocument,
   GetViewerDocument,
+  GetViewerQuery,
+  MenuItem,
   RefreshAuthTokenDocument,
 } from "@api/codegen/graphql"
 
@@ -20,7 +21,8 @@ import Analytics from "@components/Analytics"
 import Header from "@components/ui/Layout/Header"
 import Footer from "@components/ui/Layout/Footer"
 import Modals from "@components/ui/Layout/Modals"
-// import Alerts from "@components/ui/Alerts"
+import Alerts from "@components/ui/Alerts"
+import { API_URL } from "@lib/constants"
 
 // ####
 // #### Variables
@@ -35,20 +37,28 @@ const font = localFont({
 // ####
 
 const getMenuItems = async () => {
-  const client = useClient({ auth: null })
-  const { menu } = await client.request(GetMenuDocument)
-  const menuItems = menu?.menuItems?.nodes
-  return menuItems
+  const menuResponse = await fetch(API_URL + "?queryId=getMenus", {
+    headers: { "content-type": "application/json" },
+  })
+  const { data } = await menuResponse.json()
+  const mainMenuItems = data.mainMenu?.menuItems?.nodes
+  const mobileMenuItems = data.mobileMenu?.menuItems?.nodes
+  return { mainMenuItems, mobileMenuItems }
 }
 
-const getAuthData = async (): Promise<LayoutAuthDataType> => {
-  const { tokens } = getTokens()
+const getAuthData = async (): Promise<Layout_AuthData_Type> => {
+  const { tokens, newAuth } = await getTokens()
 
   let isAuth = false
 
-  const setTokens: LayoutAuthDataType["setTokens"] = []
+  const setTokens: Layout_AuthData_Type["setTokens"] = []
+
+  // Set new authToken if fetching in getTokens
+  newAuth && tokens.auth && setTokens.push(["auth", tokens.auth])
 
   let client: GraphQLClient
+
+  let viewer: GetViewerQuery["viewer"] = null
 
   if (isTokenValid(tokens.auth)) {
     // User is authenticated
@@ -60,7 +70,7 @@ const getAuthData = async (): Promise<LayoutAuthDataType> => {
     // Try to refresh auth token
 
     // Create unauthenticated client
-    client = useClient()
+    client = useClient(tokens)
 
     // Try to get refreshed authToken
     const result = await client.request(RefreshAuthTokenDocument, {
@@ -81,39 +91,23 @@ const getAuthData = async (): Promise<LayoutAuthDataType> => {
       client.setHeader("Authorization", `Bearer ${authToken}`)
 
       // Get user details
-      const result = await client.request(GetViewerDocument)
+      // client.setHeader("auth", "true")
+      const userData = await client.request(GetViewerDocument)
 
-      if (result.viewer?.id) {
-        // Tokenize user to pass as cookie
-
-        const viewer = encodeURIComponent(JSON.stringify(result.viewer))
-
-        // Add user to setTokens for client API call
-        // Remove this after next.js implements server cookie setting
-        setTokens.push(["user", viewer])
-
-        // Set user in tokens
-        tokens.user = viewer
-
-        // Set cart session if present
-        result.viewer.wooSessionToken &&
-          client.setHeader(
-            "woocommerce-session",
-            `Session ${result.viewer.wooSessionToken}`,
-          )
+      if (userData.viewer?.id) {
+        viewer = userData.viewer
       }
     } else {
       // Error getting new authToken. Remove all tokens and logout.
       tokens.auth = null
       tokens.refresh = null
-      tokens.user = null
       setTokens.push(["remove", true])
     }
   } else {
     // User is unauthenticated
 
     // Create unauthenticated client (pass tokens in case cart session is present)
-    client = useClient()
+    client = useClient(tokens)
   }
 
   // Fetch cart
@@ -121,9 +115,12 @@ const getAuthData = async (): Promise<LayoutAuthDataType> => {
     console.warn("Error fetching cart", e.response.errors)
   })
 
+  // Return client to public queries
+  // client.setHeader("auth", "false")
+
   const cart = cartResponse ? cartResponse.cart : null
 
-  return { tokens, setTokens, isAuth, cart }
+  return { tokens, setTokens, isAuth, cart, user: viewer }
 }
 
 // ####
@@ -141,11 +138,13 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <RootClientContext authData={authData}>
         <body>
           <div id="top" />
-          {menuItems && <Header menuItems={menuItems} promo />}
+          {menuItems.mainMenuItems && (
+            <Header menuItems={menuItems.mainMenuItems as MenuItem[]} promo />
+          )}
           <div className="min-h-screen bg-white z-0">{children}</div>
           <Footer />
-          <Modals menuItems={menuItems} />
-          {/* <Alerts /> */}
+          <Modals menuItems={menuItems.mobileMenuItems as MenuItem[]} />
+          <Alerts />
           <ScrollToTop />
           <Analytics />
         </body>

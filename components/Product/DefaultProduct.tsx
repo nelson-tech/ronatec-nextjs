@@ -6,16 +6,16 @@ import PlusIcon from "@heroicons/react/20/solid/PlusIcon"
 import MinusIcon from "@heroicons/react/20/solid/MinusIcon"
 import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 
-import useCart from "@lib/hooks/useCart"
-import { htmlParserOptions, parse } from "@lib/utils"
-import isServer from "@lib/utils/isServer"
-import { AttributeType, FullProduct } from "@lib/types"
 import {
   AddToCartInput,
   ProductAttributeInput,
   ProductVariation,
   VariationAttribute,
 } from "@api/codegen/graphql"
+import useCart from "@lib/hooks/useCart"
+import { htmlParserOptions, parse } from "@lib/utils"
+import isServer from "@lib/utils/isServer"
+import { AttributeType, FullProduct } from "@lib/types/products"
 
 import Image from "@components/Image"
 import LoadingSpinner from "@components/ui/LoadingSpinner"

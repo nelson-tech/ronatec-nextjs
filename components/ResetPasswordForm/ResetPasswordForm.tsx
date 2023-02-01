@@ -39,7 +39,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   )
 
   const [email, setEmail] = useState<string | null>(
-    searchParams.get("email") ?? detectedEmail ?? null,
+    searchParams.get("username") ?? detectedEmail ?? null,
   )
   const [key, setKey] = useState<string | null>(searchParams.get("key"))
   const [password, setPassword] = useState<string | null>(null)
@@ -82,7 +82,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   const onSendEmailSubmit: SubmitHandler<FieldValues> = async data => {
     if (email && data.email === email) {
       const sentStatus = await sendResetPasswordEmail(email)
-      // sentStatus && setSentEmail(true)
+      sentStatus && setSentEmail(true)
     }
     console.warn(data)
   }
@@ -91,7 +91,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     if (data.passwordConfirm && data.password) {
       if (validPassword && key && email && password) {
         const resetStatus = await resetUserPassword(key, email, password)
-        // resetStatus && setPasswordReset(true)
+        resetStatus && setPasswordReset(true)
       }
     }
     console.warn(data)

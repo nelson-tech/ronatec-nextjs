@@ -27,16 +27,13 @@ const GuestMenu = memo(function GuestMenu() {
           <div className="target">Log in</div>
         </div>
       </Menu.Item>
-      <Menu.Item>
-        <div className="group">
-          <Link
-            href="/register"
-            className="transition flex items-center text-accent-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-accent hover:text-white"
-          >
-            <ClipboardCheckIcon className="h-4 w-4 mr-2" />
-            <div className="target">Register</div>
-          </Link>
-        </div>
+      <Menu.Item
+        as={Link}
+        href="/register"
+        className="transition group flex items-center text-accent-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-accent hover:text-white"
+      >
+        <ClipboardCheckIcon className="h-4 w-4 mr-2" />
+        <div className="target">Register</div>
       </Menu.Item>
     </>
   )

@@ -1,9 +1,3 @@
-import CardCarousel from "@components/CardCarousel"
-import Link from "@components/Link"
-import Image from "@components/Image"
-import VideoCard from "@components/VideoCard"
-import SupplierCard from "@components/Cards/Supplier"
-import IconCard from "@components/Cards/Icon"
 import {
   GetHomeDataQuery,
   Post_Common_Cards,
@@ -12,18 +6,12 @@ import {
   Supplier,
 } from "@api/codegen/graphql"
 
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = { ssr: false }
-
-// const IconCard = dynamic(() => import("@components/Cards/Icon"), clientOpts)
-// const SupplierCard = dynamic(
-//   () => import("@components/Cards/Supplier"),
-//   clientOpts,
-// )
-// const VideoCard = dynamic(() => import("@components/VideoCard"), clientOpts)
+import CardCarousel from "@components/CardCarousel"
+import Link from "@components/Link"
+import Image from "@components/Image"
+import VideoCard from "@components/VideoCard"
+import SupplierCard from "@components/Cards/Supplier"
+import IconCard from "@components/Cards/Icon"
 
 // ####
 // #### Types
@@ -91,13 +79,15 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
           </div>
         </div>
 
-        <CardCarousel
-          header="Shop by Category"
-          // link={{ label: "Browse all categories", path: "/products" }}
-          items={categories}
-        />
+        <div className="mt-8">
+          <CardCarousel
+            header="Shop by Category"
+            link={{ label: "Browse all categories", path: "/products" }}
+            items={categories}
+          />
 
-        <CardCarousel header="Top Selling Products" products={topSellers} />
+          <CardCarousel header="Top Selling Products" products={topSellers} />
+        </div>
 
         {cards && (
           <div className="relative bg-white pb-16 py-8">

@@ -1,11 +1,10 @@
+"use client"
+
 import { Fragment, useEffect } from "react"
 import { Transition } from "@headlessui/react"
 
 import useStore from "@lib/hooks/useStore"
-
 import { ErrorAlert, InfoAlert, SuccessAlert, WarningAlert } from "./Alert"
-
-import { StyledContainer } from "./style"
 
 // ####
 // #### Component
@@ -43,44 +42,53 @@ const Alerts = () => {
           leaveTo="transform opacity-0 scale-95"
           // className="fixed right-0 top-0 pr-8 w-fit z-50"
         >
-          <StyledContainer
-            type={alert.type || "error"}
-            className={`relative border-t-4 my-2 max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden`}
+          <div
+            className={`${
+              alert.kind === "info"
+                ? `bg-gray-50 text-green-600`
+                : alert.kind === "success"
+                ? `bg-green-50 text-green-600`
+                : alert.kind === "error"
+                ? `bg-red-50 text-red-main`
+                : alert.kind === "warning"
+                ? `bg-yellow-50 text-yellow-700`
+                : ""
+            } relative my-2 max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto overflow-hidden`}
             role="alert"
           >
-            {alert.type === "info" && (
+            {alert.kind === "info" && (
               <InfoAlert
                 primary={alert.primary}
                 secondary={alert.secondary}
-                type={alert.type}
+                kind={alert.kind}
                 onClose={() => onClose()}
               />
             )}
-            {alert.type === "success" && (
+            {alert.kind === "success" && (
               <SuccessAlert
                 primary={alert.primary}
                 secondary={alert.secondary}
-                type={alert.type}
+                kind={alert.kind}
                 onClose={() => onClose()}
               />
             )}
-            {alert.type === "error" && (
+            {alert.kind === "error" && (
               <ErrorAlert
                 primary={alert.primary}
                 secondary={alert.secondary}
-                type={alert.type}
+                kind={alert.kind}
                 onClose={() => onClose()}
               />
             )}
-            {alert.type === "warning" && (
+            {alert.kind === "warning" && (
               <WarningAlert
                 primary={alert.primary}
                 secondary={alert.secondary}
-                type={alert.type}
+                kind={alert.kind}
                 onClose={() => onClose()}
               />
             )}
-          </StyledContainer>
+          </div>
         </Transition>
       </div>
     </div>

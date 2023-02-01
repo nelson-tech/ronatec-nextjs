@@ -142,7 +142,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
     } else {
       setAlert({
         open: true,
-        type: "error",
+        kind: "error",
         primary: "Error Checking Out",
       })
     }

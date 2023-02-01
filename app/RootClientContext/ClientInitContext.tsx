@@ -2,12 +2,12 @@
 
 import { AUTH_ENDPOINT } from "@lib/constants"
 import useCart from "@lib/hooks/useCart"
-import { ENDPOINT_SetInputType, LayoutAuthDataType } from "@lib/types/auth"
+import { EP_Auth_Input_Set_Type, Layout_AuthData_Type } from "@lib/types/auth"
 import { useEffect } from "react"
 
 type ClientInitContextPropsType = {
   children: React.ReactNode
-  authData: LayoutAuthDataType
+  authData: Layout_AuthData_Type
 }
 
 const ClientInitContext = ({
@@ -22,7 +22,7 @@ const ClientInitContext = ({
 
     const tokens = Object.fromEntries(setTokens)
 
-    const body: ENDPOINT_SetInputType = { action: "SET", tokens }
+    const body: EP_Auth_Input_Set_Type = { action: "SET", tokens }
 
     fetch(AUTH_ENDPOINT, { method: "POST", body: JSON.stringify(body) })
   }

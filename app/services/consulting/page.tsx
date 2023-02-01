@@ -37,12 +37,10 @@ const ConsultingPage = async () => {
             {slides && slides.length > 0 && (
               <Slider
                 slides={slides as Post_Common_Slides[]}
-                imageFit="cover"
-                rounded
-                sliderStyle="relative w-full h-full m-4 p pt-[52.25%] md:pt-[40%] lg:pt-[32.5%]"
+                sliderStyle="relative w-full md:w-1/2 h-96 m-4 "
               />
             )}
-            <div className="px-4 w-full h-full text-sm text-gray-700">
+            <div className="px-4 w-full h-full text-gray-700">
               {content && parseNewLines(content)}
             </div>
           </div>
@@ -106,7 +104,7 @@ const Card = ({ card }: { card: Post_Common_Cards }) => {
           {card.title}
         </h3>
       )}
-      <div className="mt-5 text-sm text-gray-500">
+      <div className="mt-5 text-gray-500">
         {card.content && parseNewLines(card.content)}
       </div>
     </div>

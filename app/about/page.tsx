@@ -42,6 +42,7 @@ const AboutPage = async () => {
                         alt={card.image.altText || ""}
                         src={card.image.sourceUrl || ""}
                         fill
+                        sizes="(max-width: 400px) 100vw,50vw"
                         className="rounded-lg overflow-hidden"
                       />
                     )}

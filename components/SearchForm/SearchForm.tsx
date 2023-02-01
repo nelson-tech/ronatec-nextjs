@@ -1,14 +1,11 @@
-import { ChangeEvent, use, useEffect, useMemo, useState } from "react"
+import { ChangeEvent } from "react"
 import { useRouter } from "next/navigation"
-import debounce from "lodash.debounce"
 import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 import { Combobox, Transition } from "@headlessui/react"
 
-// import { Product, useQuickSearchQuery } from "@api/codegen/graphql"
+import useSearch from "@lib/hooks/useSearch"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
-import useClient from "@api/client"
-import { Product, QuickSearchDocument } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -23,35 +20,15 @@ type PropsType = {
 // ####
 
 const SearchForm = ({ setModalClosed }: PropsType) => {
-  const [query, setQuery] = useState<string | undefined>()
-  const [results, setResults] = useState<any[] | undefined>()
-
-  const client = useClient()
-
   const router = useRouter()
 
-  // const [{ data: searchData, error: searchError, fetching: searchFetching }] =
-  //   useQuickSearchQuery({ variables: { search: query }, pause: !query })
-
-  const getSearchResult = async (search: string) => {
-    const data = await client.request(QuickSearchDocument, { search })
-    data.products?.nodes && setResults(data.products.nodes)
-  }
-
-  const debounceSearchInput = useMemo(() => debounce(getSearchResult, 500), [])
+  const { results, loading, getSearchResults } = useSearch()
 
   const handleSearchField = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     const search = event.target.value
-    debounceSearchInput(search)
+    getSearchResults(search)
   }
-
-  // useEffect(() => {
-  //   if (searchData) {
-  //     searchData.products?.nodes &&
-  //       setResults(searchData.products.nodes as Product[])
-  //   }
-  // }, [searchData])
 
   const handleChange = (product: any | undefined) => {
     if (product) {
@@ -86,7 +63,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
             displayValue={(product: any) => product?.name || ""}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
-            {true && <LoadingSpinner size={5} opacity={50} />}
+            {loading && <LoadingSpinner size={5} opacity={50} />}
           </Combobox.Button>
 
           {results && results.length > 0 && (

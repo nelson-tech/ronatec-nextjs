@@ -4,17 +4,17 @@ import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
 import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
 
+import { MenuItem } from "@api/codegen/graphql"
 import { GetDesktopLinkStyleType } from "../MainMenu"
 
 import Link from "@components/Link"
-import { MenuItemType } from "@api/types/menu"
 
 // ####
 // #### Types
 // ####
 
 type DropdownProps = {
-  menuItem: MenuItemType
+  menuItem: MenuItem
   getStyle: GetDesktopLinkStyleType
 }
 
@@ -28,22 +28,20 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
     <Menu as="div" className="relative h-full">
       {({ open }) => (
         <>
-          <div className="flex h-full">
-            <Menu.Button
-              title={menuItem.label ?? ""}
-              className={getStyle({
-                open,
-                path,
-              })}
-            >
-              {menuItem.label}
-              <ChevronDownIcon
-                className={`transition ml-1 w-4 h-4 ${
-                  open && "transform rotate-180"
-                } text-gray-400`}
-              />
-            </Menu.Button>
-          </div>
+          <Menu.Button
+            title={menuItem.label ?? ""}
+            className={getStyle({
+              open,
+              path,
+            })}
+          >
+            {menuItem.label}
+            <ChevronDownIcon
+              className={`transition ml-1 w-4 h-4 ${
+                open && "transform rotate-180"
+              } text-gray-400`}
+            />
+          </Menu.Button>
 
           <Transition
             as={Fragment}
@@ -60,18 +58,16 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
 
                 {menuItem.childItems?.nodes &&
                   menuItem.childItems.nodes.map(
-                    (item, index) =>
+                    (item: MenuItem, index) =>
                       item.label && (
-                        <Menu.Item key={item.id}>
-                          <div>
-                            <Link
-                              href={item.url ?? ""}
-                              title={item.label}
-                              className="transition hover:bg-accent hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
-                            >
-                              {item.label}
-                            </Link>
-                          </div>
+                        <Menu.Item
+                          key={item.id}
+                          as={Link}
+                          href={item.url ?? ""}
+                          title={item.label ?? undefined}
+                          className="transition hover:bg-accent hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
+                        >
+                          {item.label}
                         </Menu.Item>
                       ),
                   )}

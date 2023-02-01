@@ -7,7 +7,7 @@ import {
   GetProductsByCategoryQueryVariables,
   Product,
 } from "@api/codegen/graphql"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 
 // ####
 // #### Types
@@ -35,23 +35,25 @@ const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
 
   const client = useClient()
 
-  const fetchProducts = async (
-    queryVars: GetProductsByCategoryQueryVariables,
-  ) => {
-    setLoading(true)
+  const fetchProducts = useCallback(
+    async (queryVars: GetProductsByCategoryQueryVariables) => {
+      setLoading(true)
 
-    const productsData = await client.request(
-      GetProductsByCategoryDocument,
-      queryVars,
-    )
+      const productsData = await client.request(
+        GetProductsByCategoryDocument,
+        queryVars,
+      )
 
-    productsData.products?.nodes &&
-      setProducts(productsData.products.nodes as Product[])
-    productsData.products?.pageInfo &&
-      setPageData(productsData.products.pageInfo)
+      productsData.products?.nodes &&
+        setProducts(productsData.products.nodes as Product[])
+      productsData.products?.pageInfo &&
+        setPageData(productsData.products.pageInfo)
 
-    setLoading(false)
-  }
+      setLoading(false)
+    },
+    [client],
+  )
+
   return { products, pageData, loading, fetchProducts }
 }
 

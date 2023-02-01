@@ -2,7 +2,6 @@ import OfficeBuildingIcon from "@heroicons/react/24/outline/BuildingOfficeIcon"
 
 import {
   GetWarehousesDataDocument,
-  Post_Maps_MapOptions,
   Post_Maps_Markers,
 } from "@api/codegen/graphql"
 import useClient from "@api/client"
@@ -37,12 +36,11 @@ const WarehousesPage = async () => {
       <Map
         markers={markers as Post_Maps_Markers[]}
         containerClassNames="aspect-2 md:aspect-3"
-        options={(warehouses?.mapOptions as Post_Maps_MapOptions) || undefined}
       />
 
       <div className="relative bg-white py-8 px-2">
         <div className="mx-auto max-w-md w-2/3 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 text-sm font-medium">
+          <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 text-sm font-medium">
             {warehouses?.markers &&
               warehouses.markers.map(warehouse => {
                 return (

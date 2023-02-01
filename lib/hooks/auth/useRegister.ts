@@ -7,7 +7,7 @@ import {
   RegisterUserMutationVariables,
   User,
 } from "@api/codegen/graphql"
-import { ENDPOINT_SetInputType } from "@lib/types/auth"
+import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
 import { AUTH_ENDPOINT } from "@lib/constants"
 
 const useRegister = () => {
@@ -24,8 +24,6 @@ const useRegister = () => {
 
   const client = useClient()
 
-  // const [_, registerUser] = useRegisterUserMutation()
-
   const register = async (input: RegisterUserMutationVariables) => {
     const registerData = await client.request(RegisterUserDocument, input)
     const newUser = registerData?.registerUser?.user
@@ -33,7 +31,7 @@ const useRegister = () => {
       const { jwtAuthToken, jwtRefreshToken, ...user } = newUser
 
       // Make call to endpoint to set cookies on client
-      const body: ENDPOINT_SetInputType = {
+      const body: EP_Auth_Input_Set_Type = {
         action: "SET",
         tokens: { auth: jwtAuthToken, refresh: jwtRefreshToken },
       }
@@ -42,7 +40,7 @@ const useRegister = () => {
       setUser(user as User)
       setAlert({
         open: true,
-        type: "success",
+        kind: "success",
         primary: `Welcome${(user?.firstName || user?.lastName) && ","}${
           user?.firstName && ` ${user.firstName}`
         }${user?.lastName && ` ${user.lastName}`}!`,

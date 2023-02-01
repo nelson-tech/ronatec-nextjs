@@ -7,7 +7,7 @@ import {
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { AUTH_ENDPOINT } from "@lib/constants"
-import { ENDPOINT_SetInputType } from "@lib/types/auth"
+import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
 
 const useLogin = () => {
   const { setAlert, setUser, setLoggedIn, setLoginError } = useStore(
@@ -23,12 +23,11 @@ const useLogin = () => {
   const client = useClient()
 
   const login = async ({ input }: LoginUserMutationVariables) => {
-    console.log("Logging in", input)
-
+    client.setHeader("auth", "true")
     await client
       .request(LoginUserDocument, { input })
       .then(async data => {
-        console.log("LOGIN RESPONSE", data)
+        console.log("Login Data", data)
 
         if (data) {
           const { login } = data
@@ -49,13 +48,12 @@ const useLogin = () => {
             setUser(user)
 
             // Make client call to API to set cookies for frontend
-            const body: ENDPOINT_SetInputType = {
+            const body: EP_Auth_Input_Set_Type = {
               action: "SET",
               tokens: {
                 auth: jwtAuthToken,
                 refresh: jwtRefreshToken,
-                user: encodeURIComponent(JSON.stringify(user)),
-                session: user.wooSessionToken,
+                cart: user.wooSessionToken,
               },
             }
 
@@ -66,7 +64,7 @@ const useLogin = () => {
 
             setAlert({
               open: true,
-              type: "success",
+              kind: "success",
               primary: `Welcome back${
                 (user?.firstName || user?.lastName) && ","
               }${user?.firstName && ` ${user.firstName}`}${
@@ -79,10 +77,14 @@ const useLogin = () => {
         }
       })
       .catch(error => {
-        if (error.message.includes("incorrect")) {
+        console.warn("Error logging in", error)
+
+        if (error.message.includes("invalid")) {
           setLoginError("Email or password is incorrect.")
         }
       })
+
+    client.setHeader("auth", "false")
   }
 
   return { login }

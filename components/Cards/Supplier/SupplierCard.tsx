@@ -84,7 +84,9 @@ const SupplierCard = ({
               rel="noreferrer"
               className="flex py-2 items-center justify-center w-full h-full pl-4"
             >
-              <div className="target">Visit {title}</div>
+              <div className="target hover-underline-animation">
+                Visit {title}
+              </div>
               <div className="px-4">
                 <Icon
                   name="external-link"

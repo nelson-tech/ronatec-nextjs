@@ -64,7 +64,7 @@ const Products = ({
 
   useEffect(() => {
     fetchProducts(queryVars)
-  }, [queryVars])
+  }, [queryVars, fetchProducts])
 
   const setPagination = (pagination: PaginationType) => {
     setQueryVars({ ...queryVars, ...pagination })

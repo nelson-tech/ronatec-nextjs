@@ -3,7 +3,7 @@ import type {
   ProductCategory as ProductCategoryType,
 } from "@api/codegen/graphql"
 
-import getCategoryBySlug from "@api/server/getCategoryBySlug"
+import useCategoryBySlug from "@lib/serverCalls/useCategoryBySlug"
 import ProductCategory from "@components/Products/Category"
 
 // ####
@@ -11,7 +11,7 @@ import ProductCategory from "@components/Products/Category"
 // ####
 
 const CategoryPage = async ({ params }: { params: { category: string } }) => {
-  const { category, initialProducts } = await getCategoryBySlug(params.category)
+  const { category, initialProducts } = await useCategoryBySlug(params.category)
 
   return (
     <>
