@@ -1,7 +1,9 @@
+"use client"
+
 import { memo } from "react"
 import { Menu } from "@headlessui/react"
-import ClipboardCheckIcon from "@heroicons/react/outline/ClipboardCheckIcon"
-import LoginIcon from "@heroicons/react/outline/LoginIcon"
+import ClipboardCheckIcon from "@heroicons/react/24/outline/ClipboardDocumentCheckIcon"
+import LoginIcon from "@heroicons/react/24/outline/ArrowLeftCircleIcon"
 
 import useStore from "@lib/hooks/useStore"
 
@@ -22,19 +24,16 @@ const GuestMenu = memo(function GuestMenu() {
           className="transition cursor-pointer flex items-center outline-none ring-transparent text-green-main px-4 py-2 text-sm hover:bg-green-main hover:text-white"
         >
           <LoginIcon className="h-4 w-4 mr-1.5" />
-          <div className="target">Sign in</div>
+          <div className="target">Log in</div>
         </div>
       </Menu.Item>
-      <Menu.Item>
-        <div className="group">
-          <Link
-            href="/register"
-            className="transition flex items-center text-blue-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-blue-main hover:text-white"
-          >
-            <ClipboardCheckIcon className="h-4 w-4 mr-2" />
-            <div className="target">Register</div>
-          </Link>
-        </div>
+      <Menu.Item
+        as={Link}
+        href="/register"
+        className="transition group flex items-center text-accent-dark outline-none ring-transparent px-3.5 py-2 text-sm hover:bg-accent hover:text-white"
+      >
+        <ClipboardCheckIcon className="h-4 w-4 mr-2" />
+        <div className="target">Register</div>
       </Menu.Item>
     </>
   )

@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 
 import useStore from "@lib/hooks/useStore"
-import { Cart, useGetCartQuery } from "@api/gql/types"
 
 // ####
 // #### Component
@@ -13,19 +12,19 @@ const CartLogic = () => {
     setLoading: state.cart.setLoading,
   }))
 
-  const [{ data, fetching }] = useGetCartQuery()
+  // const [{ data, fetching }] = useGetCartQuery()
 
   // Catch data from cart query
-  useEffect(() => {
-    if (data?.cart) {
-      setCart(data.cart as Cart)
-    }
-  }, [data, setCart])
+  // useEffect(() => {
+  //   if (data?.cart) {
+  //     setCart(data.cart as Cart)
+  //   }
+  // }, [data, setCart])
 
-  // Set loading in state
-  useEffect(() => {
-    setLoading(fetching)
-  }, [fetching, setLoading])
+  // // Set loading in state
+  // useEffect(() => {
+  //   setLoading(fetching)
+  // }, [fetching, setLoading])
 
   return <></>
 }

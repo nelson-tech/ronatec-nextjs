@@ -1,0 +1,84 @@
+query GetMenus {
+  mainMenu: menu(id: "main", idType: SLUG) {
+    id
+    menuItems(first: 100, where: { parentDatabaseId: 0 }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        url
+        label
+        menuFields {
+          mega
+        }
+        childItems {
+          nodes {
+            id
+            url
+            label
+            menuFields {
+              column
+            }
+            childItems {
+              nodes {
+                id
+                url
+                label
+                childItems {
+                  nodes {
+                    id
+                    url
+                    label
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  mobileMenu: menu(id: "mobile", idType: SLUG) {
+    id
+    menuItems(first: 100, where: { parentDatabaseId: 0 }) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        id
+        url
+        label
+        menuFields {
+          mega
+        }
+        childItems {
+          nodes {
+            id
+            url
+            label
+            menuFields {
+              column
+            }
+            childItems {
+              nodes {
+                id
+                url
+                label
+                childItems {
+                  nodes {
+                    id
+                    url
+                    label
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

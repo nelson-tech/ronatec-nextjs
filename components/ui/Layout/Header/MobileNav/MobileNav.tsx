@@ -1,5 +1,7 @@
-import MenuIcon from "@heroicons/react/outline/MenuIcon"
-import SearchIcon from "@heroicons/react/outline/SearchIcon"
+"use client"
+
+import MenuIcon from "@components/icons/Menu"
+import SearchIcon from "@heroicons/react/24/outline/MagnifyingGlassCircleIcon"
 
 import useStore from "@lib/hooks/useStore"
 
@@ -21,7 +23,7 @@ const MobileNav = () => {
           onClick={() => setMobileMenuOpen(true)}
         >
           <span className="sr-only focus:text-white">Open menu</span>
-          <MenuIcon className="h-6 w-6" aria-hidden="true" />
+          <MenuIcon size={6} />
         </button>
 
         {/* Search */}

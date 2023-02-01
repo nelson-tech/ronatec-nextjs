@@ -1,8 +1,10 @@
+"use client"
+
 import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
-import ChevronDownIcon from "@heroicons/react/solid/ChevronDownIcon"
+import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
 
-import { NormalizedMenuItem } from "@lib/types"
+import { MenuItem } from "@api/codegen/graphql"
 import { GetDesktopLinkStyleType } from "../MainMenu"
 
 import Link from "@components/Link"
@@ -12,7 +14,7 @@ import Link from "@components/Link"
 // ####
 
 type DropdownProps = {
-  menuItem: NormalizedMenuItem
+  menuItem: MenuItem
   getStyle: GetDesktopLinkStyleType
 }
 
@@ -21,27 +23,25 @@ type DropdownProps = {
 // ####
 
 const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
-  const path = menuItem.path || "/"
+  const path = menuItem.url || "/"
   return (
     <Menu as="div" className="relative h-full">
       {({ open }) => (
         <>
-          <div className="flex h-full">
-            <Menu.Button
-              title={menuItem.label}
-              className={getStyle({
-                open,
-                path,
-              })}
-            >
-              {menuItem.label}
-              <ChevronDownIcon
-                className={`transition ml-1 w-4 h-4 ${
-                  open && "transform rotate-180"
-                } text-gray-400`}
-              />
-            </Menu.Button>
-          </div>
+          <Menu.Button
+            title={menuItem.label ?? ""}
+            className={getStyle({
+              open,
+              path,
+            })}
+          >
+            {menuItem.label}
+            <ChevronDownIcon
+              className={`transition ml-1 w-4 h-4 ${
+                open && "transform rotate-180"
+              } text-gray-400`}
+            />
+          </Menu.Button>
 
           <Transition
             as={Fragment}
@@ -56,20 +56,21 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
               <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-40">
                 {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 
-                {menuItem.children &&
-                  menuItem.children.map((item, index) => (
-                    <Menu.Item key={menuItem.label + index + item.label}>
-                      <div>
-                        <Link
-                          href={item.path}
-                          title={item.label}
-                          className="transition hover:bg-blue-main hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
+                {menuItem.childItems?.nodes &&
+                  menuItem.childItems.nodes.map(
+                    (item: MenuItem, index) =>
+                      item.label && (
+                        <Menu.Item
+                          key={item.id}
+                          as={Link}
+                          href={item.url ?? ""}
+                          title={item.label ?? undefined}
+                          className="transition hover:bg-accent hover:text-white text-gray-700 block px-4 py-2 text-sm ring-transparent outline-none"
                         >
                           {item.label}
-                        </Link>
-                      </div>
-                    </Menu.Item>
-                  ))}
+                        </Menu.Item>
+                      ),
+                  )}
               </Menu.Items>
             </div>
           </Transition>

@@ -1,10 +1,10 @@
 import { FormEvent, ReactNode, RefObject } from "react"
 import { Disclosure } from "@headlessui/react"
 import { useForm } from "react-hook-form"
-import XIcon from "@heroicons/react/solid/XIcon"
-import FilterIcon from "@heroicons/react/solid/FilterIcon"
+import XIcon from "@heroicons/react/20/solid/XCircleIcon"
+import FilterIcon from "@heroicons/react/20/solid/FunnelIcon"
 
-import { InputMaybe, ProductCategory } from "@api/gql/types"
+import { InputMaybe, ProductCategory } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -36,11 +36,11 @@ const Filters = ({
       let filteredCategories = [category.slug]
 
       category?.children?.nodes &&
-        category.children.nodes.map(child => {
+        category.children.nodes.map((child: ProductCategory) => {
           let childCategories = [child?.slug]
 
           child?.children?.nodes &&
-            child.children.nodes.map(grandchild => {
+            child.children.nodes.map((grandchild: ProductCategory) => {
               childCategories.push(grandchild?.slug)
             })
 

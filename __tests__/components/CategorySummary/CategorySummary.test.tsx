@@ -1,4 +1,4 @@
-import { Category, MediaItem } from "@api/gql/types"
+import { Category, MediaItem } from "@api/codegen/graphql"
 import CategorySummary, {
   PropsType,
 } from "@components/CategorySummary/CategorySummary"

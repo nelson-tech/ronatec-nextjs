@@ -5,7 +5,7 @@ import {
   ProductVariation,
   SimpleProduct,
   VariableProduct,
-} from "@api/gql/types"
+} from "@api/codegen/graphql"
 
 export type FullProduct = Product &
   VariableProduct &

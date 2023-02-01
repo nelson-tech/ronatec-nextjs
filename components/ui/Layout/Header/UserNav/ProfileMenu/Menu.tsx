@@ -1,9 +1,12 @@
+"use client"
+
 import { Fragment } from "react"
-import dynamic from "next/dynamic"
 import { Menu, Transition } from "@headlessui/react"
-import UserIcon from "@heroicons/react/outline/UserIcon"
+import UserIcon from "@heroicons/react/24/outline/UserCircleIcon"
 
 import useStore from "@lib/hooks/useStore"
+import AuthMenu from "./AuthMenu"
+import GuestMenu from "./GuestMenu"
 
 // ####
 // #### Dynamic Imports
@@ -11,8 +14,8 @@ import useStore from "@lib/hooks/useStore"
 
 const clientOpts = { ssr: false }
 
-const AuthMenu = dynamic(() => import("./AuthMenu"), clientOpts)
-const GuestMenu = dynamic(() => import("./GuestMenu"), {})
+// const AuthMenu = dynamic(() => import("./AuthMenu"), clientOpts)
+// const GuestMenu = dynamic(() => import("./GuestMenu"), {})
 
 // ####
 // #### Component
@@ -47,7 +50,7 @@ const ProfileMenu = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <div className="origin-top-right z-20 absolute -right-2 pt-2 w-48">
+              <div className=" z-20 absolute -right-[5.25rem] pt-2 w-48">
                 <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
                   {loggedIn ? (
                     <AuthMenu data-testid="auth-menu" />

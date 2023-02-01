@@ -1,0 +1,23 @@
+query GetWarehousesData {
+  page(id: "about/warehouses", idType: URI) {
+    ...PageCommonBase
+    page_about_warehouses {
+      acf {
+        map {
+          fieldGroupName
+          markers {
+            label
+            center {
+              lat
+              lng
+            }
+            icon {
+              name
+              type
+            }
+          }
+        }
+      }
+    }
+  }
+}

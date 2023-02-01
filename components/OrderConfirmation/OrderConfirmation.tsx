@@ -1,5 +1,5 @@
-import { Order } from "@api/gql/types"
-import CheckIcon from "@heroicons/react/solid/CheckIcon"
+import { Order } from "@api/codegen/graphql"
+import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 
 import Link from "@components/Link"
 import OrderDetails from "@components/Orders/Details"

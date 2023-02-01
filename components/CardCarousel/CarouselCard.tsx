@@ -1,8 +1,10 @@
+"use client"
+
 import { memo } from "react"
-import { useRouter } from "next/dist/client/router"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 
-import { MediaItem } from "@api/gql/types"
+import { MediaItem } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 

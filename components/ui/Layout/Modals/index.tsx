@@ -1,12 +1,26 @@
+"use client"
+
+import { MenuItem } from "@api/codegen/graphql"
+
 import CartSlider from "./CartSlider"
 import LoginModal from "./LoginModal"
 import MobileMenu from "./MobileMenu"
 import SearchModal from "./SearchModal"
 
-const Modals = () => {
+// ####
+// #### Types
+// ####
+
+type ModalsInputType = { menuItems: MenuItem[] }
+
+// ####
+// #### Component
+// ####
+
+const Modals = ({ menuItems }: ModalsInputType) => {
   return (
     <>
-      <MobileMenu />
+      {menuItems && <MobileMenu menuItems={menuItems} />}
       <SearchModal />
       <LoginModal />
       <CartSlider />

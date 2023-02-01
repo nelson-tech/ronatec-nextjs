@@ -2,7 +2,7 @@
 import { act, renderHook } from "@testing-library/react"
 import { useStore } from "@mocks/zustand"
 import { initialState } from "@lib/store/slices/auth"
-import { User } from "@api/gql/types"
+import { User } from "@api/codegen/graphql"
 
 const defaultUser: User = {
   id: "defaultUser",

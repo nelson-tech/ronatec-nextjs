@@ -1,4 +1,4 @@
-import CollectionIcon from "@heroicons/react/outline/CollectionIcon"
+import CollectionIcon from "@heroicons/react/24/outline/InboxStackIcon"
 
 type UserMenuItem = {
   name: string
@@ -10,7 +10,7 @@ const userMenu: UserMenuItem[] = [
   // { name: "Your Profile", href: "/dashboard" },
   {
     name: "Orders",
-    href: "/dashboard/orders",
+    href: "/orders",
     icon: props => <CollectionIcon {...props} />,
   },
 ]

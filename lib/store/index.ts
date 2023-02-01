@@ -1,46 +1,45 @@
-import { useLayoutEffect } from "react"
-import create, { StoreApi, UseBoundStore } from "zustand"
-import createContext from "zustand/context"
+"use client"
 
-import isServer from "@lib/utils/isServer"
+import { createStore } from "zustand"
 
-import vanillaStore, { StoreType } from "./vanilla"
+import createAlertSlice, { AlertSliceType } from "./slices/alert"
+import createAuthSlice, { AuthSliceType } from "./slices/auth"
+import createCartSlice, { CartSliceType } from "./slices/cart"
+import createShopSlice, { ShopSliceType } from "./slices/shop"
+import createUISlice, { UISliceType } from "./slices/ui"
+
+import { createContext } from "react"
 
 //
-// TYPES
+// Types
 //
 
-type BoundStoreType = UseBoundStore<StoreApi<StoreType>>
+export type SlicesType = AlertSliceType &
+  AuthSliceType &
+  CartSliceType &
+  ShopSliceType &
+  UISliceType
 
-let store: BoundStoreType
+export type initialStateType = DeepPartial<SlicesType>
 
-const zustandContext = createContext<BoundStoreType>()
-export const Provider = zustandContext.Provider
-export const storeHook = zustandContext.useStore
-export const storeAPI = zustandContext.useStoreApi
+export type StoreType = ReturnType<typeof createClientStore>
 
-export const useCreateStore = (
-  initialState?: StoreType,
-): (() => BoundStoreType) => {
-  // For SSR & SSG, always use a new store.
-  if (isServer) {
-    return () => create(vanillaStore)
-  }
+//
+// Variables
+//
 
-  // For CSR, always re-use same store.
-  store = store ?? create(vanillaStore)
-  // And if initialState changes, then merge states in the next render cycle.
-  //
-  // eslint complaining "React Hooks must be called in the exact same order in every component render"
-  // is ignorable as this code runs in same order in a given environment
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useLayoutEffect(() => {
-    if (initialState && store) {
-      store.setState({
-        ...store.getState(),
-      })
-    }
-  }, [initialState])
+export const StoreContext = createContext<StoreType | null>(null)
 
-  return () => store
+//
+// Hook
+//
+
+export const createClientStore = (initialState?: initialStateType) => {
+  return createStore<SlicesType>()((...a) => ({
+    ...createAlertSlice(...a),
+    ...createAuthSlice(initialState?.auth)(...a),
+    ...createCartSlice(initialState?.cart)(...a),
+    ...createShopSlice(...a),
+    ...createUISlice(...a),
+  }))
 }

@@ -1,5 +1,5 @@
-import { FullProduct } from "@lib/types"
-import { Order } from "@api/gql/types"
+import { LineItem as LineItemType, Order } from "@api/codegen/graphql"
+import { FullProduct } from "@lib/types/products"
 
 import OrderSummary from "./Summary"
 import LineItem from "./LineItem"
@@ -65,7 +65,7 @@ const OrderDetails = ({ order }: PropsType) => {
         </thead>
         <tbody className="border-b border-gray-200 divide-y divide-gray-200 text-sm sm:border-t">
           {order.lineItems?.nodes &&
-            order.lineItems.nodes.map(lineItem => {
+            order.lineItems.nodes.map((lineItem: LineItemType) => {
               const product = lineItem?.product?.node
                 ? (lineItem.product.node as FullProduct)
                 : null

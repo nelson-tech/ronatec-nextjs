@@ -1,4 +1,4 @@
-import PhoneIcon from "@heroicons/react/outline/PhoneIcon"
+import PhoneIcon from "@heroicons/react/20/solid/PhoneIcon"
 
 // ####
 // #### Variables

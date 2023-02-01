@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 import { Dialog, Transition } from "@headlessui/react"
 
 import useStore from "@lib/hooks/useStore"

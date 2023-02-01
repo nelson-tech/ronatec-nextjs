@@ -1,16 +1,17 @@
-import { useRouter } from "next/router"
-import shallow from "zustand/shallow"
+import { useRouter } from "next/navigation"
+import { shallow } from "zustand/shallow"
 
+import useClient from "@api/client"
+import { LogoutUserDocument } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
-import { logout as logoutClient } from "@api/urql/utils"
-import { useLogoutUserMutation } from "@api/gql/types"
+import { EP_Auth_Input_Logout_Type } from "@lib/types/auth"
+import { AUTH_ENDPOINT } from "@lib/constants"
 
 const useLogout = () => {
   const router = useRouter()
 
-  const { loggedIn, setLoggedIn, setUser, setAlert } = useStore(
+  const { setLoggedIn, setUser, setAlert } = useStore(
     state => ({
-      loggedIn: state.auth.loggedIn,
       setLoggedIn: state.auth.setLoggedIn,
       setUser: state.auth.setUser,
       setAlert: state.alert.setAlert,
@@ -18,30 +19,33 @@ const useLogout = () => {
     shallow,
   )
 
-  const [_, logoutMutation] = useLogoutUserMutation()
+  const client = useClient()
 
   const logout = async () => {
-    logoutMutation({ input: {} }).then(res => {
-      const { data, error } = res
+    client.setHeader("auth", "true")
+    await client.request(LogoutUserDocument, { input: {} })
+    client.setHeader("auth", "false")
 
-      if (loggedIn && data) {
-        setLoggedIn(false)
-        setUser(null)
-        logoutClient(true)
+    // Make client call to API to set cookies for frontend
+    const body: EP_Auth_Input_Logout_Type = {
+      action: "LOGOUT",
+    }
 
-        setAlert({
-          open: true,
-          primary: "Logged out.",
-          secondary: "",
-          type: "info",
-        })
-
-        // Redirect to homepage
-        router.push("/")
-      }
+    await fetch(AUTH_ENDPOINT, {
+      method: "POST",
+      body: JSON.stringify(body),
     })
 
-    // TODO - Set errors
+    setLoggedIn(false)
+    setUser(null)
+    setAlert({
+      open: true,
+      primary: "Logged out.",
+      secondary: "",
+      kind: "info",
+    })
+
+    router.push("/")
   }
   return { logout }
 }

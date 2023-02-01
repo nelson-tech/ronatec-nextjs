@@ -1,9 +1,7 @@
-import { SerializedStyles } from "@emotion/react"
-import { TwStyle } from "twin.macro"
-
-import { Post_Common_VideoLink } from "@api/gql/types"
+// import { Post_Common_VideoLink } from "@api/codegen/graphql"
 
 import VideoPlayer from "@components/VideoPlayer"
+import { GetHomeDataQuery } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -12,10 +10,13 @@ import VideoPlayer from "@components/VideoPlayer"
 export type VideoCardPropsType = {
   rounded?: boolean
   light?: boolean
-  cardStyle?: SerializedStyles | TwStyle
-  titleStyle?: SerializedStyles | TwStyle
-  playerStyle?: SerializedStyles | TwStyle
-  videoLink: Post_Common_VideoLink
+  cardStyle?: string
+  titleStyle?: string
+  playerStyle?: string
+  videoLink: DeepNull<
+    GetHomeDataQuery,
+    "page.page_home.acf.videoLink"
+  >["page"]["page_home"]["acf"]["videoLink"]
 }
 
 // ####
@@ -33,12 +34,14 @@ const VideoCard = ({
   const { title, videoUrl, videoId, provider } = videoLink
   if (videoId || videoUrl) {
     return (
-      <div className="w-full h-full" css={cardStyle}>
+      <div className={"w-full h-full " + cardStyle}>
         {/* Title */}
         {title && (
           <div
-            className="text-center pb-4 text-2xl divide-y-4 divide-gray-150 divide-double relative px-6"
-            css={titleStyle}
+            className={
+              "text-center pb-4 text-2xl divide-y-4 divide-gray-150 divide-double relative px-6 " +
+              titleStyle
+            }
           >
             <h2 className="pb-2">{title}</h2>
             <div></div>

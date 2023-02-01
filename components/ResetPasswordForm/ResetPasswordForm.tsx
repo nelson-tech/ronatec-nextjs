@@ -1,11 +1,12 @@
+"use client"
+
 import { useEffect, useState } from "react"
-import { useRouter } from "next/dist/client/router"
-import Link from "next/link"
-import shallow from "zustand/shallow"
+import { useRouter, useSearchParams } from "next/navigation"
+import { shallow } from "zustand/shallow"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
-import LockClosedIcon from "@heroicons/react/solid/LockClosedIcon"
-import MailIcon from "@heroicons/react/solid/MailIcon"
+import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
+import MailIcon from "@heroicons/react/20/solid/EnvelopeIcon"
 
 import useStore from "@lib/hooks/useStore"
 import useResetPassword from "@lib/hooks/useResetPassword"
@@ -14,29 +15,35 @@ import MenuLink from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
+// #### Types
+// ####
+
+type ResetPasswordFormInputType = {
+  detectedEmail: string | null | undefined
+}
+
+// ####
 // #### Component
 // ####
 
-const ResetPasswordForm = () => {
+const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   const [error, setError] = useState<string | null>(null)
   const [sentEmail, setSentEmail] = useState(false)
   const [passwordReset, setPasswordReset] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
   const { loggedIn, user } = useStore(
     state => ({ loggedIn: state.auth.loggedIn, user: state.auth.user }),
     shallow,
   )
 
-  const router = useRouter()
-
-  const [username, setUsername] = useState<string | undefined>(
-    router.query.username as string,
+  const [email, setEmail] = useState<string | null>(
+    searchParams.get("username") ?? detectedEmail ?? null,
   )
+  const [key, setKey] = useState<string | null>(searchParams.get("key"))
   const [password, setPassword] = useState<string | null>(null)
   const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null)
-  const [key, setKey] = useState<string | null>(
-    (router.query.key as string) || null,
-  )
 
   const [validPassword, setValidPassword] = useState<boolean>(false)
 
@@ -53,31 +60,6 @@ const ResetPasswordForm = () => {
     handleSubmit,
     setValue,
   } = useForm()
-
-  // Set username from logged-in state
-  useEffect(() => {
-    if (loggedIn && user?.email && !username) {
-      setUsername(user.email)
-      setValue("email", user.email)
-    }
-  }, [loggedIn, user, username, setUsername, setValue])
-
-  // Set username from router (trumps logged-in state)
-  useEffect(() => {
-    const givenUsername = router.query.username
-    if (!username && (givenUsername as string)) {
-      setUsername(givenUsername as string)
-      setValue("email", givenUsername)
-    }
-  }, [router.query, setUsername, username, setValue])
-
-  // Set key from router
-  useEffect(() => {
-    const givenKey = router.query.key
-    if (!key && (givenKey as string)) {
-      setKey(givenKey as string)
-    }
-  }, [router.query, key])
 
   // Check for matching passwords
   useEffect(() => {
@@ -98,8 +80,8 @@ const ResetPasswordForm = () => {
   }, [router, passwordReset, error])
 
   const onSendEmailSubmit: SubmitHandler<FieldValues> = async data => {
-    if (username && data.email === username) {
-      const sentStatus = await sendResetPasswordEmail(username)
+    if (email && data.email === email) {
+      const sentStatus = await sendResetPasswordEmail(email)
       sentStatus && setSentEmail(true)
     }
     console.warn(data)
@@ -107,8 +89,8 @@ const ResetPasswordForm = () => {
 
   const onResetPasswordSubmit: SubmitHandler<FieldValues> = async data => {
     if (data.passwordConfirm && data.password) {
-      if (validPassword && key && username && password) {
-        const resetStatus = await resetUserPassword(key, username, password)
+      if (validPassword && key && email && password) {
+        const resetStatus = await resetUserPassword(key, email, password)
         resetStatus && setPasswordReset(true)
       }
     }
@@ -140,18 +122,16 @@ const ResetPasswordForm = () => {
                 <span className="pr-0.5">Or</span>
               </div>
               <div>
-                <Link
+                <MenuLink
                   href={`/register${
-                    router.query?.redirect
-                      ? `?redirect=${router.query.redirect}`
+                    searchParams.get("redirect")
+                      ? `?redirect=${searchParams.get("redirect")}`
                       : ""
                   }`}
-                  passHref
+                  className="font-medium text-accent hover:text-highlight"
                 >
-                  <a className="font-medium text-blue-main hover:text-green-main">
-                    click here to register
-                  </a>
-                </Link>
+                  click here to register
+                </MenuLink>
               </div>
               <span>.</span>
             </div>
@@ -175,8 +155,8 @@ const ResetPasswordForm = () => {
                     {...register("email", {
                       required: "Email address is required.",
                     })}
-                    value={username}
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                    value={email ?? ""}
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                 </div>
@@ -196,7 +176,7 @@ const ResetPasswordForm = () => {
                       },
                     })}
                     value={password || ""}
-                    className="appearance-none relative block w-full px-3 py-2 border-x border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-2 border-x border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
                 </div>
@@ -216,7 +196,7 @@ const ResetPasswordForm = () => {
                       },
                     })}
                     value={passwordConfirm || ""}
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Confirm Password"
                   />
                 </div>
@@ -235,7 +215,7 @@ const ResetPasswordForm = () => {
               <div className="text-sm text-center">
                 <MenuLink
                   href="/login"
-                  className="font-medium text-blue-main hover:text-green-main"
+                  className="font-medium text-accent hover:text-highlight"
                 >
                   Click here to login (without resetting password).
                 </MenuLink>
@@ -244,7 +224,7 @@ const ResetPasswordForm = () => {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-main"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
@@ -279,11 +259,11 @@ const ResetPasswordForm = () => {
                     {...register("email", {
                       required: "Email address is required.",
                       onChange: e => {
-                        setUsername(e.target.value)
+                        setEmail(e.target.value)
                       },
                     })}
-                    value={username || ""}
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-main focus:border-blue-main focus:z-10 sm:text-sm"
+                    value={email || ""}
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                 </div>
@@ -301,7 +281,7 @@ const ResetPasswordForm = () => {
               <div className="text-sm text-center">
                 <MenuLink
                   href="/login"
-                  className="font-medium text-blue-main hover:text-green-main"
+                  className="font-medium text-accent hover:text-highlight"
                 >
                   Click here to login.
                 </MenuLink>
@@ -310,7 +290,7 @@ const ResetPasswordForm = () => {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-main"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (

@@ -1,0 +1,10 @@
+fragment SalesRepFragment on Page_PageAboutContact_Acf {
+  salesReps {
+    ... on Employee {
+      ...EmployeeBase
+      regions {
+        regions
+      }
+    }
+  }
+}

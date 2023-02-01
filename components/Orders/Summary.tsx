@@ -1,4 +1,4 @@
-import { Order } from "@api/gql/types"
+import { LineItem, Order } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 
@@ -40,7 +40,7 @@ const OrderSummary = ({ order, detailsLink }: PropsType) => {
         <dd className="sm:mt-1 text-gray-600">
           {order.lineItems?.nodes &&
             order.lineItems?.nodes
-              .map(item => item?.quantity)
+              .map((item: LineItem) => item?.quantity)
               .reduce(function (itemA, itemB) {
                 if (itemA && itemB) {
                   return Number(itemA) + Number(itemB)
@@ -55,7 +55,7 @@ const OrderSummary = ({ order, detailsLink }: PropsType) => {
       </div>
       {detailsLink && (
         <Link
-          href={`/dashboard/order?number=${order.orderNumber}`}
+          href={`/order?number=${order.orderNumber}`}
           className="w-full flex items-center justify-center bg-white mt-6 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:mt-0"
         >
           View Details

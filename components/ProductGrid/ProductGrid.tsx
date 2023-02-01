@@ -1,5 +1,5 @@
 import useStore from "@lib/hooks/useStore"
-import { Product } from "@api/gql/types"
+import { Product } from "@api/codegen/graphql"
 
 import ProductCard from "@components/ProductCard"
 

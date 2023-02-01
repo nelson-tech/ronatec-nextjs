@@ -1,4 +1,4 @@
-import { Product, ProductCategory } from "@api/gql/types"
+import { Product, ProductCategory } from "@api/codegen/graphql"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import MenuLink from "@components/Link"

@@ -2,7 +2,7 @@ import { RefObject } from "react"
 
 import useStore from "@lib/hooks/useStore"
 import { PaginationType } from "@lib/pagination"
-import { WpPageInfo } from "@api/gql/types"
+import { WpPageInfo } from "@api/codegen/graphql"
 
 // ####
 // #### Types

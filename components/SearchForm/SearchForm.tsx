@@ -1,10 +1,9 @@
-import { ChangeEvent, useEffect, useMemo, useState } from "react"
-import { useRouter } from "next/router"
-import debounce from "lodash.debounce"
-import { CheckIcon } from "@heroicons/react/solid"
+import { ChangeEvent } from "react"
+import { useRouter } from "next/navigation"
+import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 import { Combobox, Transition } from "@headlessui/react"
 
-import { Product, useQuickSearchQuery } from "@api/gql/types"
+import useSearch from "@lib/hooks/useSearch"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
@@ -21,30 +20,17 @@ type PropsType = {
 // ####
 
 const SearchForm = ({ setModalClosed }: PropsType) => {
-  const [query, setQuery] = useState<string | undefined>()
-  const [results, setResults] = useState<Product[] | undefined>()
-
   const router = useRouter()
 
-  const [{ data: searchData, error: searchError, fetching: searchFetching }] =
-    useQuickSearchQuery({ variables: { search: query }, pause: !query })
-
-  const debounceSearchInput = useMemo(() => debounce(setQuery, 500), [])
+  const { results, loading, getSearchResults } = useSearch()
 
   const handleSearchField = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     const search = event.target.value
-    debounceSearchInput(search)
+    getSearchResults(search)
   }
 
-  useEffect(() => {
-    if (searchData) {
-      searchData.products?.nodes &&
-        setResults(searchData.products.nodes as Product[])
-    }
-  }, [searchData])
-
-  const handleChange = (product: Product | undefined) => {
+  const handleChange = (product: any | undefined) => {
     if (product) {
       setModalClosed && setModalClosed(false)
       router.push(
@@ -74,10 +60,10 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
             className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm ring-transparent focus:outline-none sm:text-sm"
             onChange={handleSearchField}
             placeholder="Product Name"
-            displayValue={(product: Product) => product?.name || ""}
+            displayValue={(product: any) => product?.name || ""}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
-            {searchFetching && <LoadingSpinner size={5} opacity={50} />}
+            {loading && <LoadingSpinner size={5} opacity={50} />}
           </Combobox.Button>
 
           {results && results.length > 0 && (

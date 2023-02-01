@@ -1,6 +1,6 @@
 import { RefObject } from "react"
 
-import { ProductCategory } from "@api/gql/types"
+import { ProductCategory } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
 import Image from "@components/Image"
@@ -72,7 +72,7 @@ const Summary = ({ category, productRef }: PropsType) => {
           </div>
           <div className="text-sm">
             <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
-              {category.children.nodes.map(subCategory => {
+              {category.children.nodes.map((subCategory: ProductCategory) => {
                 if (subCategory) {
                   return (
                     <div
@@ -91,8 +91,6 @@ const Summary = ({ category, productRef }: PropsType) => {
                                 alt={subCategory?.name || ""}
                                 height={subCategory.image.mediaDetails?.height}
                                 width={subCategory.image.mediaDetails?.width}
-                                objectFit="cover"
-                                layout="responsive"
                               />
                             </div>
                           )}

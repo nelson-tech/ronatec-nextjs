@@ -1,14 +1,23 @@
 import { Fragment } from "react"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 import { Dialog, Transition } from "@headlessui/react"
 
+import { MenuItem } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 
 import MenuPane from "./MenuPane"
 
-// import CurrencySelector from "../CurrencySelector"
+// ####
+// #### Types
+// ####
 
-const MobileMenu = () => {
+type MobileMenuInputType = { menuItems: MenuItem[] }
+
+// ####
+// #### Component
+// ####
+
+const MobileMenu = ({ menuItems }: MobileMenuInputType) => {
   const { open, setOpen } = useStore(
     state => ({
       open: state.ui.mobileMenuOpen,
@@ -36,7 +45,7 @@ const MobileMenu = () => {
           >
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75" />
           </Transition.Child>
-          <MenuPane />
+          <MenuPane menuItems={menuItems} />
         </Dialog>
       </Transition>
     </>

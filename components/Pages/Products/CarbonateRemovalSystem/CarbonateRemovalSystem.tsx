@@ -1,5 +1,3 @@
-import tw from "twin.macro"
-
 import VideoCard from "@components/VideoCard"
 
 // ####
@@ -114,7 +112,7 @@ const CarbonateRemovalSystemComponent = () => {
               videoId: "tb54hMJb1jE",
               videoUrl: "https://youtu.be/tb54hMJb1jE",
             }}
-            cardStyle={tw`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
+            cardStyle="pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto"
             light
           />
         </div>

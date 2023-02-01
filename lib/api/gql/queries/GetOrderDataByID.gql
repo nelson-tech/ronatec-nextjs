@@ -1,0 +1,5 @@
+query GetOrderDataByID($id: ID) {
+  order(id: $id, idType: DATABASE_ID) {
+    ...OrderProductBase
+  }
+}

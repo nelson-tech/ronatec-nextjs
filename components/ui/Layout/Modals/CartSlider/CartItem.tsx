@@ -1,9 +1,9 @@
 import { memo, useState } from "react"
-import MinusIcon from "@heroicons/react/solid/MinusIcon"
-import PlusIcon from "@heroicons/react/solid/PlusIcon"
+import MinusIcon from "@heroicons/react/20/solid/MinusIcon"
+import PlusIcon from "@heroicons/react/20/solid/PlusIcon"
 
 import useCart from "@lib/hooks/useCart"
-import { CartItem as CartItemType, Maybe } from "@api/gql/types"
+// import { CartItem as CartItemType, Maybe } from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 import Link from "@components/Link"
@@ -14,7 +14,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 // ####
 
 type PropsType = {
-  lineItem: Maybe<CartItemType>
+  lineItem: any
   setOpen?: (open: boolean) => void
 }
 
@@ -30,7 +30,7 @@ const CartItem = memo(
 
     const handleRemoveItem = async (key: string) => {
       setLoading(true)
-      const { data, error } = await removeItem({ keys: [key] })
+      const removeItemData = await removeItem({ input: { keys: [key] } })
       // TODO - Handle error case
     }
 
@@ -45,11 +45,14 @@ const CartItem = memo(
       console.log(newQuantity)
 
       if (quantity && lineItem?.key) {
-        const { data, error } = await updateCart({
-          items: [{ key: lineItem?.key, quantity: newQuantity }],
+        const updateCartData = await updateCart({
+          input: {
+            items: [{ key: lineItem?.key, quantity: newQuantity }],
+          },
         })
-        data && console.log(data)
-        error && console.warn(error)
+        updateCartData.updateItemQuantities?.cart &&
+          console.log(updateCartData.updateItemQuantities.cart)
+        // TODO - Handle error case
       }
     }
 
@@ -65,8 +68,8 @@ const CartItem = memo(
                   <Image
                     src={lineItem?.product?.node.image.sourceUrl || ""}
                     alt={lineItem?.product?.node.image.altText || ""}
-                    layout="responsive"
-                    objectFit="cover"
+                    // layout="responsive"
+                    // objectFit="cover"
                     width={lineItem?.product?.node.image.mediaDetails?.width}
                     height={lineItem?.product?.node.image.mediaDetails?.height}
                   />
@@ -88,11 +91,11 @@ const CartItem = memo(
                 </p> */}
                 </div>
                 <p className="mt-1 text-sm text-gray-500">
-                  {lineItem.variation?.attributes
+                  {/* {lineItem.variation?.attributes
                     ?.map(
                       attribute => `${attribute?.label} - ${attribute?.value}`,
                     )
-                    .join(" - ")}
+                    .join(" - ")} */}
                 </p>
 
                 <div className="flex-1 flex items-center justify-between text-sm mt-3">
@@ -133,7 +136,7 @@ const CartItem = memo(
                       <button
                         type="button"
                         title="Remove"
-                        className="font-medium text-blue-main hover:text-red-600 transition"
+                        className="font-medium text-accent hover:text-red-600 transition"
                         onClick={async () =>
                           await handleRemoveItem(lineItem.key)
                         }

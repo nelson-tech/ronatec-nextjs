@@ -1,5 +1,7 @@
+"use client"
+
 import { SVGUrl } from "@lib/utils/SVGURL"
-import { Maybe } from "@api/gql/types"
+import { Maybe } from "@api/codegen/graphql"
 
 // ####
 // #### Variables

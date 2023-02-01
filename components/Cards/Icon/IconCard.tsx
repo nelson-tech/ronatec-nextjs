@@ -1,10 +1,9 @@
-import { SerializedStyles } from "@emotion/react"
-import { TwStyle } from "twin.macro"
+"use client"
 
-import { parseNewLines } from "@lib/utils"
-import { Post_Common_Cards } from "@api/gql/types"
+import { Post_Common_Cards } from "@api/codegen/graphql"
 
 import Icon from "@components/ui/Icon"
+import parseNewLines from "@lib/utils/parseNewLines"
 
 // ####
 // #### Dynamic Imports
@@ -19,7 +18,7 @@ const clientOpts = {}
 export type PropsType = {
   card: Post_Common_Cards
   centerText?: boolean
-  contentStyle?: SerializedStyles | TwStyle
+  contentStyle?: string
 }
 
 // ####
@@ -53,7 +52,7 @@ const IconCard = ({ card, centerText = true, contentStyle }: PropsType) => {
           </h3>
         )}
         {card.content && (
-          <span className="mt-5 text-base text-gray-500" css={contentStyle}>
+          <span className={"mt-5 text-base text-gray-500 " + contentStyle}>
             {parseNewLines(card.content)}
           </span>
         )}
