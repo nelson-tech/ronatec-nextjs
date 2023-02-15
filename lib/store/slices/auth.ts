@@ -1,14 +1,15 @@
 import { StateCreator } from "zustand"
 
-import { UserAuthBaseFragment } from "@api/codegen/graphql"
+import { Customer } from "@api/codegen/graphql"
 
 export type AuthSliceType = typeof initialState & {
   auth: {
     setLoggedIn: (loggedIn: boolean) => void
     setLoginError: (error: string) => void
-    setUser: (user: UserAuthBaseFragment | null) => void
+    setCustomer: (customer: Customer | null) => void
     setLoginModalOpen: (loginModal: boolean) => void
     setReady: (ready: boolean) => void
+    setLoaded: (loaded: boolean) => void
   }
 }
 
@@ -16,14 +17,15 @@ export const initialState = {
   auth: {
     loggedIn: false,
     errors: { login: null as string | null, register: null as string | null },
-    user: null as UserAuthBaseFragment | null,
+    customer: null as Customer | null,
     loginModal: false,
     ready: false,
+    loaded: false,
   },
 }
 
 const createAuthSlice = (
-  defaultValues?: Partial<typeof initialState["auth"]> | undefined,
+  defaultValues?: Partial<(typeof initialState)["auth"]> | undefined,
 ): StateCreator<AuthSliceType, [], []> => {
   return set => ({
     auth: {
@@ -38,10 +40,12 @@ const createAuthSlice = (
             errors: { ...state.auth.errors, login: error },
           },
         })),
-      setUser: user => set(state => ({ auth: { ...state.auth, user } })),
+      setCustomer: customer =>
+        set(state => ({ auth: { ...state.auth, customer } })),
       setLoginModalOpen: loginModal =>
         set(state => ({ auth: { ...state.auth, loginModal } })),
       setReady: ready => set(state => ({ auth: { ...state.auth, ready } })),
+      setLoaded: loaded => set(state => ({ auth: { ...state.auth, loaded } })),
     },
   })
 }

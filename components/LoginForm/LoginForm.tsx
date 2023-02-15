@@ -29,7 +29,7 @@ type LoginFormProps = {
 const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const [loading, setLoading] = useState(false)
   const params = useSearchParams()
-  const redirect = params.get("redirect")
+  const redirect = params?.get("redirect")
   const router = useRouter()
 
   const { loggedIn, error } = useStore(

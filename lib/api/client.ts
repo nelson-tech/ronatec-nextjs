@@ -80,7 +80,7 @@ const responseMiddleware = async (response: any) => {
 // #### Hook
 // ####
 
-const useClient = (tokens?: CLIENT_Tokens_Type) => {
+const getClient = (tokens?: CLIENT_Tokens_Type) => {
   if (!graphqlClient) {
     // Create new, unauthenticated client
 
@@ -111,4 +111,4 @@ const useClient = (tokens?: CLIENT_Tokens_Type) => {
   return graphqlClient
 }
 
-export default useClient
+export default getClient

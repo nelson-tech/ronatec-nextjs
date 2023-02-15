@@ -4,7 +4,7 @@ import ClipboardCheckIcon from "@heroicons/react/24/outline/DocumentCheckIcon"
 import XIcon from "@heroicons/react/24/outline/XCircleIcon"
 import ChevronUpIcon from "@heroicons/react/20/solid/ChevronUpIcon"
 
-import userMenu from "@lib/userMenu"
+import customerMenu from "@lib/customerMenu"
 import useLogout from "@lib/hooks/auth/useLogout"
 import useStore from "@lib/hooks/useStore"
 
@@ -290,7 +290,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
           <div className="border-t border-gray-200 py-6 text-sm font-bold text-gray-600">
             {loggedIn ? (
               <>
-                {userMenu.map(item => (
+                {customerMenu.map(item => (
                   <div
                     className="outline-none"
                     key={item.name + item.href}

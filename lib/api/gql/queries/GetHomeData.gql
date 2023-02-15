@@ -49,6 +49,7 @@ query GetHomeData {
   }
   page(id: "home", idType: URI) {
     ...PageCommonBase
+    ...SEOBase
     page_home {
       acf {
         hero {
@@ -92,11 +93,16 @@ query GetHomeData {
             label
           }
         }
-        videoLink {
-          title
-          provider
-          videoId
-          videoUrl
+        videoLinks {
+          videoLink {
+            title
+            provider
+            videoId
+            videoUrl
+            videoFile {
+              ...ImageBase
+            }
+          }
         }
         ...FeaturedSupplierFragment
       }

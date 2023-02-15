@@ -1,6 +1,31 @@
-query GetCategoryBySlug($id: ID!) {
+query GetCategoryDataBySlug($id: ID!) {
   productCategory(id: $id, idType: SLUG) {
     ...ProductCategoryBase
+    seo {
+      title
+      description
+      focusKeywords
+      openGraph {
+        articleMeta {
+          section
+        }
+        description
+        locale
+        siteName
+        title
+        type
+        url
+        slackEnhancedData {
+          data
+          label
+        }
+        twitterMeta {
+          card
+          description
+          title
+        }
+      }
+    }
     ancestors {
       nodes {
         id

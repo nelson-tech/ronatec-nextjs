@@ -1,5 +1,6 @@
 import {
   GetHomeDataQuery,
+  Page_PageHome_Acf_VideoLinks_VideoLink,
   Post_Common_Cards,
   Product,
   ProductCategory,
@@ -30,7 +31,7 @@ type PropsType = {
 const Home = ({ home, categories, topSellers }: PropsType) => {
   const cards = home?.page_home?.acf?.cards as Post_Common_Cards[]
   const supplier = home?.page_home?.acf?.featuredSupplier as Supplier
-  const videoLink = home?.page_home?.acf?.videoLink
+  const videoLinks = home?.page_home?.acf?.videoLinks
 
   return (
     <>
@@ -108,13 +109,18 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
           </div>
         )}
 
-        {videoLink && (
-          <VideoCard
-            videoLink={videoLink}
-            cardStyle={`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
-            light
-          />
-        )}
+        {videoLinks?.map(videoLink => {
+          if (videoLink?.videoLink)
+            return (
+              <VideoCard
+                videoLink={
+                  videoLink?.videoLink as Page_PageHome_Acf_VideoLinks_VideoLink
+                }
+                cardStyle={`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
+                light
+              />
+            )
+        })}
 
         {supplier && (
           <div className="mx-auto w-full px-5 md:w-2/3 lg:w-1/2">

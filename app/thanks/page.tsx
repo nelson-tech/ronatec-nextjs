@@ -1,6 +1,6 @@
 import { Order } from "@api/codegen/graphql"
 // import useStore from "@lib/hooks/useStore"
-import useOrderById from "@lib/serverCalls/useOrderById"
+import getOrderById from "@lib/server/getOrderById"
 
 import OrderConfirmation from "@components/OrderConfirmation"
 // import Link from "@components/Link"
@@ -16,7 +16,7 @@ const ThanksPage = async ({
 }: {
   searchParams?: { order: string }
 }) => {
-  const order = await useOrderById(searchParams?.order)
+  const order = await getOrderById(searchParams?.order)
 
   // const loggedIn = useStore(state => state.auth.loggedIn)
 

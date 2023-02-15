@@ -4,7 +4,7 @@ import {
   GetWarehousesDataDocument,
   Post_Maps_Markers,
 } from "@api/codegen/graphql"
-import useClient from "@api/client"
+import getClient from "@api/client"
 
 import Map from "@components/Map"
 
@@ -13,7 +13,7 @@ import Map from "@components/Map"
 // ####
 
 const getWarehousesData = async () => {
-  const client = useClient()
+  const client = getClient()
 
   const warehousesData = await client.request(GetWarehousesDataDocument)
 

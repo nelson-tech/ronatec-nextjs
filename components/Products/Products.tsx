@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { shallow } from "zustand/shallow"
 
 import {
-  GetProductsByCategoryQueryVariables,
+  GetProductsDataByCategoryQueryVariables,
   InputMaybe,
   Product,
   ProductCategory,
@@ -49,7 +49,7 @@ const Products = ({
     shallow,
   )
 
-  const defaultQuery: GetProductsByCategoryQueryVariables = {
+  const defaultQuery: GetProductsDataByCategoryQueryVariables = {
     field: selectedSort.id.field,
     order: selectedSort.id.order,
     categories: categorySlugs,

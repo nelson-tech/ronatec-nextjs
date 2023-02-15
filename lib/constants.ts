@@ -1,5 +1,6 @@
 export const AUTH_TOKEN_KEY: string = `auth-token`
 export const REFRESH_TOKEN_KEY: string = `refresh-token`
+export const CUSTOMER_TOKEN_KEY: string = "customer-token"
 export const CART_TOKEN_KEY: string = `cart-token`
 export const CART_SESSION_HEADER_KEY = "woocommerce-session"
 

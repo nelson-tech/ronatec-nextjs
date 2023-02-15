@@ -1,4 +1,4 @@
-query GetProductCategories {
+query GetProductCategoriesData {
   productCategories(where: { hideEmpty: true }, first: 99) {
     nodes {
       ...ProductCategoryBase

@@ -1,7 +1,8 @@
 "use client"
 
-import { Page_PageHome_Acf_VideoLink } from "@api/codegen/graphql"
-import ReactPlayer from "react-player"
+import ReactPlayer, { Config } from "react-player"
+
+import type { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -12,7 +13,7 @@ export type VideoPlayerPropsType = {
   rounded?: boolean
   light?: boolean
   divStyle?: string
-  videoLink: Page_PageHome_Acf_VideoLink
+  videoLink: Page_PageHome_Acf_VideoLinks_VideoLink
 }
 // ####
 // #### Component
@@ -24,7 +25,7 @@ const VideoPlayer = ({
   divStyle,
   light = true,
 }: VideoPlayerPropsType) => {
-  const { videoId, videoUrl, provider } = videoLink
+  const { videoId, videoUrl, provider, videoFile } = videoLink
 
   const url =
     provider === "youtube"
@@ -33,18 +34,29 @@ const VideoPlayer = ({
       ? videoUrl
       : undefined
 
+  const config: Config = {}
+
+  if (videoFile?.mediaItemUrl) {
+    config.file = {
+      attributes: { ...videoFile.mediaDetails },
+      forceVideo: true,
+    }
+  }
+
   return (
     <div
-      className={`relative w-full aspect-video h-full${
-        rounded && " overflow-hidden rounded-lg"
-      } ${divStyle}`}
+      className={`relative max-h-96 w-full ${
+        provider === "youtube" ? "aspect-video" : "aspect-[9/16]"
+      } h-full ${rounded && "overflow-hidden rounded-lg"} ${divStyle}`}
     >
       <ReactPlayer
         className="absolute top-0 left-0 h-full w-full"
         light={light}
+        controls={provider !== "youtube"}
         width="100%"
         height="100%"
         url={url}
+        config={config}
       />
     </div>
   )

@@ -1,7 +1,7 @@
 // import { Post_Common_VideoLink } from "@api/codegen/graphql"
 
 import VideoPlayer from "@components/VideoPlayer"
-import { GetHomeDataQuery } from "@api/codegen/graphql"
+import { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -13,10 +13,7 @@ export type VideoCardPropsType = {
   cardStyle?: string
   titleStyle?: string
   playerStyle?: string
-  videoLink: DeepNull<
-    GetHomeDataQuery,
-    "page.page_home.acf.videoLink"
-  >["page"]["page_home"]["acf"]["videoLink"]
+  videoLink: Page_PageHome_Acf_VideoLinks_VideoLink
 }
 
 // ####

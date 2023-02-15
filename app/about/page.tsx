@@ -1,4 +1,4 @@
-import useClient from "@api/client"
+import getClient from "@api/client"
 import { GetAboutDataDocument } from "@api/codegen/graphql"
 import Image from "@components/Image"
 
@@ -9,7 +9,7 @@ import parseNewLines from "@lib/utils/parseNewLines"
 // ####
 
 const getAboutData = async () => {
-  const client = useClient()
+  const client = getClient()
 
   const aboutData = await client.request(GetAboutDataDocument)
 

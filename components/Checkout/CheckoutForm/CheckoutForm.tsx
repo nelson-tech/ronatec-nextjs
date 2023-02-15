@@ -19,7 +19,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 import FormField from "@components/ui/FormField"
 
 import schema from "./formSchema"
-import useClient from "@api/client"
+import getClient from "@api/client"
 
 // ####
 // #### Types
@@ -62,7 +62,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
 
   const setAlert = useStore(state => state.alert.setAlert)
 
-  const client = useClient()
+  const client = getClient()
 
   const {
     formState: { errors },

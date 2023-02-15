@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation"
 import { shallow } from "zustand/shallow"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import { LogoutUserDocument } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
@@ -10,16 +10,16 @@ import { deleteCookie } from "cookies-next"
 const useLogout = () => {
   const router = useRouter()
 
-  const { setLoggedIn, setUser, setAlert } = useStore(
+  const { setLoggedIn, setCustomer, setAlert } = useStore(
     state => ({
       setLoggedIn: state.auth.setLoggedIn,
-      setUser: state.auth.setUser,
+      setCustomer: state.auth.setCustomer,
       setAlert: state.alert.setAlert,
     }),
     shallow,
   )
 
-  const client = useClient()
+  const client = getClient()
 
   const logout = async () => {
     await client.request(LogoutUserDocument, { input: {} })
@@ -29,7 +29,7 @@ const useLogout = () => {
     deleteCookie(REFRESH_TOKEN_KEY)
 
     setLoggedIn(false)
-    setUser(null)
+    setCustomer(null)
     setAlert({
       open: true,
       primary: "Logged out.",

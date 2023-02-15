@@ -1,7 +1,6 @@
 import ArrowLeftIcon from "@heroicons/react/24/outline/ArrowLeftIcon"
 
-import { Order } from "@api/codegen/graphql"
-import useOrderById from "@lib/serverCalls/useOrderById"
+import getOrderById from "@lib/server/getOrderById"
 
 import Link from "@components/Link"
 import OrderDetails from "@components/Orders/Details"
@@ -15,7 +14,7 @@ const OrderPage = async ({
 }: {
   searchParams?: { number: string }
 }) => {
-  const order = await useOrderById(searchParams?.number)
+  const order = await getOrderById(searchParams?.number)
   return (
     <div className="max-w-7xl mx-auto py-16 px-8 sm:px-6 lg:pb-24 lg:px-8">
       <div className="max-w-xl">
@@ -44,7 +43,7 @@ const OrderPage = async ({
           <h2 className="sr-only">Recent orders</h2>
 
           <div className="space-y-8">
-            <OrderDetails order={order as Order} />
+            <OrderDetails order={order} />
           </div>
         </div>
       )}

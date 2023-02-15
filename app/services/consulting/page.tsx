@@ -7,14 +7,14 @@ import parseNewLines from "@lib/utils/parseNewLines"
 
 import Slider from "@components/Slider"
 import IconCard from "@components/Cards/Icon"
-import useClient from "@api/client"
+import getClient from "@api/client"
 
 // ####
 // #### Server Call
 // ####
 
 const getConsultingData = async () => {
-  const client = useClient()
+  const client = getClient()
 
   const consultingData = await client.request(GetConsultingDataDocument)
 

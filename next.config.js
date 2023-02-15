@@ -14,6 +14,9 @@ const nextConfig = {
       "shy.nelson.tech",
     ],
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
 }
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({

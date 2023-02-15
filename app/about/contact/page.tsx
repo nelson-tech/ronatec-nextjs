@@ -4,7 +4,7 @@ import {
   Post_Common_Cards,
   Post_Maps_Markers,
 } from "@api/codegen/graphql"
-import useClient from "@api/client"
+import getClient from "@api/client"
 
 import IconCard from "@components/Cards/Icon"
 import EmployeeCard from "@components/Cards/Employee"
@@ -15,7 +15,7 @@ import Map from "@components/Map"
 // ####
 
 const getContactData = async () => {
-  const client = useClient()
+  const client = getClient()
 
   const contactData = await client.request(GetContactDataDocument)
 

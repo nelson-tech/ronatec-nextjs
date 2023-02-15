@@ -1,10 +1,10 @@
 "use client"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import { GetViewerDocument } from "@api/codegen/graphql"
 
 const TestCard = () => {
-  const client = useClient()
+  const client = getClient()
 
   const buttonAction = async () => {
     const viewerData = await client.request(GetViewerDocument)

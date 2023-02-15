@@ -1,7 +1,9 @@
+import { ProductCategory, RankMathProductTypeSeo } from "@api/codegen/graphql"
+import getCategoryBySlug from "@lib/server/getCategoryBySlug"
+
 import Breadcrumbs from "@components/Breadcrumbs"
 import CategoryInfoComponent from "@components/Pages/CategoryInfo"
-import useCategoryBySlug from "@lib/serverCalls/useCategoryBySlug"
-import { ProductCategory } from "@api/codegen/graphql"
+import parseMetaData from "@lib/utils/parseMetaData"
 
 // ####
 // #### Component
@@ -12,7 +14,7 @@ const CategoryInfoPage = async ({
 }: {
   params: { category: string }
 }) => {
-  const { category } = await useCategoryBySlug(params.category)
+  const category = await getCategoryBySlug(params.category)
 
   const content = category?.product_category?.acf?.description
 
@@ -33,3 +35,17 @@ const CategoryInfoPage = async ({
 }
 
 export default CategoryInfoPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+// @ts-ignore
+export async function generateMetadata({ params }: ProductPageParamsType) {
+  const category = await getCategoryBySlug(params.slug)
+
+  const metaData = parseMetaData(
+    category?.seo as RankMathProductTypeSeo,
+    category?.name ? `${category.name} Info` : undefined,
+  )
+
+  return metaData
+}

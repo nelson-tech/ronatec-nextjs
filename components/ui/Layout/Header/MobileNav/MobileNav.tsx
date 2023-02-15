@@ -1,7 +1,7 @@
 "use client"
 
 import MenuIcon from "@components/icons/Menu"
-import SearchIcon from "@heroicons/react/24/outline/MagnifyingGlassCircleIcon"
+import SearchIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon"
 
 import useStore from "@lib/hooks/useStore"
 

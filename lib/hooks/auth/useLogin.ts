@@ -1,7 +1,8 @@
 import { shallow } from "zustand/shallow"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
+  Customer,
   LoginUserDocument,
   LoginUserMutationVariables,
 } from "@api/codegen/graphql"
@@ -10,9 +11,9 @@ import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
 import setCookie from "@lib/utils/setCookie"
 
 const useLogin = () => {
-  const { setAlert, setUser, setLoggedIn, setLoginError } = useStore(
+  const { setAlert, setCustomer, setLoggedIn, setLoginError } = useStore(
     state => ({
-      setUser: state.auth.setUser,
+      setCustomer: state.auth.setCustomer,
       setLoggedIn: state.auth.setLoggedIn,
       setLoginError: state.auth.setLoginError,
       setAlert: state.alert.setAlert,
@@ -20,7 +21,7 @@ const useLogin = () => {
     shallow,
   )
 
-  const client = useClient()
+  const client = getClient()
 
   const login = async ({ input }: LoginUserMutationVariables) => {
     await client
@@ -28,27 +29,27 @@ const useLogin = () => {
       .then(async data => {
         if (data) {
           const { login } = data
-          if (login?.user?.jwtAuthToken && login.user.jwtRefreshToken) {
-            const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
+          if (login?.authToken && login.refreshToken) {
+            const customer = login.customer
 
             // Set authToken in client
 
-            client.setHeader("Authorization", `Bearer ${jwtAuthToken}`)
+            client.setHeader("Authorization", `Bearer ${login.authToken}`)
 
-            // Set user in store
-            setUser(user)
+            // Set customer in store
+            setCustomer(customer as Customer)
 
             // Set cookies
-            setCookie(AUTH_TOKEN_KEY, jwtAuthToken)
-            setCookie(REFRESH_TOKEN_KEY, jwtRefreshToken)
+            setCookie(AUTH_TOKEN_KEY, login.authToken)
+            setCookie(REFRESH_TOKEN_KEY, login.refreshToken)
 
             setAlert({
               open: true,
               kind: "success",
               primary: `Welcome back${
-                (user?.firstName || user?.lastName) && ","
-              }${user?.firstName && ` ${user.firstName}`}${
-                user?.lastName && ` ${user.lastName}`
+                (customer?.firstName || customer?.lastName) && ","
+              }${customer?.firstName && ` ${customer.firstName}`}${
+                customer?.lastName && ` ${customer.lastName}`
               }!`,
               secondary: "You are now logged in.",
             })

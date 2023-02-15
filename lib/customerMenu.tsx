@@ -6,7 +6,7 @@ type UserMenuItem = {
   icon: (props: React.ComponentProps<"svg">) => JSX.Element
 }
 
-const userMenu: UserMenuItem[] = [
+const customerMenu: UserMenuItem[] = [
   // { name: "Your Profile", href: "/dashboard" },
   {
     name: "Orders",
@@ -15,4 +15,4 @@ const userMenu: UserMenuItem[] = [
   },
 ]
 
-export default userMenu
+export default customerMenu

@@ -1,10 +1,10 @@
 "use client"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
-  GetProductsByCategoryDocument,
-  GetProductsByCategoryQuery,
-  GetProductsByCategoryQueryVariables,
+  GetProductsDataByCategoryDocument,
+  GetProductsDataByCategoryQuery,
+  GetProductsDataByCategoryQueryVariables,
   Product,
 } from "@api/codegen/graphql"
 import { useCallback, useState } from "react"
@@ -18,7 +18,7 @@ type UseFilteredProductsPropsType = {
 }
 
 type PageDataType = DeepNull<
-  GetProductsByCategoryQuery,
+  GetProductsDataByCategoryQuery,
   "products"
 >["products"]["pageInfo"]
 
@@ -33,14 +33,14 @@ const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
   )
   const [pageData, setPageData] = useState<PageDataType>()
 
-  const client = useClient()
+  const client = getClient()
 
   const fetchProducts = useCallback(
-    async (queryVars: GetProductsByCategoryQueryVariables) => {
+    async (queryVars: GetProductsDataByCategoryQueryVariables) => {
       setLoading(true)
 
       const productsData = await client.request(
-        GetProductsByCategoryDocument,
+        GetProductsDataByCategoryDocument,
         queryVars,
       )
 

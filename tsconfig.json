@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": false,
+    "incremental": true,
     "plugins": [
       {
         "name": "next"
@@ -33,13 +33,6 @@
       "@mocks/*": ["__mocks__/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
-    "components/cart/CartItem/CartItem.s.js"
-  ],
-  "exclude": ["node_modules"],
-  "types": ["types", "./node_modules/user-agent-data-types"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

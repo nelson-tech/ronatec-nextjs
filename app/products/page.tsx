@@ -1,13 +1,13 @@
 import {
-  GetProductCategoriesDocument,
-  GetProductsByCategoryDocument,
+  GetProductCategoriesDataDocument,
+  GetProductsDataByCategoryDocument,
   OrderEnum,
   Product,
   ProductCategory,
   ProductsOrderByEnum,
 } from "@api/codegen/graphql"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import { defaultPagination } from "@lib/pagination"
 import Products from "@components/Products"
 
@@ -16,9 +16,9 @@ import Products from "@components/Products"
 // ####
 
 const getCategories = async () => {
-  const client = useClient()
+  const client = getClient()
 
-  const categoryData = await client.request(GetProductCategoriesDocument)
+  const categoryData = await client.request(GetProductCategoriesDataDocument)
 
   const rootCategories =
     categoryData.productCategories?.nodes &&
@@ -45,7 +45,7 @@ const getCategories = async () => {
     : []
 
   const initialProductsData = await client.request(
-    GetProductsByCategoryDocument,
+    GetProductsDataByCategoryDocument,
     {
       field: ProductsOrderByEnum.MenuOrder,
       order: OrderEnum.Asc,
@@ -82,3 +82,11 @@ const ProductsPage = async () => {
 }
 
 export default ProductsPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+export const metadata = {
+  title: "Products",
+  description: "Browse our products!",
+  keywords: ["Products", "Shop", "Ronatec", "Metal Finishing"],
+}

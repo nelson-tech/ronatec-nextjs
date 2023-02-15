@@ -9,10 +9,10 @@ export type Layout_AuthData_Type = {
 }
 
 export type CLIENT_Tokens_Type = {
-  auth?: string | null | undefined
-  refresh?: string | null | undefined
-  cart?: string | null | undefined
-  remove?: boolean | null | undefined
+  auth: string | null | undefined
+  refresh: string | null | undefined
+  cart: string | null | undefined
+  customer: string | null | undefined
 }
 
 export type EP_Auth_Input_Set_Type = {

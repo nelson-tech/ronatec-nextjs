@@ -33,15 +33,17 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const { loggedIn, user } = useStore(
-    state => ({ loggedIn: state.auth.loggedIn, user: state.auth.user }),
+  const { loggedIn, customer } = useStore(
+    state => ({ loggedIn: state.auth.loggedIn, customer: state.auth.customer }),
     shallow,
   )
 
   const [email, setEmail] = useState<string | null>(
-    searchParams.get("username") ?? detectedEmail ?? null,
+    searchParams?.get("username") ?? detectedEmail ?? null,
   )
-  const [key, setKey] = useState<string | null>(searchParams.get("key"))
+  const [key, setKey] = useState<string | null>(
+    searchParams?.get("key") ?? null,
+  )
   const [password, setPassword] = useState<string | null>(null)
   const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null)
 
@@ -49,7 +51,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
 
   const {
     sendResetPasswordEmail,
-    resetUserPassword,
+    resetCustomerPassword,
     error: resetError,
     loading,
   } = useResetPassword()
@@ -90,7 +92,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   const onResetPasswordSubmit: SubmitHandler<FieldValues> = async data => {
     if (data.passwordConfirm && data.password) {
       if (validPassword && key && email && password) {
-        const resetStatus = await resetUserPassword(key, email, password)
+        const resetStatus = await resetCustomerPassword(key, email, password)
         resetStatus && setPasswordReset(true)
       }
     }
@@ -124,7 +126,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
               <div>
                 <MenuLink
                   href={`/register${
-                    searchParams.get("redirect")
+                    searchParams?.get("redirect")
                       ? `?redirect=${searchParams.get("redirect")}`
                       : ""
                   }`}

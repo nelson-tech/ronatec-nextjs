@@ -1,4 +1,4 @@
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
   AddToCartDocument,
   AddToCartMutationVariables,
@@ -13,7 +13,7 @@ import {
 import useStore from "./useStore"
 
 const useCart = () => {
-  const client = useClient()
+  const client = getClient()
 
   const { state: cart, setCart, setLoading } = useStore(stores => stores.cart)
 
@@ -52,7 +52,9 @@ const useCart = () => {
 
     const cartData = await client.request(AddToCartDocument, input)
 
-    await fetchCart()
+    cartData.addToCart?.cart && setCart(cartData.addToCart.cart as Cart)
+
+    setLoading(false)
 
     return cartData
   }

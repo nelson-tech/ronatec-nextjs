@@ -1,20 +1,21 @@
-import useClient from "@api/client"
-import { GetViewerDocument } from "@api/codegen/graphql"
+import getClient from "@api/client"
+import { GetCustomerDataDocument } from "@api/codegen/graphql"
+import getTokensServer from "@lib/utils/getTokensServer"
+
 import ResetPasswordForm from "@components/ResetPasswordForm"
-import getTokens from "@lib/utils/getTokens"
 
-const getUserEmail = async () => {
-  const { tokens } = await getTokens()
+const getCustomerEmail = async () => {
+  const { tokens } = await getTokensServer()
 
-  const client = useClient(tokens)
+  const client = getClient(tokens)
 
-  const userData = await client.request(GetViewerDocument)
+  const customerData = await client.request(GetCustomerDataDocument)
 
-  return userData.viewer?.email
+  return customerData.customer?.email
 }
 
 const ResetPasswordPage = async () => {
-  const detectedEmail = await getUserEmail()
+  const detectedEmail = await getCustomerEmail()
 
   return (
     <>
@@ -24,3 +25,18 @@ const ResetPasswordPage = async () => {
 }
 
 export default ResetPasswordPage
+
+export const metadata = {
+  title: "Reset Password",
+  description:
+    "Reset your password easily with your email address if you've forgotten it.",
+  keywords: [
+    "Reset Password",
+    "Account",
+    "Shop",
+    "Ronatec",
+    "Metal Finishing",
+    "Chemicals",
+    "Industrial Chemicals",
+  ],
+}

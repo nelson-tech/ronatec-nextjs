@@ -1,5 +1,5 @@
 import { GetDistributionDataDocument, Supplier } from "@api/codegen/graphql"
-import useClient from "@api/client"
+import getClient from "@api/client"
 
 import DistributionComponent from "@components/Pages/Distribution"
 
@@ -8,7 +8,7 @@ import DistributionComponent from "@components/Pages/Distribution"
 // ####
 
 const getDistributionData = async () => {
-  const client = useClient()
+  const client = getClient()
 
   const distributionData = await client.request(GetDistributionDataDocument)
 

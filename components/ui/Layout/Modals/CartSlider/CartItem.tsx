@@ -8,13 +8,14 @@ import useCart from "@lib/hooks/useCart"
 import Image from "@components/Image"
 import Link from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import { CartItem } from "@api/codegen/graphql"
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  lineItem: any
+  lineItem: CartItem
   setOpen?: (open: boolean) => void
 }
 
@@ -91,11 +92,9 @@ const CartItem = memo(
                 </p> */}
                 </div>
                 <p className="mt-1 text-sm text-gray-500">
-                  {/* {lineItem.variation?.attributes
-                    ?.map(
-                      attribute => `${attribute?.label} - ${attribute?.value}`,
-                    )
-                    .join(" - ")} */}
+                  {lineItem.variation?.attributes
+                    ?.map(attribute => `${attribute?.value}`)
+                    .join(" - ")}
                 </p>
 
                 <div className="flex-1 flex items-center justify-between text-sm mt-3">
