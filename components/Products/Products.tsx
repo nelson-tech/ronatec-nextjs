@@ -11,11 +11,10 @@ import useFilteredProducts from "@lib/hooks/useFilteredProducts"
 import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
 import { FullProduct } from "@lib/types/products"
 
-import Image from "@components/Image"
-import Link from "@components/Link"
 import Sort from "@components/Sort"
 import ProductGrid from "@components/ProductGrid"
 import Pagination from "@components/Pagination"
+import CategoryLink from "@components/CategoryLink"
 
 // ####
 // #### Types
@@ -118,32 +117,7 @@ const Products = ({
           <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
             {categories &&
               categories.map(category => {
-                return (
-                  <div
-                    key={category.id}
-                    className="m-4 pt-2 hover:shadow rounded"
-                  >
-                    <Link
-                      href={`/products/${category.slug}`}
-                      title={category.name || ""}
-                    >
-                      {category.image && category.image.sourceUrl && (
-                        <div className="w-32 mx-auto aspect-video overflow-hidden rounded">
-                          <Image
-                            src={category.image.sourceUrl}
-                            alt={category.name || ""}
-                            height={category.image.mediaDetails?.height}
-                            width={category.image.mediaDetails?.width}
-                            sizes="25vw"
-                          />
-                        </div>
-                      )}
-                      <div className="text-center align-bottom py-2">
-                        {category.name}
-                      </div>
-                    </Link>
-                  </div>
-                )
+                return <CategoryLink category={category} />
               })}
           </div>
         </div>

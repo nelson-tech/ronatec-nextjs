@@ -3,7 +3,7 @@ import { RefObject } from "react"
 import { ProductCategory } from "@api/codegen/graphql"
 
 import Link from "@components/Link"
-import Image from "@components/Image"
+import CategoryLink from "@components/CategoryLink"
 
 // ####
 // #### Types
@@ -48,10 +48,10 @@ const Summary = ({ category, productRef }: PropsType) => {
           className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl"
           data-testid="sub-categories"
         >
-          <h2 className="font-bold text-2xl text-gray-900 uppercase">
+          <h2 className="font-bold text-2xl text-gray-900 uppercase flex items-center">
             Sub-Categories{" "}
             <span
-              className="ml-4 text-sm hidden md:inline font-normal text-gray-400 normal-case cursor-pointer"
+              className="ml-4 text-sm inline md:hidden font-normal text-gray-400 normal-case cursor-pointer"
               data-testid="sub-categories-clickable-medium"
               onClick={() => {
                 productRef?.current?.scrollIntoView({ behavior: "smooth" })
@@ -74,33 +74,7 @@ const Summary = ({ category, productRef }: PropsType) => {
             <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
               {category.children.nodes.map((subCategory: ProductCategory) => {
                 if (subCategory) {
-                  return (
-                    <div
-                      key={subCategory?.id}
-                      className="m-4 hover:shadow rounded"
-                    >
-                      <Link
-                        href={`/products/${subCategory?.slug}`}
-                        title={subCategory?.name || ""}
-                      >
-                        <div className="">
-                          {subCategory.image && subCategory.image.sourceUrl && (
-                            <div className="w-32 mx-auto h-32 pt-2">
-                              <Image
-                                src={subCategory.image.sourceUrl}
-                                alt={subCategory?.name || ""}
-                                height={subCategory.image.mediaDetails?.height}
-                                width={subCategory.image.mediaDetails?.width}
-                              />
-                            </div>
-                          )}
-                          <div className="text-center align-bottom py-2">
-                            {subCategory?.name}
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
-                  )
+                  return <CategoryLink category={subCategory} />
                 }
               })}
             </div>

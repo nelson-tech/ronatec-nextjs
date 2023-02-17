@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { Fragment, useState } from "react"
 import dynamic from "next/dist/shared/lib/dynamic"
 
 import { Supplier } from "@api/codegen/graphql"
@@ -20,7 +20,7 @@ const SupplierModal = dynamic(() => import("./SupplierModal"), clientOpts)
 // ####
 
 type PropsType = {
-  suppliers: Supplier[] | null
+  suppliers: Supplier[] | null | undefined
 }
 
 // ####
@@ -40,7 +40,7 @@ const DistributionComponent = ({ suppliers }: PropsType) => {
     : []
 
   return (
-    <>
+    <Fragment>
       <SupplierModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
@@ -66,7 +66,7 @@ const DistributionComponent = ({ suppliers }: PropsType) => {
           </div>
         </div>
       </div>
-    </>
+    </Fragment>
   )
 }
 
