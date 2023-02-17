@@ -7,12 +7,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [
-      "cdn.ronatec.us",
-      "api.ronatec.us",
-      "ronatec.us",
-      "shy.nelson.tech",
-    ],
+    domains: ["cdn.ronatec.us", "api.ronatec.us", "ronatec.us"],
+    loader: "custom",
+    loaderFile: "lib/utils/imageLoader.ts",
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
