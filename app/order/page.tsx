@@ -60,7 +60,6 @@ export const revalidate = 0 // dynamically serve this page
 export async function generateMetadata({ params }) {
   const order = await getOrderById(params?.id)
   const metaData: Metadata = {
-    metadataBase: null,
     title: order?.orderNumber ? `Order #${order.orderNumber}` : "Order Details",
     robots: {
       index: false,

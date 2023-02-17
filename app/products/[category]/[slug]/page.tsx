@@ -82,10 +82,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: ProductPageParamsType) {
   const product = await getProductBySlug(params.slug)
 
-  const metaData = parseMetaData(
-    product?.seo as RankMathProductTypeSeo,
-    product?.title ? product.title : undefined,
-  )
+  const metaData = parseMetaData(product?.seo as RankMathProductTypeSeo)
 
   return metaData
 }

@@ -1,9 +1,9 @@
 import { ProductCategory, RankMathProductTypeSeo } from "@api/codegen/graphql"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
+import parseMetaData from "@lib/utils/parseMetaData"
 
 import Breadcrumbs from "@components/Breadcrumbs"
 import CategoryInfoComponent from "@components/Pages/CategoryInfo"
-import parseMetaData from "@lib/utils/parseMetaData"
 
 // ####
 // #### Component

@@ -72,7 +72,6 @@ export default OrdersPage
 export const revalidate = 0 // dynamically serve this page
 
 export const metadata = {
-  metadataBase: null,
   title: "Orders",
   robots: {
     index: false,
