@@ -1,11 +1,5 @@
-import { HTMLProps } from "react"
+import type { HTMLProps } from "react"
 import NextLink from "next/link"
-
-// ####
-// #### Types
-// ####
-
-export type PropsType = HTMLProps<HTMLAnchorElement> & { passHref?: boolean }
 
 // ####
 // #### Component
@@ -18,16 +12,13 @@ const Link = ({
   className,
   children,
   onClick,
-  passHref = false,
-  ...rest
-}: PropsType) => {
+}: HTMLProps<HTMLAnchorElement>) => {
   return (
     <NextLink
       href={href || ""}
       title={title}
       target={target}
       onClick={onClick}
-      passHref
       id="nextlink"
       className={className}
     >

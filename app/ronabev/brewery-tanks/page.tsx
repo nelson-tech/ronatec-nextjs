@@ -4,7 +4,7 @@ import Image from "@components/Image"
 // #### Component
 // ####
 
-const BreweryTanksPage = ({}) => {
+const BreweryTanksPage = () => {
   return (
     <>
       <div className="flex items-center justify-center w-full">

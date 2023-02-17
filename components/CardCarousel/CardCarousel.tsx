@@ -22,7 +22,7 @@ export type PropsType = {
 
 const CardCarousel = ({ header, link, items, products }: PropsType) => {
   const categories = items
-    ? items.filter(item => {
+    ? items.filter((item) => {
         return item.ancestors === null
       })
     : null

@@ -75,15 +75,15 @@ export const initialState = {
   },
 }
 
-const createShopSlice: StateCreator<ShopSliceType, [], []> = set => ({
+const createShopSlice: StateCreator<ShopSliceType, [], []> = (set) => ({
   shop: {
     ...initialState.shop,
-    setViewMode: viewMode =>
-      set(state => ({ shop: { ...state.shop, viewMode } })),
-    setGlobalSort: selectedSort =>
-      set(state => ({ shop: { ...state.shop, selectedSort } })),
-    setProductsPerPage: productsPerPage =>
-      set(state => ({ shop: { ...state.shop, productsPerPage } })),
+    setViewMode: (viewMode) =>
+      set((state) => ({ shop: { ...state.shop, viewMode } })),
+    setGlobalSort: (selectedSort) =>
+      set((state) => ({ shop: { ...state.shop, selectedSort } })),
+    setProductsPerPage: (productsPerPage) =>
+      set((state) => ({ shop: { ...state.shop, productsPerPage } })),
   },
 })
 

@@ -6,7 +6,7 @@ const setCookie = (
   key: string | null | undefined,
   token: string | null | undefined,
   options?: OptionsType,
-  referenceExpiration?: string | null | undefined,
+  referenceExpiration?: string | null | undefined
 ) => {
   if (key && token) {
     const cookieOptions: OptionsType = {

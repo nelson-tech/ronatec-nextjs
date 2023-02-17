@@ -40,11 +40,11 @@ const ProductCategory = ({
   const productRef = useRef<HTMLDivElement>(null)
 
   const { selectedSort, setGlobalSort } = useStore(
-    state => ({
+    (state) => ({
       selectedSort: state.shop.selectedSort,
       setGlobalSort: state.shop.setGlobalSort,
     }),
-    shallow,
+    shallow
   )
 
   const defaultQuery: GetProductsDataByCategoryQueryVariables = {
@@ -56,7 +56,7 @@ const ProductCategory = ({
 
   const [queryVars, setQueryVars] = useState(defaultQuery)
 
-  const { products, pageData, loading, fetchProducts } = useFilteredProducts({
+  const { products, pageData, loading } = useFilteredProducts({
     initialProducts,
   })
 
@@ -65,7 +65,7 @@ const ProductCategory = ({
   }
 
   const setSelectedCategories = (
-    categories: InputMaybe<string> | InputMaybe<string>[],
+    categories: InputMaybe<string> | InputMaybe<string>[]
   ) => {
     setQueryVars({ ...queryVars, ...defaultPagination, categories })
   }

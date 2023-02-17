@@ -12,7 +12,7 @@ const getCategories = async () => {
 
     const rootCategories =
       categoriesData &&
-      (categoriesData.filter(productCategory => {
+      (categoriesData.filter((productCategory) => {
         if (!productCategory?.ancestors) {
           return true
         } else {
@@ -22,8 +22,8 @@ const getCategories = async () => {
 
     const getSlugs = (categories: ProductCategory[]) => {
       return categories
-        .map(category => category?.slug)
-        .filter(category => {
+        .map((category) => category?.slug)
+        .filter((category) => {
           if (typeof category === "string") {
             return true
           } else return false

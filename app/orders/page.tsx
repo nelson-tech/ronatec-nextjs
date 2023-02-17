@@ -50,7 +50,7 @@ const OrdersPage = async () => {
             <h2 className="sr-only">Recent orders</h2>
 
             <div className="space-y-8">
-              {orders.map(order => {
+              {orders.map((order) => {
                 if (order.orderNumber) {
                   return (
                     <div key={order.orderNumber}>

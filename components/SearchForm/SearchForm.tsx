@@ -37,7 +37,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
         `/products/${
           product.productCategories?.nodes &&
           product.productCategories.nodes[0]?.slug
-        }/${product.slug}`,
+        }/${product.slug}`
       )
     }
   }
@@ -76,7 +76,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
               leaveTo="transform scale-95 opacity-0"
             >
               <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-transparent focus:outline-none sm:text-sm">
-                {results.map(product => (
+                {results.map((product) => (
                   <Combobox.Option
                     key={product.id}
                     value={product}

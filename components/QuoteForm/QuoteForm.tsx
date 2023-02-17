@@ -50,7 +50,7 @@ const QuoteForm = () => {
           value={input.value}
           checked={field.value === input.value}
           type="radio"
-          onChange={e => field.onChange(e.target.value)}
+          onChange={(e) => field.onChange(e.target.value)}
           className="focus:ring-blue-main h-5 w-5 text-blue-dark border-gray-300"
         />
         <label className="ml-3 block text-sm font-medium text-gray-700">
@@ -80,7 +80,7 @@ const QuoteForm = () => {
               <ErrorField name={props.name} />
             </div>
             <div className="mt-4 space-y-4">
-              {props.inputs.map(input => (
+              {props.inputs.map((input) => (
                 <RadioInput
                   field={field}
                   input={input}
@@ -105,7 +105,7 @@ const QuoteForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit(data => {
+      onSubmit={handleSubmit((data) => {
         setLoading(true)
         fetch("/api/tank-quote", {
           method: "POST",
@@ -114,7 +114,7 @@ const QuoteForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }).then(res => {
+        }).then((res) => {
           if (res.status === 200) {
             setFormStatus("Quote request sent.")
           } else {

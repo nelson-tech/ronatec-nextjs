@@ -23,7 +23,7 @@ describe("Cart Store", () => {
     })
     expect(result.current.cart.state?.isEmpty).toBe(defaultCart.isEmpty)
     expect(result.current.cart.state?.needsShippingAddress).toBe(
-      defaultCart.needsShippingAddress,
+      defaultCart.needsShippingAddress
     )
   })
 

@@ -2,7 +2,7 @@ import { createElement, DOMElement } from "react"
 
 const innerFunction = (
   element: Element,
-  props?: any,
+  props?: any
 ): DOMElement<any, HTMLElement> => {
   const tagName = element.tagName
   let { iconKey, ..._props } = props || {}
@@ -27,7 +27,7 @@ const innerFunction = (
     _props[element.attributes[i].nodeName] = element.attributes[i].nodeValue
   }
 
-  let children = Array.from(element.children).map(item => {
+  let children = Array.from(element.children).map((item) => {
     return innerFunction(item)
   })
 

@@ -46,7 +46,7 @@ describe("Filters", () => {
       const { getByTestId } = render(
         <Filters {...(defaultProps as PropsType)}>
           <>TEST CHILDREN</>
-        </Filters>,
+        </Filters>
       )
       const element = getByTestId("filters")
       expect(element).toBeTruthy()
@@ -61,7 +61,7 @@ describe("Filters", () => {
           }}
         >
           <>TEST CHILDREN</>
-        </Filters>,
+        </Filters>
       )
       const element = getByTestId("filters")
       expect(element).toBeTruthy()
@@ -76,7 +76,7 @@ describe("Filters", () => {
           }}
         >
           <>TEST CHILDREN</>
-        </Filters>,
+        </Filters>
       )
       const element = getByTestId("filters")
       expect(element).toBeTruthy()
@@ -90,7 +90,7 @@ describe("Filters", () => {
       const { getByTestId } = render(
         <Filters {...(defaultProps as PropsType)}>
           <>TEST CHILDREN</>
-        </Filters>,
+        </Filters>
       )
       const button = getByTestId("filters-button")
       await act(async () => {
@@ -106,7 +106,7 @@ describe("Filters", () => {
       const { getByTestId } = render(
         <Filters {...(defaultProps as PropsType)}>
           <>TEST CHILDREN</>
-        </Filters>,
+        </Filters>
       )
       const button = getByTestId("filters-button")
 
@@ -133,7 +133,7 @@ describe("Filters", () => {
           }}
         >
           <>TEST CHILDREN</>
-        </Filters>,
+        </Filters>
       )
       const button = getByTestId("filters-button")
       await act(async () => {

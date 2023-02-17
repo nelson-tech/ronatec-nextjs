@@ -1,6 +1,6 @@
 "use client"
 
-import Image, { ImageProps } from "next/image"
+import Image from "next/image"
 
 import SlickSlider, { Settings as SliderSettings } from "react-slick"
 
@@ -45,7 +45,7 @@ const Slider = ({
   return (
     <div className={containerClassName + " " + sliderStyle}>
       <SlickSlider {...options} className="w-full h-96 ">
-        {slides.map((slide, index) => {
+        {slides.map((slide) => {
           const image = slide?.image
           return (
             <div

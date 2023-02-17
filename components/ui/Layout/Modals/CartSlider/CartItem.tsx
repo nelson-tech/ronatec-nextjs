@@ -3,19 +3,18 @@ import MinusIcon from "@heroicons/react/20/solid/MinusIcon"
 import PlusIcon from "@heroicons/react/20/solid/PlusIcon"
 
 import useCart from "@lib/hooks/useCart"
-// import { CartItem as CartItemType, Maybe } from "@api/codegen/graphql"
+import type { CartItem as CartItemType } from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 import Link from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
-import { CartItem } from "@api/codegen/graphql"
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  lineItem: CartItem
+  lineItem: CartItemType
   setOpen?: (open: boolean) => void
 }
 
@@ -24,14 +23,14 @@ type PropsType = {
 // ####
 
 const CartItem = memo(
-  function CartItem({ lineItem, setOpen }: PropsType) {
+  function CartItemMemo({ lineItem, setOpen }: PropsType) {
     const [loading, setLoading] = useState(false)
     const [quantity, setQuantity] = useState(lineItem?.quantity)
     const { updateCart, removeItem } = useCart()
 
     const handleRemoveItem = async (key: string) => {
       setLoading(true)
-      const removeItemData = await removeItem({ input: { keys: [key] } })
+      await removeItem({ input: { keys: [key] } })
       // TODO - Handle error case
     }
 
@@ -93,7 +92,7 @@ const CartItem = memo(
                 </div>
                 <p className="mt-1 text-sm text-gray-500">
                   {lineItem.variation?.attributes
-                    ?.map(attribute => `${attribute?.value}`)
+                    ?.map((attribute) => `${attribute?.value}`)
                     .join(" - ")}
                 </p>
 
@@ -114,7 +113,7 @@ const CartItem = memo(
                         name="quantity"
                         type="number"
                         min={1}
-                        onChange={async e => {
+                        onChange={async (e) => {
                           if (Number(e.target.value)) {
                             await handleQuantityUpdate(Number(e.target.value))
                           }
@@ -159,7 +158,7 @@ const CartItem = memo(
     )
       return true
     return false
-  },
+  }
 )
 
 export default CartItem

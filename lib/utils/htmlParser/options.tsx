@@ -12,7 +12,7 @@ export const htmlParserOptions: HTMLReactParserOptions =
   typeof window === "undefined"
     ? {}
     : {
-        replace: domNode => {
+        replace: (domNode) => {
           if (domNode instanceof Element) {
             if (domNode.name === "img") {
               return (
@@ -27,7 +27,7 @@ export const htmlParserOptions: HTMLReactParserOptions =
                 />
               )
             } else if (
-              domNode.attributes.find(a => a.name === "class")?.value ===
+              domNode.attributes.find((a) => a.name === "class")?.value ===
               "menu-link"
             ) {
               const url = domNode.attribs.href
@@ -41,7 +41,7 @@ export const htmlParserOptions: HTMLReactParserOptions =
                 </div>
               )
             } else if (
-              domNode.attributes.find(a => a.name === "class")?.value ===
+              domNode.attributes.find((a) => a.name === "class")?.value ===
               "tab-group"
             ) {
               return <ParsedTabs domNode={domNode} />

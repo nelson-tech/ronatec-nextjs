@@ -1,4 +1,4 @@
-import { Cart, GetCartQuery, GetViewerQuery, User } from "@api/codegen/graphql"
+import { Cart, GetCartQuery, GetViewerQuery } from "@api/codegen/graphql"
 
 export type Layout_AuthData_Type = {
   tokens: CLIENT_Tokens_Type

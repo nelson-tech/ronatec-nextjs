@@ -58,7 +58,7 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
 
                 {menuItem.childItems?.nodes &&
                   menuItem.childItems.nodes.map(
-                    (item: MenuItem, index) =>
+                    (item: MenuItem) =>
                       item.label && (
                         <Menu.Item
                           key={item.id}
@@ -69,7 +69,7 @@ const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
                         >
                           {item.label}
                         </Menu.Item>
-                      ),
+                      )
                   )}
               </Menu.Items>
             </div>

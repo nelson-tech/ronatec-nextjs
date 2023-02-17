@@ -11,15 +11,13 @@ import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
 import setCookie from "@lib/utils/setCookie"
 
 const useRegister = () => {
-  const { loggedIn, error, setCustomer, setLoggedIn, setAlert } = useStore(
-    state => ({
-      loggedIn: state.auth.loggedIn,
-      error: state.auth.errors.register,
+  const { setCustomer, setLoggedIn, setAlert } = useStore(
+    (state) => ({
       setCustomer: state.auth.setCustomer,
       setLoggedIn: state.auth.setLoggedIn,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
   const client = getClient()

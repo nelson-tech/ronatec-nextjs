@@ -1,15 +1,9 @@
 "use client"
 
 import { Post_Common_Cards } from "@api/codegen/graphql"
-
-import Icon from "@components/ui/Icon"
 import parseNewLines from "@lib/utils/parseNewLines"
 
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = {}
+import Icon from "@components/ui/Icon"
 
 // ####
 // #### Types

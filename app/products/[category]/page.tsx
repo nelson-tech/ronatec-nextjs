@@ -12,10 +12,16 @@ import getFilteredProducts from "@lib/server/getFilteredProducts"
 import parseMetaData from "@lib/utils/parseMetaData"
 
 // ####
+// #### Types
+// ####
+
+type CategoryPageParamsType = { params: { category: string } }
+
+// ####
 // #### Component
 // ####
 
-const CategoryPage = async ({ params }: { params: { category: string } }) => {
+const CategoryPage = async ({ params }: CategoryPageParamsType) => {
   const categoryPromise = getCategoryBySlug(params.category)
   const productsPromise = getFilteredProducts({ categories: [params.category] })
 
@@ -46,15 +52,14 @@ export async function generateStaticParams() {
   const data = await client.request(GetProductCategoriesSlugsDocument)
 
   return (
-    data?.productCategories?.nodes?.map(category => ({
+    data?.productCategories?.nodes?.map((category) => ({
       category: category.slug ?? "",
     })) ?? []
   )
 }
 
-// @ts-ignore
-export async function generateMetadata({ params }: ProductPageParamsType) {
-  const category = await getCategoryBySlug(params.slug)
+export async function generateMetadata({ params }: CategoryPageParamsType) {
+  const category = await getCategoryBySlug(params.category)
 
   const metaData = parseMetaData(category?.seo as RankMathProductTypeSeo)
 

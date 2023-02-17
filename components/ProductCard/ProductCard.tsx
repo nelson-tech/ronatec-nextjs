@@ -18,7 +18,7 @@ type ProductCardProps = {
 // ####
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const viewMode = useStore(state => state.shop.viewMode)
+  const viewMode = useStore((state) => state.shop.viewMode)
 
   const categorySlug = product.productCategories?.nodes
     ? product.productCategories.nodes[0]?.slug

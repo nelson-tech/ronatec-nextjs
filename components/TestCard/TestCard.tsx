@@ -7,7 +7,7 @@ const TestCard = () => {
   const client = getClient()
 
   const buttonAction = async () => {
-    const viewerData = await client.request(GetViewerDocument)
+    await client.request(GetViewerDocument)
   }
 
   return (

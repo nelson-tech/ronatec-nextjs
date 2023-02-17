@@ -16,7 +16,7 @@ type PropsType = {
 // ####
 
 const ProductGrid = ({ products }: PropsType) => {
-  const viewMode = useStore(state => state.shop.viewMode)
+  const viewMode = useStore((state) => state.shop.viewMode)
 
   return (
     <>
@@ -34,7 +34,7 @@ const ProductGrid = ({ products }: PropsType) => {
             }
           >
             {products &&
-              products.map(baseProduct => {
+              products.map((baseProduct) => {
                 const product = baseProduct as Product & {
                   price?: string
                 }

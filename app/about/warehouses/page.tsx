@@ -31,7 +31,7 @@ const WarehousesPage = async () => {
       <div className="relative bg-white py-8 px-2 mx-auto max-w-md w-2/3 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
         <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 text-sm font-medium">
           {warehouses?.markers &&
-            warehouses.markers.map(warehouse => {
+            warehouses.markers.map((warehouse) => {
               return (
                 <div
                   className="flex py-4 items-center text-center"
@@ -52,7 +52,6 @@ export default WarehousesPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-// @ts-ignore
 export async function generateMetadata() {
   const page = await getWarehousesData()
 

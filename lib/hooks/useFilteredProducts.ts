@@ -28,7 +28,7 @@ type PageDataType = DeepNull<
 const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<Product[] | null>(
-    props?.initialProducts ?? null,
+    props?.initialProducts ?? null
   )
   const [pageData, setPageData] = useState<PageDataType>()
 
@@ -43,7 +43,7 @@ const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
 
       setLoading(false)
     },
-    [],
+    []
   )
 
   return { products, pageData, loading, fetchProducts }

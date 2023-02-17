@@ -49,7 +49,7 @@ const Map = ({ markers, className, style }: Props) => {
     >
       <Geographies geography={geoShape} className="">
         {({ geographies }) =>
-          geographies.map(geo => {
+          geographies.map((geo) => {
             return (
               <Geography
                 key={geo.rsmKey}
@@ -62,7 +62,7 @@ const Map = ({ markers, className, style }: Props) => {
         }
       </Geographies>
       {markers &&
-        markers.map(marker => {
+        markers.map((marker) => {
           return (
             <Marker
               coordinates={[marker?.center?.lng ?? 0, marker?.center?.lat ?? 0]}

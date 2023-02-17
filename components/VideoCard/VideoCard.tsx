@@ -1,5 +1,3 @@
-// import { Post_Common_VideoLink } from "@api/codegen/graphql"
-
 import VideoPlayer from "@components/VideoPlayer"
 import { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphql"
 
@@ -28,7 +26,7 @@ const VideoCard = ({
   playerStyle,
   videoLink,
 }: VideoCardPropsType) => {
-  const { title, videoUrl, videoId, provider } = videoLink
+  const { title, videoUrl, videoId } = videoLink
   if (videoId || videoUrl) {
     return (
       <div className={"w-full h-full " + cardStyle}>

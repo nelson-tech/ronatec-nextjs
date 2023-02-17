@@ -121,13 +121,13 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                                       </div>
                                                     </Link>
                                                   </li>
-                                                ),
+                                                )
                                             )}
                                         </ul>
                                       </div>
                                     )
                                   )
-                                },
+                                }
                               )}
                           </div>
                         )
@@ -166,7 +166,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                           </div>
                                         </Link>
                                       </li>
-                                    ),
+                                    )
                                   )}
                               </ul>
                             </div>

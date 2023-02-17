@@ -1,7 +1,5 @@
 import { default as NextImage } from "next/image"
 
-// import { ImageContainer } from "./style"
-
 // ####
 // #### Types
 // ####
@@ -13,7 +11,6 @@ type Props = {
   height?: number | undefined | null
   width?: number | undefined | null
   title?: string | undefined | null
-  rounded?: "sm" | "md" | "lg"
   priority?: boolean
   sizes?: string | undefined
   className?: string | undefined
@@ -30,7 +27,6 @@ const Image = ({
   title,
   height,
   width,
-  rounded,
   priority,
   className,
   sizes,

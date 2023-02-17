@@ -34,7 +34,7 @@ const ContactPage = async () => {
         <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 pt-4">
             {cards &&
-              cards.map(card => {
+              cards.map((card) => {
                 if (card) {
                   return (
                     <div className="pt-8" key={"contact" + card.title}>
@@ -58,7 +58,7 @@ const ContactPage = async () => {
           <div className="relative bg-white pt-8 pb-16">
             <div className="mx-auto max-w-md px-4 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                {salesReps.map(salesRep => {
+                {salesReps.map((salesRep) => {
                   if (salesRep) {
                     return (
                       <EmployeeCard
@@ -81,7 +81,6 @@ export default ContactPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-// @ts-ignore
 export async function generateMetadata() {
   const page = await getContactData()
 

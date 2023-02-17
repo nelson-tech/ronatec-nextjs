@@ -6,14 +6,18 @@ import Breadcrumbs from "@components/Breadcrumbs"
 import CategoryInfoComponent from "@components/Pages/CategoryInfo"
 
 // ####
+// #### Types
+// ####
+
+type CategoryInfoPageParamsType = {
+  params: { category: string }
+}
+
+// ####
 // #### Component
 // ####
 
-const CategoryInfoPage = async ({
-  params,
-}: {
-  params: { category: string }
-}) => {
+const CategoryInfoPage = async ({ params }: CategoryInfoPageParamsType) => {
   const category = await getCategoryBySlug(params.category)
 
   const content = category?.product_category?.acf?.description
@@ -38,13 +42,12 @@ export default CategoryInfoPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-// @ts-ignore
-export async function generateMetadata({ params }: ProductPageParamsType) {
-  const category = await getCategoryBySlug(params.slug)
+export async function generateMetadata({ params }: CategoryInfoPageParamsType) {
+  const category = await getCategoryBySlug(params.category)
 
   const metaData = parseMetaData(
     category?.seo as RankMathProductTypeSeo,
-    category?.name ? `${category.name} Info` : undefined,
+    category?.name ? `${category.name} Info` : undefined
   )
 
   return metaData

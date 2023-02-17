@@ -13,7 +13,7 @@ import { ChosenSupplierType } from "@components/Cards/Supplier"
 
 type PropsType = {
   isOpen: boolean
-  setIsOpen: (o: boolean) => void
+  setIsOpen: (open: boolean) => void
   chosenSupplier: ChosenSupplierType | undefined
 }
 

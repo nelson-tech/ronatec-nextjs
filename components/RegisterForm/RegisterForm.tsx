@@ -18,7 +18,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 const RegisterForm = () => {
   const [loading, setLoading] = useState(false)
 
-  const error = useStore(state => state.auth.errors.register)
+  const error = useStore((state) => state.auth.errors.register)
 
   const { register: registerUser } = useRegister()
 
@@ -40,7 +40,7 @@ const RegisterForm = () => {
     lastName: string
     email: string
     password: string
-  }> = async data => {
+  }> = async (data) => {
     const { firstName, lastName, email, password } = data
 
     setLoading(true)

@@ -4,7 +4,7 @@ import Link from "@components/Link"
 // #### Component
 // ####
 
-const Unauthorized = ({}) => {
+const Unauthorized = () => {
   return (
     <>
       <div className="min-h-full pt-16 pb-12 flex flex-col bg-white">

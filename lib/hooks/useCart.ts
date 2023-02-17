@@ -15,7 +15,7 @@ import useStore from "./useStore"
 const useCart = () => {
   const client = getClient()
 
-  const { state: cart, setCart, setLoading } = useStore(stores => stores.cart)
+  const { setCart, setLoading } = useStore((stores) => stores.cart)
 
   const fetchCart = async () => {
     setLoading(true)
@@ -64,7 +64,7 @@ const useCart = () => {
 
     const updateCartData = await client.request(
       UpdateCartItemQuantityDocument,
-      input,
+      input
     )
 
     await fetchCart()

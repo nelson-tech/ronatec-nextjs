@@ -1,8 +1,8 @@
 fragment SimpleProductFragment on SimpleProduct {
-	... on SimpleProduct {
-		...ProductBase
-		price
-		salePrice
-		onSale
-	}
+  ... on SimpleProduct {
+    ...ProductBase
+    price
+    salePrice
+    onSale
+  }
 }

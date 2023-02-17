@@ -22,13 +22,13 @@ const AuthMenu = memo(function AuthMenu() {
   const capitalize = (input: string) => {
     return input
       .split(" ")
-      .map(word => word[0].toUpperCase() + word.substring(1))
+      .map((word) => word[0].toUpperCase() + word.substring(1))
       .join(" ")
   }
 
   return (
     <>
-      {customerMenu.map(item => {
+      {customerMenu.map((item) => {
         return (
           <Menu.Item
             key={"usernav" + item.name}

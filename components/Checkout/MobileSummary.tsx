@@ -20,7 +20,7 @@ type PropsType = {
 // ####
 
 const MobileSummary = ({ hidePrices, discounts }: PropsType) => {
-  const cart = useStore(state => state.cart.state)
+  const cart = useStore((state) => state.cart.state)
 
   return (
     <>

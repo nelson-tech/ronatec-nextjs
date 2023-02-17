@@ -1,9 +1,16 @@
 import { Order } from "@api/codegen/graphql"
-// import useStore from "@lib/hooks/useStore"
 import getOrderById from "@lib/server/getOrderById"
 
 import OrderConfirmation from "@components/OrderConfirmation"
-// import Link from "@components/Link"
+import { Metadata } from "next/types"
+
+// ####
+// #### Types
+// ####
+
+type ThanksPageParamsType = {
+  searchParams?: { order: string }
+}
 
 // ####
 // #### Component
@@ -11,11 +18,7 @@ import OrderConfirmation from "@components/OrderConfirmation"
 
 // TODO - Fix error/missing display order
 
-const ThanksPage = async ({
-  searchParams,
-}: {
-  searchParams?: { order: string }
-}) => {
+const ThanksPage = async ({ searchParams }: ThanksPageParamsType) => {
   const order = await getOrderById(searchParams?.order)
 
   // const loggedIn = useStore(state => state.auth.loggedIn)
@@ -36,20 +39,6 @@ const ThanksPage = async ({
                   </p>
                 </h2>
               </div>
-              {/* {loggedIn && (
-                <div className="mt-8 text-center text-gray-500">
-                  <p>
-                    You can view your previous orders from the{" "}
-                    <Link
-                      href="/orders"
-                      className="text-blue-main hover:text-green-main transition underline"
-                    >
-                      dashboard
-                    </Link>
-                    .
-                  </p>
-                </div>
-              )} */}
             </>
           )}
         </div>
@@ -59,3 +48,30 @@ const ThanksPage = async ({
 }
 
 export default ThanksPage
+
+export const revalidate = 0 // dynamically server this page
+
+export async function generateMetadata(
+  params: ThanksPageParamsType
+): Promise<Metadata> {
+  const order = await getOrderById(params?.searchParams?.order)
+  const orderNumber = order?.orderNumber
+
+  const metaData = {
+    title: orderNumber
+      ? `Order #${orderNumber} Confirmation`
+      : `Order Confirmation`,
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noimageindex: true,
+      },
+    },
+  }
+
+  return metaData
+}

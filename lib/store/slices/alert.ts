@@ -16,11 +16,11 @@ export const initialState = {
   },
 }
 
-const createAlertSlice: StateCreator<AlertSliceType, [], []> = set => ({
+const createAlertSlice: StateCreator<AlertSliceType, [], []> = (set) => ({
   alert: {
     ...initialState.alert,
-    setAlert: newAlert => {
-      return set(state => ({ alert: { ...state.alert, ...newAlert } }))
+    setAlert: (newAlert) => {
+      return set((state) => ({ alert: { ...state.alert, ...newAlert } }))
     },
   },
 })

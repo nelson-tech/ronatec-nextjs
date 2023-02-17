@@ -16,14 +16,14 @@ export const initialState = {
   },
 }
 
-const createUISlice: StateCreator<UISliceType, [], []> = set => ({
+const createUISlice: StateCreator<UISliceType, [], []> = (set) => ({
   ui: {
     ...initialState.ui,
-    setDarkMode: dark => set(state => ({ ui: { ...state.ui, dark } })),
-    setMobileMenuOpen: mobileMenuOpen =>
-      set(state => ({ ui: { ...state.ui, mobileMenuOpen } })),
-    setSearchOpen: searchOpen =>
-      set(state => ({ ui: { ...state.ui, searchOpen } })),
+    setDarkMode: (dark) => set((state) => ({ ui: { ...state.ui, dark } })),
+    setMobileMenuOpen: (mobileMenuOpen) =>
+      set((state) => ({ ui: { ...state.ui, mobileMenuOpen } })),
+    setSearchOpen: (searchOpen) =>
+      set((state) => ({ ui: { ...state.ui, searchOpen } })),
   },
 })
 

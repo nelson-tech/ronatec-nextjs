@@ -11,12 +11,12 @@ const useLogout = () => {
   const router = useRouter()
 
   const { setLoggedIn, setCustomer, setAlert } = useStore(
-    state => ({
+    (state) => ({
       setLoggedIn: state.auth.setLoggedIn,
       setCustomer: state.auth.setCustomer,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
   const client = getClient()

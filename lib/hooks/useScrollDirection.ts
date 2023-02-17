@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 const useScrollDirection = (offset: number = 10) => {
   const [scrollDirection, setScrollDirection] = useState<"down" | "up" | null>(
-    null,
+    null
   )
 
   const [atTop, setAtTop] = useState(true)

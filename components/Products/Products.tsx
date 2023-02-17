@@ -38,11 +38,11 @@ const Products = ({
   const productRef = useRef<HTMLDivElement>(null)
 
   const { selectedSort, setGlobalSort } = useStore(
-    state => ({
+    (state) => ({
       selectedSort: state.shop.selectedSort,
       setGlobalSort: state.shop.setGlobalSort,
     }),
-    shallow,
+    shallow
   )
 
   const defaultQuery: GetFilteredProductsPropsType = {
@@ -66,13 +66,11 @@ const Products = ({
     setQueryVars({ ...queryVars, ...pagination })
   }
 
-  const setSelectedCategories = (
-    categories: InputMaybe<string> | InputMaybe<string>[],
-  ) => {
+  const setSelectedCategories = (categories: string[]) => {
     setQueryVars({
       ...queryVars,
       ...defaultPagination,
-      categories: categorySlugs ?? [],
+      categories: categories ?? [],
     })
   }
 
@@ -116,7 +114,7 @@ const Products = ({
         <div className="text-sm">
           <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
             {categories &&
-              categories.map(category => {
+              categories.map((category) => {
                 return <CategoryLink category={category} key={category.id} />
               })}
           </div>

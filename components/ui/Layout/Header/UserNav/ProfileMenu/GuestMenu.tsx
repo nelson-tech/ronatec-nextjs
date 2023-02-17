@@ -14,7 +14,7 @@ import Link from "@components/Link"
 // ####
 
 const GuestMenu = memo(function GuestMenu() {
-  const setLoginOpen = useStore(state => state.auth.setLoginModalOpen)
+  const setLoginOpen = useStore((state) => state.auth.setLoginModalOpen)
 
   return (
     <>

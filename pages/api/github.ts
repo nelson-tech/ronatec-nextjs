@@ -29,7 +29,7 @@ const GitWebhook: NextApiHandler = async (req, res) => {
       exec(
         "cd " +
           repoPath +
-          " && git pull && yarn install && yarn build && yarn pm2-restart",
+          " && git pull && yarn install && yarn build && yarn pm2-restart"
       )
       console.log("GitHub Webhook ran successfully")
       res.end()

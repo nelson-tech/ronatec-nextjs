@@ -11,7 +11,7 @@ import { ErrorAlert, InfoAlert, SuccessAlert, WarningAlert } from "./Alert"
 // ####
 
 const Alerts = () => {
-  const { setAlert, ...alert } = useStore(state => state.alert)
+  const { setAlert, ...alert } = useStore((state) => state.alert)
 
   const onClose = () => {
     setAlert({ open: false })

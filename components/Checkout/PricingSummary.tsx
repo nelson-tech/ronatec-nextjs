@@ -13,7 +13,7 @@ type PropsType = {
 // ####
 
 const PricingSummary = ({ mobile }: PropsType) => {
-  const cart = useStore(state => state.cart.state)
+  const cart = useStore((state) => state.cart.state)
 
   return (
     <>
@@ -27,7 +27,7 @@ const PricingSummary = ({ mobile }: PropsType) => {
             <dt className="flex">
               Discount
               <span className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">
-                {cart.appliedCoupons.map(coupon => (
+                {cart.appliedCoupons.map((coupon) => (
                   <>{coupon?.code}</>
                 ))}
               </span>

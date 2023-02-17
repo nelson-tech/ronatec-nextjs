@@ -60,7 +60,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
 
   const { clearCart } = useCart()
 
-  const setAlert = useStore(state => state.alert.setAlert)
+  const setAlert = useStore((state) => state.alert.setAlert)
 
   const client = getClient()
 
@@ -108,7 +108,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
     name: "shipToDifferentAddress",
   })
 
-  const onSubmit: SubmitHandler<FormDataType> = async formData => {
+  const onSubmit: SubmitHandler<FormDataType> = async (formData) => {
     setLoading(true)
 
     // Exclude shipping unless billing and shipping should be different
@@ -129,14 +129,14 @@ const CheckoutForm = ({ customer }: PropsType) => {
     const checkoutData = await client.request(CheckoutDocument, { input })
 
     if (checkoutData?.checkout?.order) {
-      clearCart().then(r => {
+      clearCart().then((_) => {
         checkoutData?.checkout?.order &&
           router.push(
             `/thanks${
               checkoutData.checkout.order.orderNumber
                 ? `?order=${checkoutData.checkout.order.orderNumber}`
                 : ""
-            }`,
+            }`
           )
       })
     } else {

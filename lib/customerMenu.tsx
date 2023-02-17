@@ -11,7 +11,7 @@ const customerMenu: UserMenuItem[] = [
   {
     name: "Orders",
     href: "/orders",
-    icon: props => <CollectionIcon {...props} />,
+    icon: (props) => <CollectionIcon {...props} />,
   },
 ]
 

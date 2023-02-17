@@ -13,7 +13,7 @@ const AuthChecker = ({
   forceGuest = false,
   redirect,
 }: AuthCheckerInputType) => {
-  const isAuth = useStore(state => state.auth.loggedIn)
+  const isAuth = useStore((state) => state.auth.loggedIn)
   const router = useRouter()
 
   useEffect(() => {

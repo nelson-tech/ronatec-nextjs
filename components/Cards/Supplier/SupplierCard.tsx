@@ -4,7 +4,6 @@ import { Supplier, Supplier_Supplier } from "@api/codegen/graphql"
 
 import Image from "@components/Image"
 import Icon from "@components/ui/Icon"
-// import { Underlined, underSelect } from "@styles/utils"
 
 // ####
 // #### Types

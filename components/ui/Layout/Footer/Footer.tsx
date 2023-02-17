@@ -1,21 +1,11 @@
-import dynamic from "next/dist/shared/lib/dynamic"
 import AtSymbolIcon from "@heroicons/react/20/solid/AtSymbolIcon"
 import GlobeAltIcon from "@heroicons/react/20/solid/GlobeAltIcon"
 import LocationMarkerIcon from "@heroicons/react/20/solid/MapPinIcon"
 import PhoneIcon from "@heroicons/react/20/solid/PhoneIcon"
 import PrinterIcon from "@heroicons/react/20/solid/PrinterIcon"
-// import Icon from "@components/ui/Icon"
+
 import Image from "@components/Image"
 import MenuLink from "@components/Link"
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = {}
-
-// const Icon = dynamic(() => import("@components/ui/Icon"), clientOpts)
-// const Image = dynamic(() => import("@components/Image"), clientOpts)
-// const MenuLink = dynamic(() => import("@components/Link"), clientOpts)
 
 // ####
 // #### Component
@@ -107,7 +97,7 @@ const Footer = () => {
                   Quick Links
                 </h3>
                 <ul role="list" className="mt-4 space-y-4">
-                  {navigation.company.map(item => (
+                  {navigation.company.map((item) => (
                     <li key={item.name}>
                       <MenuLink
                         href={item.href}

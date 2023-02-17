@@ -47,7 +47,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
           attributes?.nodes &&
             attributes.nodes.map((attribute: VariationAttribute) => {
               if (attribute && attribute.name) {
-                if (!allAttributes.some(a => a.name === attribute.label)) {
+                if (!allAttributes.some((a) => a.name === attribute.label)) {
                   allAttributes.push({
                     name: attribute.label,
                     variations: [variation],
@@ -55,7 +55,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                   })
                 } else {
                   const attIndex = allAttributes.findIndex(
-                    a => a.name === attribute.label,
+                    (a) => a.name === attribute.label
                   )
                   allAttributes[attIndex].variations.push(variation)
                 }
@@ -92,7 +92,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
     setSelectedVariation(firstVariation)
   }, [firstVariation, setSelectedVariation])
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async event => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     setAddLoading(true)
     event.preventDefault()
     setError(null)
@@ -113,7 +113,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                 attributeName: attribute?.name || "",
                 attributeValue: attribute?.value || "",
               }
-            },
+            }
           )
           input.variationId = selectedVariation.databaseId
           input.variation = variation
@@ -130,7 +130,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
         setAddLoading(false)
       } else {
         setError(
-          "Error adding to the shopping cart. Please try refreshing the page.",
+          "Error adding to the shopping cart. Please try refreshing the page."
         )
         setAddLoading(false)
       }
@@ -157,7 +157,6 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                 alt={product.image.altText || ""}
                 height={product.image?.mediaDetails?.height}
                 width={product.image?.mediaDetails?.width}
-                rounded="lg"
                 priority
               />
             )}
@@ -169,7 +168,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
             </div> */}
             <form className="" onSubmit={handleSubmit}>
               {attributes &&
-                attributes.map(attribute => {
+                attributes.map((attribute) => {
                   return (
                     <RadioGroup
                       value={selectedVariation}
@@ -187,13 +186,13 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                         {attribute.name}:
                       </div>
                       <div className="flex flex-wrap items-center justify-center space-x-4">
-                        {attribute.variations.map(variation => {
+                        {attribute.variations.map((variation) => {
                           if (variation) {
                             return (
                               <RadioGroup.Option
                                 key={variation.sku}
                                 value={variation}
-                                className={({ active, checked }) =>
+                                className={({ checked }) =>
                                   `${""}
                               ${
                                 checked ? "bg-blue-main text-white" : "bg-white"
@@ -201,7 +200,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                                 relative rounded-lg shadow-md px-5 py-4 mb-4 cursor-pointer flex outline-none`
                                 }
                               >
-                                {({ active, checked }) => (
+                                {({ checked }) => (
                                   <>
                                     <div className="flex items-center justify-between w-full outline-none">
                                       <div className="flex items-center outline-none">
@@ -216,7 +215,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                                           >
                                             {
                                               variation.name?.split(
-                                                product.name + " - ",
+                                                product.name + " - "
                                               )[1]
                                             }
                                           </RadioGroup.Label>
@@ -264,7 +263,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                     name="quantity"
                     type="number"
                     min={1}
-                    onChange={e => {
+                    onChange={(e) => {
                       if (Number(e.target.value)) {
                         setQuantity(Number(e.target.value))
                       }

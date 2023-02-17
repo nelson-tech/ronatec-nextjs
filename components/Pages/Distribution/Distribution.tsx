@@ -49,7 +49,7 @@ const DistributionComponent = ({ suppliers }: PropsType) => {
       <div className="relative bg-white pb-16 py-8">
         <div className="mx-auto px-8 lg:max-w-7xl">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {sortedSuppliers.map(supplier => {
+            {sortedSuppliers.map((supplier) => {
               if (supplier) {
                 return (
                   <SupplierCard

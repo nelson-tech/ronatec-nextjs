@@ -73,7 +73,7 @@ const CarbonateRemovalSystemComponent = () => {
               </li>
               <li>
                 <span className={listStyle}>
-                  Handles all sodium carbonate bearing plating solutions
+                  Handles all sodium carbonate bearing plating solutions
                 </span>
               </li>
             </ul>

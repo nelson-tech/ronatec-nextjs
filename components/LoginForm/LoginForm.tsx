@@ -1,7 +1,7 @@
 "use client"
 
 import { MutableRefObject, useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { shallow } from "zustand/shallow"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
@@ -30,14 +30,13 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const [loading, setLoading] = useState(false)
   const params = useSearchParams()
   const redirect = params?.get("redirect")
-  const router = useRouter()
 
   const { loggedIn, error } = useStore(
-    state => ({
+    (state) => ({
       loggedIn: state.auth.loggedIn,
       error: state.auth.errors.login,
     }),
-    shallow,
+    shallow
   )
 
   const { login } = useLogin()
@@ -56,7 +55,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const onSubmit: SubmitHandler<{
     email: string
     password: string
-  }> = async data => {
+  }> = async (data) => {
     setLoading(true)
     if (data.email && data.password) {
       const input = {
@@ -131,7 +130,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                 <input
                   id="email-address"
                   type="email"
-                  ref={e => {
+                  ref={(e) => {
                     ref(e)
                     modalRef && e && (modalRef.current = e)
                   }}

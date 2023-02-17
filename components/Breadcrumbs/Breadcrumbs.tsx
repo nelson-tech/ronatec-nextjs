@@ -57,7 +57,7 @@ const Breadcrumbs = ({
             </div>
           </li>
           {category.ancestors?.nodes &&
-            category.ancestors.nodes.map((ancestor: ProductCategory, index) => {
+            category.ancestors.nodes.map((ancestor: ProductCategory) => {
               if (ancestor) {
                 return (
                   <li key={ancestor.id}>

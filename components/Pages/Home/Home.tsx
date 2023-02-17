@@ -94,7 +94,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
           <div className="relative bg-white pb-16 py-8">
             <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                {cards.map(card => {
+                {cards.map((card) => {
                   if (card) {
                     return (
                       <IconCard
@@ -109,7 +109,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
           </div>
         )}
 
-        {videoLinks?.map(videoLink => {
+        {videoLinks?.map((videoLink) => {
           if (videoLink?.videoLink)
             return (
               <VideoCard

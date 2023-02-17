@@ -11,8 +11,8 @@ import useStore from "@lib/hooks/useStore"
 
 const CartButton = () => {
   const { cart, setOpen } = useStore(
-    state => ({ cart: state.cart.state, setOpen: state.cart.setOpen }),
-    shallow,
+    (state) => ({ cart: state.cart.state, setOpen: state.cart.setOpen }),
+    shallow
   )
 
   return (

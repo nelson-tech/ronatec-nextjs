@@ -38,7 +38,7 @@ const requestMiddleware = async (request: any) => {
         if (refreshToken) {
           const refreshData = await graphqlClient?.request(
             RefreshAuthTokenDocument,
-            { input: { jwtRefreshToken: refreshToken as string } },
+            { input: { jwtRefreshToken: refreshToken as string } }
           )
           const newAuth = refreshData?.refreshJwtAuthToken?.authToken
           if (newAuth) {
@@ -71,7 +71,7 @@ const responseMiddleware = async (response: any) => {
     console.error(
       `[${traceId}] Request error:
         status ${response.status}
-        details: ${response.errors}`,
+        details: ${response.errors}`
     )
   }
 }

@@ -19,7 +19,7 @@ type PropsType = {
 // ####
 
 const Pagination = ({ pageInfo, setPagination, productRef }: PropsType) => {
-  const productsPerPage = useStore(state => state.shop.productsPerPage)
+  const productsPerPage = useStore((state) => state.shop.productsPerPage)
 
   const scrollIntoView = () => {
     window.scrollTo({

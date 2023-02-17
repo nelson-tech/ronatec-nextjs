@@ -1,7 +1,6 @@
 "use client"
 
 import getClient from "@api/client"
-import { CLIENT_Tokens_Type } from "@lib/types/auth"
 import getTokensClient from "@lib/utils/getTokensClient"
 
 type APIContextPropsType = {
@@ -14,7 +13,7 @@ const APIContext = ({ children }: APIContextPropsType) => {
   //
 
   getTokensClient().then(({ tokens }) => {
-    const client = getClient(tokens)
+    getClient(tokens)
   })
 
   return <>{children}</>

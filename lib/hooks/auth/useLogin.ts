@@ -12,13 +12,13 @@ import setCookie from "@lib/utils/setCookie"
 
 const useLogin = () => {
   const { setAlert, setCustomer, setLoggedIn, setLoginError } = useStore(
-    state => ({
+    (state) => ({
       setCustomer: state.auth.setCustomer,
       setLoggedIn: state.auth.setLoggedIn,
       setLoginError: state.auth.setLoginError,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
   const client = getClient()
@@ -26,7 +26,7 @@ const useLogin = () => {
   const login = async ({ input }: LoginUserMutationVariables) => {
     await client
       .request(LoginUserDocument, { input })
-      .then(async data => {
+      .then(async (data) => {
         if (data) {
           const { login } = data
           if (login?.authToken && login.refreshToken) {
@@ -57,7 +57,7 @@ const useLogin = () => {
           }
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.warn("Error logging in", error)
 
         if (error.message.includes("invalid")) {

@@ -8,7 +8,7 @@ import {
 
 const parseMetaData = (
   seo: RankMathPostTypeSeo | RankMathProductTypeSeo,
-  title?: string,
+  title?: string
 ) => {
   const metaData: Metadata = {
     title: title ?? seo?.title,

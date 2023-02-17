@@ -1,4 +1,4 @@
-import { Fragment, memo, useState } from "react"
+import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { shallow } from "zustand/shallow"
 import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon"
@@ -18,14 +18,14 @@ import CartItem from "./CartItem"
 // ####
 
 const CartPane = () => {
-  const [loading, setLoading] = useState(false)
+  const [_, setLoading] = useState(false)
 
   const { cart, setOpen } = useStore(
-    state => ({
+    (state) => ({
       cart: state.cart.state,
       setOpen: state.cart.setOpen,
     }),
-    shallow,
+    shallow
   )
 
   const { clearCart } = useCart()
@@ -85,7 +85,7 @@ const CartPane = () => {
                         className="-my-6 divide-y divide-gray-200"
                       >
                         {cart?.contents?.nodes &&
-                          cart?.contents?.nodes.map(lineItem => (
+                          cart?.contents?.nodes.map((lineItem) => (
                             <CartItem
                               key={lineItem?.key}
                               lineItem={lineItem}

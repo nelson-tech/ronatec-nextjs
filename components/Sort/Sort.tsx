@@ -26,9 +26,7 @@ type PropsType = {
   categories: ProductCategory[] | null | undefined
   productRef: RefObject<HTMLDivElement>
   selectedCategories: InputMaybe<string> | InputMaybe<string>[]
-  setSelectedCategories: (
-    categories: InputMaybe<string> | InputMaybe<string>[],
-  ) => void
+  setSelectedCategories: (categories: string[]) => void
   setSelectedSort: (option: SortOptionType) => void
 }
 
@@ -46,12 +44,12 @@ const Sort = ({
   setSelectedSort,
 }: PropsType) => {
   const { selectedSort, viewMode, setViewMode } = useStore(
-    state => ({
+    (state) => ({
       selectedSort: state.shop.selectedSort,
       viewMode: state.shop.viewMode,
       setViewMode: state.shop.setViewMode,
     }),
-    shallow,
+    shallow
   )
 
   const handleSort = async (option: SortOptionType) => {
@@ -75,6 +73,7 @@ const Sort = ({
       break
     case "Oldest":
       SortIcon = OldestIcon
+      break
     default:
       break
   }
@@ -116,20 +115,18 @@ const Sort = ({
           >
             <Menu.Items className="origin-bottom-right z-10 absolute mt-6 right-0 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="">
-                {sortOptions.map(option => (
+                {sortOptions.map((option) => (
                   <Menu.Item key={option.name}>
-                    {({ active }) => (
-                      <a
-                        className={`outline-none ring-transparent ${
-                          selectedSort.name === option.name
-                            ? "bg-blue-main text-white"
-                            : "text-gray-700 bg-white cursor-pointer hover:bg-gray-100"
-                        } block px-4 py-2 text-sm font-medium`}
-                        onClick={() => handleSort(option)}
-                      >
-                        {option.name}
-                      </a>
-                    )}
+                    <div
+                      className={`outline-none ring-transparent ${
+                        selectedSort.name === option.name
+                          ? "bg-blue-main text-white"
+                          : "text-gray-700 bg-white cursor-pointer hover:bg-gray-100"
+                      } block px-4 py-2 text-sm font-medium`}
+                      onClick={() => handleSort(option)}
+                    >
+                      {option.name}
+                    </div>
                   </Menu.Item>
                 ))}
               </div>

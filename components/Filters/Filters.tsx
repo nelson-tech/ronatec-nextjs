@@ -15,9 +15,7 @@ export type PropsType = {
   categories: ProductCategory[]
   productRef: RefObject<HTMLDivElement>
   selectedCategories: InputMaybe<string> | InputMaybe<string>[]
-  setSelectedCategories: (
-    categories: InputMaybe<string> | InputMaybe<string>[],
-  ) => void
+  setSelectedCategories: (categories: string[]) => void
 }
 
 // ####
@@ -32,7 +30,7 @@ const Filters = ({
   setSelectedCategories,
 }: PropsType) => {
   const defaultFilteredCategories = categories
-    .map(category => {
+    .map((category) => {
       let filteredCategories = [category.slug]
 
       category?.children?.nodes &&
@@ -47,20 +45,16 @@ const Filters = ({
           filteredCategories = filteredCategories.concat(childCategories)
         })
 
-      return filteredCategories.flat().filter(a => !!a)
+      return filteredCategories.flat().filter((a) => !!a)
     })
     .flat() as string[]
 
   const categoryList = selectedCategories ?? defaultFilteredCategories
 
-  const {
-    register,
-    getValues,
-    formState: { errors },
-  } = useForm()
+  const { register, getValues } = useForm()
 
-  const handleChange = (event: FormEvent<HTMLFieldSetElement>) => {
-    const selected = Object.values(getValues()).filter(v => v)
+  const handleChange = () => {
+    const selected = Object.values(getValues()).filter((v) => v)
     setSelectedCategories(selected)
   }
 
@@ -144,7 +138,7 @@ const Filters = ({
                   <fieldset>
                     <div className="max-w-7xl mx-auto gap-x-4 px-4 text-sm sm:px-6 md:gap-x-6 lg:px-8">
                       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-x-2">
-                        {categories.map(category => {
+                        {categories.map((category) => {
                           return (
                             <div key={category.id}>
                               <CategoryItem category={category} />

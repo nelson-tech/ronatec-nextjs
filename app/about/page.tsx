@@ -18,7 +18,7 @@ const AboutPage = async () => {
     <>
       <div className="flex flex-col px-4 md:flex-row pb-8 mx-auto lg:max-w-7xl">
         {cards &&
-          cards.map(card => {
+          cards.map((card) => {
             if (card) {
               return (
                 <div className="flex flex-col w-full p-6" key={card.title}>
@@ -59,7 +59,6 @@ export default AboutPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-// @ts-ignore
 export async function generateMetadata() {
   const page = await getAboutData()
 

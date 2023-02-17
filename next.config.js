@@ -3,6 +3,7 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    serverComponentsExternalPackages: ["cross-fetch"],
   },
   reactStrictMode: true,
   swcMinify: true,

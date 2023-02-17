@@ -27,7 +27,7 @@ const useResetPassword = () => {
 
   const client = getClient()
 
-  const { setAlert, setLoggedIn, setCustomer } = useStore(state => ({
+  const { setAlert, setLoggedIn, setCustomer } = useStore((state) => ({
     setAlert: state.alert.setAlert,
     setLoggedIn: state.auth.setLoggedIn,
     setCustomer: state.auth.setCustomer,
@@ -42,7 +42,7 @@ const useResetPassword = () => {
         setLoading(false)
         return true
       })
-      .catch(errors => {
+      .catch((errors) => {
         const message = errorCodes[errors.message]
           ? errorCodes[errors.message]
           : `Error: ${errors.message}`
@@ -55,14 +55,14 @@ const useResetPassword = () => {
   const resetCustomerPassword = async (
     key: string,
     username: string,
-    password: string,
+    password: string
   ) => {
     setError(null)
     setLoading(true)
 
     const resetData = await client
       .request(ResetUserPasswordDocument, { key, login: username, password })
-      .catch(errors => {
+      .catch((errors) => {
         const message = errorCodes[errors.message]
           ? errorCodes[errors.message]
           : `Error: ${errors.message}`
@@ -97,6 +97,7 @@ const useResetPassword = () => {
           setCookie(CUSTOMER_TOKEN_KEY, customerToken, {}, jwtRefreshToken)
 
         setLoggedIn(true)
+        setCustomer(customer)
 
         setAlert({
           open: true,

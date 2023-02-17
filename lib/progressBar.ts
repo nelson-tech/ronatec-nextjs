@@ -25,7 +25,7 @@ export default class ProgressBar {
 
   constructor(options?: Partial<ProgressBarConfig>) {
     const assign = (to: any, from: any): void => {
-      Object.keys(from).forEach(key => {
+      Object.keys(from).forEach((key) => {
         to[key] = from[key]
       })
     }

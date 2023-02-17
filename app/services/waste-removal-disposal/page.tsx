@@ -66,3 +66,20 @@ const WasteRemovalPage = () => {
 }
 
 export default WasteRemovalPage
+
+export const metadata = {
+  title: "Waste Removal & Disposal",
+  description:
+    "Ronatec C2C is a full service organization dedicated to limiting the issues associated with special waste removal and disposal.",
+  keywords: [
+    "waste",
+    "removal",
+    "disposal",
+    "waste removal",
+    "waste disposal",
+    "waste removal and disposal",
+    "Shop",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}

@@ -30,7 +30,7 @@ describe("Employee Card", () => {
     const { getByTestId } = render(
       <EmployeeCard
         {...{ employee: { ...defaultProps.employee, title: "Sales Manager" } }}
-      />,
+      />
     )
     const element = getByTestId("employee-card")
     expect(element).toBeTruthy()
@@ -46,7 +46,7 @@ describe("Employee Card", () => {
             contact: { contact: { email: "john@doe.com" } },
           },
         }}
-      />,
+      />
     )
     const element = getByTestId("employee-card")
     expect(element).toBeTruthy()
@@ -62,7 +62,7 @@ describe("Employee Card", () => {
             contact: { contact: { email: "john@doe.com", office: "555-1234" } },
           },
         }}
-      />,
+      />
     )
     const element = getByTestId("employee-card")
     expect(element).toBeTruthy()
@@ -77,7 +77,7 @@ describe("Employee Card", () => {
             regions: { regions: "San Diego" },
           },
         }}
-      />,
+      />
     )
     const element = getByTestId("employee-card")
     expect(element).toBeTruthy()

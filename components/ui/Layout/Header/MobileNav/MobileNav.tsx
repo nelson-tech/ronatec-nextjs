@@ -10,7 +10,7 @@ import useStore from "@lib/hooks/useStore"
 // ####
 
 const MobileNav = () => {
-  const { setMobileMenuOpen, setSearchOpen } = useStore(state => ({
+  const { setMobileMenuOpen, setSearchOpen } = useStore((state) => ({
     setMobileMenuOpen: state.ui.setMobileMenuOpen,
     setSearchOpen: state.ui.setSearchOpen,
   }))

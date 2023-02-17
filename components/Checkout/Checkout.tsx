@@ -29,13 +29,13 @@ type PropsType = {
 // ####
 
 const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
-  const cart = useStore(state => state.cart.state)
+  const cart = useStore((state) => state.cart.state)
   const { loggedIn, authReady } = useStore(
-    state => ({
+    (state) => ({
       loggedIn: state.auth.loggedIn,
       authReady: state.auth.ready,
     }),
-    shallow,
+    shallow
   )
 
   const emptyCart = cart?.isEmpty

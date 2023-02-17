@@ -1,0 +1,4 @@
+lib/api/codegen
+__tests__
+__mocks__
+coverage

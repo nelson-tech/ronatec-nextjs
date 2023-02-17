@@ -25,27 +25,28 @@ export const initialState = {
 }
 
 const createAuthSlice = (
-  defaultValues?: Partial<(typeof initialState)["auth"]> | undefined,
+  defaultValues?: Partial<(typeof initialState)["auth"]> | undefined
 ): StateCreator<AuthSliceType, [], []> => {
-  return set => ({
+  return (set) => ({
     auth: {
       ...initialState.auth,
       ...defaultValues,
-      setLoggedIn: loggedIn =>
-        set(state => ({ auth: { ...state.auth, loggedIn } })),
-      setLoginError: error =>
-        set(state => ({
+      setLoggedIn: (loggedIn) =>
+        set((state) => ({ auth: { ...state.auth, loggedIn } })),
+      setLoginError: (error) =>
+        set((state) => ({
           auth: {
             ...state.auth,
             errors: { ...state.auth.errors, login: error },
           },
         })),
-      setCustomer: customer =>
-        set(state => ({ auth: { ...state.auth, customer } })),
-      setLoginModalOpen: loginModal =>
-        set(state => ({ auth: { ...state.auth, loginModal } })),
-      setReady: ready => set(state => ({ auth: { ...state.auth, ready } })),
-      setLoaded: loaded => set(state => ({ auth: { ...state.auth, loaded } })),
+      setCustomer: (customer) =>
+        set((state) => ({ auth: { ...state.auth, customer } })),
+      setLoginModalOpen: (loginModal) =>
+        set((state) => ({ auth: { ...state.auth, loginModal } })),
+      setReady: (ready) => set((state) => ({ auth: { ...state.auth, ready } })),
+      setLoaded: (loaded) =>
+        set((state) => ({ auth: { ...state.auth, loaded } })),
     },
   })
 }

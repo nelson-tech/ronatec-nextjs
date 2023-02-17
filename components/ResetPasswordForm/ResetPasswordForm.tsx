@@ -8,7 +8,6 @@ import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 import MailIcon from "@heroicons/react/20/solid/EnvelopeIcon"
 
-import useStore from "@lib/hooks/useStore"
 import useResetPassword from "@lib/hooks/useResetPassword"
 
 import MenuLink from "@components/Link"
@@ -33,17 +32,10 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const { loggedIn, customer } = useStore(
-    state => ({ loggedIn: state.auth.loggedIn, customer: state.auth.customer }),
-    shallow,
-  )
-
   const [email, setEmail] = useState<string | null>(
-    searchParams?.get("username") ?? detectedEmail ?? null,
+    searchParams?.get("username") ?? detectedEmail ?? null
   )
-  const [key, setKey] = useState<string | null>(
-    searchParams?.get("key") ?? null,
-  )
+  const [key] = useState<string | null>(searchParams?.get("key") ?? null)
   const [password, setPassword] = useState<string | null>(null)
   const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null)
 
@@ -60,7 +52,6 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     formState: { errors },
     register,
     handleSubmit,
-    setValue,
   } = useForm()
 
   // Check for matching passwords
@@ -81,7 +72,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     }
   }, [router, passwordReset, error])
 
-  const onSendEmailSubmit: SubmitHandler<FieldValues> = async data => {
+  const onSendEmailSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (email && data.email === email) {
       const sentStatus = await sendResetPasswordEmail(email)
       sentStatus && setSentEmail(true)
@@ -89,7 +80,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     console.warn(data)
   }
 
-  const onResetPasswordSubmit: SubmitHandler<FieldValues> = async data => {
+  const onResetPasswordSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (data.passwordConfirm && data.password) {
       if (validPassword && key && email && password) {
         const resetStatus = await resetCustomerPassword(key, email, password)
@@ -173,7 +164,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                     minLength={8}
                     {...register("password", {
                       required: "Password is required.",
-                      onChange: e => {
+                      onChange: (e) => {
                         setPassword(e.target.value)
                       },
                     })}
@@ -193,7 +184,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                     minLength={8}
                     {...register("passwordConfirm", {
                       required: "Password confirmation is required.",
-                      onChange: e => {
+                      onChange: (e) => {
                         setPasswordConfirm(e.target.value)
                       },
                     })}
@@ -260,7 +251,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                     autoComplete="email"
                     {...register("email", {
                       required: "Email address is required.",
-                      onChange: e => {
+                      onChange: (e) => {
                         setEmail(e.target.value)
                       },
                     })}

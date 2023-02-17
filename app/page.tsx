@@ -22,8 +22,7 @@ export default HomePage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-// @ts-ignore
-export async function generateMetadata({ params }: ProductPageParamsType) {
+export async function generateMetadata() {
   const data = await getHomeData()
 
   const metaData = parseMetaData({

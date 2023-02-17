@@ -16,7 +16,7 @@ const iconSize = "h-5 w-5"
 // ####
 
 const Alert = (props: Partial<AlertState>) => {
-  const { kind, icon, primary, secondary, onClose } = props
+  const { icon, primary, secondary, onClose } = props
 
   return (
     <div className="p-4">

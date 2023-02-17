@@ -7,14 +7,18 @@ import Link from "@components/Link"
 import OrderDetails from "@components/Orders/Details"
 
 // ####
+// #### Types
+// ####
+
+type OrderPageParamsType = {
+  searchParams?: { number: string }
+}
+
+// ####
 // #### Component
 // ####
 
-const OrderPage = async ({
-  searchParams,
-}: {
-  searchParams?: { number: string }
-}) => {
+const OrderPage = async ({ searchParams }: OrderPageParamsType) => {
   const order = await getOrderById(searchParams?.number)
   return (
     <div className="max-w-7xl mx-auto py-16 px-8 sm:px-6 lg:pb-24 lg:px-8">
@@ -56,9 +60,8 @@ export default OrderPage
 
 export const revalidate = 0 // dynamically serve this page
 
-// @ts-ignore
-export async function generateMetadata({ params }) {
-  const order = await getOrderById(params?.id)
+export async function generateMetadata({ searchParams }: OrderPageParamsType) {
+  const order = await getOrderById(searchParams?.number)
   const metaData: Metadata = {
     title: order?.orderNumber ? `Order #${order.orderNumber}` : "Order Details",
     robots: {

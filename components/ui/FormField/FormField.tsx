@@ -66,7 +66,7 @@ const FormField = ({
             rows={textAreaRows ?? 5}
             id={name}
             {...register(name, registerOptions)}
-            className={inputStyling}
+            className={textAreaStyling}
           />
         ) : (
           <input

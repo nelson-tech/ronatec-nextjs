@@ -4,7 +4,7 @@
 
 import QuoteForm from "@components/QuoteForm"
 
-const QuotePage = ({}) => {
+const QuotePage = () => {
   return (
     <>
       <div className="px-5 mx-auto max-w-7xl my-8">
