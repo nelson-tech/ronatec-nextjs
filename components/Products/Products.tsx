@@ -117,7 +117,7 @@ const Products = ({
           <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
             {categories &&
               categories.map(category => {
-                return <CategoryLink category={category} />
+                return <CategoryLink category={category} key={category.id} />
               })}
           </div>
         </div>

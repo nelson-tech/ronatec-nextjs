@@ -74,7 +74,9 @@ const Summary = ({ category, productRef }: PropsType) => {
             <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
               {category.children.nodes.map((subCategory: ProductCategory) => {
                 if (subCategory) {
-                  return <CategoryLink category={subCategory} />
+                  return (
+                    <CategoryLink category={subCategory} key={subCategory.id} />
+                  )
                 }
               })}
             </div>
