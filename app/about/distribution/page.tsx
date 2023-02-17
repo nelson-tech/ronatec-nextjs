@@ -22,7 +22,7 @@ export default DistributionPage
 export const revalidate = 60 // revalidate this page every 60 seconds
 
 export const metadata = {
-  title: "Distribution - Ronatec",
+  title: "Distribution",
   description:
     "Ronatec C2C, Inc. is a certified distributer for many of the leading brands in the industry.",
   keywords: ["Distribution", "Suppliers", "Ronatec", "Metal Finishing"],

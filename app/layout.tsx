@@ -53,7 +53,7 @@ export default RootLayout
 export const metadata = {
   title: {
     default: "Ronatec C2C, Inc.",
-    template: "%s",
+    template: "%s - Ronatec",
   },
   icons: {
     icon: "/favicon.png",
