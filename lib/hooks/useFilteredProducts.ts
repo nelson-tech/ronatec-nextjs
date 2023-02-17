@@ -1,23 +1,19 @@
 "use client"
 
-import getClient from "@api/client"
-import {
-  GetProductsDataByCategoryDocument,
-  GetProductsDataByCategoryQuery,
-  GetProductsDataByCategoryQueryVariables,
-  Product,
-} from "@api/codegen/graphql"
+import { useCallback, useState } from "react"
+
+import { GetProductsDataByCategoryQuery, Product } from "@api/codegen/graphql"
 import getFilteredProducts, {
   GetFilteredProductsPropsType,
 } from "@lib/server/getFilteredProducts"
-import { useCallback, useState } from "react"
+import { FullProduct } from "@lib/types/products"
 
 // ####
 // #### Types
 // ####
 
 type UseFilteredProductsPropsType = {
-  initialProducts: Product[]
+  initialProducts: FullProduct[] | null | undefined
 }
 
 type PageDataType = DeepNull<

@@ -1,14 +1,15 @@
 import {
+  GetProductsSlugsDocument,
   GetProductsSlugsQuery,
   RankMathProductTypeSeo,
 } from "@api/codegen/graphql"
 import getProductBySlug from "@lib/server/getProductBySlug"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
-import getCachedQuery from "@lib/server/getCachedQuery"
 import parseMetaData from "@lib/utils/parseMetaData"
 
 import Link from "@components/Link"
 import ProductBySku from "@components/Pages/ProductBySku"
+import getClient from "@api/client"
 
 const messages = {
   seo: { title: "Product", description: "No product found." },
@@ -65,9 +66,9 @@ export default ProductPage
 export const revalidate = 60 // revalidate this page every 60 seconds
 
 export async function generateStaticParams() {
-  const { data } = await getCachedQuery<GetProductsSlugsQuery>(
-    "getProductsSlugs",
-  )
+  const client = getClient()
+
+  const data = await client.request(GetProductsSlugsDocument)
 
   return (
     data?.products?.nodes?.map(product => ({

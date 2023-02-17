@@ -23,7 +23,7 @@ import OldestIcon from "./Icons/Oldest"
 type PropsType = {
   loading: boolean
   filter?: boolean
-  categories: ProductCategory[] | null
+  categories: ProductCategory[] | null | undefined
   productRef: RefObject<HTMLDivElement>
   selectedCategories: InputMaybe<string> | InputMaybe<string>[]
   setSelectedCategories: (

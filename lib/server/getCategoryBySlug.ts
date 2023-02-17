@@ -1,16 +1,16 @@
-import {
-  GetCategoryDataBySlugQuery,
-  ProductCategory,
-} from "@api/codegen/graphql"
-import getCachedQuery from "./getCachedQuery"
+import getClient from "@api/client"
+import { GetCategoryDataBySlugDocument } from "@api/codegen/graphql"
+import type { ProductCategory } from "@api/codegen/graphql"
 
 const getCategoryBySlug = async (slug: string) => {
   try {
-    const { data } = await getCachedQuery<GetCategoryDataBySlugQuery>(
-      `getCategoryDataBySlug&variables={"id":"${slug}"}`,
-    )
+    const client = getClient()
 
-    return data?.productCategory as ProductCategory
+    const data = await client.request(GetCategoryDataBySlugDocument, {
+      id: slug,
+    })
+
+    return data?.productCategory as ProductCategory | null | undefined
   } catch (error) {
     console.warn("Error in getCategoryBySlug:", error)
 

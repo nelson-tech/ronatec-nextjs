@@ -1,8 +1,11 @@
-import { OrderEnum, ProductsOrderByEnum } from "@api/codegen/graphql"
-import type { GetProductsDataByCategoryQuery } from "@api/codegen/graphql"
+import {
+  GetProductsDataByCategoryDocument,
+  OrderEnum,
+  ProductsOrderByEnum,
+} from "@api/codegen/graphql"
 import { defaultPagination } from "@lib/pagination"
 import type { PaginationType } from "@lib/pagination"
-import getCachedQuery from "./getCachedQuery"
+import getClient from "@api/client"
 
 export type GetFilteredProductsPropsType = {
   field?: ProductsOrderByEnum
@@ -19,11 +22,25 @@ const getFilteredProducts = async ({
   after = defaultPagination.after,
   before = defaultPagination.before,
 }: GetFilteredProductsPropsType) => {
-  const { data } = await getCachedQuery<GetProductsDataByCategoryQuery>(
-    `getProductsDataByCategory&variables={"field":"${field}","order":"${order}","categories":"${categories}","first":"${first}","last":"${last}","after":"${after}","before":"${before}"}`,
-  )
+  try {
+    const client = getClient()
 
-  return data?.products
+    const data = await client.request(GetProductsDataByCategoryDocument, {
+      field,
+      order,
+      categories,
+      first,
+      last,
+      after,
+      before,
+    })
+
+    return data.products
+  } catch (error) {
+    console.warn("Error in getFilteredProducts:", error)
+
+    return null
+  }
 }
 
 export default getFilteredProducts

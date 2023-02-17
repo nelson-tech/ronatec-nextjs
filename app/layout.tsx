@@ -33,12 +33,12 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <RootClientContext>
         <body>
           <div id="top" />
-          {menuItems.mainMenu && (
+          {menuItems?.mainMenu && (
             <Header menuItems={menuItems.mainMenu as MenuItem[]} promo />
           )}
           <div className="min-h-screen bg-white z-0">{children}</div>
           <Footer />
-          <Modals menuItems={menuItems.mobileMenu as MenuItem[]} />
+          <Modals menuItems={menuItems?.mobileMenu as MenuItem[]} />
           <Alerts />
           <ScrollToTop />
           <Analytics />

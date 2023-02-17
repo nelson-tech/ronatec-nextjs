@@ -1,12 +1,12 @@
-import type {
-  GetProductCategoriesSlugsQuery,
+import getClient from "@api/client"
+import {
+  GetProductCategoriesSlugsDocument,
   Product,
   ProductCategory as ProductCategoryType,
   RankMathProductTypeSeo,
 } from "@api/codegen/graphql"
 
 import ProductCategory from "@components/Products/Category"
-import getCachedQuery from "@lib/server/getCachedQuery"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
 import getFilteredProducts from "@lib/server/getFilteredProducts"
 import parseMetaData from "@lib/utils/parseMetaData"
@@ -41,9 +41,9 @@ export default CategoryPage
 export const revalidate = 60 // revalidate this page every 60 seconds
 
 export async function generateStaticParams() {
-  const { data } = await getCachedQuery<GetProductCategoriesSlugsQuery>(
-    "getProductCategoriesSlugs",
-  )
+  const client = getClient()
+
+  const data = await client.request(GetProductCategoriesSlugsDocument)
 
   return (
     data?.productCategories?.nodes?.map(category => ({

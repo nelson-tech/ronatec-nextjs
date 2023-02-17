@@ -1,18 +1,22 @@
-import { Product } from "@api/codegen/graphql"
-
 import Products from "@components/Products"
 import getCategories from "@lib/server/getCategories"
 import getFilteredProducts from "@lib/server/getFilteredProducts"
+import { FullProduct } from "@lib/types/products"
 
 // ####
 // #### Component
 // ####
 
 const ProductsPage = async () => {
-  const { categories, categorySlugs } = await getCategories()
-  const initialProducts = await getFilteredProducts({
-    categories: categorySlugs,
-  })
+  const data = await getCategories()
+
+  const categories = data?.categories
+  const categorySlugs = data?.categorySlugs
+  const initialProducts = categorySlugs
+    ? await getFilteredProducts({
+        categories: categorySlugs,
+      })
+    : { nodes: [] }
 
   return (
     <>
@@ -20,7 +24,9 @@ const ProductsPage = async () => {
         <Products
           categories={categories}
           categorySlugs={categorySlugs}
-          initialProducts={initialProducts?.nodes as Product[]}
+          initialProducts={
+            initialProducts?.nodes as FullProduct[] | null | undefined
+          }
         />
       )}
     </>

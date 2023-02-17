@@ -6,7 +6,11 @@ import { RankMathPostTypeSeo } from "@api/codegen/graphql"
 
 const HomePage = async () => {
   const data = await getHomeData()
-  const { page: home, topSellers, categories } = data
+
+  const home = data?.page
+  const categories = data?.categories
+  const topSellers = data?.topSellers
+
   return (
     <>
       <Home home={home} topSellers={topSellers} categories={categories} />
@@ -20,10 +24,10 @@ export const revalidate = 60 // revalidate this page every 60 seconds
 
 // @ts-ignore
 export async function generateMetadata({ params }: ProductPageParamsType) {
-  const { page } = await getHomeData()
+  const data = await getHomeData()
 
   const metaData = parseMetaData({
-    ...page?.seo,
+    ...data?.page?.seo,
     title: null,
   } as RankMathPostTypeSeo)
 

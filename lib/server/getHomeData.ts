@@ -1,21 +1,29 @@
-import {
+import getClient from "@api/client"
+import { GetHomeDataDocument } from "@api/codegen/graphql"
+import type {
   GetHomeDataQuery,
-  Page,
   Product,
   ProductCategory,
 } from "@api/codegen/graphql"
-import getCachedQuery from "./getCachedQuery"
 
 const getHomeData = async () => {
-  const { data } = await getCachedQuery<GetHomeDataQuery>("getHomeData")
+  try {
+    const client = getClient()
 
-  return {
-    page: data?.page as GetHomeDataQuery["page"],
-    categories: data?.productCategories?.nodes as
-      | ProductCategory[]
-      | null
-      | undefined,
-    topSellers: data?.products?.nodes as Product[] | null | undefined,
+    const data = await client.request(GetHomeDataDocument)
+
+    return {
+      page: data?.page as GetHomeDataQuery["page"],
+      categories: data?.productCategories?.nodes as
+        | ProductCategory[]
+        | null
+        | undefined,
+      topSellers: data?.products?.nodes as Product[] | null | undefined,
+    }
+  } catch (error) {
+    console.warn("Error in getHomeData:", error)
+
+    return null
   }
 }
 

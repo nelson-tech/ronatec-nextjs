@@ -3,32 +3,28 @@
 import { useEffect, useRef, useState } from "react"
 import { shallow } from "zustand/shallow"
 
-import {
-  GetProductsDataByCategoryQueryVariables,
-  InputMaybe,
-  Product,
-  ProductCategory,
-} from "@api/codegen/graphql"
+import { InputMaybe, Product, ProductCategory } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { defaultPagination, PaginationType } from "@lib/pagination"
 import { SortOptionType } from "@lib/store/slices/shop"
+import useFilteredProducts from "@lib/hooks/useFilteredProducts"
+import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
+import { FullProduct } from "@lib/types/products"
 
 import Image from "@components/Image"
 import Link from "@components/Link"
 import Sort from "@components/Sort"
 import ProductGrid from "@components/ProductGrid"
 import Pagination from "@components/Pagination"
-import useFilteredProducts from "@lib/hooks/useFilteredProducts"
-import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
 
 // ####
 // #### Types
 // ####
 
 type ProductsInputType = {
-  categories: ProductCategory[]
-  categorySlugs: string[]
-  initialProducts: Product[]
+  categories: ProductCategory[] | null | undefined
+  categorySlugs: string[] | null | undefined
+  initialProducts: FullProduct[] | null | undefined
 }
 
 // ####
@@ -53,7 +49,7 @@ const Products = ({
   const defaultQuery: GetFilteredProductsPropsType = {
     field: selectedSort.id.field,
     order: selectedSort.id.order,
-    categories: categorySlugs,
+    categories: categorySlugs ?? [],
     ...defaultPagination,
   }
 
@@ -77,7 +73,7 @@ const Products = ({
     setQueryVars({
       ...queryVars,
       ...defaultPagination,
-      categories: categorySlugs,
+      categories: categorySlugs ?? [],
     })
   }
 
