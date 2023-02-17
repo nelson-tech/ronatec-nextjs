@@ -11,18 +11,14 @@ type RootClientContextProps = {
   children: React.ReactNode
 }
 
-const RootClientContext = ({ children }: RootClientContextProps) => {
-  // useNavigationEvent()
+//
+// Component
+//
 
+const RootClientContext = ({ children }: RootClientContextProps) => {
   return (
     <APIContext>
-      <StoreContext>
-        {/* <ClientInitContext authData={authData}> */}
-        {/* <RootStyleRegistry colors={colors}> */}
-        {children}
-        {/* </RootStyleRegistry> */}
-        {/* </ClientInitContext> */}
-      </StoreContext>
+      <StoreContext>{children}</StoreContext>
     </APIContext>
   )
 }

@@ -22,3 +22,11 @@ const RegisterPage = ({
 }
 
 export default RegisterPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+export const metadata = {
+  title: "Register",
+  description: "Register an account to place orders and track previous orders.",
+  keywords: ["Register", "Shop", "Ronatec", "Metal Finishing"],
+}

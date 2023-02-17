@@ -42,3 +42,17 @@ const BreweryTanksPage = ({}) => {
 }
 
 export default BreweryTanksPage
+
+export const metadata = {
+  title: "Brewery Tanks",
+  description:
+    "Tanks for fermentation and conditioning of commercial beverages.",
+  keywords: [
+    "brewery",
+    "tanks",
+    "brewery tanks",
+    "Shop",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}

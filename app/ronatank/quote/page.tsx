@@ -26,3 +26,16 @@ const QuotePage = ({}) => {
 }
 
 export default QuotePage
+
+export const metadata = {
+  title: "Tank Quote",
+  description: "Contact us for a customized tank quote.",
+  keywords: [
+    "quote",
+    "tanks",
+    "brewery tanks",
+    "Shop",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}
