@@ -10,6 +10,7 @@ import getContactData from "@lib/server/about/getContactData"
 import IconCard from "@components/Cards/Icon"
 import EmployeeCard from "@components/Cards/Employee"
 import Map from "@components/Map"
+import { Fragment } from "react"
 
 // ####
 // #### Component
@@ -23,10 +24,10 @@ const ContactPage = async () => {
   const map = page?.page_about_contact?.acf?.map
 
   return (
-    <>
+    <Fragment>
       <Map
         markers={map?.markers as Post_Maps_Markers[]}
-        key={map?.fieldGroupName + "map_contact"}
+        style={{ maxHeight: "400px" }}
       />
 
       <div className="relative bg-white py-8">
@@ -72,7 +73,7 @@ const ContactPage = async () => {
           </div>
         )}
       </div>
-    </>
+    </Fragment>
   )
 }
 
@@ -81,13 +82,10 @@ export default ContactPage
 export const revalidate = 60 // revalidate this page every 60 seconds
 
 // @ts-ignore
-export async function generateMetadata({ params }: ProductPageParamsType) {
+export async function generateMetadata() {
   const page = await getContactData()
 
-  const metaData = parseMetaData(
-    page?.seo as RankMathProductTypeSeo,
-    page?.title ? page.title : undefined,
-  )
+  const metaData = parseMetaData(page?.seo as RankMathProductTypeSeo)
 
   return metaData
 }

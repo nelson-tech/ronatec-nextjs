@@ -1,19 +1,8 @@
-import { GetDistributionDataDocument, Supplier } from "@api/codegen/graphql"
-import getClient from "@api/client"
+import { Fragment } from "react"
+
+import getDistributionData from "@lib/server/about/getDistributionData"
 
 import DistributionComponent from "@components/Pages/Distribution"
-
-// ####
-// #### Server Calls
-// ####
-
-const getDistributionData = async () => {
-  const client = getClient()
-
-  const distributionData = await client.request(GetDistributionDataDocument)
-
-  return distributionData.suppliers?.nodes
-}
 
 // ####
 // #### Component
@@ -22,10 +11,19 @@ const getDistributionData = async () => {
 const DistributionPage = async () => {
   const suppliers = await getDistributionData()
   return (
-    <>
-      <DistributionComponent suppliers={suppliers as Supplier[]} />
-    </>
+    <Fragment>
+      <DistributionComponent suppliers={suppliers} />
+    </Fragment>
   )
 }
 
 export default DistributionPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+export const metadata = {
+  title: "Distribution - Ronatec",
+  description:
+    "Ronatec C2C, Inc. is a certified distributer for many of the leading brands in the industry.",
+  keywords: ["Distribution", "Suppliers", "Ronatec", "Metal Finishing"],
+}

@@ -1,20 +1,9 @@
-import getClient from "@api/client"
-import { GetAboutDataDocument } from "@api/codegen/graphql"
-import Image from "@components/Image"
-
+import { RankMathProductTypeSeo } from "@api/codegen/graphql"
+import parseMetaData from "@lib/utils/parseMetaData"
 import parseNewLines from "@lib/utils/parseNewLines"
+import getAboutData from "@lib/server/about/getAboutData"
 
-// ####
-// #### Server Calls
-// ####
-
-const getAboutData = async () => {
-  const client = getClient()
-
-  const aboutData = await client.request(GetAboutDataDocument)
-
-  return aboutData.page
-}
+import Image from "@components/Image"
 
 // ####
 // #### Component
@@ -67,3 +56,14 @@ const AboutPage = async () => {
 }
 
 export default AboutPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+// @ts-ignore
+export async function generateMetadata() {
+  const page = await getAboutData()
+
+  const metaData = parseMetaData(page?.seo as RankMathProductTypeSeo)
+
+  return metaData
+}
