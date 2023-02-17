@@ -36,3 +36,18 @@ const PlatingOnPlasticsPage = () => {
 }
 
 export default PlatingOnPlasticsPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+export const metadata = {
+  title: "Plating On Plastics",
+  description:
+    "Ronatec C2C plastics plating products meet industry environmental regulations and standards while offering low-temperature operations, superior plating applications, and a high production yield.",
+  keywords: [
+    "Plating",
+    "Plating on plastics",
+    "Heater",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}
