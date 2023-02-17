@@ -19,7 +19,7 @@ const LoginPage = ({
 
 export default LoginPage
 
-export const revalidate = 0 // dynamically serve this page
+export const revalidate = 60 // revalidate this page every 60 seconds
 
 export const metadata = {
   title: "Login",
