@@ -1,15 +1,17 @@
+import { Metadata } from "next/types"
+
 import getClient from "@api/client"
-import {
-  GetProductCategoriesSlugsDocument,
+import { GetProductCategoriesSlugsDocument } from "@api/codegen/graphql"
+import type {
   Product,
   ProductCategory as ProductCategoryType,
   RankMathProductTypeSeo,
 } from "@api/codegen/graphql"
-
-import ProductCategory from "@components/Products/Category"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
 import getFilteredProducts from "@lib/server/getFilteredProducts"
 import parseMetaData from "@lib/utils/parseMetaData"
+
+import ProductCategory from "@components/Products/Category"
 
 // ####
 // #### Types
@@ -58,7 +60,9 @@ export async function generateStaticParams() {
   )
 }
 
-export async function generateMetadata({ params }: CategoryPageParamsType) {
+export async function generateMetadata({
+  params,
+}: CategoryPageParamsType): Promise<Metadata> {
   const category = await getCategoryBySlug(params.category)
 
   const metaData = parseMetaData(category?.seo as RankMathProductTypeSeo)
