@@ -68,3 +68,20 @@ const OrdersPage = async () => {
 }
 
 export default OrdersPage
+
+export const revalidate = 0 // dynamically serve this page
+
+export const metadata = {
+  metadataBase: null,
+  title: "Orders",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+}

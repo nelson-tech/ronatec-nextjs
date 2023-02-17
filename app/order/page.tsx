@@ -1,3 +1,4 @@
+import type { Metadata } from "next/types"
 import ArrowLeftIcon from "@heroicons/react/24/outline/ArrowLeftIcon"
 
 import getOrderById from "@lib/server/getOrderById"
@@ -52,3 +53,26 @@ const OrderPage = async ({
 }
 
 export default OrderPage
+
+export const revalidate = 0 // dynamically serve this page
+
+// @ts-ignore
+export async function generateMetadata({ params }) {
+  const order = await getOrderById(params?.id)
+  const metaData: Metadata = {
+    metadataBase: null,
+    title: order?.orderNumber ? `Order #${order.orderNumber}` : "Order Details",
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noimageindex: true,
+      },
+    },
+  }
+
+  return metaData
+}
