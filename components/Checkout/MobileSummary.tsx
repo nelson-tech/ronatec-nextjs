@@ -3,15 +3,12 @@ import { Disclosure } from "@headlessui/react"
 import useStore from "@lib/hooks/useStore"
 
 import CartSummary from "./CartSummary"
-import DiscountForm from "./DiscountForm"
-import PricingSummary from "./PricingSummary"
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  hidePrices?: boolean
   discounts?: boolean
 }
 
@@ -19,7 +16,7 @@ type PropsType = {
 // #### Component
 // ####
 
-const MobileSummary = ({ hidePrices, discounts }: PropsType) => {
+const MobileSummary = ({ discounts }: PropsType) => {
   const cart = useStore((state) => state.cart.state)
 
   return (
@@ -49,24 +46,9 @@ const MobileSummary = ({ hidePrices, discounts }: PropsType) => {
 
               <Disclosure.Panel>
                 <ul role="list" className="divide-y divide-gray-200">
-                  <CartSummary hidePrices={hidePrices} />
+                  <CartSummary />
                 </ul>
-
-                {!hidePrices && (
-                  <div className="border-t border-gray-200">
-                    {discounts && <DiscountForm className="mt-10" />}
-
-                    <PricingSummary mobile />
-                  </div>
-                )}
               </Disclosure.Panel>
-
-              {!hidePrices && (
-                <p className="flex items-center justify-between text-sm font-medium text-gray-900 border-t border-gray-200 pt-6 mt-6">
-                  <span className="text-base">Total</span>
-                  <span className="text-base">{cart?.total}</span>
-                </p>
-              )}
             </>
           )}
         </Disclosure>

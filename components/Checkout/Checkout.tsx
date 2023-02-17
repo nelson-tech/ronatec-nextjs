@@ -9,18 +9,14 @@ import Link from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import CartSummary from "./CartSummary"
 import CheckoutForm from "./CheckoutForm"
-import DiscountForm from "./DiscountForm"
 import GuestCheckoutWarning from "./GuestCheckoutWarning"
 import MobileSummary from "./MobileSummary"
-import PricingSummary from "./PricingSummary"
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  hidePrices?: boolean
-  discounts?: boolean
   customer: Customer | null | undefined
 }
 
@@ -28,7 +24,7 @@ type PropsType = {
 // #### Component
 // ####
 
-const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
+const Checkout = ({ customer }: PropsType) => {
   const cart = useStore((state) => state.cart.state)
   const { loggedIn, authReady } = useStore(
     (state) => ({
@@ -79,7 +75,7 @@ const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
             <main className="lg:min-h-screen lg:overflow-hidden lg:flex lg:flex-row-reverse max-w-7xl mx-auto">
               <h1 className="sr-only">Checkout</h1>
 
-              <MobileSummary hidePrices={hidePrices} />
+              <MobileSummary />
 
               {/* Order summary */}
               <section
@@ -94,16 +90,8 @@ const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
                   role="list"
                   className="flex-auto overflow-y-auto divide-y divide-gray-200 px-6"
                 >
-                  <CartSummary hidePrices={hidePrices} />
+                  <CartSummary />
                 </ul>
-
-                {!hidePrices && (
-                  <div className="sticky bottom-0 flex-none bg-gray-50 border-t border-gray-200 p-6">
-                    {discounts && <DiscountForm />}
-
-                    <PricingSummary />
-                  </div>
-                )}
               </section>
 
               {customer?.id &&

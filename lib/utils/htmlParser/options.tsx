@@ -21,9 +21,6 @@ export const htmlParserOptions: HTMLReactParserOptions =
                   alt={domNode.attribs.alt || domNode.attribs.src}
                   height={parseInt(domNode.attribs.height)}
                   width={parseInt(domNode.attribs.width)}
-                  // objectFit="cover"
-                  // layout="responsive"
-                  rounded="lg"
                 />
               )
             } else if (

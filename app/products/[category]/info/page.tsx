@@ -1,4 +1,9 @@
-import { ProductCategory, RankMathProductTypeSeo } from "@api/codegen/graphql"
+import type { Metadata } from "next/types"
+
+import type {
+  ProductCategory,
+  RankMathProductTypeSeo,
+} from "@api/codegen/graphql"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
 import parseMetaData from "@lib/utils/parseMetaData"
 
@@ -42,7 +47,9 @@ export default CategoryInfoPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-export async function generateMetadata({ params }: CategoryInfoPageParamsType) {
+export async function generateMetadata({
+  params,
+}: CategoryInfoPageParamsType): Promise<Metadata> {
   const category = await getCategoryBySlug(params.category)
 
   const metaData = parseMetaData(

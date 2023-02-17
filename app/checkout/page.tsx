@@ -11,7 +11,7 @@ const CheckoutPage = async () => {
 
   return (
     <>
-      <Checkout hidePrices customer={customer} />
+      <Checkout customer={customer} />
     </>
   )
 }
