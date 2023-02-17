@@ -8,8 +8,8 @@ import type {
 import ProductCategory from "@components/Products/Category"
 import getCachedQuery from "@lib/server/getCachedQuery"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
+import getFilteredProducts from "@lib/server/getFilteredProducts"
 import parseMetaData from "@lib/utils/parseMetaData"
-import getProductsByCategory from "@lib/server/getProductsByCategory"
 
 // ####
 // #### Component
@@ -17,7 +17,7 @@ import getProductsByCategory from "@lib/server/getProductsByCategory"
 
 const CategoryPage = async ({ params }: { params: { category: string } }) => {
   const categoryPromise = getCategoryBySlug(params.category)
-  const productsPromise = getProductsByCategory(params.category)
+  const productsPromise = getFilteredProducts({ categories: [params.category] })
 
   const [category, initialProducts] = await Promise.all([
     categoryPromise,
@@ -29,7 +29,7 @@ const CategoryPage = async ({ params }: { params: { category: string } }) => {
       {category && (
         <ProductCategory
           category={category as ProductCategoryType}
-          initialProducts={initialProducts as Product[]}
+          initialProducts={initialProducts?.nodes as Product[]}
         />
       )}
     </>

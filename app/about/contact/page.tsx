@@ -1,26 +1,15 @@
 import {
   Employee,
-  GetContactDataDocument,
   Post_Common_Cards,
   Post_Maps_Markers,
+  RankMathProductTypeSeo,
 } from "@api/codegen/graphql"
-import getClient from "@api/client"
+import parseMetaData from "@lib/utils/parseMetaData"
+import getContactData from "@lib/server/about/getContactData"
 
 import IconCard from "@components/Cards/Icon"
 import EmployeeCard from "@components/Cards/Employee"
 import Map from "@components/Map"
-
-// ####
-// #### Server Calls
-// ####
-
-const getContactData = async () => {
-  const client = getClient()
-
-  const contactData = await client.request(GetContactDataDocument)
-
-  return contactData.page
-}
 
 // ####
 // #### Component
@@ -88,3 +77,17 @@ const ContactPage = async () => {
 }
 
 export default ContactPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+// @ts-ignore
+export async function generateMetadata({ params }: ProductPageParamsType) {
+  const page = await getContactData()
+
+  const metaData = parseMetaData(
+    page?.seo as RankMathProductTypeSeo,
+    page?.title ? page.title : undefined,
+  )
+
+  return metaData
+}

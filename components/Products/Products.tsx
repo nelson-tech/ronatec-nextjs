@@ -19,6 +19,7 @@ import Sort from "@components/Sort"
 import ProductGrid from "@components/ProductGrid"
 import Pagination from "@components/Pagination"
 import useFilteredProducts from "@lib/hooks/useFilteredProducts"
+import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
 
 // ####
 // #### Types
@@ -49,7 +50,7 @@ const Products = ({
     shallow,
   )
 
-  const defaultQuery: GetProductsDataByCategoryQueryVariables = {
+  const defaultQuery: GetFilteredProductsPropsType = {
     field: selectedSort.id.field,
     order: selectedSort.id.order,
     categories: categorySlugs,
@@ -73,7 +74,11 @@ const Products = ({
   const setSelectedCategories = (
     categories: InputMaybe<string> | InputMaybe<string>[],
   ) => {
-    setQueryVars({ ...queryVars, ...defaultPagination, categories })
+    setQueryVars({
+      ...queryVars,
+      ...defaultPagination,
+      categories: categorySlugs,
+    })
   }
 
   const setSelectedSort = (option: SortOptionType) => {

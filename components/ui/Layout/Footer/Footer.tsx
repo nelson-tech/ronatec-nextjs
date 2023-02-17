@@ -39,7 +39,7 @@ const navigation = {
     { name: "Consulting", href: "/services/consulting" },
     { name: "About Us", href: "/about" },
     { name: "Contact Us", href: "/about/contact" },
-    { name: "Request A Quote", href: "/quote" },
+    { name: "Request A Quote", href: "/ronatank/quote" },
   ],
   legal: [
     { name: "Claim", href: "#" },

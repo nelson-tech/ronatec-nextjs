@@ -1,72 +1,18 @@
-import {
-  GetProductCategoriesDataDocument,
-  GetProductsDataByCategoryDocument,
-  OrderEnum,
-  Product,
-  ProductCategory,
-  ProductsOrderByEnum,
-} from "@api/codegen/graphql"
+import { Product } from "@api/codegen/graphql"
 
-import getClient from "@api/client"
-import { defaultPagination } from "@lib/pagination"
 import Products from "@components/Products"
-
-// ####
-// #### Server Calls
-// ####
-
-const getCategories = async () => {
-  const client = getClient()
-
-  const categoryData = await client.request(GetProductCategoriesDataDocument)
-
-  const rootCategories =
-    categoryData.productCategories?.nodes &&
-    (categoryData.productCategories.nodes.filter(productCategory => {
-      if (!productCategory?.ancestors) {
-        return true
-      } else {
-        return false
-      }
-    }) as ProductCategory[])
-
-  const getSlugs = (categories: ProductCategory[]) => {
-    return categories
-      .map(category => category?.slug)
-      .filter(category => {
-        if (typeof category === "string") {
-          return true
-        } else return false
-      }) as string[]
-  }
-
-  const categorySlugs = rootCategories
-    ? getSlugs(rootCategories as ProductCategory[])
-    : []
-
-  const initialProductsData = await client.request(
-    GetProductsDataByCategoryDocument,
-    {
-      field: ProductsOrderByEnum.MenuOrder,
-      order: OrderEnum.Asc,
-      categories: categorySlugs,
-      ...defaultPagination,
-    },
-  )
-
-  return {
-    categories: rootCategories,
-    categorySlugs,
-    initialProducts: initialProductsData.products?.nodes,
-  }
-}
+import getCategories from "@lib/server/getCategories"
+import getFilteredProducts from "@lib/server/getFilteredProducts"
 
 // ####
 // #### Component
 // ####
 
 const ProductsPage = async () => {
-  const { categories, categorySlugs, initialProducts } = await getCategories()
+  const { categories, categorySlugs } = await getCategories()
+  const initialProducts = await getFilteredProducts({
+    categories: categorySlugs,
+  })
 
   return (
     <>
@@ -74,7 +20,7 @@ const ProductsPage = async () => {
         <Products
           categories={categories}
           categorySlugs={categorySlugs}
-          initialProducts={initialProducts as Product[]}
+          initialProducts={initialProducts?.nodes as Product[]}
         />
       )}
     </>

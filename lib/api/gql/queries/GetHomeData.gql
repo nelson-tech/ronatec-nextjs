@@ -49,7 +49,6 @@ query GetHomeData {
   }
   page(id: "home", idType: URI) {
     ...PageCommonBase
-    ...SEOBase
     page_home {
       acf {
         hero {

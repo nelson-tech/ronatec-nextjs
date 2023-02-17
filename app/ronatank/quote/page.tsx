@@ -13,11 +13,11 @@ const QuotePage = ({}) => {
         </div>
         <div className="space-y-6">
           <div className="bg-gray-50 shadow px-4 py-5 sm:rounded-lg sm:p-6">
-            <div className="md:grid md:grid-cols-3 md:gap-6">
-              <div className="mt-5 md:mt-0 md:col-span-2">
-                <QuoteForm />
-              </div>
+            {/* <div className="md:grid md:grid-cols-2 md:gap-6"> */}
+            <div className="mt-5 md:mt-0 md:col-span-2">
+              <QuoteForm />
             </div>
+            {/* </div> */}
           </div>
         </div>
       </div>
