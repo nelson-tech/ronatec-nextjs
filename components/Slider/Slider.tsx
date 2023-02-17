@@ -44,7 +44,7 @@ const Slider = ({
 }: SliderPropsType) => {
   return (
     <div className={containerClassName + " " + sliderStyle}>
-      <SlickSlider {...options} className="w-full h-96 ">
+      <SlickSlider {...options} className="w-full h-96">
         {slides.map((slide) => {
           const image = slide?.image
           return (

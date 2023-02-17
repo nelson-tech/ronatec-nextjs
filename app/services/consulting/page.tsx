@@ -1,4 +1,3 @@
-import { Fragment } from "react"
 import type { Metadata } from "next/types"
 
 import getClient from "@api/client"
@@ -36,13 +35,14 @@ const ConsultingPage = async () => {
   if (page?.page_consulting && page.page_consulting.acf) {
     const { content, certificates, cards, slides } = page.page_consulting.acf
     return (
-      <Fragment>
+      <>
         <div className="px-4">
-          <div className="mt-8 flex flex-col md:flex-row pb-8 items-center mx-auto lg:max-w-7xl">
+          <div className="mt-8 flex flex-col md:flex-row pb-8 items-center mx-auto space-y-8 lg:max-w-7xl mb-8">
             {slides && slides.length > 0 && (
               <Slider
+                rounded
                 slides={slides as Post_Common_Slides[]}
-                sliderStyle="relative w-full md:w-1/2 h-96 m-4 "
+                sliderStyle="relative w-full md:w-1/2 h-96 p-4"
               />
             )}
             <div className="px-4 w-full h-full text-gray-700">
@@ -91,7 +91,7 @@ const ConsultingPage = async () => {
             </div>
           )}
         </div>
-      </Fragment>
+      </>
     )
   }
   return <div>Error</div>
