@@ -31,15 +31,17 @@ const Summary = ({ category, productRef }: PropsType) => {
           </h1>
         </div>
         <p className="mt-4 text-base text-gray-500">{category.description}</p>
-        <p className="pt-2">
-          <Link
-            href={`/products/${category.slug}/info`}
-            title="Learn more"
-            className="text-gray-400 hover:text-green-main text-sm"
-          >
-            Learn more...
-          </Link>
-        </p>
+        {category.product_category?.acf?.description && (
+          <p className="pt-2">
+            <Link
+              href={`/products/${category.slug}/info`}
+              title="Learn more"
+              className="text-gray-400 hover:text-green-main text-sm"
+            >
+              Learn more...
+            </Link>
+          </p>
+        )}
       </div>
       {/* Sub-categories */}
 

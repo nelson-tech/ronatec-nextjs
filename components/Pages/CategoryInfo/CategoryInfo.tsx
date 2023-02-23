@@ -1,6 +1,7 @@
 "use client"
 
 import { htmlParserOptions, parse } from "@lib/utils"
+import { useRouter } from "next/navigation"
 
 // import Container from "./style"
 
@@ -9,6 +10,7 @@ import { htmlParserOptions, parse } from "@lib/utils"
 // ####
 
 type PropsType = {
+  categorySlug: string | null | undefined
   content: string | null | undefined
 }
 
@@ -16,7 +18,11 @@ type PropsType = {
 // #### Component
 // ####
 
-const CategoryInfo = ({ content }: PropsType) => {
+const CategoryInfo = ({ categorySlug, content }: PropsType) => {
+  const router = useRouter()
+
+  !content && router.push(`/products/${categorySlug}`)
+
   return (
     <>
       <div className="pt-4 p-4"></div>

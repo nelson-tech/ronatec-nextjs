@@ -72,7 +72,6 @@ export async function generateMetadata({
     focusKeywords: [category?.name ?? "ronatec"],
     openGraph: { ...category?.seo?.openGraph },
   }
-  console.log("Metadata", category?.product_category?.acf?.description)
 
   const metaData = parseMetaData(seo)
 

@@ -32,7 +32,10 @@ const CategoryInfoPage = async ({ params }: CategoryInfoPageParamsType) => {
       {category ? (
         <>
           <Breadcrumbs category={category as ProductCategory} info />
-          <CategoryInfoComponent content={content} />
+          <CategoryInfoComponent
+            categorySlug={category.slug}
+            content={content}
+          />
         </>
       ) : (
         <>
