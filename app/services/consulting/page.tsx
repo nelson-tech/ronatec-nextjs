@@ -1,29 +1,16 @@
 import type { Metadata } from "next/types"
 
-import getClient from "@api/client"
-import { GetConsultingDataDocument } from "@api/codegen/graphql"
 import type {
   Post_Common_Cards,
   Post_Common_Slides,
   RankMathProductTypeSeo,
 } from "@api/codegen/graphql"
+import getConsultingData from "@lib/server/getConsultingData"
 import parseNewLines from "@lib/utils/parseNewLines"
 import parseMetaData from "@lib/utils/parseMetaData"
 
 import Slider from "@components/Slider"
 import IconCard from "@components/Cards/Icon"
-
-// ####
-// #### Server Call
-// ####
-
-const getConsultingData = async () => {
-  const client = getClient()
-
-  const consultingData = await client.request(GetConsultingDataDocument)
-
-  return consultingData.page
-}
 
 // ####
 // #### Component
@@ -42,10 +29,11 @@ const ConsultingPage = async () => {
               <Slider
                 rounded
                 slides={slides as Post_Common_Slides[]}
-                sliderStyle="relative w-full md:w-1/2 h-96 p-4"
+                containerClassName="w-full md:w-1/2 h-full p-4"
+                sliderStyle="relative w-full aspect-[3/2]"
               />
             )}
-            <div className="px-4 w-full h-full text-gray-700">
+            <div className="px-4 w-full md:w-1/2 h-full text-gray-700">
               {content && parseNewLines(content)}
             </div>
           </div>

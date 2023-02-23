@@ -1,14 +1,13 @@
-import getClient from "@api/client"
-import { GetWarehousesDataDocument } from "@api/codegen/graphql"
-import type { Page } from "@api/codegen/graphql"
+import type { GetWarehousesDataQuery, Page } from "@api/codegen/graphql"
+import getCachedQuery from "../getCachedQuery"
 
 const getWarehousesData = async () => {
   try {
-    const client = getClient()
+    const { data } = await getCachedQuery<GetWarehousesDataQuery>(
+      "getWarehousesData"
+    )
 
-    const warehousesData = await client.request(GetWarehousesDataDocument)
-
-    return warehousesData.page as Page | null | undefined
+    return data?.page as Page | null | undefined
   } catch (error) {
     console.warn("Error in getWarehousesData:", error)
 

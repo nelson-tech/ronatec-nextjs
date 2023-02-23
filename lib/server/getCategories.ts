@@ -1,12 +1,14 @@
-import getClient from "@api/client"
-import { GetProductCategoriesDataDocument } from "@api/codegen/graphql"
-import type { ProductCategory } from "@api/codegen/graphql"
+import type {
+  GetProductCategoriesDataQuery,
+  ProductCategory,
+} from "@api/codegen/graphql"
+import getCachedQuery from "./getCachedQuery"
 
 const getCategories = async () => {
   try {
-    const client = getClient()
-
-    const data = await client.request(GetProductCategoriesDataDocument)
+    const { data } = await getCachedQuery<GetProductCategoriesDataQuery>(
+      "getProductCategoriesData"
+    )
 
     const categoriesData = data?.productCategories?.nodes
 
@@ -18,7 +20,7 @@ const getCategories = async () => {
         } else {
           return false
         }
-      }) as ProductCategory[])
+      }) as ProductCategory[] | null | undefined)
 
     const getSlugs = (categories: ProductCategory[]) => {
       return categories
@@ -27,7 +29,7 @@ const getCategories = async () => {
           if (typeof category === "string") {
             return true
           } else return false
-        }) as string[]
+        }) as string[] | null | undefined
     }
 
     const categorySlugs = rootCategories

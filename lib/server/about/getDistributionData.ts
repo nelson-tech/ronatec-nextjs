@@ -1,14 +1,13 @@
-import getClient from "@api/client"
-import { GetDistributionDataDocument } from "@api/codegen/graphql"
-import type { Supplier } from "@api/codegen/graphql"
+import type { GetDistributionDataQuery, Supplier } from "@api/codegen/graphql"
+import getCachedQuery from "../getCachedQuery"
 
 const getDistributionData = async () => {
   try {
-    const client = getClient()
+    const { data } = await getCachedQuery<GetDistributionDataQuery>(
+      "getDistributionData"
+    )
 
-    const distributionData = await client.request(GetDistributionDataDocument)
-
-    return distributionData.suppliers?.nodes as Supplier[] | null | undefined
+    return data?.suppliers?.nodes as Supplier[] | null | undefined
   } catch (error) {
     console.warn("Error in getDistributionData:", error)
 

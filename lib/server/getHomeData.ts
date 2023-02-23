@@ -1,19 +1,17 @@
-import getClient from "@api/client"
-import { GetHomeDataDocument } from "@api/codegen/graphql"
 import type {
   GetHomeDataQuery,
+  Page,
   Product,
   ProductCategory,
 } from "@api/codegen/graphql"
+import getCachedQuery from "./getCachedQuery"
 
 const getHomeData = async () => {
   try {
-    const client = getClient()
-
-    const data = await client.request(GetHomeDataDocument)
+    const { data } = await getCachedQuery<GetHomeDataQuery>("getHomeData")
 
     return {
-      page: data?.page as GetHomeDataQuery["page"],
+      page: data?.page as Page | null | undefined,
       categories: data?.productCategories?.nodes as
         | ProductCategory[]
         | null

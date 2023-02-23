@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
-import getClient from "@api/client"
-import { GetProductsSlugsDocument } from "@api/codegen/graphql"
+import { GetProductsSlugsQuery } from "@api/codegen/graphql"
 import type { RankMathProductTypeSeo } from "@api/codegen/graphql"
+import getCachedQuery from "@lib/server/getCachedQuery"
 import getProductBySlug from "@lib/server/getProductBySlug"
 import getCategoryBySlug from "@lib/server/getCategoryBySlug"
 import parseMetaData from "@lib/utils/parseMetaData"
@@ -73,9 +73,7 @@ export default ProductPage
 export const revalidate = 60 // revalidate this page every 60 seconds
 
 export async function generateStaticParams() {
-  const client = getClient()
-
-  const data = await client.request(GetProductsSlugsDocument)
+  const { data } = await getCachedQuery<GetProductsSlugsQuery>("getHomeData")
 
   return (
     data?.products?.nodes?.map((product) => ({

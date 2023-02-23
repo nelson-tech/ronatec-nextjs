@@ -1,14 +1,11 @@
-import getClient from "@api/client"
-import { GetAboutDataDocument } from "@api/codegen/graphql"
-import type { Page } from "@api/codegen/graphql"
+import type { GetAboutDataQuery, Page } from "@api/codegen/graphql"
+import getCachedQuery from "../getCachedQuery"
 
 const getAboutData = async () => {
   try {
-    const client = getClient()
+    const { data } = await getCachedQuery<GetAboutDataQuery>("getAboutData")
 
-    const aboutData = await client.request(GetAboutDataDocument)
-
-    return aboutData.page as Page | null | undefined
+    return data?.page as Page | null | undefined
   } catch (error) {
     console.warn("Error in getAboutData:", error)
 

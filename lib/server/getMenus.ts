@@ -1,12 +1,9 @@
-import getClient from "@api/client"
-import { GetMenusDocument } from "@api/codegen/graphql"
-import type { MenuItem } from "@api/codegen/graphql"
+import type { GetMenusQuery, MenuItem } from "@api/codegen/graphql"
+import getCachedQuery from "./getCachedQuery"
 
-const getMenu = async () => {
+const getMenus = async () => {
   try {
-    const client = getClient()
-
-    const data = await client.request(GetMenusDocument)
+    const { data } = await getCachedQuery<GetMenusQuery>("getMenus")
 
     return {
       mainMenu: data?.mainMenu?.menuItems?.nodes as
@@ -25,4 +22,4 @@ const getMenu = async () => {
   }
 }
 
-export default getMenu
+export default getMenus
