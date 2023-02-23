@@ -1,3 +1,5 @@
+import { SEO_TITLE } from "@lib/constants"
+
 // ####
 // #### Component
 // ####
@@ -197,7 +199,7 @@ const WasteManagementPage = () => {
 export default WasteManagementPage
 
 export const metadata = {
-  title: "Waste Management",
+  title: `Waste Management ${SEO_TITLE}`,
   description:
     "Ronatec C2C is a specialty chemical and service solutions provider for water treatment, waste treatment, and process automation and control.",
   keywords: [

@@ -1,9 +1,9 @@
 import "@styles/tailwind.css"
 
-import localFont from "@next/font/local"
+import localFont from "next/font/local"
 
 import { MenuItem } from "@api/codegen/graphql"
-import getMenu from "@lib/server/getMenu"
+import getMenus from "@lib/server/getMenus"
 
 import RootClientContext from "./RootClientContext"
 import ScrollToTop from "@components/ui/ScrollToTop"
@@ -26,7 +26,7 @@ const font = localFont({
 // ####
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
-  const menuItems = await getMenu()
+  const menuItems = await getMenus()
 
   return (
     <html lang="en-us" className={font.className}>
@@ -53,7 +53,7 @@ export default RootLayout
 export const metadata = {
   title: {
     default: "Ronatec C2C, Inc.",
-    template: "%s - Ronatec",
+    template: "%s",
   },
   icons: {
     icon: "/favicon.png",

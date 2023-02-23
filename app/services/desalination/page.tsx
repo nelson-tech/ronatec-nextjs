@@ -1,3 +1,5 @@
+import { SEO_TITLE } from "@lib/constants"
+
 // ####
 // #### Component
 // ####
@@ -171,7 +173,7 @@ const DesalinationPage = () => {
 export default DesalinationPage
 
 export const metadata = {
-  title: "Desalination",
+  title: `Desalination ${SEO_TITLE}`,
   description:
     "Desalination, desalinization, or desalinisation refers to any of several processes that remove excess salt and other minerals from water.",
   keywords: [

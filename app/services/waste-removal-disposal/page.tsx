@@ -1,3 +1,5 @@
+import { SEO_TITLE } from "@lib/constants"
+
 // ####
 // #### Component
 // ####
@@ -68,7 +70,7 @@ const WasteRemovalPage = () => {
 export default WasteRemovalPage
 
 export const metadata = {
-  title: "Waste Removal & Disposal",
+  title: `Waste Removal & Disposal ${SEO_TITLE}`,
   description:
     "Ronatec C2C is a full service organization dedicated to limiting the issues associated with special waste removal and disposal.",
   keywords: [
