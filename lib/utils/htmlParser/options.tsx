@@ -5,8 +5,8 @@ import parse, {
 } from "html-react-parser"
 
 import Image from "@components/Image"
+import Link from "@components/Link"
 import { ParsedTabs } from "."
-import MenuLink from "@components/Link"
 
 export const htmlParserOptions: HTMLReactParserOptions =
   typeof window === "undefined"
@@ -31,10 +31,10 @@ export const htmlParserOptions: HTMLReactParserOptions =
               const title = domNode.attribs.title
 
               return (
-                <div className="text-green-main hover:text-blue-main transition px-2 underline">
-                  <MenuLink href={url} title={title}>
+                <div className="text-highlight hover:text-accent transition px-2 underline">
+                  <Link href={url} title={title}>
                     {domToReact(domNode.children, htmlParserOptions)}
-                  </MenuLink>
+                  </Link>
                 </div>
               )
             } else if (

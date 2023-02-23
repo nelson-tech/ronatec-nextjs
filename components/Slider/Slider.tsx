@@ -43,23 +43,25 @@ const Slider = ({
   containerClassName,
 }: SliderPropsType) => {
   return (
-    <div className={containerClassName + " " + sliderStyle}>
-      <SlickSlider {...options} className="w-full h-96">
+    <div
+      className={`${
+        rounded && "rounded-lg overflow-hidden"
+      } ${containerClassName}`}
+    >
+      <SlickSlider
+        {...options}
+        className={`w-full rounded-lg overflow-hidden z-10 ${sliderStyle}`}
+      >
         {slides.map((slide) => {
           const image = slide?.image
           return (
-            <div
-              key={image?.id}
-              className={` relative w-full h-96 ${
-                rounded && " rounded-lg overflow-hidden"
-              }`}
-            >
+            <div key={image?.id} className={` relative w-full aspect-[3/2]`}>
               <Image
                 src={image?.sourceUrl ?? ""}
+                alt={image?.altText ?? ""}
                 fill
                 sizes="(max-width: 400px) 100vw,(max-width: 768px) 50vw,33vw"
-                alt={image?.altText ?? ""}
-                className="object-cover"
+                className="object-cover -z-[1]"
               />
             </div>
           )
