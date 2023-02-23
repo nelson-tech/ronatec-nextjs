@@ -1,5 +1,5 @@
-query GetCategoryDataBySlug($id: ID!) {
-  productCategory(id: $id, idType: SLUG) {
+query GetCategoryDataBySlug($slug: ID!) {
+  productCategory(id: $slug, idType: SLUG) {
     ...ProductCategoryBase
     seo {
       title

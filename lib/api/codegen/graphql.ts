@@ -25493,6 +25493,45 @@ export type ImageBaseFragment = {
   } | null
 }
 
+export type CustomerBaseFragment = {
+  __typename?: "Customer"
+  id: string
+  firstName?: string | null
+  lastName?: string | null
+  displayName?: string | null
+  email?: string | null
+  orderCount?: number | null
+  date?: string | null
+  billing?: {
+    __typename?: "CustomerAddress"
+    address1?: string | null
+    address2?: string | null
+    city?: string | null
+    company?: string | null
+    country?: CountriesEnum | null
+    email?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    phone?: string | null
+    postcode?: string | null
+    state?: string | null
+  } | null
+  shipping?: {
+    __typename?: "CustomerAddress"
+    address1?: string | null
+    address2?: string | null
+    city?: string | null
+    company?: string | null
+    country?: CountriesEnum | null
+    email?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    phone?: string | null
+    postcode?: string | null
+    state?: string | null
+  } | null
+}
+
 export type OrderProductBaseFragment = {
   __typename?: "Order"
   date?: string | null
@@ -25708,45 +25747,6 @@ export type OrderProductBaseFragment = {
             }
       } | null
     }>
-  } | null
-}
-
-export type CustomerBaseFragment = {
-  __typename?: "Customer"
-  id: string
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  email?: string | null
-  orderCount?: number | null
-  date?: string | null
-  billing?: {
-    __typename?: "CustomerAddress"
-    address1?: string | null
-    address2?: string | null
-    city?: string | null
-    company?: string | null
-    country?: CountriesEnum | null
-    email?: string | null
-    firstName?: string | null
-    lastName?: string | null
-    phone?: string | null
-    postcode?: string | null
-    state?: string | null
-  } | null
-  shipping?: {
-    __typename?: "CustomerAddress"
-    address1?: string | null
-    address2?: string | null
-    city?: string | null
-    company?: string | null
-    country?: CountriesEnum | null
-    email?: string | null
-    firstName?: string | null
-    lastName?: string | null
-    phone?: string | null
-    postcode?: string | null
-    state?: string | null
   } | null
 }
 
@@ -30073,7 +30073,7 @@ export type GetCartQuery = {
 }
 
 export type GetCategoryDataBySlugQueryVariables = Exact<{
-  id: Scalars["ID"]
+  slug: Scalars["ID"]
 }>
 
 export type GetCategoryDataBySlugQuery = {
@@ -39446,6 +39446,72 @@ export const CartItemFragmentDoc = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<CartItemFragment, unknown>
 export const CartBaseFragmentDoc = {
@@ -39485,6 +39551,168 @@ export const CartBaseFragmentDoc = {
                       {
                         kind: "FragmentSpread",
                         name: { kind: "Name", value: "CartItem" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItem" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "CartItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "quantity" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "variation" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "node" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ProductMinBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "image" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "ImageBase" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productCategories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
                       },
                     ],
                   },
@@ -39559,8 +39787,103 @@ export const CardsFragmentFragmentDoc = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<CardsFragmentFragment, unknown>
+export const CustomerBaseFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CustomerBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Customer" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "displayName" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "billing" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "shipping" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CustomerBaseFragment, unknown>
 export const ProductBaseFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -39688,6 +40011,54 @@ export const ProductBaseFragmentDoc = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<ProductBaseFragment, unknown>
 export const SimpleProductFragmentFragmentDoc = {
@@ -39719,6 +40090,178 @@ export const SimpleProductFragmentFragmentDoc = {
                 { kind: "Field", name: { kind: "Name", value: "price" } },
                 { kind: "Field", name: { kind: "Name", value: "salePrice" } },
                 { kind: "Field", name: { kind: "Name", value: "onSale" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -39785,6 +40328,54 @@ export const ProductVariationBaseFragmentDoc = {
               ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
         ],
       },
     },
@@ -39898,6 +40489,272 @@ export const VariableProductFragmentFragmentDoc = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductVariationBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductVariation" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "sku" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "attributes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "options" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<VariableProductFragmentFragment, unknown>
 export const OrderProductBaseFragmentDoc = {
@@ -39975,65 +40832,380 @@ export const OrderProductBaseFragmentDoc = {
         ],
       },
     },
-  ],
-} as unknown as DocumentNode<OrderProductBaseFragment, unknown>
-export const CustomerBaseFragmentDoc = {
-  kind: "Document",
-  definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "CustomerBase" },
+      name: { kind: "Name", value: "ProductMinBase" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "Customer" },
+        name: { kind: "Name", value: "Product" },
       },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "firstName" } },
-          { kind: "Field", name: { kind: "Name", value: "lastName" } },
-          { kind: "Field", name: { kind: "Name", value: "displayName" } },
-          { kind: "Field", name: { kind: "Name", value: "email" } },
-          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
           {
             kind: "Field",
-            name: { kind: "Name", value: "billing" },
+            name: { kind: "Name", value: "mediaDetails" },
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
               ],
             },
           },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
           {
             kind: "Field",
-            name: { kind: "Name", value: "shipping" },
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductVariationBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductVariation" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "sku" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "attributes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "options" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SimpleProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "SimpleProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariableProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariableProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "variations" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductVariationBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductAttributeBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -40041,7 +41213,7 @@ export const CustomerBaseFragmentDoc = {
       },
     },
   ],
-} as unknown as DocumentNode<CustomerBaseFragment, unknown>
+} as unknown as DocumentNode<OrderProductBaseFragment, unknown>
 export const EmployeeBaseFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -40169,6 +41341,84 @@ export const SalesRepFragmentFragmentDoc = {
                             },
                           ],
                         },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "EmployeeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Employee" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "position" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "position" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "departments" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contact" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "contact" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "office" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "fax" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "address" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "orders" },
                       },
                     ],
                   },
@@ -40346,6 +41596,36 @@ export const ProductCategoryBaseFragmentDoc = {
               ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
         ],
       },
     },
@@ -40607,6 +41887,36 @@ export const FeaturedSupplierFragmentFragmentDoc = {
         ],
       },
     },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<FeaturedSupplierFragmentFragment, unknown>
 export const UserAuthBaseFragmentDoc = {
@@ -40735,16 +42045,518 @@ export const CheckoutDocument = {
         ],
       },
     },
-    ...CustomerBaseFragmentDoc.definitions,
-    ...OrderProductBaseFragmentDoc.definitions,
-    ...SimpleProductFragmentFragmentDoc.definitions,
-    ...ProductBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...VariableProductFragmentFragmentDoc.definitions,
-    ...ProductVariationBaseFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductAttributeBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SimpleProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "SimpleProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductVariationBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductVariation" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "sku" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "attributes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "options" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariableProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariableProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "variations" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductVariationBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductAttributeBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CustomerBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Customer" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "displayName" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "billing" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "shipping" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "OrderProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Order" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          { kind: "Field", name: { kind: "Name", value: "orderNumber" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          { kind: "Field", name: { kind: "Name", value: "status" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "lineItems" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "product" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "node" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: {
+                                      kind: "Name",
+                                      value: "SimpleProductFragment",
+                                    },
+                                  },
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: {
+                                      kind: "Name",
+                                      value: "VariableProductFragment",
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<CheckoutMutation, CheckoutMutationVariables>
 export const LoginUserDocument = {
@@ -40813,7 +42625,66 @@ export const LoginUserDocument = {
         ],
       },
     },
-    ...CustomerBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CustomerBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Customer" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "displayName" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "billing" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "shipping" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>
 export const LogoutUserDocument = {
@@ -40987,7 +42858,66 @@ export const RegisterCustomerDocument = {
         ],
       },
     },
-    ...CustomerBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CustomerBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Customer" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "displayName" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "billing" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "shipping" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   RegisterCustomerMutation,
@@ -41054,7 +42984,28 @@ export const RegisterUserDocument = {
         ],
       },
     },
-    ...UserAuthBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "UserAuthBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "User" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "jwtAuthToken" } },
+          { kind: "Field", name: { kind: "Name", value: "jwtRefreshToken" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "username" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "wooSessionToken" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   RegisterUserMutation,
@@ -41175,7 +43126,28 @@ export const ResetUserPasswordDocument = {
         ],
       },
     },
-    ...UserAuthBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "UserAuthBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "User" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "jwtAuthToken" } },
+          { kind: "Field", name: { kind: "Name", value: "jwtRefreshToken" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "username" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "wooSessionToken" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   ResetUserPasswordMutation,
@@ -41308,11 +43280,212 @@ export const AddToCartDocument = {
         ],
       },
     },
-    ...CartBaseFragmentDoc.definitions,
-    ...CartItemFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItem" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "CartItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "quantity" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "variation" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "node" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ProductMinBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "image" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "ImageBase" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productCategories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Cart" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "contentsTotal" } },
+          { kind: "Field", name: { kind: "Name", value: "isEmpty" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contents" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "itemCount" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "productCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "CartItem" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<AddToCartMutation, AddToCartMutationVariables>
 export const ClearCartDocument = {
@@ -41380,11 +43553,212 @@ export const ClearCartDocument = {
         ],
       },
     },
-    ...CartBaseFragmentDoc.definitions,
-    ...CartItemFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItem" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "CartItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "quantity" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "variation" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "node" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ProductMinBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "image" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "ImageBase" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productCategories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Cart" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "contentsTotal" } },
+          { kind: "Field", name: { kind: "Name", value: "isEmpty" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contents" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "itemCount" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "productCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "CartItem" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<ClearCartMutation, ClearCartMutationVariables>
 export const RemoveCartItemDocument = {
@@ -41452,11 +43826,212 @@ export const RemoveCartItemDocument = {
         ],
       },
     },
-    ...CartBaseFragmentDoc.definitions,
-    ...CartItemFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItem" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "CartItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "quantity" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "variation" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "node" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ProductMinBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "image" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "ImageBase" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productCategories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Cart" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "contentsTotal" } },
+          { kind: "Field", name: { kind: "Name", value: "isEmpty" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contents" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "itemCount" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "productCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "CartItem" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   RemoveCartItemMutation,
@@ -41523,11 +44098,212 @@ export const UpdateCartItemQuantityDocument = {
         ],
       },
     },
-    ...CartBaseFragmentDoc.definitions,
-    ...CartItemFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItem" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "CartItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "quantity" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "variation" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "node" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ProductMinBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "image" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "ImageBase" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productCategories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Cart" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "contentsTotal" } },
+          { kind: "Field", name: { kind: "Name", value: "isEmpty" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contents" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "itemCount" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "productCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "CartItem" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   UpdateCartItemQuantityMutation,
@@ -41659,8 +44435,143 @@ export const GetAboutDataDocument = {
         ],
       },
     },
-    ...PageCommonBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PageCommonBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "seo" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "focusKeywords" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "openGraph" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "articleMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "section" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "locale" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "siteName" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "title" } },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                      { kind: "Field", name: { kind: "Name", value: "url" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slackEnhancedData" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "data" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "label" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "twitterMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "card" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "description" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "title" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<GetAboutDataQuery, GetAboutDataQueryVariables>
 export const GetCartDocument = {
@@ -41689,11 +44600,212 @@ export const GetCartDocument = {
         ],
       },
     },
-    ...CartBaseFragmentDoc.definitions,
-    ...CartItemFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartItem" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "CartItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "quantity" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "variation" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "key" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "node" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ProductMinBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "image" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: { kind: "Name", value: "ImageBase" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "productCategories" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CartBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Cart" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "contentsTotal" } },
+          { kind: "Field", name: { kind: "Name", value: "isEmpty" } },
+          { kind: "Field", name: { kind: "Name", value: "subtotal" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contents" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "itemCount" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "productCount" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "CartItem" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<GetCartQuery, GetCartQueryVariables>
 export const GetCategoryDataBySlugDocument = {
@@ -41706,7 +44818,7 @@ export const GetCategoryDataBySlugDocument = {
       variableDefinitions: [
         {
           kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          variable: { kind: "Variable", name: { kind: "Name", value: "slug" } },
           type: {
             kind: "NonNullType",
             type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
@@ -41725,7 +44837,7 @@ export const GetCategoryDataBySlugDocument = {
                 name: { kind: "Name", value: "id" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "id" },
+                  name: { kind: "Name", value: "slug" },
                 },
               },
               {
@@ -42076,10 +45188,176 @@ export const GetCategoryDataBySlugDocument = {
         ],
       },
     },
-    ...ProductCategoryBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ProductPriceBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductCategoryBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductCategory" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "count" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product_category" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "acf" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductPriceBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+              ],
+            },
+          },
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+              ],
+            },
+          },
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "GroupProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+              ],
+            },
+          },
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ExternalProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetCategoryDataBySlugQuery,
@@ -42429,8 +45707,143 @@ export const GetConsultingDataDocument = {
         ],
       },
     },
-    ...PageCommonBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PageCommonBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "seo" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "focusKeywords" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "openGraph" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "articleMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "section" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "locale" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "siteName" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "title" } },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                      { kind: "Field", name: { kind: "Name", value: "url" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slackEnhancedData" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "data" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "label" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "twitterMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "card" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "description" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "title" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetConsultingDataQuery,
@@ -42585,11 +45998,331 @@ export const GetContactDataDocument = {
         ],
       },
     },
-    ...PageCommonBaseFragmentDoc.definitions,
-    ...CardsFragmentFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...SalesRepFragmentFragmentDoc.definitions,
-    ...EmployeeBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "EmployeeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Employee" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "position" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "position" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "departments" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contact" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "contact" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "office" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "fax" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "address" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "orders" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PageCommonBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "seo" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "focusKeywords" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "openGraph" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "articleMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "section" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "locale" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "siteName" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "title" } },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                      { kind: "Field", name: { kind: "Name", value: "url" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slackEnhancedData" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "data" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "label" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "twitterMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "card" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "description" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "title" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CardsFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page_PageAboutContact_Acf" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "cards" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "content" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "icon" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "image" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "link" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "url" } },
+                      { kind: "Field", name: { kind: "Name", value: "label" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SalesRepFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page_PageAboutContact_Acf" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "salesReps" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "Employee" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "EmployeeBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "regions" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "regions" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<GetContactDataQuery, GetContactDataQueryVariables>
 export const GetCustomerDataDocument = {
@@ -42618,7 +46351,66 @@ export const GetCustomerDataDocument = {
         ],
       },
     },
-    ...CustomerBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CustomerBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Customer" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "displayName" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "billing" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "shipping" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "address1" } },
+                { kind: "Field", name: { kind: "Name", value: "address2" } },
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+                { kind: "Field", name: { kind: "Name", value: "company" } },
+                { kind: "Field", name: { kind: "Name", value: "country" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "phone" } },
+                { kind: "Field", name: { kind: "Name", value: "postcode" } },
+                { kind: "Field", name: { kind: "Name", value: "state" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetCustomerDataQuery,
@@ -42699,7 +46491,36 @@ export const GetDistributionDataDocument = {
         ],
       },
     },
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetDistributionDataQuery,
@@ -43298,9 +47119,214 @@ export const GetHomeDataDocument = {
         ],
       },
     },
-    ...PageCommonBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...FeaturedSupplierFragmentFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PageCommonBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "seo" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "focusKeywords" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "openGraph" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "articleMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "section" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "locale" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "siteName" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "title" } },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                      { kind: "Field", name: { kind: "Name", value: "url" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slackEnhancedData" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "data" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "label" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "twitterMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "card" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "description" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "title" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "FeaturedSupplierFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page_PageHome_Acf" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "featuredSupplier" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "Supplier" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "title" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "databaseId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "supplier" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "url" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "text" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "image" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: { kind: "Name", value: "ImageBase" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<GetHomeDataQuery, GetHomeDataQueryVariables>
 export const GetMainMenuDocument = {
@@ -44386,15 +48412,458 @@ export const GetOrderDataByIdDocument = {
         ],
       },
     },
-    ...OrderProductBaseFragmentDoc.definitions,
-    ...SimpleProductFragmentFragmentDoc.definitions,
-    ...ProductBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...VariableProductFragmentFragmentDoc.definitions,
-    ...ProductVariationBaseFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductAttributeBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SimpleProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "SimpleProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductVariationBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductVariation" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "sku" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "attributes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "options" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariableProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariableProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "variations" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductVariationBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductAttributeBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "OrderProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Order" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          { kind: "Field", name: { kind: "Name", value: "orderNumber" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          { kind: "Field", name: { kind: "Name", value: "status" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "lineItems" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "product" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "node" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: {
+                                      kind: "Name",
+                                      value: "SimpleProductFragment",
+                                    },
+                                  },
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: {
+                                      kind: "Name",
+                                      value: "VariableProductFragment",
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetOrderDataByIdQuery,
@@ -44435,15 +48904,458 @@ export const GetOrdersDataDocument = {
         ],
       },
     },
-    ...OrderProductBaseFragmentDoc.definitions,
-    ...SimpleProductFragmentFragmentDoc.definitions,
-    ...ProductBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...VariableProductFragmentFragmentDoc.definitions,
-    ...ProductVariationBaseFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductAttributeBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SimpleProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "SimpleProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductVariationBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductVariation" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "sku" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "attributes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "options" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariableProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariableProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "variations" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductVariationBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductAttributeBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "OrderProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Order" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "date" } },
+          { kind: "Field", name: { kind: "Name", value: "orderNumber" } },
+          { kind: "Field", name: { kind: "Name", value: "total" } },
+          { kind: "Field", name: { kind: "Name", value: "status" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "lineItems" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "total" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "product" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "node" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: {
+                                      kind: "Name",
+                                      value: "SimpleProductFragment",
+                                    },
+                                  },
+                                  {
+                                    kind: "FragmentSpread",
+                                    name: {
+                                      kind: "Name",
+                                      value: "VariableProductFragment",
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<GetOrdersDataQuery, GetOrdersDataQueryVariables>
 export const GetProductCategoriesDataDocument = {
@@ -44631,8 +49543,89 @@ export const GetProductCategoriesDataDocument = {
         ],
       },
     },
-    ...ProductCategoryBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductCategoryBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductCategory" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "count" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product_category" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "acf" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetProductCategoriesDataQuery,
@@ -44859,14 +49852,386 @@ export const GetProductDataBySlugDocument = {
         ],
       },
     },
-    ...VariableProductFragmentFragmentDoc.definitions,
-    ...ProductBaseFragmentDoc.definitions,
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...ProductVariationBaseFragmentDoc.definitions,
-    ...VariationAttributeBaseFragmentDoc.definitions,
-    ...ProductAttributeBaseFragmentDoc.definitions,
-    ...SimpleProductFragmentFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "FragmentSpread",
+            name: { kind: "Name", value: "ProductMinBase" },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "metaData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "keysIn" },
+                value: {
+                  kind: "StringValue",
+                  value: "_product_addons",
+                  block: false,
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "key" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "shortDescription" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategories" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "ancestors" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "nodes" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "slug" },
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "galleryImages" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "ImageBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariationAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariationAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "value" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductVariationBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductVariation" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "sku" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "price" } },
+          { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleFrom" } },
+          { kind: "Field", name: { kind: "Name", value: "dateOnSaleTo" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "attributes" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "VariationAttributeBase" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductAttributeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductAttribute" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "attributeId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "label" } },
+          { kind: "Field", name: { kind: "Name", value: "options" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "VariableProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "VariableProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "variations" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductVariationBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "attributes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "FragmentSpread",
+                              name: {
+                                kind: "Name",
+                                value: "ProductAttributeBase",
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SimpleProductFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "SimpleProduct" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ProductBase" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+                { kind: "Field", name: { kind: "Name", value: "onSale" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetProductDataBySlugQuery,
@@ -45135,9 +50500,123 @@ export const GetProductsDataByCategoryDocument = {
         ],
       },
     },
-    ...ProductMinBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
-    ...ProductPriceBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductMinBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "type" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductPriceBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Product" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "VariableProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+              ],
+            },
+          },
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "SimpleProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+              ],
+            },
+          },
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "GroupProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+              ],
+            },
+          },
+          {
+            kind: "InlineFragment",
+            typeCondition: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ExternalProduct" },
+            },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "price" } },
+                { kind: "Field", name: { kind: "Name", value: "salePrice" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "onSale" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetProductsDataByCategoryQuery,
@@ -45308,8 +50787,89 @@ export const GetProductsWithCategoriesDocument = {
         ],
       },
     },
-    ...ProductCategoryBaseFragmentDoc.definitions,
-    ...ImageBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ImageBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "MediaItem" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "altText" } },
+          { kind: "Field", name: { kind: "Name", value: "sourceUrl" } },
+          { kind: "Field", name: { kind: "Name", value: "mimeType" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "mediaDetails" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "height" } },
+                { kind: "Field", name: { kind: "Name", value: "width" } },
+              ],
+            },
+          },
+          { kind: "Field", name: { kind: "Name", value: "fileSize" } },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "ProductCategoryBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "ProductCategory" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "name" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "count" } },
+          { kind: "Field", name: { kind: "Name", value: "description" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "image" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "FragmentSpread",
+                  name: { kind: "Name", value: "ImageBase" },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "product_category" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "acf" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetProductsWithCategoriesQuery,
@@ -45341,7 +50901,28 @@ export const GetViewerDocument = {
         ],
       },
     },
-    ...UserAuthBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "UserAuthBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "User" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "jwtAuthToken" } },
+          { kind: "Field", name: { kind: "Name", value: "jwtRefreshToken" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "username" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "wooSessionToken" } },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<GetViewerQuery, GetViewerQueryVariables>
 export const GetWarehousesDataDocument = {
@@ -45485,7 +51066,113 @@ export const GetWarehousesDataDocument = {
         ],
       },
     },
-    ...PageCommonBaseFragmentDoc.definitions,
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "PageCommonBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "seo" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "title" } },
+                { kind: "Field", name: { kind: "Name", value: "description" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "focusKeywords" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "openGraph" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "articleMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "section" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "locale" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "siteName" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "title" } },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                      { kind: "Field", name: { kind: "Name", value: "url" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "slackEnhancedData" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "data" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "label" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "twitterMeta" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "card" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "description" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "title" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
   ],
 } as unknown as DocumentNode<
   GetWarehousesDataQuery,
