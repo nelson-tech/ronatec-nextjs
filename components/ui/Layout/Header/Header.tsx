@@ -40,7 +40,7 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
     <>
       <header
         className={`z-30 sticky ${
-          scrollDirection === "down" ? "-top-16" : "top-0"
+          scrollDirection === "down" ? "-top-20" : "top-0"
         } transition-all duration-500`}
       >
         <nav aria-label="Top" className="border-b bg-white border-gray-200">

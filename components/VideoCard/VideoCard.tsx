@@ -27,8 +27,6 @@ const VideoCard = ({
   playerStyle,
   videoLink,
 }: VideoCardPropsType) => {
-  console.log("Placeholder", videoLink.placeholder)
-
   const { title, videoUrl, videoId } = videoLink
   if (videoId || videoUrl) {
     return (
