@@ -11,7 +11,7 @@ import getFilteredProducts from "@lib/server/getFilteredProducts"
 import { SEO_TITLE } from "@lib/constants"
 import parseMetaData from "@lib/utils/parseMetaData"
 
-import ProductCategory from "@components/Products/Category"
+import ProductCategory from "@components/ProductCategory"
 
 // ####
 // #### Types

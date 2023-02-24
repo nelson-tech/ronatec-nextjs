@@ -1,7 +1,8 @@
-import Products from "@components/Products"
 import getCategories from "@lib/server/getCategories"
 import getFilteredProducts from "@lib/server/getFilteredProducts"
-import { FullProduct } from "@lib/types/products"
+import type { FullProduct } from "@lib/types/products"
+
+import ProductCategory from "@components/ProductCategory"
 
 // ####
 // #### Component
@@ -21,7 +22,7 @@ const ProductsPage = async () => {
   return (
     <>
       {categories && categories.length > 0 && (
-        <Products
+        <ProductCategory
           categories={categories}
           categorySlugs={categorySlugs}
           initialProducts={

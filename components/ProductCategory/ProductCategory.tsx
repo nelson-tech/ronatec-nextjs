@@ -1,15 +1,11 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 import { shallow } from "zustand/shallow"
 
-import type {
-  InputMaybe,
-  Product,
-  ProductCategory,
-  ProductCategory as ProductCategoryType,
-} from "@api/codegen/graphql"
+import type { Product, ProductCategory } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
+import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
 import { defaultPagination, PaginationType } from "@lib/pagination"
 import useFilteredProducts from "@lib/hooks/useFilteredProducts"
 import { SortOptionType } from "@lib/store/slices/shop"
@@ -19,25 +15,31 @@ import CategorySummary from "@components/CategorySummary"
 import Sort from "@components/Sort"
 import ProductGrid from "@components/ProductGrid"
 import Pagination from "@components/Pagination"
-import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
+import { FullProduct } from "@lib/types/products"
 
 // ####
 // #### Types
 // ####
 
-type ProductCategoryPropsType = {
+type CategoryPropsType = {
   category: ProductCategory | null | undefined
   initialProducts: Product[] | null | undefined
 }
+
+type CategoriesPropsType = {
+  categories: ProductCategory[] | null | undefined
+  categorySlugs: string[] | null | undefined
+  initialProducts: FullProduct[] | null | undefined
+}
+
+type ProductsPropsType = CategoryPropsType | CategoriesPropsType
 
 // ####
 // #### Component
 // ####
 
-const ProductCategory = ({
-  category,
-  initialProducts,
-}: ProductCategoryPropsType) => {
+const Products = ({ initialProducts, ...props }: ProductsPropsType) => {
+  const isCategories = Object.hasOwn(props, "categorySlugs")
   const productRef = useRef<HTMLDivElement>(null)
 
   const { selectedSort, setGlobalSort } = useStore(
@@ -51,7 +53,9 @@ const ProductCategory = ({
   const defaultQuery: GetFilteredProductsPropsType = {
     field: selectedSort.id.field,
     order: selectedSort.id.order,
-    categories: [category?.slug ?? ""],
+    categories: isCategories
+      ? (props as CategoriesPropsType).categorySlugs ?? []
+      : [(props as CategoryPropsType).category?.slug ?? ""],
     ...defaultPagination,
   }
 
@@ -69,10 +73,6 @@ const ProductCategory = ({
     setQueryVars({ ...queryVars, ...pagination })
   }
 
-  const setSelectedCategories = (categories: string[]) => {
-    setQueryVars({ ...queryVars, ...defaultPagination, categories })
-  }
-
   const setSelectedSort = (option: SortOptionType) => {
     setQueryVars({
       ...queryVars,
@@ -84,38 +84,44 @@ const ProductCategory = ({
   }
 
   return (
-    <>
-      <Breadcrumbs category={category} />
-      <CategorySummary category={category} productRef={productRef} />
+    <Fragment>
+      {!isCategories && (
+        <Breadcrumbs category={(props as CategoryPropsType).category} />
+      )}
+      <CategorySummary
+        category={
+          isCategories
+            ? ({
+                name: "Categories",
+                children: { nodes: (props as CategoriesPropsType).categories },
+              } as ProductCategory)
+            : (props as CategoryPropsType).category
+        }
+        main={isCategories}
+        productRef={productRef}
+      />
       <Sort
         setSelectedSort={setSelectedSort}
         loading={loading}
-        categories={category ? [category] : []}
         productRef={productRef}
         selectedCategories={queryVars.categories}
-        setSelectedCategories={setSelectedCategories}
       />
-
       {products &&
-      (queryVars.categories ? queryVars.categories.length > 0 : true) ? (
-        <>
-          <ProductGrid products={products} />
+        (queryVars.categories ? queryVars.categories.length > 0 : true) && (
+          <div className="products">
+            <ProductGrid products={products as Product[]} />
 
-          {pageData && (
-            <Pagination
-              productRef={productRef}
-              setPagination={setPagination}
-              pageInfo={pageData}
-            />
-          )}
-        </>
-      ) : (
-        <>
-          <div className="max-w-7xl p-8 mx-auto">No category found.</div>
-        </>
-      )}
-    </>
+            {pageData && (
+              <Pagination
+                productRef={productRef}
+                setPagination={setPagination}
+                pageInfo={pageData}
+              />
+            )}
+          </div>
+        )}
+    </Fragment>
   )
 }
 
-export default ProductCategory
+export default Products

@@ -21,10 +21,8 @@ import OldestIcon from "./Icons/Oldest"
 
 type PropsType = {
   loading: boolean
-  categories: ProductCategory[] | null | undefined
   productRef: RefObject<HTMLDivElement>
   selectedCategories: InputMaybe<string> | InputMaybe<string>[]
-  setSelectedCategories: (categories: string[]) => void
   setSelectedSort: (option: SortOptionType) => void
 }
 
@@ -34,10 +32,8 @@ type PropsType = {
 
 const Sort = ({
   loading,
-  categories,
   productRef,
   selectedCategories,
-  setSelectedCategories,
   setSelectedSort,
 }: PropsType) => {
   const { selectedSort, viewMode, setViewMode } = useStore(
