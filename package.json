@@ -31,7 +31,6 @@
     "@hookform/resolvers": "^2.9.11",
     "cookies-next": "^2.1.1",
     "dotenv": "^16.0.3",
-    "graphiql": "^2.2.0",
     "graphql": "^16.6.0",
     "graphql-request": "^5.1.0",
     "graphql-tag": "^2.12.6",
