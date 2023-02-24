@@ -9,7 +9,6 @@ import { sortOptions, SortOptionType } from "@lib/store/slices/shop"
 import useStore from "@lib/hooks/useStore"
 import { InputMaybe, ProductCategory } from "@api/codegen/graphql"
 
-import Filters from "@components/Filters"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import AZIcon from "./Icons/AZ"
 import ZAIcon from "./Icons/ZA"
