@@ -13,7 +13,7 @@ const BreweryTanksPage = () => {
       <div className="max-w-7xl mx-auto">
         <PageHeader title="Brewery Tanks" />
         <div className="flex items-center justify-center w-full">
-          <div className="rounded m-8 overflow-hidden">
+          <div className="rounded mx-8 overflow-hidden">
             <Image
               src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
               alt="Brewery Tanks"
@@ -22,7 +22,7 @@ const BreweryTanksPage = () => {
             />
           </div>
         </div>
-        <div className="text-gray-800 prose max-w-none px-8 pb-8">
+        <div className="text-gray-800 prose max-w-none p-8">
           <p>
             Tanks for fermentation and conditioning of commercial beverages.
           </p>
@@ -30,7 +30,7 @@ const BreweryTanksPage = () => {
             Brewery tanks from 3.5-barrels/4-hectoliters to 150
             barrels/172-hectoliters.
           </p>
-          <ul className="lis list-disc list-inside py-6">
+          <ul className="lis list-disc list-inside py-4">
             <li>Custom-built true shadowless manways.</li>
             <li>Separate CIP and blow off tubes.</li>
             <li>
