@@ -52,7 +52,7 @@ export default WarehousesPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const page = await getWarehousesData()
 
   const metaData = parseMetaData(page?.seo as RankMathProductTypeSeo)

@@ -81,7 +81,7 @@ export default ContactPage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const page = await getContactData()
 
   const metaData = parseMetaData(page?.seo as RankMathProductTypeSeo)

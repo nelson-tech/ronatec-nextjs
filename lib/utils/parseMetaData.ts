@@ -1,4 +1,4 @@
-import { Metadata } from "next/dist/lib/metadata/types/metadata-interface"
+import type { Metadata } from "next/types"
 import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 
 import {
