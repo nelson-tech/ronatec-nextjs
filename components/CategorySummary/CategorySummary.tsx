@@ -88,14 +88,6 @@ const Summary = ({ category, productRef }: PropsType) => {
           </div>
         </div>
       )}
-
-      <h2
-        ref={productRef}
-        className="max-w-7xl mx-auto px-8 pb-4 text-2xl font-bold text-gray-900 uppercase"
-        data-testid="products-header"
-      >
-        Products
-      </h2>
     </>
   )
 }

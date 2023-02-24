@@ -120,17 +120,10 @@ const Products = ({
           </div>
         </div>
       </div>
-      <h2
-        ref={productRef}
-        className="max-w-7xl mx-auto px-8 pb-4 text-2xl font-bold text-gray-900 uppercase"
-      >
-        Products
-      </h2>
       <Sort
         setSelectedSort={setSelectedSort}
         loading={loading}
         categories={categories}
-        filter
         productRef={productRef}
         selectedCategories={queryVars.categories}
         setSelectedCategories={setSelectedCategories}

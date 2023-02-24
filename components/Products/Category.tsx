@@ -91,7 +91,6 @@ const ProductCategory = ({
         setSelectedSort={setSelectedSort}
         loading={loading}
         categories={category ? [category] : []}
-        filter
         productRef={productRef}
         selectedCategories={queryVars.categories}
         setSelectedCategories={setSelectedCategories}
