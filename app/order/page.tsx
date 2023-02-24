@@ -29,7 +29,7 @@ const OrderPage = async ({ searchParams }: OrderPageParamsType) => {
           </h1>
           <h2 className="sr-only">Refresh orders</h2>
           <Link
-            className="ml-8 text-gray-600 cursor-pointer hover:text-green-main transition"
+            className="ml-8 text-gray-600 cursor-pointer hover:text-highlight transition"
             title="Return to orders"
             href="/dashboard/orders"
           >

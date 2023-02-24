@@ -113,7 +113,7 @@ const Sort = ({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="origin-bottom-right z-10 absolute mt-6 right-0 w-44 rounded-md shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="origin-bottom-right z-10 absolute mt-6 right-0 w-44 rounded shadow-2xl overflow-hidden bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="">
                 {sortOptions.map((option) => (
                   <Menu.Item key={option.name}>
@@ -136,7 +136,7 @@ const Sort = ({
             type="button"
             className={`p-2 -m-2 ml-5 sm:ml-7 ${
               viewMode === "grid"
-                ? "text-green-main"
+                ? "text-highlight"
                 : "text-gray-400 hover:text-gray-500"
             }`}
             // disabled={viewMode === "grid"}
@@ -149,7 +149,7 @@ const Sort = ({
             type="button"
             className={`p-2 -m-2 ml-5 sm:ml-7 ${
               viewMode === "list"
-                ? "text-green-main"
+                ? "text-highlight"
                 : "text-gray-400 hover:text-gray-500"
             }`}
             // disabled={viewMode === "list"}

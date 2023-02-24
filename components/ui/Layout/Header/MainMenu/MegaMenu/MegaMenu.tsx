@@ -61,7 +61,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                 className="absolute inset-0 top-1/2 w-screen bg-white shadow"
                 aria-hidden="true"
               /> */}
-              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="overflow-hidden rounded shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative grid grid-cols-3 min-w-full bg-white pl-8 pt-6 pb-6">
                   {/* <div className="grid grid-cols-2 gap-y-10 gap-x-8"> */}
                   {megaItem.childItems?.nodes &&
@@ -94,7 +94,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                             title={subColumn.label}
                                             className={`${
                                               subColumn.label === "Browse All"
-                                                ? "text-accent hover:text-green-main"
+                                                ? "text-accent hover:text-highlight"
                                                 : "hover:text-accent"
                                             }  transition`}
                                           >
@@ -114,7 +114,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                                     <Link
                                                       href={item.url ?? ""}
                                                       title={item.label}
-                                                      className="w-full hover:text-green-main"
+                                                      className="w-full hover:text-highlight"
                                                     >
                                                       <div className="py-2 w-full">
                                                         {item.label}

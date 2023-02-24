@@ -9,7 +9,7 @@ import Link from "@components/Link"
 const GuestCheckoutWarning = () => {
   return (
     <>
-      <div className="rounded-md bg-yellow-50 p-4">
+      <div className="rounded bg-yellow-50 p-4">
         <div className="flex">
           <div className="flex-shrink-0">
             <ExclamationIcon
@@ -29,7 +29,7 @@ const GuestCheckoutWarning = () => {
                 <Link
                   href="/register?redirect=/checkout"
                   title="Register a new account."
-                  className="underline transition hover:text-green-main"
+                  className="underline transition hover:text-highlight"
                 >
                   Creating an account
                 </Link>{" "}
@@ -38,7 +38,7 @@ const GuestCheckoutWarning = () => {
                 <Link
                   href="/login?redirect=/checkout"
                   title="Login to your account."
-                  className="underline transition hover:text-green-main"
+                  className="underline transition hover:text-highlight"
                 >
                   click here to login
                 </Link>

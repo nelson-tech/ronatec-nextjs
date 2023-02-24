@@ -21,7 +21,7 @@ const GuestMenu = memo(function GuestMenu() {
       <Menu.Item>
         <div
           onClick={() => setLoginOpen(true)}
-          className="transition cursor-pointer flex items-center outline-none ring-transparent text-green-main px-4 py-2 text-sm hover:bg-green-main hover:text-white"
+          className="transition cursor-pointer flex items-center outline-none ring-transparent text-highlight px-4 py-2 text-sm hover:bg-highlight hover:text-white"
         >
           <LoginIcon className="h-4 w-4 mr-1.5" />
           <div className="target">Log in</div>

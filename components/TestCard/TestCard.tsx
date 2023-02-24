@@ -14,7 +14,7 @@ const TestCard = () => {
     <div className="">
       <button
         onClick={buttonAction}
-        className="bg-accent rounded-md p-4 m-8 text-white"
+        className="bg-accent rounded p-4 m-8 text-white"
       >
         Test Button
       </button>

@@ -57,7 +57,7 @@ const ProductPage = async ({ params }: ProductPageParamsType) => {
             <Link
               href="/products"
               title={messages.productMissing.buttonText}
-              className="mt-8 py-4 px-6 rounded-md bg-blue-main hover:bg-green-main text-white transition"
+              className="mt-8 py-4 px-6 rounded bg-accent hover:bg-highlight text-white transition-colors"
             >
               {messages.productMissing.buttonText}
             </Link>

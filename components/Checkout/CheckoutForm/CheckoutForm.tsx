@@ -309,7 +309,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
                       className="ml-4 flex text-gray-400 cursor-pointer text-sm items-center"
                       onClick={handleCopyBilling}
                     >
-                      <DocumentDuplicateIcon className="h-4 w-4 text-green-main" />
+                      <DocumentDuplicateIcon className="h-4 w-4 text-highlight" />
                       Copy from billing
                     </div>
                   </div>
@@ -423,7 +423,7 @@ const CheckoutForm = ({ customer }: PropsType) => {
 
             <button
               type="submit"
-              className="w-full mt-6 bg-blue-main border border-transparent rounded-md shadow-sm py-2 px-4 text-lg font-medium text-white hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 outline-none focus:ring-blue-main"
+              className="w-full mt-6 bg-blue-main border border-transparent rounded shadow-sm py-2 px-4 text-lg font-medium text-white hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 outline-none focus:ring-blue-main"
             >
               {loading ? (
                 <LoadingSpinner size={7} color="white" className="mx-auto" />

@@ -24,7 +24,7 @@ const OrderConfirmation = ({ order }: PropsType) => {
         Thank you!
       </h2>
       <div className="flex items-center rounded bg-green-100 shadow w-fit p-2 mt-4 mx-auto">
-        <CheckIcon className="h-8 w-8 text-green-main mr-2" />
+        <CheckIcon className="h-8 w-8 text-highlight mr-2" />
         <p className="text-gray-600">Order #{orderNumber} has been placed.</p>
       </div>
       <div className="mt-6 pt-6 border-t">
@@ -43,7 +43,7 @@ const OrderConfirmation = ({ order }: PropsType) => {
               order. If you have any questions, please{" "}
               <Link
                 href="/about/contact"
-                className="underline text-blue-main hover:text-green-main"
+                className="underline text-blue-main hover:text-highlight"
               >
                 contact us
               </Link>{" "}

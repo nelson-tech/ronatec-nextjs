@@ -37,7 +37,7 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
           {link && (
             <MenuLink
               href={link.path}
-              className="hidden text-sm font-semibold text-blue-main hover:text-blue-dark sm:block"
+              className="hidden text-sm font-semibold text-accent hover:text-blue-dark sm:block"
             >
               {link.label}
               <span aria-hidden="true"> &rarr;</span>
@@ -105,7 +105,7 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
           <div className="mt-6 px-8 sm:hidden">
             <MenuLink
               href={link.path}
-              className="block text-sm font-semibold text-blue-main hover:text-blue-dark"
+              className="block text-sm font-semibold text-accent hover:text-blue-dark"
             >
               {link.label}
               <span aria-hidden="true"> &rarr;</span>

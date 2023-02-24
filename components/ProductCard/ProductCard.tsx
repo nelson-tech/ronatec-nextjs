@@ -26,7 +26,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   if (viewMode === "grid") {
     return (
-      <div className="group relative bg-white border border-gray-200 rounded-md w-full flex flex-col overflow-hidden">
+      <div className="group relative bg-white border border-gray-200 rounded w-full flex flex-col overflow-hidden">
         {product.image && product.image.sourceUrl && (
           <div className="bg-gray-200 group-hover:opacity-75 transition-opacity">
             <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">

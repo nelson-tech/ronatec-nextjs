@@ -39,7 +39,7 @@ const MainMenu = ({ menuItems }: MainMenuInputType) => {
     path,
   }): string => {
     const current = pathname?.slice(0, path.length) === path && path !== "/"
-    return `transition-colors ease-out duration-200 py-2 px-3 rounded-md outline-none ${
+    return `transition-colors ease-out duration-200 py-2 px-3 rounded outline-none ${
       open || current ? "bg-gray-100" : "hover:bg-gray-100"
     } text-gray-900 font-medium inline-flex items-center`
   }

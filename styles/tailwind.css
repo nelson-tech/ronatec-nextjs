@@ -81,13 +81,13 @@ html {
   -ms-transform: scaleX(-1);
 }
 
-.hover-underline-animation {
+.underline-animation {
   /* display: inline-block; */
   position: relative;
   /* color: var(--accent); */
 }
 
-.hover-underline-animation:after {
+.underline-animation:after {
   content: "";
   position: absolute;
   width: 100%;
@@ -100,7 +100,12 @@ html {
   transition: transform 0.3s ease-out;
 }
 
-.hover-underline-animation:hover:after {
+.group:hover .group-hover\:underline-animation:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.underline-animation:hover:after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }

@@ -100,7 +100,7 @@ const DesalinationPage = () => {
               </li>
               <li>
                 <a
-                  className="underline text-blue-main hover:text-green-main"
+                  className="underline text-blue-main hover:text-highlight"
                   href="ftp://ftp.rta.nato.int/PubFullText/RTO/MP/RTO-MP-HFM-086/MP-HFM-086-11.pdf"
                 >
                   2 Pilot Units built and delivered to Army
@@ -112,7 +112,7 @@ const DesalinationPage = () => {
               </li>
               <li>
                 <a
-                  className="underline text-blue-main hover:text-green-main"
+                  className="underline text-blue-main hover:text-highlight"
                   href="http://www.spectrum.ieee.org/apr08/6098"
                 >
                   Australian government implementing a version of the

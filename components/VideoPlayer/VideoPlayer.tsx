@@ -47,7 +47,7 @@ const VideoPlayer = ({
     <div
       className={`relative max-h-96 w-full ${
         provider === "youtube" ? "aspect-video" : "aspect-[9/16]"
-      } h-full ${rounded && "overflow-hidden rounded-lg"} ${divStyle}`}
+      } h-full ${rounded && "overflow-hidden rounded"} ${divStyle}`}
     >
       <ReactPlayer
         className="absolute top-0 left-0 h-full w-full"

@@ -8,7 +8,7 @@ const BreweryTanksPage = () => {
   return (
     <>
       <div className="flex items-center justify-center w-full">
-        <div className="rounded-lg m-8 overflow-hidden">
+        <div className="rounded m-8 overflow-hidden">
           <Image
             src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
             alt="Brewery Tanks"

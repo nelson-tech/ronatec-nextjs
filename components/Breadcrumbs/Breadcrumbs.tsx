@@ -97,12 +97,12 @@ const Breadcrumbs = ({
                     href={`/products/${category.slug}`}
                     data-testid={category.name}
                     title={`View all ${category.name} products`}
-                    className="transition hover:text-green-main"
+                    className="transition hover:text-highlight"
                   >
                     {category.name}
                   </Link>
                   {category.product_category?.acf?.description && (
-                    <div className="ml-2 hover:text-green-main">
+                    <div className="ml-2 hover:text-highlight">
                       <Link
                         href={`/products/${category.slug}/info`}
                         title="Learn more"
@@ -118,10 +118,10 @@ const Breadcrumbs = ({
                     href={`/products/${category.slug}`}
                     data-testid={category.name}
                     title={`View all ${category.name} products`}
-                    className="transition hover:text-green-main"
+                    className="transition hover:text-highlight"
                   >
                     {category.name}
-                    <span className="text-green-main pl-4">View products</span>
+                    <span className="text-highlight pl-4">View products</span>
                   </Link>
                 </>
               ) : (
@@ -133,7 +133,7 @@ const Breadcrumbs = ({
                       data-testid={category.name}
                       title="Learn more"
                     >
-                      <InformationCircleIcon className="h-4 w-4 ml-2 hover:text-green-main" />
+                      <InformationCircleIcon className="h-4 w-4 ml-2 hover:text-highlight" />
                     </Link>
                   )}
                 </>

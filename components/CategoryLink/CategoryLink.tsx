@@ -22,7 +22,7 @@ const CategoryLink = ({ category }: CategoryLinkPropsType) => {
                 alt={category?.name || ""}
                 fill
                 sizes="25vw"
-                className="object-cover rounded-sm"
+                className="object-cover rounded"
               />
             </div>
           )}

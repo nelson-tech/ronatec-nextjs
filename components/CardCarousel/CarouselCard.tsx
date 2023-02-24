@@ -35,7 +35,7 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
       onClick={() => handleClick(`/products/${slug}`)}
       title={name}
       data-testid="carousel-card"
-      className="group relative w-56 h-72 rounded-lg cursor-pointer p-6 flex flex-col overflow-hidden hover:opacity-75 xl:w-auto"
+      className="group relative w-56 h-72 rounded cursor-pointer p-6 flex flex-col overflow-hidden xl:w-auto"
     >
       <div aria-hidden="true" className="absolute inset-0 w-56 h-72">
         {image && image.sourceUrl && (
@@ -44,17 +44,17 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
               src={image.sourceUrl}
               alt={image.altText || ""}
               title={name}
-              objectFit="cover"
-              layout="fill"
+              fill
+              sizes="33vw"
               priority={index < 2}
-              sizes="50vw"
+              className="object-cover"
             />
           </div>
         )}
       </div>
       <span
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-90"
+        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 group-hover:from-accent transition-all opacity-90"
       />
       <Link
         href={`/products/${slug}`}

@@ -56,7 +56,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
           <div className="px-4 pt-5 pb-2 flex">
             <button
               type="button"
-              className="-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400 outline-none ring-transparent"
+              className="-m-2 p-2 rounded inline-flex items-center justify-center text-gray-400 outline-none ring-transparent"
               onClick={() => setOpen(false)}
             >
               <span className="sr-only">Close menu</span>
@@ -328,7 +328,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
                   <Link
                     href="/login"
                     title="Sign in"
-                    className="transition flex items-center outline-none text-green-main px-4 py-2 hover:bg-green-main hover:text-white"
+                    className="transition flex items-center outline-none text-highlight px-4 py-2 hover:bg-highlight hover:text-white"
                   >
                     <LoginIcon size={6} styling="mr-3.5" />
                     <div>Sign in</div>

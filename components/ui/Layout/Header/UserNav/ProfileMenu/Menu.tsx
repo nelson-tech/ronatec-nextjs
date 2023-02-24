@@ -26,8 +26,8 @@ const ProfileMenu = () => {
         <div>
           <div className="h-full">
             <Menu.Button
-              className={`font-bold text-sm rounded-md py-2 outline-none ${
-                loggedIn ? "text-green-main" : "text-gray-400"
+              className={`font-bold text-sm rounded py-2 outline-none ${
+                loggedIn ? "text-highlight" : "text-gray-400"
               } hover:text-gray-500`}
               data-testid="user-menu-button"
             >
@@ -42,7 +42,7 @@ const ProfileMenu = () => {
             leaveTo="transform opacity-0 scale-95"
           >
             <div className=" z-20 absolute -right-[5.25rem] pt-2 w-48">
-              <Menu.Items className="rounded-md bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
+              <Menu.Items className="rounded bg-white outline-none overflow-hidden shadow-lg ring-1 ring-black ring-opacity-5 z-20">
                 {loggedIn ? (
                   <AuthMenu data-testid="auth-menu" />
                 ) : (

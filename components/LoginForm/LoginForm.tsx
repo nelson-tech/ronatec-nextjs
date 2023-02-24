@@ -122,7 +122,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
             method="post"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className=" -space-y-px">
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
@@ -136,7 +136,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                   }}
                   autoComplete="email"
                   {...restEmail}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -159,7 +159,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                     },
                     required: "Password is required.",
                   })}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
@@ -188,7 +188,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
               <button
                 type="submit"
                 title="Click to sign in."
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   {loading ? (

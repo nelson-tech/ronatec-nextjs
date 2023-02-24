@@ -36,7 +36,7 @@ const Summary = ({ category, productRef }: PropsType) => {
             <Link
               href={`/products/${category.slug}/info`}
               title="Learn more"
-              className="text-gray-400 hover:text-green-main text-sm"
+              className="text-gray-400 hover:text-highlight text-sm"
             >
               Learn more...
             </Link>

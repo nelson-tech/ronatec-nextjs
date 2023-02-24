@@ -19,7 +19,7 @@ const MobileNav = () => {
       <div className="flex-1 flex items-center lg:hidden">
         <button
           type="button"
-          className="-ml-2 bg-white p-2 rounded-md text-gray-400"
+          className="-ml-2 bg-white p-2 rounded text-gray-400"
           onClick={() => setMobileMenuOpen(true)}
         >
           <span className="sr-only focus:text-white">Open menu</span>

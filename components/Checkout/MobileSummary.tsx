@@ -35,7 +35,7 @@ const MobileSummary = ({ discounts }: PropsType) => {
                 >
                   Your Order
                 </h2>
-                <Disclosure.Button className="font-medium text-blue-main hover:text-green-main">
+                <Disclosure.Button className="font-medium text-blue-main hover:text-highlight">
                   {open ? (
                     <span>Hide full summary</span>
                   ) : (

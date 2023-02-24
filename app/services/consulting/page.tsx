@@ -87,11 +87,7 @@ const ConsultingPage = async () => {
 
 const Card = ({ card }: { card: Post_Common_Cards }) => {
   return (
-    <div
-      className={`flow-root rounded-lg px-6 pb-8 md:pt-0 h-full${
-        false && " text-center"
-      }`}
-    >
+    <div className={`px-6 pb-8 h-full ${false && "text-center"}`}>
       {card.title && (
         <h3 className="mt-8 text-2xl font-medium text-black tracking-tight border-b-2">
           {card.title}

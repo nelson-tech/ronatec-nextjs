@@ -217,7 +217,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
@@ -256,7 +256,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                       },
                     })}
                     value={email || ""}
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                 </div>
@@ -283,7 +283,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
@@ -301,7 +301,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
             </form>
           )}
           {sentEmail && !error && (
-            <p className="text-green-main text-sm pt-2 pl-2">
+            <p className="text-highlight text-sm pt-2 pl-2">
               Reset request successful. Please check your email for a link to
               reset your password.
             </p>

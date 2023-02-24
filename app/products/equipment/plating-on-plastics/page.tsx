@@ -23,7 +23,7 @@ const PlatingOnPlasticsPage = () => {
           <p>
             <Link
               href="/about/contact"
-              className="text-blue-main underline hover:text-green-main focus:text-green-main"
+              className="text-blue-main underline hover:text-highlight focus:text-highlight"
             >
               Contact us
             </Link>{" "}

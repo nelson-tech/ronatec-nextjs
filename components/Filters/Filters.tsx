@@ -117,7 +117,7 @@ const Filters = ({
                       <FilterIcon
                         className={`flex-none w-5 h-5 mr-2 group-hover:text-gray-500 ${
                           categoryList.length > 0
-                            ? " text-green-main"
+                            ? " text-highlight"
                             : " text-red-main"
                         }`}
                         aria-hidden="true"

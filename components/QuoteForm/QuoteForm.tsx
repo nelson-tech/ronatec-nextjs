@@ -51,7 +51,7 @@ const QuoteForm = () => {
           checked={field.value === input.value}
           type="radio"
           onChange={(e) => field.onChange(e.target.value)}
-          className="focus:ring-blue-main h-5 w-5 text-blue-dark border-gray-300"
+          className="focus:ring-accent h-5 w-5 border-gray-300"
         />
         <label className="ml-3 block text-sm font-medium text-gray-700">
           {input.name}
@@ -159,7 +159,7 @@ const QuoteForm = () => {
                   required: "Tank Dimensions are required.",
                 })}
                 type="text"
-                className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+                className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
                 placeholder="24x24x24"
               />
               <ErrorField name="Tank Dimensions" />
@@ -210,7 +210,7 @@ const QuoteForm = () => {
                 required: "Tank Legs Height is required.",
               })}
               type="text"
-              className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+              className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
               placeholder="24x24x24"
             />
             <ErrorField name="Tank Legs Height" />
@@ -317,7 +317,7 @@ const QuoteForm = () => {
                   required: "Tank Temperature is required.",
                 })}
                 type="text"
-                className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+                className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
                 placeholder="28C | 82F"
               />
             </div>
@@ -365,7 +365,7 @@ const QuoteForm = () => {
             <input
               {...register("Work Rod Agitation")}
               type="text"
-              className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+              className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
               placeholder=""
             />
           </div>
@@ -419,7 +419,7 @@ const QuoteForm = () => {
           <textarea
             {...register("Other Remarks")}
             rows={5}
-            className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+            className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
             placeholder=""
           />
         </div>
@@ -439,7 +439,7 @@ const QuoteForm = () => {
             {...register("Contact - Name", {
               required: "Valid name is required.",
             })}
-            className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+            className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
             placeholder="John Smith"
           />
           <ErrorField name="Contact - Name" />
@@ -458,7 +458,7 @@ const QuoteForm = () => {
             {...register("Contact - Phone", {
               required: "Phone number is required.",
             })}
-            className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+            className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
             placeholder="619-555-1234"
           />
           <ErrorField name="Contact - Phone" />
@@ -481,7 +481,7 @@ const QuoteForm = () => {
                 message: "Invalid email address",
               },
             })}
-            className="focus:ring-blue-main focus:border-blue-main flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
+            className="focus:ring-accent focus:border-accent flex-1 block w-full rounded py-1 px-2 border sm:text-sm border-gray-300"
             placeholder="jsmith@ronatec.us"
           />
           <ErrorField name="Contact - Email" />
@@ -501,11 +501,11 @@ const QuoteForm = () => {
         )}
         <input
           type="reset"
-          className="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 cursor-pointer focus:ring-offset-2 focus:ring-blue-main"
+          className="bg-white py-2 px-4 border border-gray-300 rounded shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 cursor-pointer focus:ring-offset-2 focus:ring-accent"
         />
         <input
           type="submit"
-          className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-dark hover:bg-green-main cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-main"
+          className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-dark hover:bg-highlight cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
         />
       </div>
       {formStatus && (

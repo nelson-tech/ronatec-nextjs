@@ -1,13 +1,13 @@
 "use client"
 
-import Image from "next/image"
-
 import SlickSlider, { Settings as SliderSettings } from "react-slick"
+
+import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
+
+import Image from "@components/Image"
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-
-import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -45,12 +45,12 @@ const Slider = ({
   return (
     <div
       className={`${
-        rounded && "rounded-lg overflow-hidden"
+        rounded && "rounded overflow-hidden"
       } ${containerClassName}`}
     >
       <SlickSlider
         {...options}
-        className={`w-full rounded-lg overflow-hidden z-10 ${sliderStyle}`}
+        className={`w-full rounded overflow-hidden z-10 ${sliderStyle}`}
       >
         {slides.map((slide) => {
           const image = slide?.image
