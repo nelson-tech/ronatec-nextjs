@@ -137,7 +137,7 @@ const Products = ({
       />
       {products &&
         (queryVars.categories ? queryVars.categories.length > 0 : true) && (
-          <>
+          <div className="products">
             <ProductGrid products={products as Product[]} />
 
             {pageData && (
@@ -147,7 +147,7 @@ const Products = ({
                 pageInfo={pageData}
               />
             )}
-          </>
+          </div>
         )}
     </>
   )

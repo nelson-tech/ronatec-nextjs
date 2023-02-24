@@ -30,7 +30,7 @@ const ProductGrid = ({ products }: PropsType) => {
             className={
               viewMode === "grid"
                 ? "grid grid-cols-2 gap-y-4 gap-x-2 md:gap-x-4 md:gap-y-10 md:grid-cols-3 lg:gap-x-4 lg:grid-cols-4"
-                : "px-4"
+                : "px-4 flex flex-col divide-y"
             }
           >
             {products &&

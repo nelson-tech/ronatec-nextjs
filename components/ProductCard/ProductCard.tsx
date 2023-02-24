@@ -27,18 +27,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
   if (viewMode === "grid") {
     return (
       <div className="group relative bg-white border border-gray-200 rounded w-full flex flex-col overflow-hidden">
-        {product.image && product.image.sourceUrl && (
-          <div className="bg-gray-200 group-hover:opacity-75 transition-opacity">
-            <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">
+        <div className="bg-gray-200 group-hover:opacity-75 transition-opacity">
+          <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">
+            {product.image && product.image.sourceUrl && (
               <Image
                 src={product.image.sourceUrl}
                 alt={product.image.altText ?? ""}
                 width={product.image.mediaDetails?.width ?? undefined}
                 height={product.image.mediaDetails?.height ?? undefined}
+                className="object-contain w-full h-full"
               />
-            </div>
+            )}
           </div>
-        )}
+        </div>
+
         <div className="flex-1 space-y-2 flex flex-col w-full">
           <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-accent transition-colors text-base sm:text-xl">
             <Link
@@ -52,14 +54,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </h3>
           <div className="px-4 pb-2 flex-1 flex flex-col justify-end"></div>
           <div className="bg-accent group-hover:bg-highlight transition-colors w-full text-white py-2 text-center">
-            View more
+            View details
           </div>
         </div>
       </div>
     )
   } else {
     return (
-      <div className="group relative py-4 border-b" key={product.id}>
+      <div className="group relative py-4" key={product.id}>
         <Link
           href={`/products/${categorySlug}/${product.slug}`}
           title={product.name ?? ""}
