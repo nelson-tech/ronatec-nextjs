@@ -3,6 +3,7 @@ import { Fragment } from "react"
 import getDistributionData from "@lib/server/about/getDistributionData"
 
 import DistributionComponent from "@components/Pages/Distribution"
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Component
@@ -12,7 +13,10 @@ const DistributionPage = async () => {
   const suppliers = await getDistributionData()
   return (
     <Fragment>
-      <DistributionComponent suppliers={suppliers} />
+      <div className="mx-auto px-8 lg:max-w-7xl">
+        <PageHeader title="Distribution" />
+        <DistributionComponent suppliers={suppliers} />
+      </div>
     </Fragment>
   )
 }

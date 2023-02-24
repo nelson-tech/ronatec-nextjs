@@ -11,6 +11,7 @@ import parseMetaData from "@lib/utils/parseMetaData"
 
 import Slider from "@components/Slider"
 import IconCard from "@components/Cards/Icon"
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Component
@@ -23,8 +24,9 @@ const ConsultingPage = async () => {
     const { content, certificates, cards, slides } = page.page_consulting.acf
     return (
       <>
-        <div className="px-4">
-          <div className="mt-8 flex flex-col md:flex-row pb-8 items-center mx-auto space-y-8 lg:max-w-7xl mb-8">
+        <div className="mx-auto px-4 max-w-7xl">
+          <PageHeader title="Consulting" />
+          <div className="flex flex-col md:flex-row pb-8 items-center  space-y-8 mb-8">
             {slides && slides.length > 0 && (
               <Slider
                 rounded

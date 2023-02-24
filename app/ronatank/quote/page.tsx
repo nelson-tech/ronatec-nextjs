@@ -1,6 +1,7 @@
 import { SEO_TITLE } from "@lib/constants"
 
 import QuoteForm from "@components/QuoteForm"
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Component
@@ -9,10 +10,9 @@ import QuoteForm from "@components/QuoteForm"
 const QuotePage = () => {
   return (
     <>
-      <div className="px-5 mx-auto max-w-7xl my-8">
-        <div>
-          <h2 className="text-2xl font-extrabold pb-6 px-5">Request A Quote</h2>
-        </div>
+      <div className="px-5 mx-auto max-w-7xl pb-8">
+        <PageHeader title="Request A Quote" />
+
         <div className="space-y-6">
           <div className="bg-gray-50 shadow px-4 py-5 sm:rounded overflow-hidden sm:p-6">
             {/* <div className="md:grid md:grid-cols-2 md:gap-6"> */}

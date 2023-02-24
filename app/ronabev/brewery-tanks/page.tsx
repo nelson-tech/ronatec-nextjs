@@ -1,4 +1,7 @@
+import { Fragment } from "react"
+
 import Image from "@components/Image"
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Component
@@ -6,19 +9,20 @@ import Image from "@components/Image"
 
 const BreweryTanksPage = () => {
   return (
-    <>
-      <div className="flex items-center justify-center w-full">
-        <div className="rounded m-8 overflow-hidden">
-          <Image
-            src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
-            alt="Brewery Tanks"
-            width={1200}
-            height={800}
-          />
+    <Fragment>
+      <div className="max-w-7xl mx-auto">
+        <PageHeader title="Brewery Tanks" />
+        <div className="flex items-center justify-center w-full">
+          <div className="rounded m-8 overflow-hidden">
+            <Image
+              src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
+              alt="Brewery Tanks"
+              width={1200}
+              height={800}
+            />
+          </div>
         </div>
-      </div>
-      <div className="max-w-7xl px-8 mx-auto">
-        <div className="text-gray-800 px-8 pb-8">
+        <div className="text-gray-800 prose max-w-none px-8 pb-8">
           <p>
             Tanks for fermentation and conditioning of commercial beverages.
           </p>
@@ -37,7 +41,7 @@ const BreweryTanksPage = () => {
           individual requirements of our customers.
         </div>
       </div>
-    </>
+    </Fragment>
   )
 }
 

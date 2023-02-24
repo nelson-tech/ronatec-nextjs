@@ -1,3 +1,4 @@
+import PageHeader from "@components/PageHeader"
 import { SEO_TITLE } from "@lib/constants"
 
 // ####
@@ -7,8 +8,9 @@ import { SEO_TITLE } from "@lib/constants"
 const WasteManagementPage = () => {
   return (
     <>
-      <div className="max-w-7xl p-8 mx-auto">
-        <div className="text-gray-500 space-y-4">
+      <div className="max-w-7xl px-8 mx-auto">
+        <PageHeader title="Waste Management" />
+        <div className="text-gray-500 space-y-4 pb-8 prose max-w-none">
           <div className="pb-4">
             Ronatec C2C is a specialty chemical and service solutions provider
             for water treatment, waste treatment, and process automation and
@@ -29,7 +31,7 @@ const WasteManagementPage = () => {
               formulations designed to handle a wide range of chelated waste
               stream challenges.
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Precipitants</li>
               <li>Coagulants</li>
               <li>Flocculants</li>
@@ -55,7 +57,7 @@ const WasteManagementPage = () => {
               design to delivery, consultation to chemicals, we provide
               solutions.
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Oxygen Scavengers</li>
               <li>Chiller Chemicals</li>
               <li>Boiler Treatment</li>
@@ -84,7 +86,7 @@ const WasteManagementPage = () => {
               hydrogen sulfide control products, flow enhancers and pre-blended
               well pills.
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Oxygen Scavengers</li>
               <li>Condensate Treatment</li>
               <li>Breakers and Reverse Breakers</li>
@@ -107,7 +109,7 @@ const WasteManagementPage = () => {
               discharge limits. Contact your local representative for a no
               charge evaluation.
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Precipitants</li>
               <li>Coagulants</li>
               <li>Flocculants</li>
@@ -139,7 +141,7 @@ const WasteManagementPage = () => {
               monitoring and control over chemistry equipment. If you need it we
               have it or we can build it.
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Design Engineering</li>
               <li>Oxygen Scavengers</li>
               <li>Boiler Treatments</li>
@@ -173,7 +175,7 @@ const WasteManagementPage = () => {
               monitoring and control over chemistry equipment. If you need it we
               have it or we can build it.
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Boiler Treatment</li>
               <li>Oxygen Scavengers</li>
               <li>Condensate Treatment</li>

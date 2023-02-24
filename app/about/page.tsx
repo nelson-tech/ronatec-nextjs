@@ -1,3 +1,4 @@
+import { Fragment } from "react"
 import type { Metadata } from "next/types"
 
 import type { RankMathProductTypeSeo } from "@api/codegen/graphql"
@@ -6,6 +7,7 @@ import parseNewLines from "@lib/utils/parseNewLines"
 import getAboutData from "@lib/server/about/getAboutData"
 
 import Image from "@components/Image"
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Component
@@ -17,13 +19,9 @@ const AboutPage = async () => {
   const cards = page?.page_about?.acf?.cards
 
   return (
-    <>
+    <Fragment>
       <div className="mx-auto max-w-7xl">
-        <div id="header" className="w-full py-4">
-          <h2 className="text-center text-2xl font-bold text-gray-800">
-            About Us
-          </h2>
-        </div>
+        <PageHeader title="About Us" />
         <section className="flex flex-col px-4 md:flex-row pb-8">
           {cards &&
             cards.map((card) => {
@@ -57,7 +55,7 @@ const AboutPage = async () => {
             })}
         </section>
       </div>
-    </>
+    </Fragment>
   )
 }
 

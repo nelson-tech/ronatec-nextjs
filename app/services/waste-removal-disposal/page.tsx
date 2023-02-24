@@ -1,3 +1,4 @@
+import PageHeader from "@components/PageHeader"
 import { SEO_TITLE } from "@lib/constants"
 
 // ####
@@ -7,8 +8,9 @@ import { SEO_TITLE } from "@lib/constants"
 const WasteRemovalPage = () => {
   return (
     <>
-      <div className="max-w-7xl p-8 mx-auto">
-        <div className="text-gray-500">
+      <div className="max-w-7xl px-8 mx-auto">
+        <PageHeader title="Waste Removal &amp; Disposal" />
+        <div className="text-gray-500 pb-8 prose max-w-none">
           <div className="pb-4 space-y-4">
             <p>
               Ronatec C2C is a full service organization dedicated to limiting
@@ -36,7 +38,7 @@ const WasteRemovalPage = () => {
             <p className="font-bold text-sm">
               Hazardous Waste Analysis, Transportation &amp; Disposal
             </p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>
                 Full analysis of materials, provide manifest paperwork, and
                 dispose your materials in a proper and safe manner.
@@ -47,17 +49,17 @@ const WasteRemovalPage = () => {
               </li>
             </ul>
             <p className="font-bold text-sm">Cleaning</p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Tanks Cleaning</li>
               <li>High Pressure Water Blasting</li>
             </ul>
             <p className="font-bold text-sm">Consulting</p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Environmental Training</li>
               <li>Plant Clean up</li>
             </ul>
             <p className="font-bold text-sm">Emergency Services</p>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>24 hour spill/emergency cleanup on call!</li>
             </ul>
           </div>
