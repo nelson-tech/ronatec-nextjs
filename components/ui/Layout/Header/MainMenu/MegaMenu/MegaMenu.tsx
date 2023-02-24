@@ -24,7 +24,7 @@ type MegaMenuProps = {
 // ####
 
 const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
-  const path = megaItem.url || "/"
+  const path = megaItem.url ?? "/"
 
   const headerStyle = "font-extrabold text-base text-gray-900"
 
@@ -85,22 +85,40 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                             : "")
                                         }
                                       >
-                                        <p
-                                          className={headerStyle}
-                                          onClick={() => close()}
-                                        >
-                                          <Link
-                                            href={subColumn.url ?? ""}
-                                            title={subColumn.label}
-                                            className={`${
-                                              subColumn.label === "Browse All"
-                                                ? "text-accent hover:text-highlight"
-                                                : "hover:text-accent"
-                                            }  transition`}
+                                        {subColumn.url !== "#" ? (
+                                          <p
+                                            className={headerStyle}
+                                            onClick={() => close()}
                                           >
-                                            {subColumn.label}
-                                          </Link>
-                                        </p>
+                                            <Link
+                                              href={
+                                                subColumn.url
+                                                  ? subColumn.url === "#"
+                                                    ? undefined
+                                                    : subColumn.url
+                                                  : ""
+                                              }
+                                              disabled={subColumn.url === "#"}
+                                              title={subColumn.label}
+                                              className={`${
+                                                subColumn.label === "Browse All"
+                                                  ? "text-accent hover:text-highlight"
+                                                  : "hover:text-accent"
+                                              }  transition`}
+                                            >
+                                              {subColumn.label}
+                                            </Link>
+                                          </p>
+                                        ) : (
+                                          <p
+                                            className={headerStyle}
+                                            onClick={() => close()}
+                                          >
+                                            <div title={subColumn.label}>
+                                              {subColumn.label}
+                                            </div>
+                                          </p>
+                                        )}
                                         <ul role="list" className="">
                                           {subColumn.childItems?.nodes &&
                                             subColumn.childItems.nodes.map(

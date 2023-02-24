@@ -42,7 +42,7 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
           <div className="w-56 h-72 relative">
             <Image
               src={image.sourceUrl}
-              alt={image.altText || ""}
+              alt={image.altText ?? ""}
               title={name}
               fill
               sizes="33vw"
@@ -58,7 +58,7 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
       />
       <Link
         href={`/products/${slug}`}
-        title={name || ""}
+        title={name ?? ""}
         className="relative mt-auto text-center text-xl font-bold text-white"
       >
         {name}

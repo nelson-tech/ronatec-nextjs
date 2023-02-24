@@ -18,8 +18,8 @@ const TankQuote = (req: NextApiRequest, res: NextApiResponse) => {
   const smtpConfig = {
     service: "gmail",
     auth: {
-      user: USERNAME || "",
-      pass: PASSWORD || "",
+      user: USERNAME ?? "",
+      pass: PASSWORD ?? "",
     },
   }
 

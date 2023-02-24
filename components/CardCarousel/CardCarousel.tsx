@@ -56,10 +56,10 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                     categories.map((item, index) => {
                       return (
                         <CarouselCard
-                          name={item.name || ""}
-                          slug={item.slug || ""}
+                          name={item.name ?? ""}
+                          slug={item.slug ?? ""}
                           image={item.image ?? undefined}
-                          key={item.name || "" + item.slug}
+                          key={item.name ?? "" + item.slug}
                           index={index}
                         />
                       )
@@ -76,10 +76,10 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
 
                       return (
                         <CarouselCard
-                          name={cardProduct.name || ""}
+                          name={cardProduct.name ?? ""}
                           slug={path}
                           image={cardProduct.image ?? undefined}
-                          key={cardProduct.name || "" + cardProduct.slug}
+                          key={cardProduct.name ?? "" + cardProduct.slug}
                           index={index}
                         />
                       )

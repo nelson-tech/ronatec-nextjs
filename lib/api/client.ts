@@ -67,7 +67,7 @@ const responseMiddleware = async (response: any) => {
   }
 
   if (response.errors) {
-    const traceId = response.headers.get("x-b3-traceid") || "unknown"
+    const traceId = response.headers.get("x-b3-traceid") ?? "unknown"
     console.error(
       `[${traceId}] Request error:
         status ${response.status}

@@ -87,7 +87,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
                     return (
                       <IconCard
                         card={card}
-                        key={card.title || "" + card.icon || ""}
+                        key={card.title ?? "" + card.icon ?? ""}
                       />
                     )
                   }

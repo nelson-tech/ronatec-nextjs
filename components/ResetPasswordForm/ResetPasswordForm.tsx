@@ -168,7 +168,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                         setPassword(e.target.value)
                       },
                     })}
-                    value={password || ""}
+                    value={password ?? ""}
                     className="appearance-none relative block w-full px-3 py-2 border-x border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
@@ -188,7 +188,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                         setPasswordConfirm(e.target.value)
                       },
                     })}
-                    value={passwordConfirm || ""}
+                    value={passwordConfirm ?? ""}
                     className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Confirm Password"
                   />
@@ -255,7 +255,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                         setEmail(e.target.value)
                       },
                     })}
-                    value={email || ""}
+                    value={email ?? ""}
                     className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />

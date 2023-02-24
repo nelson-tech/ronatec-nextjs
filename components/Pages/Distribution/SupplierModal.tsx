@@ -65,7 +65,7 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
               <Dialog.Panel className="inline-block mt-32 border-2 border-gray-100 w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded">
                 {chosenSupplier && (
                   <a
-                    href={chosenSupplier.url || undefined}
+                    href={chosenSupplier.url ?? undefined}
                     target="_blank"
                     rel="noreferrer"
                     className="group"
@@ -84,7 +84,7 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
                               undefined
                             }
                             alt={chosenSupplier.image.altText ?? ""}
-                            title={chosenSupplier.title || ""}
+                            title={chosenSupplier.title ?? ""}
                             className="object-cover"
                           />
                         </div>

@@ -60,7 +60,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
             className="w-full rounded border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm ring-transparent focus:outline-none sm:text-sm"
             onChange={handleSearchField}
             placeholder="Product Name"
-            displayValue={(product: any) => product?.name || ""}
+            displayValue={(product: any) => product?.name ?? ""}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
             {loading && <LoadingSpinner size={5} opacity={50} />}

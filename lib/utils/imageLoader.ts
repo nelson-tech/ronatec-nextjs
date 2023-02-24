@@ -5,7 +5,7 @@ type ImageLoaderPropsType = {
 }
 
 const imageLoader = ({ src, width, quality }: ImageLoaderPropsType) => {
-  return `${src}?width=${width}&quality=${quality || 80}&format=webp`
+  return `${src}?width=${width}&quality=${quality ?? 80}&format=webp`
 }
 
 export default imageLoader

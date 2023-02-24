@@ -95,7 +95,7 @@ const Checkout = ({ customer }: PropsType) => {
               </section>
 
               {customer?.id &&
-              ((loggedIn && customer.id !== "guest") ||
+              ((loggedIn && customer.id !== "guest") ??
                 (!loggedIn && customer.id === "guest")) ? (
                 <CheckoutForm customer={customer as Customer} />
               ) : (

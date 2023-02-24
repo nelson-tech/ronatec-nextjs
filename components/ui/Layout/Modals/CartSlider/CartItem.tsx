@@ -34,7 +34,7 @@ const CartItem = memo(
 
     const category =
       (lineItem?.product?.node?.productCategories?.nodes &&
-        lineItem?.product?.node.productCategories.nodes[0]?.slug) ||
+        lineItem?.product?.node.productCategories.nodes[0]?.slug) ??
       ""
 
     return (
@@ -44,11 +44,15 @@ const CartItem = memo(
             {lineItem?.product?.node?.image && (
               <div className="relative mr-4">
                 <Image
-                  src={lineItem?.product?.node.image.sourceUrl || ""}
-                  alt={lineItem?.product?.node.image.altText || ""}
-                  width={lineItem?.product?.node.image.mediaDetails?.width ?? 0}
+                  src={lineItem?.product?.node.image.sourceUrl ?? ""}
+                  alt={lineItem?.product?.node.image.altText ?? ""}
+                  width={
+                    lineItem?.product?.node.image.mediaDetails?.width ??
+                    undefined
+                  }
                   height={
-                    lineItem?.product?.node.image.mediaDetails?.height ?? 0
+                    lineItem?.product?.node.image.mediaDetails?.height ??
+                    undefined
                   }
                   className="w-16 max-h-16 md:w-24 md:max-h-24 border border-gray-200 rounded overflow-hidden"
                 />

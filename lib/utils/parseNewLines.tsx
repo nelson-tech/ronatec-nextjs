@@ -9,7 +9,7 @@ const parseNewLines = (text: string) => {
             key={"newLineParse" + line.length + line.split("a")[0] + index}
             className={`parsed-p parsed-${index}`}
           >
-            {line || <>&nbsp;</>}
+            {line ?? <>&nbsp;</>}
           </p>
         )
       })}

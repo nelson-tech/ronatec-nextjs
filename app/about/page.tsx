@@ -31,8 +31,8 @@ const AboutPage = async () => {
                     <div className="w-full relative mb-6">
                       {card.image && (
                         <Image
-                          alt={card.image.altText || ""}
-                          src={card.image.sourceUrl || ""}
+                          alt={card.image.altText ?? ""}
+                          src={card.image.sourceUrl ?? ""}
                           width={card.image.mediaDetails?.width ?? undefined}
                           height={card.image.mediaDetails?.height ?? undefined}
                           className="rounded overflow-hidden w-full h-full"

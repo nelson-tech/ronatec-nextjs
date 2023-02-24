@@ -73,7 +73,7 @@ const MainMenu = ({ menuItems }: MainMenuInputType) => {
                   )
                 }
               } else {
-                const path = menuItem.url || "/"
+                const path = menuItem.url ?? "/"
                 return (
                   menuItem.label && (
                     <div key={menuItem.label} className="relative flex">

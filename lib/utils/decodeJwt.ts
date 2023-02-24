@@ -14,13 +14,13 @@ type JWToken = {
 }
 
 export const decodeToken = (token: string) => {
-  const tokenData = jwt_decode<JWToken>(token || "")
+  const tokenData = jwt_decode<JWToken>(token ?? "")
 
   return tokenData
 }
 
 export const decodeCustomerToken = (token: string) => {
-  const customerData = jwt_decode<Customer>(token || "")
+  const customerData = jwt_decode<Customer>(token ?? "")
 
   return customerData
 }

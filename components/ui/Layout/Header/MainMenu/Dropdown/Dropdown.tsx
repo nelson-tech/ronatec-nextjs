@@ -23,7 +23,7 @@ type DropdownProps = {
 // ####
 
 const Dropdown = ({ menuItem, getStyle }: DropdownProps) => {
-  const path = menuItem.url || "/"
+  const path = menuItem.url ?? "/"
   return (
     <Menu as="div" className="relative h-full">
       {({ open }) => (

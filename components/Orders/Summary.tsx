@@ -23,12 +23,12 @@ const OrderSummary = ({ order, detailsLink }: PropsType) => {
   return (
     <div className="bg-gray-50 rounded-lg py-6 px-4 sm:px-6 sm:flex sm:items-center text-sm sm:justify-between sm:space-x-6 lg:space-x-4">
       <h3 className="sr-only">
-        Order placed on <time dateTime={order.date || ""}>{order.date}</time>
+        Order placed on <time dateTime={order.date ?? ""}>{order.date}</time>
       </h3>{" "}
       <div className="flex justify-between sm:block">
         <dt className="font-medium text-gray-900">Date placed</dt>
         <dd className="sm:mt-1">
-          <time dateTime={order.date || ""}>{orderDate}</time>
+          <time dateTime={order.date ?? ""}>{orderDate}</time>
         </dd>
       </div>
       <div className="flex justify-between pt-6 sm:block sm:pt-0">

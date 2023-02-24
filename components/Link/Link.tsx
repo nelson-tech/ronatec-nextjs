@@ -15,7 +15,7 @@ const Link = ({
 }: HTMLProps<HTMLAnchorElement>) => {
   return (
     <NextLink
-      href={href || ""}
+      href={href ?? ""}
       title={title}
       target={target}
       onClick={onClick}

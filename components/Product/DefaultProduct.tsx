@@ -110,8 +110,8 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
           const variation: ProductAttributeInput[] = attributes.map(
             (attribute: VariationAttribute) => {
               return {
-                attributeName: attribute?.name || "",
-                attributeValue: attribute?.value || "",
+                attributeName: attribute?.name ?? "",
+                attributeValue: attribute?.value ?? "",
               }
             }
           )
@@ -156,8 +156,8 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                 <Image
                   src={product.image.sourceUrl}
                   alt={product.image.altText ?? ""}
-                  height={product.image?.mediaDetails?.height ?? 0}
-                  width={product.image?.mediaDetails?.width ?? 0}
+                  height={product.image?.mediaDetails?.height ?? undefined}
+                  width={product.image?.mediaDetails?.width ?? undefined}
                   className="object-contain h-full w-full"
                   priority
                 />

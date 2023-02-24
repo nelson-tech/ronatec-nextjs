@@ -32,9 +32,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
             <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">
               <Image
                 src={product.image.sourceUrl}
-                alt={product.image.altText || ""}
-                width={product.image.mediaDetails?.width}
-                height={product.image.mediaDetails?.height}
+                alt={product.image.altText ?? ""}
+                width={product.image.mediaDetails?.width ?? undefined}
+                height={product.image.mediaDetails?.height ?? undefined}
               />
             </div>
           </div>
@@ -43,7 +43,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-accent transition-colors text-base sm:text-xl">
             <Link
               href={`/products/${categorySlug}/${product.slug}`}
-              title={product.name || ""}
+              title={product.name ?? ""}
               className="flex flex-col"
             >
               <span aria-hidden="true" className="absolute inset-0" />
@@ -62,7 +62,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <div className="group relative py-4 border-b" key={product.id}>
         <Link
           href={`/products/${categorySlug}/${product.slug}`}
-          title={product.name || ""}
+          title={product.name ?? ""}
           className="flex flex-col"
         >
           <p className="font-bold text-accent group-hover:text-highlight transition-colors text-xl">

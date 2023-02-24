@@ -13,13 +13,13 @@ const CategoryLink = ({ category }: CategoryLinkPropsType) => {
       key={category?.id}
       className="m-4 hover:bg-gray-50 hover:shadow transition-all hover:rounded overflow-hidden"
     >
-      <Link href={`/products/${category?.slug}`} title={category?.name || ""}>
+      <Link href={`/products/${category?.slug}`} title={category?.name ?? ""}>
         <div className="">
           {category.image && category.image?.sourceUrl && (
             <div className="relative w-full mx-auto h-32 pt-2">
               <Image
                 src={category.image?.sourceUrl}
-                alt={category?.name || ""}
+                alt={category?.name ?? ""}
                 fill
                 sizes="25vw"
                 className="object-cover rounded"

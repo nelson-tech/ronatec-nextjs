@@ -5,7 +5,7 @@ const innerFunction = (
   props?: any
 ): DOMElement<any, HTMLElement> => {
   const tagName = element.tagName
-  let { iconKey, ..._props } = props || {}
+  let { iconKey, ..._props } = props ?? {}
 
   if (iconKey) {
     element.setAttribute("key", _props.iconKey)

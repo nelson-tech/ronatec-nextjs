@@ -53,7 +53,7 @@ const SupplierCard = ({
           {supplier.image && supplier.image.sourceUrl && (
             <div className="w-full relative rounded h-full overflow-hidden">
               <a
-                href={supplier.url || undefined}
+                href={supplier.url ?? undefined}
                 target="_blank"
                 rel="noreferrer"
               >
