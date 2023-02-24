@@ -30,18 +30,10 @@ const Summary = ({ category, productRef }: PropsType) => {
             {category?.name}
           </h1>
         </div>
-        <p className="mt-4 text-base text-gray-500">{category?.description}</p>
-        {category?.product_category?.acf?.description && (
-          <p className="pt-2">
-            <Link
-              href={`/products/${category?.slug}/info`}
-              title="Learn more"
-              className="text-gray-400 hover:text-highlight text-sm"
-            >
-              Learn more...
-            </Link>
-          </p>
-        )}
+        <div
+          className="mt-4 text-base text-gray-500 prose max-w-none prose-sm prose-a:text-accent hover:prose-a:text-highlight prose-p:mt-4"
+          dangerouslySetInnerHTML={{ __html: category?.description ?? "" }}
+        />
       </div>
       {/* Sub-categories */}
 

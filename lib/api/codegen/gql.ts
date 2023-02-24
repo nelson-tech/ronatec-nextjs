@@ -35,7 +35,7 @@ const documents = {
     types.ProductAttributeBaseFragmentDoc,
   'fragment ProductBase on Product {\n  ...ProductMinBase\n  metaData(keysIn: "_product_addons") {\n    key\n    value\n  }\n  dateOnSaleFrom\n  dateOnSaleTo\n  description\n  shortDescription\n  productCategories {\n    nodes {\n      name\n      slug\n      ancestors {\n        nodes {\n          name\n          slug\n        }\n      }\n    }\n  }\n  image {\n    ...ImageBase\n  }\n  galleryImages {\n    nodes {\n      ...ImageBase\n    }\n  }\n}':
     types.ProductBaseFragmentDoc,
-  "fragment ProductCategoryBase on ProductCategory {\n  name\n  slug\n  id\n  count\n  description\n  image {\n    ...ImageBase\n  }\n  product_category {\n    acf {\n      description\n    }\n  }\n}":
+  "fragment ProductCategoryBase on ProductCategory {\n  name\n  slug\n  id\n  count\n  description\n  image {\n    ...ImageBase\n  }\n}":
     types.ProductCategoryBaseFragmentDoc,
   "fragment ProductMinBase on Product {\n  id\n  databaseId\n  name\n  slug\n  type\n}":
     types.ProductMinBaseFragmentDoc,
@@ -112,7 +112,7 @@ const documents = {
     types.GetProductCategoriesDataDocument,
   "query GetProductCategoriesSlugs {\n  productCategories(where: {hideEmpty: true}, first: 99) {\n    nodes {\n      slug\n    }\n  }\n}":
     types.GetProductCategoriesSlugsDocument,
-  "query GetProductDataBySlug($id: ID!) {\n  product(id: $id, idType: SLUG) {\n    ...VariableProductFragment\n    ...SimpleProductFragment\n    seo {\n      title\n      description\n      focusKeywords\n      openGraph {\n        articleMeta {\n          section\n        }\n        description\n        locale\n        siteName\n        title\n        type\n        url\n        slackEnhancedData {\n          data\n          label\n        }\n        twitterMeta {\n          card\n          description\n          title\n        }\n      }\n    }\n  }\n}":
+  "query GetProductDataBySlug($slug: ID!) {\n  product(id: $slug, idType: SLUG) {\n    ...VariableProductFragment\n    ...SimpleProductFragment\n    seo {\n      title\n      description\n      focusKeywords\n      openGraph {\n        articleMeta {\n          section\n        }\n        description\n        locale\n        siteName\n        title\n        type\n        url\n        slackEnhancedData {\n          data\n          label\n        }\n        twitterMeta {\n          card\n          description\n          title\n        }\n      }\n    }\n  }\n}":
     types.GetProductDataBySlugDocument,
   "query GetProductsDataByCategory($field: ProductsOrderByEnum!, $order: OrderEnum!, $categories: [String]!, $first: Int, $last: Int, $after: String, $before: String) {\n  products(\n    where: {orderby: {field: $field, order: $order}, categoryIn: $categories}\n    first: $first\n    last: $last\n    after: $after\n    before: $before\n  ) {\n    nodes {\n      ...ProductMinBase\n      image {\n        ...ImageBase\n      }\n      productCategories {\n        nodes {\n          id\n          slug\n          name\n        }\n      }\n      ...ProductPriceBase\n      shortDescription\n    }\n    pageInfo {\n      hasNextPage\n      hasPreviousPage\n      startCursor\n      endCursor\n    }\n  }\n}":
     types.GetProductsDataByCategoryDocument,
@@ -212,8 +212,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "fragment ProductCategoryBase on ProductCategory {\n  name\n  slug\n  id\n  count\n  description\n  image {\n    ...ImageBase\n  }\n  product_category {\n    acf {\n      description\n    }\n  }\n}"
-): (typeof documents)["fragment ProductCategoryBase on ProductCategory {\n  name\n  slug\n  id\n  count\n  description\n  image {\n    ...ImageBase\n  }\n  product_category {\n    acf {\n      description\n    }\n  }\n}"]
+  source: "fragment ProductCategoryBase on ProductCategory {\n  name\n  slug\n  id\n  count\n  description\n  image {\n    ...ImageBase\n  }\n}"
+): (typeof documents)["fragment ProductCategoryBase on ProductCategory {\n  name\n  slug\n  id\n  count\n  description\n  image {\n    ...ImageBase\n  }\n}"]
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -446,8 +446,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "query GetProductDataBySlug($id: ID!) {\n  product(id: $id, idType: SLUG) {\n    ...VariableProductFragment\n    ...SimpleProductFragment\n    seo {\n      title\n      description\n      focusKeywords\n      openGraph {\n        articleMeta {\n          section\n        }\n        description\n        locale\n        siteName\n        title\n        type\n        url\n        slackEnhancedData {\n          data\n          label\n        }\n        twitterMeta {\n          card\n          description\n          title\n        }\n      }\n    }\n  }\n}"
-): (typeof documents)["query GetProductDataBySlug($id: ID!) {\n  product(id: $id, idType: SLUG) {\n    ...VariableProductFragment\n    ...SimpleProductFragment\n    seo {\n      title\n      description\n      focusKeywords\n      openGraph {\n        articleMeta {\n          section\n        }\n        description\n        locale\n        siteName\n        title\n        type\n        url\n        slackEnhancedData {\n          data\n          label\n        }\n        twitterMeta {\n          card\n          description\n          title\n        }\n      }\n    }\n  }\n}"]
+  source: "query GetProductDataBySlug($slug: ID!) {\n  product(id: $slug, idType: SLUG) {\n    ...VariableProductFragment\n    ...SimpleProductFragment\n    seo {\n      title\n      description\n      focusKeywords\n      openGraph {\n        articleMeta {\n          section\n        }\n        description\n        locale\n        siteName\n        title\n        type\n        url\n        slackEnhancedData {\n          data\n          label\n        }\n        twitterMeta {\n          card\n          description\n          title\n        }\n      }\n    }\n  }\n}"
+): (typeof documents)["query GetProductDataBySlug($slug: ID!) {\n  product(id: $slug, idType: SLUG) {\n    ...VariableProductFragment\n    ...SimpleProductFragment\n    seo {\n      title\n      description\n      focusKeywords\n      openGraph {\n        articleMeta {\n          section\n        }\n        description\n        locale\n        siteName\n        title\n        type\n        url\n        slackEnhancedData {\n          data\n          label\n        }\n        twitterMeta {\n          card\n          description\n          title\n        }\n      }\n    }\n  }\n}"]
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

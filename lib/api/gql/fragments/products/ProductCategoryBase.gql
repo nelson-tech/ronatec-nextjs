@@ -7,9 +7,4 @@ fragment ProductCategoryBase on ProductCategory {
   image {
     ...ImageBase
   }
-  product_category {
-    acf {
-      description
-    }
-  }
 }
