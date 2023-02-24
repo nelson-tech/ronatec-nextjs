@@ -27,15 +27,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
   if (viewMode === "grid") {
     return (
       <div className="group relative bg-white border border-gray-200 rounded w-full flex flex-col overflow-hidden">
-        <div className="bg-gray-200 group-hover:opacity-75 transition-opacity">
+        <div className="group-hover:opacity-75 transition-opacity">
           <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">
-            {product.image && product.image.sourceUrl && (
+            {product.image && product.image.sourceUrl ? (
               <Image
                 src={product.image.sourceUrl}
                 alt={product.image.altText ?? ""}
                 width={product.image.mediaDetails?.width ?? undefined}
                 height={product.image.mediaDetails?.height ?? undefined}
                 className="object-contain w-full h-full"
+              />
+            ) : (
+              <div
+                className="p-4 text-base text-gray-500"
+                dangerouslySetInnerHTML={{
+                  __html: product.shortDescription ?? "",
+                }}
               />
             )}
           </div>
@@ -65,16 +72,29 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <Link
           href={`/products/${categorySlug}/${product.slug}`}
           title={product.name ?? ""}
-          className="flex flex-col"
+          className="flex items-center"
         >
-          <p className="font-bold text-accent group-hover:text-highlight transition-colors text-xl">
-            {product.name}
-          </p>
-          {product.shortDescription && (
-            <p
-              className="text-sm text-gray-500 pt-2"
-              dangerouslySetInnerHTML={{ __html: product.shortDescription }}
-            />
+          <div className="flex flex-col w-full">
+            <p className="font-bold text-accent group-hover:text-highlight transition-colors text-xl">
+              {product.name}
+            </p>
+            {product.shortDescription && (
+              <p
+                className="text-sm text-gray-500 pt-2"
+                dangerouslySetInnerHTML={{ __html: product.shortDescription }}
+              />
+            )}
+          </div>
+          {product.image?.sourceUrl && (
+            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded">
+              <Image
+                src={product.image.sourceUrl}
+                alt={product.image.altText ?? ""}
+                width={product.image.mediaDetails?.width ?? undefined}
+                height={product.image.mediaDetails?.height ?? undefined}
+                className="object-contain w-full h-full rounded"
+              />
+            </div>
           )}
         </Link>
       </div>
