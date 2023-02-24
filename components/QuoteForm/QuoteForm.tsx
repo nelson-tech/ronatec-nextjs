@@ -488,7 +488,7 @@ const QuoteForm = () => {
         </div>
       </div>
 
-      <div className="flex justify-end items-center">
+      <div className="flex justify-end items-center pb-4">
         {loading && (
           <>
             <LoadingSpinner
