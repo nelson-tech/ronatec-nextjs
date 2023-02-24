@@ -15,7 +15,7 @@ import useStore from "./useStore"
 const useCart = () => {
   const client = getClient()
 
-  const { setCart, setLoading } = useStore((stores) => stores.cart)
+  const { setCart, setLoading, setOpen } = useStore((stores) => stores.cart)
 
   const fetchCart = async () => {
     setLoading(true)
@@ -52,7 +52,10 @@ const useCart = () => {
 
     const cartData = await client.request(AddToCartDocument, input)
 
-    cartData.addToCart?.cart && setCart(cartData.addToCart.cart as Cart)
+    if (cartData.addToCart?.cart) {
+      setCart(cartData.addToCart.cart as Cart)
+      setOpen(true)
+    }
 
     setLoading(false)
 
