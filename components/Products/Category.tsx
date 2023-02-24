@@ -1,12 +1,12 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { shallow } from "zustand/shallow"
 
 import type {
-  GetProductsDataByCategoryQueryVariables,
   InputMaybe,
   Product,
+  ProductCategory,
   ProductCategory as ProductCategoryType,
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
@@ -19,14 +19,15 @@ import CategorySummary from "@components/CategorySummary"
 import Sort from "@components/Sort"
 import ProductGrid from "@components/ProductGrid"
 import Pagination from "@components/Pagination"
+import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
 
 // ####
 // #### Types
 // ####
 
 type ProductCategoryPropsType = {
-  category: ProductCategoryType
-  initialProducts: Product[]
+  category: ProductCategory | null | undefined
+  initialProducts: Product[] | null | undefined
 }
 
 // ####
@@ -47,7 +48,7 @@ const ProductCategory = ({
     shallow
   )
 
-  const defaultQuery: GetProductsDataByCategoryQueryVariables = {
+  const defaultQuery: GetFilteredProductsPropsType = {
     field: selectedSort.id.field,
     order: selectedSort.id.order,
     categories: [category?.slug ?? ""],
@@ -56,17 +57,19 @@ const ProductCategory = ({
 
   const [queryVars, setQueryVars] = useState(defaultQuery)
 
-  const { products, pageData, loading } = useFilteredProducts({
+  const { products, pageData, loading, fetchProducts } = useFilteredProducts({
     initialProducts,
   })
+
+  useEffect(() => {
+    fetchProducts(queryVars)
+  }, [queryVars, fetchProducts])
 
   const setPagination = (pagination: PaginationType) => {
     setQueryVars({ ...queryVars, ...pagination })
   }
 
-  const setSelectedCategories = (
-    categories: InputMaybe<string> | InputMaybe<string>[]
-  ) => {
+  const setSelectedCategories = (categories: string[]) => {
     setQueryVars({ ...queryVars, ...defaultPagination, categories })
   }
 
@@ -87,7 +90,7 @@ const ProductCategory = ({
       <Sort
         setSelectedSort={setSelectedSort}
         loading={loading}
-        categories={[category]}
+        categories={category ? [category] : []}
         filter
         productRef={productRef}
         selectedCategories={queryVars.categories}

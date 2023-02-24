@@ -10,7 +10,7 @@ import CategoryLink from "@components/CategoryLink"
 // ####
 
 export type PropsType = {
-  category: ProductCategory
+  category: ProductCategory | null | undefined
   productRef?: RefObject<HTMLDivElement>
 }
 
@@ -27,14 +27,14 @@ const Summary = ({ category, productRef }: PropsType) => {
       >
         <div className="flex items-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-            {category.name}
+            {category?.name}
           </h1>
         </div>
-        <p className="mt-4 text-base text-gray-500">{category.description}</p>
-        {category.product_category?.acf?.description && (
+        <p className="mt-4 text-base text-gray-500">{category?.description}</p>
+        {category?.product_category?.acf?.description && (
           <p className="pt-2">
             <Link
-              href={`/products/${category.slug}/info`}
+              href={`/products/${category?.slug}/info`}
               title="Learn more"
               className="text-gray-400 hover:text-highlight text-sm"
             >
@@ -45,7 +45,7 @@ const Summary = ({ category, productRef }: PropsType) => {
       </div>
       {/* Sub-categories */}
 
-      {category.children?.nodes && category.children.nodes.length > 0 && (
+      {category?.children?.nodes && category?.children.nodes.length > 0 && (
         <div
           className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl"
           data-testid="sub-categories"
@@ -74,10 +74,13 @@ const Summary = ({ category, productRef }: PropsType) => {
           </div>
           <div className="text-sm">
             <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
-              {category.children.nodes.map((subCategory: ProductCategory) => {
+              {category?.children.nodes.map((subCategory: ProductCategory) => {
                 if (subCategory) {
                   return (
-                    <CategoryLink category={subCategory} key={subCategory.id} />
+                    <CategoryLink
+                      category={subCategory}
+                      key={subCategory?.id}
+                    />
                   )
                 }
               })}
