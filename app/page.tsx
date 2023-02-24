@@ -1,8 +1,10 @@
+import { Metadata } from "next/types"
+
+import { RankMathPostTypeSeo } from "@api/codegen/graphql"
 import getHomeData from "@lib/server/getHomeData"
+import parseMetaData from "@lib/utils/parseMetaData"
 
 import Home from "@components/Pages/Home"
-import parseMetaData from "@lib/utils/parseMetaData"
-import { RankMathPostTypeSeo } from "@api/codegen/graphql"
 
 const HomePage = async () => {
   const data = await getHomeData()
@@ -22,12 +24,12 @@ export default HomePage
 
 export const revalidate = 60 // revalidate this page every 60 seconds
 
-export async function generateMetadata() {
+export async function generateMetadata(): Promise<Metadata> {
   const data = await getHomeData()
 
   const metaData = parseMetaData({
     ...data?.page?.seo,
-    title: null,
+    title: "Ronatec C2C, Inc.",
   } as RankMathPostTypeSeo)
 
   return metaData
