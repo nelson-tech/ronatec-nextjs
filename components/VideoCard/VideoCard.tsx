@@ -1,5 +1,6 @@
 import VideoPlayer from "@components/VideoPlayer"
 import { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphql"
+import Image from "@components/Image"
 
 // ####
 // #### Types
@@ -26,6 +27,8 @@ const VideoCard = ({
   playerStyle,
   videoLink,
 }: VideoCardPropsType) => {
+  console.log("Placeholder", videoLink.placeholder)
+
   const { title, videoUrl, videoId } = videoLink
   if (videoId || videoUrl) {
     return (
@@ -46,7 +49,23 @@ const VideoCard = ({
           videoLink={videoLink}
           divStyle={playerStyle}
           rounded={rounded}
-          light={light}
+          light={
+            videoLink.placeholder?.sourceUrl ? (
+              <Image
+                src={videoLink.placeholder.sourceUrl}
+                alt={
+                  videoLink.placeholder.altText ??
+                  videoLink.placeholder.title ??
+                  ""
+                }
+                width={videoLink.placeholder.mediaDetails?.width ?? undefined}
+                height={videoLink.placeholder.mediaDetails?.height ?? undefined}
+                className="w-full aspect-video"
+              />
+            ) : (
+              light
+            )
+          }
         />
       </div>
     )

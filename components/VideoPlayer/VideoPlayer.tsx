@@ -1,5 +1,6 @@
 "use client"
 
+import type { JSXElementConstructor, ReactElement } from "react"
 import ReactPlayer, { Config } from "react-player"
 
 import type { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphql"
@@ -11,7 +12,11 @@ import type { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphq
 export type VideoPlayerPropsType = {
   source?: string
   rounded?: boolean
-  light?: boolean
+  light?:
+    | string
+    | boolean
+    | ReactElement<any, string | JSXElementConstructor<any>>
+    | undefined
   divStyle?: string
   videoLink: Page_PageHome_Acf_VideoLinks_VideoLink
 }
@@ -45,9 +50,8 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={`relative max-h-96 w-full ${
-        provider === "youtube" ? "aspect-video" : "aspect-[9/16]"
-      } h-full ${rounded && "overflow-hidden rounded"} ${divStyle}`}
+      className={`relative max-h-96 w-full aspect-video 
+      h-full ${rounded && "overflow-hidden rounded"} ${divStyle}`}
     >
       <ReactPlayer
         className="absolute top-0 left-0 h-full w-full"

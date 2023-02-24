@@ -10091,6 +10091,7 @@ export type Page_PageHome_Acf_VideoLinks_VideoLink = AcfFieldGroup & {
   __typename?: "Page_PageHome_Acf_videoLinks_VideoLink"
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars["String"]>
+  placeholder?: Maybe<MediaItem>
   provider?: Maybe<Scalars["String"]>
   title?: Maybe<Scalars["String"]>
   videoFile?: Maybe<MediaItem>
@@ -11514,6 +11515,7 @@ export type Post_Common_VideoLink = AcfFieldGroup & {
   __typename?: "Post_Common_VideoLink"
   /** The name of the ACF Field Group */
   fieldGroupName?: Maybe<Scalars["String"]>
+  placeholder?: Maybe<MediaItem>
   provider?: Maybe<Scalars["String"]>
   title?: Maybe<Scalars["String"]>
   videoFile?: Maybe<MediaItem>
@@ -33107,6 +33109,20 @@ export type GetHomeDataQuery = {
             provider?: string | null
             videoId?: string | null
             videoUrl?: string | null
+            placeholder?: {
+              __typename?: "MediaItem"
+              id: string
+              databaseId: number
+              altText?: string | null
+              sourceUrl?: string | null
+              mimeType?: string | null
+              fileSize?: number | null
+              mediaDetails?: {
+                __typename?: "MediaDetails"
+                height?: number | null
+                width?: number | null
+              } | null
+            } | null
             videoFile?: {
               __typename?: "MediaItem"
               id: string
@@ -46945,6 +46961,25 @@ export const GetHomeDataDocument = {
                                           name: {
                                             kind: "Name",
                                             value: "videoUrl",
+                                          },
+                                        },
+                                        {
+                                          kind: "Field",
+                                          name: {
+                                            kind: "Name",
+                                            value: "placeholder",
+                                          },
+                                          selectionSet: {
+                                            kind: "SelectionSet",
+                                            selections: [
+                                              {
+                                                kind: "FragmentSpread",
+                                                name: {
+                                                  kind: "Name",
+                                                  value: "ImageBase",
+                                                },
+                                              },
+                                            ],
                                           },
                                         },
                                         {
