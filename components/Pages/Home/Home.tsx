@@ -101,6 +101,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
           if (videoLink?.videoLink)
             return (
               <VideoCard
+                key={videoLink.videoLink.title}
                 videoLink={
                   videoLink?.videoLink as Page_PageHome_Acf_VideoLinks_VideoLink
                 }
