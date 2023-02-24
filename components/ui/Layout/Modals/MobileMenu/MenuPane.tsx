@@ -1,7 +1,7 @@
 import { Fragment, memo } from "react"
 import { Dialog, Disclosure, Transition } from "@headlessui/react"
 import ClipboardCheckIcon from "@heroicons/react/24/outline/DocumentCheckIcon"
-import XIcon from "@heroicons/react/24/outline/XCircleIcon"
+import XIcon from "@heroicons/react/20/solid/XMarkIcon"
 import ChevronUpIcon from "@heroicons/react/20/solid/ChevronUpIcon"
 
 import customerMenu from "@lib/customerMenu"
@@ -39,7 +39,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
     "font-extrabold uppercase tracking-wider text-gray-800 pl-4"
 
   return (
-    <>
+    <Fragment>
       <Transition.Child
         as={Fragment}
         enter="transition ease-in-out duration-300 transform"
@@ -50,7 +50,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
         leaveTo="-translate-x-full"
       >
         <Dialog.Panel
-          className="relative w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto"
+          className="relative w-full bg-white shadow-xl rounded-r pb-12 flex flex-col overflow-y-auto"
           style={{ maxWidth: "350px" }}
         >
           <div className="px-4 pt-5 pb-2 flex">
@@ -339,7 +339,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
           </div>
         </Dialog.Panel>
       </Transition.Child>
-    </>
+    </Fragment>
   )
 })
 

@@ -55,7 +55,7 @@ const CartPane = () => {
                 <LoadingSpinner className="h-24" />
               </div>
             )}
-            <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+            <div className="h-full flex flex-col rounded-l bg-white shadow-xl overflow-y-scroll">
               <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                 <div className="flex items-start justify-between">
                   <Dialog.Title className="text-lg font-extrabold text-gray-900">
