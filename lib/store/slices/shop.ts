@@ -69,7 +69,7 @@ export type ShopSliceType = typeof initialState & {
 
 export const initialState = {
   shop: {
-    viewMode: "list" as "grid" | "list",
+    viewMode: "grid" as "grid" | "list",
     selectedSort: sortOptions[0],
     productsPerPage: 12,
   },
