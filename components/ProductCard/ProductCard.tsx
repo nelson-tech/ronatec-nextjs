@@ -28,7 +28,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
     return (
       <div className="group relative bg-white border border-gray-200 rounded w-full flex flex-col overflow-hidden">
         <div className="group-hover:opacity-75 transition-opacity">
-          <div className="w-full h-full object-center object-cover sm:w-full sm:h-full aspect-square relative">
+          <div className="w-full object-center object-cover sm:w-full sm:h-full aspect-square relative overflow-hidden">
             {product.image && product.image.sourceUrl ? (
               <Image
                 src={product.image.sourceUrl}
@@ -39,7 +39,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               />
             ) : (
               <div
-                className="p-4 text-base text-gray-500"
+                className="p-4 w-full text-sm max-h-[140px] line-clamp-[6] md:max-h-full md:line-clamp-none text-gray-500"
                 dangerouslySetInnerHTML={{
                   __html: product.shortDescription ?? "",
                 }}
