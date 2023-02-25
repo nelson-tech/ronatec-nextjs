@@ -2,9 +2,6 @@
 
 import { FormEventHandler, useEffect, useState } from "react"
 import { RadioGroup } from "@headlessui/react"
-import PlusIcon from "@heroicons/react/20/solid/PlusIcon"
-import MinusIcon from "@heroicons/react/20/solid/MinusIcon"
-import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 
 import {
   AddToCartInput,
@@ -198,11 +195,11 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                                   key={variation.sku}
                                   value={variation}
                                   className={({ checked }) =>
-                                    `transition-all 
+                                    `transition-all group 
                               ${
                                 checked
                                   ? "bg-accent text-white "
-                                  : "bg-white hover:bg-highlight hover:text-white "
+                                  : "bg-white hover:bg-highlight"
                               }
                                 relative rounded border shadow-sm border-opacity-80 px-5 py-4 mb-4 cursor-pointer flex outline-none`
                                   }
@@ -214,10 +211,10 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                                           <div className="text-sm outline-none">
                                             <RadioGroup.Label
                                               as="p"
-                                              className={`font-medium ring-transparent  ${
+                                              className={`font-medium ring-transparent transition-colors ${
                                                 checked
                                                   ? "text-white"
-                                                  : "text-gray-900"
+                                                  : "text-gray-900 group-hover:text-white"
                                               }`}
                                             >
                                               {
@@ -246,7 +243,8 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                 )}
                 <button
                   type="submit"
-                  className="mt-8 relative w-full bg-accent rounded py-3 px-8 flex items-center justify-center hover:bg-highlight focus:outline-none focus:ring-0"
+                  className="mt-8 relative w-full bg-accent rounded py-3 px-8 flex items-center 
+                  justify-center hover:bg-highlight focus:outline-none focus:ring-0 transition-colors"
                 >
                   {addLoading ? (
                     <span>

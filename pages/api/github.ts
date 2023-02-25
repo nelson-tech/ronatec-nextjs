@@ -34,7 +34,15 @@ const GitWebhook: NextApiHandler = async (req, res) => {
       exec(
         `cd ${repoPath} && \
           git pull && rm -rf .next && rm -rf node_modules && \
-          yarn install && yarn build && yarn pm2-restart`
+          yarn install && yarn build && yarn pm2-restart`,
+        (error, stdout, stderr) => {
+          if (error) {
+            console.error(`exec error: ${error}`)
+            return
+          }
+          console.log(`stdout: ${stdout}`)
+          console.error(`stderr: ${stderr}`)
+        }
       )
 
       console.log("GitHub Webhook ran successfully")
