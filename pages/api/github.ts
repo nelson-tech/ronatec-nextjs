@@ -21,6 +21,15 @@ const GitWebhook: NextApiHandler = async (req, res) => {
         .createHmac("sha256", webhooksSecret)
         .update(JSON.stringify(req.body))
         .digest("hex")
+
+    console.log(
+      "Github request",
+      sig,
+      req.headers["x-hub-signature-256"],
+      req.body?.ref,
+      repoPath
+    )
+
     if (
       req.headers["x-hub-signature-256"] === sig &&
       req.body?.ref === "refs/heads/main" &&
