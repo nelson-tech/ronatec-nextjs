@@ -59,31 +59,9 @@ const Summary = ({ category, productRef, main }: PropsType) => {
           {!main && (
             <h4 className="font-bold text-2xl text-gray-900 uppercase tracking-wide flex items-center mb-2">
               Sub-Categories
-              <span
-                className="ml-4 text-sm inline md:hidden font-normal text-gray-400 normal-case cursor-pointer"
-                data-testid="sub-categories-clickable-medium"
-                onClick={() => {
-                  if (!isServer) {
-                    productRef?.current?.scrollIntoView({ behavior: "smooth" })
-                  }
-                }}
-              >
-                Scroll down for Products
-              </span>
             </h4>
           )}
 
-          <div
-            className="text-sm md:hidden font-normal text-gray-400 normal-case cursor-pointer"
-            data-testid="sub-categories-clickable-small"
-            onClick={() => {
-              if (!isServer) {
-                productRef?.current?.scrollIntoView({ behavior: "smooth" })
-              }
-            }}
-          >
-            Scroll down for Products
-          </div>
           <div className="text-sm">
             <div className="grid grid-cols-2 md:grid-cols-4">
               {category?.children.nodes.map((subCategory: ProductCategory) => {
