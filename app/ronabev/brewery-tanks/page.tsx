@@ -12,15 +12,14 @@ const BreweryTanksPage = () => {
     <Fragment>
       <div className="max-w-7xl mx-auto">
         <PageHeader title="Brewery Tanks" />
-        <div className="flex items-center justify-center w-full">
-          <div className="rounded mx-8 overflow-hidden">
-            <Image
-              src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
-              alt="Brewery Tanks"
-              width={1200}
-              height={800}
-            />
-          </div>
+        <div className="w-full px-4 md:px-8">
+          <Image
+            src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
+            alt="Brewery Tanks"
+            width={1200}
+            height={800}
+            className="rounded overflow-hidden"
+          />
         </div>
         <div className="text-gray-800 prose max-w-none p-8">
           <p>
