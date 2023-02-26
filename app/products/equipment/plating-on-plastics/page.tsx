@@ -1,4 +1,13 @@
+import PageHeader from "@components/PageHeader"
+import { SEO_TITLE } from "@lib/constants"
 import Link from "next/link"
+import { Fragment } from "react"
+
+// ####
+// #### Variables
+// ####
+
+const title = "Plating On Plastics"
 
 // ####
 // #### Component
@@ -6,7 +15,8 @@ import Link from "next/link"
 
 const PlatingOnPlasticsPage = () => {
   return (
-    <>
+    <Fragment>
+      <PageHeader title={title} />
       <div className="max-w-7xl p-8 mx-auto">
         <div className="text-gray-800 md:p-8 space-y-4">
           <p>
@@ -31,14 +41,14 @@ const PlatingOnPlasticsPage = () => {
           </p>
         </div>
       </div>
-    </>
+    </Fragment>
   )
 }
 
 export default PlatingOnPlasticsPage
 
 export const metadata = {
-  title: "Plating On Plastics",
+  title: `${title} ${SEO_TITLE}`,
   description:
     "Ronatec C2C plastics plating products meet industry environmental regulations and standards while offering low-temperature operations, superior plating applications, and a high production yield.",
   keywords: [
