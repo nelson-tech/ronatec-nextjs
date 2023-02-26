@@ -44,7 +44,9 @@ const Map = ({ markers, className, style }: Props) => {
   return (
     <ComposableMap
       projection="geoAlbersUsa"
-      className={"bg-accent aspect-[2] md:aspect-[3] " + className}
+      className={
+        "bg-accent w-full max-w-7xl aspect-[2] md:aspect-[3] " + className
+      }
       style={style}
     >
       <Geographies geography={geoShape} className="">
