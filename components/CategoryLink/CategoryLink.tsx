@@ -15,8 +15,8 @@ const CategoryLink = ({ category }: CategoryLinkPropsType) => {
     >
       <Link href={`/products/${category?.slug}`} title={category?.name ?? ""}>
         <div className="">
-          {category.image && category.image?.sourceUrl && (
-            <div className="relative w-full mx-auto h-32 pt-2">
+          <div className="relative w-full mx-auto h-32 pt-2">
+            {category.image && category.image?.sourceUrl && (
               <Image
                 src={category.image?.sourceUrl}
                 alt={category?.name ?? ""}
@@ -24,8 +24,8 @@ const CategoryLink = ({ category }: CategoryLinkPropsType) => {
                 sizes="25vw"
                 className="object-cover rounded"
               />
-            </div>
-          )}
+            )}
+          </div>
           <div className="text-center align-bottom py-2 hover:text-gray-900">
             {category?.name}
           </div>
