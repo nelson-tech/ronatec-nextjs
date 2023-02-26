@@ -261,10 +261,10 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
           </div>
           <div
             id="description-column"
-            className="border-t col-span-1 md:col-span-2 px-8"
+            className="border-t lg:border-t-0 col-span-1 md:col-span-2 px-8"
           >
-            <div id="variation-description" className="my-8">
-              {selectedVariation && (
+            {selectedVariation && (
+              <div id="variation-description" className="py-4 mt-4 border-b">
                 <>
                   <div className="flex items-center">
                     <div className="mr-4 text-xl font-extrabold uppercase">
@@ -279,22 +279,19 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                         ` - ${parse(selectedVariation.description)}`}
                     </div>
                   </div>
-                  {selectedVariation.description &&
-                    selectedVariation.description[0] === "<" &&
-                    parse(selectedVariation.description)}
                 </>
-              )}
-              <div
-                id="product-description"
-                className="prose prose-slate
+              </div>
+            )}
+            <div
+              id="product-description"
+              className="mt-4 prose prose-slate
                 prose-a:text-highlight hover:prose-a:text-accent prose-a:transition-all
                 prose-headings:border-t prose-headings:pt-2
                 prose-p:pt-4
                 max-w-none"
-              >
-                {product.description &&
-                  parse(product.description, htmlParserOptions)}
-              </div>
+            >
+              {product.description &&
+                parse(product.description, htmlParserOptions)}
             </div>
           </div>
         </div>
