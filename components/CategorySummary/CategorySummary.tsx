@@ -44,7 +44,7 @@ const Summary = ({ category, productRef, main }: PropsType) => {
             </span>
           </div>
           <div
-            className="mt-4 py-4 text-base text-gray-500 prose max-w-none prose-sm prose-a:text-accent hover:prose-a:text-highlight prose-p:mt-4"
+            className="mt-4 py-2 text-base text-gray-500 prose max-w-none prose-sm prose-a:text-accent hover:prose-a:text-highlight prose-p:mt-4"
             dangerouslySetInnerHTML={{ __html: category?.description ?? "" }}
           />
         </div>
