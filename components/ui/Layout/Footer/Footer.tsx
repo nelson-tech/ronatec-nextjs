@@ -6,6 +6,7 @@ import PrinterIcon from "@heroicons/react/20/solid/PrinterIcon"
 
 import Image from "next/image"
 import MenuLink from "@components/Link"
+import Icon from "@components/ui/Icon"
 
 // ####
 // #### Component
@@ -143,17 +144,17 @@ const Footer = () => {
         </div>
         <div className="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center justify-between">
           <div className="flex space-x-6 md:order-2">
-            {/* {navigation.payments.map(item => (
+            {navigation.payments.map((item) => (
               <Icon
                 name={`cc-${item.name.toLowerCase()}`}
                 type="brands"
-                className="h-12 w-12 text-gray-200 hover:text-gray-100"
+                className="h-12 w-12 text-gray-200 hover:text-highlight"
                 key={item.name}
                 iconKey={`icon-${item.name}`}
               />
-            ))} */}
+            ))}
           </div>
-          <p className="text-base text-gray-200">
+          <p className="mt-8 md:mt-0 text-base text-gray-200">
             &copy; {new Date().getFullYear()} Ronatec C2C, Inc. All rights
             reserved.
           </p>
