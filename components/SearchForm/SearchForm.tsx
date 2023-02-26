@@ -57,7 +57,8 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
       >
         <div className="relative mt-1">
           <Combobox.Input
-            className="w-full rounded border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm ring-transparent focus:outline-none sm:text-sm"
+            className="w-full rounded border border-gray-300 bg-white py-2 pl-3 pr-10
+            ring-0 ring-transparent focus:ring-accent focus:border-accent focus:outline-none sm:text-sm"
             onChange={handleSearchField}
             placeholder="Product Name"
             displayValue={(product: any) => product?.name ?? ""}
@@ -75,7 +76,10 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white text-base shadow-lg ring-transparent focus:outline-none sm:text-sm">
+              <Combobox.Options
+                className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white text-base
+                shadow-lg ring-transparent focus:outline-none sm:text-sm"
+              >
                 {results.map((product) => (
                   <Combobox.Option
                     key={product.id}
