@@ -23,12 +23,12 @@ const documents = {
     types.ImageBaseFragmentDoc,
   "fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  displayName\n  email\n  orderCount\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  date\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}":
     types.CustomerBaseFragmentDoc,
-  "fragment OrderProductBase on Order {\n  date\n  orderNumber\n  total\n  status\n  lineItems {\n    nodes {\n      quantity\n      total\n      product {\n        node {\n          ...SimpleProductFragment\n          ...VariableProductFragment\n        }\n      }\n    }\n  }\n}":
-    types.OrderProductBaseFragmentDoc,
   "fragment EmployeeBase on Employee {\n  id\n  databaseId\n  slug\n  title\n  position {\n    position\n  }\n  departments {\n    nodes {\n      name\n    }\n  }\n  contact {\n    contact {\n      office\n      fax\n      email\n      address\n      orders\n    }\n  }\n}":
     types.EmployeeBaseFragmentDoc,
   "fragment SalesRepFragment on Page_PageAboutContact_Acf {\n  salesReps {\n    ... on Employee {\n      ...EmployeeBase\n      regions {\n        regions\n      }\n    }\n  }\n}":
     types.SalesRepFragmentFragmentDoc,
+  "fragment OrderProductBase on Order {\n  date\n  orderNumber\n  total\n  status\n  lineItems {\n    nodes {\n      quantity\n      total\n      product {\n        node {\n          ...SimpleProductFragment\n          ...VariableProductFragment\n        }\n      }\n    }\n  }\n}":
+    types.OrderProductBaseFragmentDoc,
   "fragment PageCommonBase on Page {\n  id\n  databaseId\n  title\n  slug\n  seo {\n    title\n    description\n    focusKeywords\n    openGraph {\n      articleMeta {\n        section\n      }\n      description\n      locale\n      siteName\n      title\n      type\n      url\n      slackEnhancedData {\n        data\n        label\n      }\n      twitterMeta {\n        card\n        description\n        title\n      }\n    }\n  }\n}":
     types.PageCommonBaseFragmentDoc,
   "fragment ProductAttributeBase on ProductAttribute {\n  id\n  attributeId\n  name\n  label\n  options\n}":
@@ -176,12 +176,6 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "fragment OrderProductBase on Order {\n  date\n  orderNumber\n  total\n  status\n  lineItems {\n    nodes {\n      quantity\n      total\n      product {\n        node {\n          ...SimpleProductFragment\n          ...VariableProductFragment\n        }\n      }\n    }\n  }\n}"
-): (typeof documents)["fragment OrderProductBase on Order {\n  date\n  orderNumber\n  total\n  status\n  lineItems {\n    nodes {\n      quantity\n      total\n      product {\n        node {\n          ...SimpleProductFragment\n          ...VariableProductFragment\n        }\n      }\n    }\n  }\n}"]
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(
   source: "fragment EmployeeBase on Employee {\n  id\n  databaseId\n  slug\n  title\n  position {\n    position\n  }\n  departments {\n    nodes {\n      name\n    }\n  }\n  contact {\n    contact {\n      office\n      fax\n      email\n      address\n      orders\n    }\n  }\n}"
 ): (typeof documents)["fragment EmployeeBase on Employee {\n  id\n  databaseId\n  slug\n  title\n  position {\n    position\n  }\n  departments {\n    nodes {\n      name\n    }\n  }\n  contact {\n    contact {\n      office\n      fax\n      email\n      address\n      orders\n    }\n  }\n}"]
 /**
@@ -190,6 +184,12 @@ export function graphql(
 export function graphql(
   source: "fragment SalesRepFragment on Page_PageAboutContact_Acf {\n  salesReps {\n    ... on Employee {\n      ...EmployeeBase\n      regions {\n        regions\n      }\n    }\n  }\n}"
 ): (typeof documents)["fragment SalesRepFragment on Page_PageAboutContact_Acf {\n  salesReps {\n    ... on Employee {\n      ...EmployeeBase\n      regions {\n        regions\n      }\n    }\n  }\n}"]
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "fragment OrderProductBase on Order {\n  date\n  orderNumber\n  total\n  status\n  lineItems {\n    nodes {\n      quantity\n      total\n      product {\n        node {\n          ...SimpleProductFragment\n          ...VariableProductFragment\n        }\n      }\n    }\n  }\n}"
+): (typeof documents)["fragment OrderProductBase on Order {\n  date\n  orderNumber\n  total\n  status\n  lineItems {\n    nodes {\n      quantity\n      total\n      product {\n        node {\n          ...SimpleProductFragment\n          ...VariableProductFragment\n        }\n      }\n    }\n  }\n}"]
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

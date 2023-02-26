@@ -25534,6 +25534,67 @@ export type CustomerBaseFragment = {
   } | null
 }
 
+export type EmployeeBaseFragment = {
+  __typename?: "Employee"
+  id: string
+  databaseId: number
+  slug?: string | null
+  title?: string | null
+  position?: {
+    __typename?: "Employee_Position"
+    position?: string | null
+  } | null
+  departments?: {
+    __typename?: "EmployeeToDepartmentConnection"
+    nodes: Array<{ __typename?: "Department"; name?: string | null }>
+  } | null
+  contact?: {
+    __typename?: "Employee_Contact"
+    contact?: {
+      __typename?: "Employee_Contact_Contact"
+      office?: string | null
+      fax?: string | null
+      email?: string | null
+      address?: string | null
+      orders?: string | null
+    } | null
+  } | null
+}
+
+export type SalesRepFragmentFragment = {
+  __typename?: "Page_PageAboutContact_Acf"
+  salesReps?: Array<{
+    __typename?: "Employee"
+    id: string
+    databaseId: number
+    slug?: string | null
+    title?: string | null
+    regions?: {
+      __typename?: "Employee_Regions"
+      regions?: string | null
+    } | null
+    position?: {
+      __typename?: "Employee_Position"
+      position?: string | null
+    } | null
+    departments?: {
+      __typename?: "EmployeeToDepartmentConnection"
+      nodes: Array<{ __typename?: "Department"; name?: string | null }>
+    } | null
+    contact?: {
+      __typename?: "Employee_Contact"
+      contact?: {
+        __typename?: "Employee_Contact_Contact"
+        office?: string | null
+        fax?: string | null
+        email?: string | null
+        address?: string | null
+        orders?: string | null
+      } | null
+    } | null
+  } | null> | null
+}
+
 export type OrderProductBaseFragment = {
   __typename?: "Order"
   date?: string | null
@@ -25750,67 +25811,6 @@ export type OrderProductBaseFragment = {
       } | null
     }>
   } | null
-}
-
-export type EmployeeBaseFragment = {
-  __typename?: "Employee"
-  id: string
-  databaseId: number
-  slug?: string | null
-  title?: string | null
-  position?: {
-    __typename?: "Employee_Position"
-    position?: string | null
-  } | null
-  departments?: {
-    __typename?: "EmployeeToDepartmentConnection"
-    nodes: Array<{ __typename?: "Department"; name?: string | null }>
-  } | null
-  contact?: {
-    __typename?: "Employee_Contact"
-    contact?: {
-      __typename?: "Employee_Contact_Contact"
-      office?: string | null
-      fax?: string | null
-      email?: string | null
-      address?: string | null
-      orders?: string | null
-    } | null
-  } | null
-}
-
-export type SalesRepFragmentFragment = {
-  __typename?: "Page_PageAboutContact_Acf"
-  salesReps?: Array<{
-    __typename?: "Employee"
-    id: string
-    databaseId: number
-    slug?: string | null
-    title?: string | null
-    regions?: {
-      __typename?: "Employee_Regions"
-      regions?: string | null
-    } | null
-    position?: {
-      __typename?: "Employee_Position"
-      position?: string | null
-    } | null
-    departments?: {
-      __typename?: "EmployeeToDepartmentConnection"
-      nodes: Array<{ __typename?: "Department"; name?: string | null }>
-    } | null
-    contact?: {
-      __typename?: "Employee_Contact"
-      contact?: {
-        __typename?: "Employee_Contact_Contact"
-        office?: string | null
-        fax?: string | null
-        email?: string | null
-        address?: string | null
-        orders?: string | null
-      } | null
-    } | null
-  } | null> | null
 }
 
 export type PageCommonBaseFragment = {
@@ -39816,6 +39816,223 @@ export const CustomerBaseFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<CustomerBaseFragment, unknown>
+export const EmployeeBaseFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "EmployeeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Employee" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "position" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "position" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "departments" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contact" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "contact" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "office" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "fax" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "address" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "orders" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<EmployeeBaseFragment, unknown>
+export const SalesRepFragmentFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "SalesRepFragment" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Page_PageAboutContact_Acf" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "salesReps" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "InlineFragment",
+                  typeCondition: {
+                    kind: "NamedType",
+                    name: { kind: "Name", value: "Employee" },
+                  },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "FragmentSpread",
+                        name: { kind: "Name", value: "EmployeeBase" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "regions" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "regions" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "EmployeeBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Employee" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
+          { kind: "Field", name: { kind: "Name", value: "slug" } },
+          { kind: "Field", name: { kind: "Name", value: "title" } },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "position" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "position" } },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "departments" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "nodes" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "contact" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "contact" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "office" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "fax" } },
+                      { kind: "Field", name: { kind: "Name", value: "email" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "address" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "orders" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<SalesRepFragmentFragment, unknown>
 export const ProductBaseFragmentDoc = {
   kind: "Document",
   definitions: [
@@ -41146,223 +41363,6 @@ export const OrderProductBaseFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<OrderProductBaseFragment, unknown>
-export const EmployeeBaseFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "EmployeeBase" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "Employee" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
-          { kind: "Field", name: { kind: "Name", value: "slug" } },
-          { kind: "Field", name: { kind: "Name", value: "title" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "position" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "position" } },
-              ],
-            },
-          },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "departments" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "nodes" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "contact" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "contact" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "office" },
-                      },
-                      { kind: "Field", name: { kind: "Name", value: "fax" } },
-                      { kind: "Field", name: { kind: "Name", value: "email" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "address" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "orders" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<EmployeeBaseFragment, unknown>
-export const SalesRepFragmentFragmentDoc = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "SalesRepFragment" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "Page_PageAboutContact_Acf" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "salesReps" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "InlineFragment",
-                  typeCondition: {
-                    kind: "NamedType",
-                    name: { kind: "Name", value: "Employee" },
-                  },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "FragmentSpread",
-                        name: { kind: "Name", value: "EmployeeBase" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "regions" },
-                        selectionSet: {
-                          kind: "SelectionSet",
-                          selections: [
-                            {
-                              kind: "Field",
-                              name: { kind: "Name", value: "regions" },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-    {
-      kind: "FragmentDefinition",
-      name: { kind: "Name", value: "EmployeeBase" },
-      typeCondition: {
-        kind: "NamedType",
-        name: { kind: "Name", value: "Employee" },
-      },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "databaseId" } },
-          { kind: "Field", name: { kind: "Name", value: "slug" } },
-          { kind: "Field", name: { kind: "Name", value: "title" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "position" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "position" } },
-              ],
-            },
-          },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "departments" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "nodes" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "contact" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "contact" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "office" },
-                      },
-                      { kind: "Field", name: { kind: "Name", value: "fax" } },
-                      { kind: "Field", name: { kind: "Name", value: "email" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "address" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "orders" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<SalesRepFragmentFragment, unknown>
 export const PageCommonBaseFragmentDoc = {
   kind: "Document",
   definitions: [

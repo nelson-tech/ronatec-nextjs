@@ -1,7 +1,0 @@
-fragment ProductAttributeBase on ProductAttribute {
-  id
-  attributeId
-  name
-  label
-  options
-}

@@ -1,8 +1,0 @@
-fragment SimpleProductFragment on SimpleProduct {
-  ... on SimpleProduct {
-    ...ProductBase
-    price
-    salePrice
-    onSale
-  }
-}
