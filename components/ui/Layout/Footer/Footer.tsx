@@ -4,7 +4,7 @@ import LocationMarkerIcon from "@heroicons/react/20/solid/MapPinIcon"
 import PhoneIcon from "@heroicons/react/20/solid/PhoneIcon"
 import PrinterIcon from "@heroicons/react/20/solid/PrinterIcon"
 
-import Image from "@components/Image"
+import Image from "next/image"
 import MenuLink from "@components/Link"
 
 // ####
@@ -62,30 +62,30 @@ const Footer = () => {
         <div className="block">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div className="">
-                <h3 className="text-sm font-semibold text-gray-200 tracking-wider uppercase">
+              <div className="flex flex-col items-center px-4">
+                <h3 className="text-sm font-semibold text-gray-200 tracking-wider w-full text-center uppercase">
                   ISO 9001 Certified
                 </h3>
-                <div className="p-8 sm:p-16 md:mr-8 lg:mr-16 md:p-8">
+                <div className="w-full h-full mt-4 max-h-32">
                   <Image
                     src={`${process.env.NEXT_PUBLIC_CDN_BASE_URL}/ronatec/iso9001.png`}
                     width={593}
                     height={596}
+                    className="w-full max-h-32 object-contain"
                     alt="ISO 9001 Certificate"
                   />
                 </div>
               </div>
-              <div className="mt-12 md:mt-0">
-                <h3 className="text-sm font-semibold text-gray-200 tracking-wider uppercase">
+              <div className="mt-12 md:mt-0 px-4 flex flex-col items-center">
+                <h3 className="text-sm font-semibold text-gray-200 tracking-wider w-full text-center uppercase">
                   ISO 17025 Certified
                 </h3>
-                <div className="p-8 sm:p-16 md:mr-8 lg:mr-16 md:p-8">
+                <div className="w-full h-full mt-4 max-h-32">
                   <Image
                     src={`${process.env.NEXT_PUBLIC_CDN_BASE_URL}/ronatec/iso17025.png`}
                     width={218}
                     height={300}
-                    // objectFit="cover"
-                    // layout="responsive"
+                    className="w-full max-h-32 object-contain"
                     alt="ISO 17025 Certificate"
                   />
                 </div>
@@ -153,7 +153,7 @@ const Footer = () => {
               />
             ))} */}
           </div>
-          <p className="mt-8 text-base text-gray-200 md:mt-0 md:order-1">
+          <p className="text-base text-gray-200">
             &copy; {new Date().getFullYear()} Ronatec C2C, Inc. All rights
             reserved.
           </p>
