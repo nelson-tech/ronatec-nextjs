@@ -1,13 +1,18 @@
+import { useCallback } from "react"
+import shallow from "zustand/shallow"
+
 import getClient from "@api/client"
 import {
   AddToCartDocument,
-  AddToCartMutationVariables,
-  Cart,
   ClearCartDocument,
   GetCartDocument,
   RemoveCartItemDocument,
-  RemoveCartItemMutationVariables,
   UpdateCartItemQuantityDocument,
+} from "@api/codegen/graphql"
+import type {
+  AddToCartMutationVariables,
+  Cart,
+  RemoveCartItemMutationVariables,
   UpdateCartItemQuantityMutationVariables,
 } from "@api/codegen/graphql"
 import useStore from "./useStore"
@@ -15,9 +20,12 @@ import useStore from "./useStore"
 const useCart = () => {
   const client = getClient()
 
-  const { setCart, setLoading, setOpen } = useStore((stores) => stores.cart)
+  const { setCart, setLoading, setOpen } = useStore(
+    (stores) => stores.cart,
+    shallow
+  )
 
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     setLoading(true)
 
     const cartData = await client.request(GetCartDocument)
@@ -25,14 +33,15 @@ const useCart = () => {
     cartData.cart && setCart(cartData.cart as Cart)
 
     setLoading(false)
-  }
+  }, [client, setCart, setLoading])
 
   const clearCart = async () => {
     setLoading(true)
 
     const clearCartData = await client.request(ClearCartDocument, { input: {} })
 
-    await fetchCart()
+    clearCartData.emptyCart?.cart &&
+      setCart(clearCartData.emptyCart.cart as Cart)
 
     return clearCartData
   }
@@ -42,7 +51,10 @@ const useCart = () => {
 
     const removeItemData = await client.request(RemoveCartItemDocument, input)
 
-    await fetchCart()
+    removeItemData.removeItemsFromCart?.cart &&
+      setCart(removeItemData.removeItemsFromCart.cart as Cart)
+
+    setLoading(false)
 
     return removeItemData
   }
@@ -70,7 +82,10 @@ const useCart = () => {
       input
     )
 
-    await fetchCart()
+    updateCartData.updateItemQuantities?.cart &&
+      setCart(updateCartData.updateItemQuantities.cart as Cart)
+
+    setLoading(false)
 
     return updateCartData
   }
