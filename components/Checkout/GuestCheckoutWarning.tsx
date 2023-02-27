@@ -27,7 +27,7 @@ const GuestCheckoutWarning = () => {
                 features like tracking the status of your order and viewing past
                 orders.{" "}
                 <Link
-                  href="/register?redirect=/checkout"
+                  href="/register?redirect=checkout"
                   title="Register a new account."
                   className="underline transition hover:text-highlight"
                 >
@@ -36,7 +36,7 @@ const GuestCheckoutWarning = () => {
                 is fast and only requires an email address. If you already have
                 an account,{" "}
                 <Link
-                  href="/login?redirect=/checkout"
+                  href="/login?redirect=checkout"
                   title="Login to your account."
                   className="underline transition hover:text-highlight"
                 >
