@@ -1,10 +1,11 @@
 "use client"
 
 import { FormEventHandler, useEffect, useState } from "react"
-import { RadioGroup } from "@headlessui/react"
+import { RadioGroup, Tab } from "@headlessui/react"
 
 import {
   AddToCartInput,
+  MediaItem,
   ProductAttributeInput,
   ProductVariation,
   VariationAttribute,
@@ -18,6 +19,7 @@ import Image from "@components/Image"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 import "./style.css"
+import classs from "@lib/utils/classs"
 
 // ####
 // #### Types
@@ -137,10 +139,15 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
     }
   }
 
+  const images = [
+    product?.image,
+    ...(product?.galleryImages?.nodes ?? []),
+  ] as MediaItem[]
+
   return (
     <>
       <div className="text-gray-700 w-full mx-auto lg:max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 w-full">
           <div
             id="image-and-options"
             className="w-full col-span-1 p-8 flex flex-col md:flex-row lg:flex-col md:justify-center lg:justify-start"
@@ -148,16 +155,78 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
             {product.image?.sourceUrl && (
               <div
                 id="product-image"
-                className="max-h-64 lg:max-h-96 relative object-contain w-full md:w-1/2 lg:w-full"
+                className="w-full md:w-1/2 lg:w-full md:px-4 lg:px-0 flex justify-center"
               >
-                <Image
-                  src={product.image.sourceUrl}
-                  alt={product.image.altText ?? ""}
-                  height={product.image?.mediaDetails?.height ?? undefined}
-                  width={product.image?.mediaDetails?.width ?? undefined}
-                  className="object-contain h-full w-full"
-                  priority
-                />
+                {/* <!-- Image Gallery --> */}
+                {images &&
+                  (images.length > 1 ? (
+                    <Tab.Group as="div" className="flex flex-col items-center">
+                      <Tab.Panels
+                        className="object-contain w-full relative"
+                        as="div"
+                      >
+                        {images.map(
+                          (image, i) =>
+                            image.sourceUrl && (
+                              <Tab.Panel key={image.id + "main"}>
+                                <Image
+                                  src={image.sourceUrl}
+                                  alt={image.altText ?? ""}
+                                  width={image.mediaDetails?.width ?? 0}
+                                  height={image.mediaDetails?.height ?? 0}
+                                  className="rounded"
+                                />
+                              </Tab.Panel>
+                            )
+                        )}
+                      </Tab.Panels>
+
+                      {/* <!-- Image selector --> */}
+                      <div className="mx-auto w-full mt-4 px-4 lg:px-0 max-w-2xl sm:block lg:max-w-none">
+                        <Tab.List className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-3 gap-6 lg:gap-4">
+                          {images.map(
+                            (image) =>
+                              image.sourceUrl && (
+                                <Tab
+                                  key={image.id + "thumbs"}
+                                  className="relative flex w-full aspect-square cursor-pointer items-center justify-center rounded-sm
+                                  focus:outline-none focus:ring focus:ring-accent focus:ring-offset-4"
+                                >
+                                  <span className="sr-only">
+                                    {image.altText}
+                                  </span>
+                                  <span className="absolute inset-0 overflow-hidden rounded-sm">
+                                    <Image
+                                      src={image.sourceUrl}
+                                      alt={image.altText ?? ""}
+                                      fill
+                                      sizes="33vw"
+                                      className="h-full w-full object-cover object-center"
+                                    />
+                                  </span>
+                                  <span
+                                    className={classs(
+                                      "ring-transparent",
+                                      "pointer-events-none absolute inset-0 rounded ring-2 ring-offset-2"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                </Tab>
+                              )
+                          )}
+                        </Tab.List>
+                      </div>
+                    </Tab.Group>
+                  ) : (
+                    <Image
+                      src={product.image.sourceUrl}
+                      alt={product.image.altText ?? ""}
+                      height={product.image?.mediaDetails?.height ?? undefined}
+                      width={product.image?.mediaDetails?.width ?? undefined}
+                      className="object-contain rounded overflow-hidden"
+                      priority
+                    />
+                  ))}
               </div>
             )}
             <div
@@ -261,7 +330,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
           </div>
           <div
             id="description-column"
-            className="border-t lg:border-t-0 col-span-1 md:col-span-2 px-8"
+            className="border-t lg:border-t-0 col-span-1 md:col-span-2 px-8 mb-8"
           >
             {selectedVariation && (
               <div id="variation-description" className="py-4 mt-4 border-b">
