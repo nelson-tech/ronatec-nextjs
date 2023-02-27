@@ -86,13 +86,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
             )}
           </div>
           {product.image?.sourceUrl && (
-            <div className="w-16 h-16 lg:w-24 lg:h-24 rounded">
+            <div className="w-16 lg:w-24 aspect-square rounded ml-4">
               <Image
                 src={product.image.sourceUrl}
                 alt={product.image.altText ?? ""}
                 width={product.image.mediaDetails?.width ?? undefined}
                 height={product.image.mediaDetails?.height ?? undefined}
-                className="object-contain w-full h-full rounded"
+                className="object-cover w-full aspect-square rounded"
               />
             </div>
           )}
