@@ -1,5 +1,6 @@
 "use client"
 
+import { Fragment } from "react"
 import { shallow } from "zustand/shallow"
 
 import { Customer } from "@api/codegen/graphql"
@@ -37,10 +38,8 @@ const Checkout = ({ customer }: PropsType) => {
   const emptyCart = cart?.isEmpty
   const loaded = typeof emptyCart === "boolean"
 
-  console.log("Checkout", customer)
-
   return (
-    <>
+    <Fragment>
       {loaded ? (
         emptyCart ? (
           <div className="max-w-max mx-auto min-h-full py-24">
@@ -94,10 +93,11 @@ const Checkout = ({ customer }: PropsType) => {
                 </ul>
               </section>
 
-              {customer?.id &&
-              ((loggedIn && customer.id !== "guest") ??
-                (!loggedIn && customer.id === "guest")) ? (
-                <CheckoutForm customer={customer as Customer} />
+              {customer?.id ? (
+                <div>
+                  {!loggedIn && <GuestCheckoutWarning />}
+                  <CheckoutForm customer={customer as Customer} />
+                </div>
               ) : (
                 <>
                   <div className="h-screen mt-48 mx-auto">
@@ -119,7 +119,7 @@ const Checkout = ({ customer }: PropsType) => {
           className="flex mx-auto min-h-screen -mt-24"
         />
       )}
-    </>
+    </Fragment>
   )
 }
 
