@@ -5,13 +5,19 @@ import ShoppingCartIcon from "@heroicons/react/24/outline/ShoppingCartIcon"
 
 import useStore from "@lib/hooks/useStore"
 
+import LoadingSpinner from "@components/ui/LoadingSpinner"
+
 // ####
 // #### Component
 // ####
 
 const CartButton = () => {
-  const { cart, setOpen } = useStore(
-    (state) => ({ cart: state.cart.state, setOpen: state.cart.setOpen }),
+  const { cart, loading, setOpen } = useStore(
+    (state) => ({
+      cart: state.cart.state,
+      loading: state.cart.loading,
+      setOpen: state.cart.setOpen,
+    }),
     shallow
   )
 
@@ -26,13 +32,17 @@ const CartButton = () => {
         aria-hidden="true"
       />
 
-      <span
-        className={`ml-2 text-sm font-medium text-gray-400 ${
-          cart?.contents?.itemCount ?? "group-hover:text-gray-500"
-        }`}
-      >
-        {cart?.contents?.itemCount ?? 0}
-      </span>
+      {loading ? (
+        <LoadingSpinner size={4} className="ml-2" />
+      ) : (
+        <span
+          className={`ml-2 w-4 text-sm font-medium text-gray-400 ${
+            cart?.contents?.itemCount ?? "group-hover:text-gray-500"
+          }`}
+        >
+          {cart?.contents?.itemCount ?? 0}
+        </span>
+      )}
       <span className="sr-only">items in cart, view bag</span>
     </button>
   )
