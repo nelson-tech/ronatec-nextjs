@@ -1,6 +1,7 @@
 "use client"
 
 import APIContext from "./APIContext"
+import ClientContext from "./ClientContext"
 import StoreContext from "./StoreContext"
 
 //
@@ -18,7 +19,9 @@ type RootClientContextProps = {
 const RootClientContext = ({ children }: RootClientContextProps) => {
   return (
     <APIContext>
-      <StoreContext>{children}</StoreContext>
+      <StoreContext>
+        <ClientContext>{children}</ClientContext>
+      </StoreContext>
     </APIContext>
   )
 }
