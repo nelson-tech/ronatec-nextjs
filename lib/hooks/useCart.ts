@@ -116,7 +116,7 @@ const useCart = () => {
 
       setLoading(false)
     },
-    [client, setCart, setOpen, setLoading]
+    [client, setAlert, setCart, setOpen, setLoading]
   )
 
   const updateCart = useCallback(
