@@ -20,6 +20,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 import "./style.css"
 import classs from "@lib/utils/classs"
+import useStore from "@lib/hooks/useStore"
 
 // ####
 // #### Types
@@ -34,7 +35,8 @@ type DefaultProductProps = {
 // ####
 
 const DefaultProduct = ({ product }: DefaultProductProps) => {
-  const { addToCart } = useCart()
+  const { loading, addToCart } = useCart()
+  const setAlert = useStore((state) => state.alert.setAlert)
 
   const getAttributes = (product: FullProduct) => {
     let allAttributes: AttributeType[] = []
@@ -74,17 +76,6 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
     useState<ProductVariation | null>(firstVariation)
 
   const [error, setError] = useState<string | null>(null)
-  const [addLoading, setAddLoading] = useState(false)
-  const [itemAdded, setItemAdded] = useState(false)
-  const [quantity, setQuantity] = useState(1)
-
-  useEffect(() => {
-    if (itemAdded) {
-      setTimeout(() => {
-        setItemAdded(false)
-      }, 2000)
-    }
-  })
 
   // Update selected variation if firstVariation changes (reload or product change)
   useEffect(() => {
@@ -92,7 +83,6 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
   }, [firstVariation, setSelectedVariation])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-    setAddLoading(true)
     event.preventDefault()
     setError(null)
 
@@ -100,7 +90,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
     if (productId) {
       let input: AddToCartInput = {
         productId,
-        quantity,
+        quantity: 1,
       }
 
       if (product.type === "VARIABLE" && selectedVariation) {
@@ -119,23 +109,9 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
         }
       }
 
-      const cartData = await addToCart({ input })
-
-      if (cartData.addToCart?.cart) {
-        setItemAdded(true)
-        if (!isServer) {
-          window.scrollTo({ top: 0, behavior: "smooth" })
-        }
-        setAddLoading(false)
-      } else {
-        setError(
-          "Error adding to the shopping cart. Please try refreshing the page."
-        )
-        setAddLoading(false)
-      }
+      await addToCart({ input })
     } else {
-      setError("Product ID not found.")
-      setAddLoading(false)
+      setAlert({ open: true, kind: "error", primary: "Product ID not found." })
     }
   }
 
@@ -315,7 +291,7 @@ const DefaultProduct = ({ product }: DefaultProductProps) => {
                   className="mt-8 relative w-full bg-accent rounded py-3 px-8 flex items-center 
                   justify-center hover:bg-highlight focus:outline-none focus:ring-0 transition-colors"
                 >
-                  {addLoading ? (
+                  {loading ? (
                     <span>
                       <LoadingSpinner size={6} color="white" opacity={75} />
                     </span>

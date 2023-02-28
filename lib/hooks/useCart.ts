@@ -20,8 +20,14 @@ import useStore from "./useStore"
 const useCart = () => {
   const client = getClient()
 
-  const { setCart, setLoading, setOpen } = useStore(
-    (stores) => stores.cart,
+  const { loading, setCart, setLoading, setOpen, setAlert } = useStore(
+    (stores) => ({
+      loading: stores.cart.loading,
+      setCart: stores.cart.setCart,
+      setLoading: stores.cart.setLoading,
+      setOpen: stores.cart.setOpen,
+      setAlert: stores.alert.setAlert,
+    }),
     shallow
   )
 
@@ -89,9 +95,23 @@ const useCart = () => {
         if (cartData.addToCart?.cart) {
           setCart(cartData.addToCart.cart as Cart)
           setOpen(true)
+        } else {
+          setAlert({
+            open: true,
+            kind: "error",
+            primary: "Error adding to the shopping cart.",
+            secondary: "Please try refreshing the page.",
+          })
         }
       } catch (error) {
         console.warn("Error adding item in useCart:", error)
+
+        setAlert({
+          open: true,
+          kind: "error",
+          primary: "Error adding to the shopping cart.",
+          secondary: "Please try refreshing the page.",
+        })
       }
 
       setLoading(false)
@@ -120,7 +140,7 @@ const useCart = () => {
     [client, setCart, setLoading]
   )
 
-  return { clearCart, removeItem, addToCart, updateCart, fetchCart }
+  return { loading, clearCart, removeItem, addToCart, updateCart, fetchCart }
 }
 
 export default useCart

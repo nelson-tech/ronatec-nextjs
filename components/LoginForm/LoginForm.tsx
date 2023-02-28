@@ -31,10 +31,9 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const params = useSearchParams()
   const redirect = params?.get("redirect")
 
-  const { loggedIn, error } = useStore(
+  const { loggedIn } = useStore(
     (state) => ({
       loggedIn: state.auth.loggedIn,
-      error: state.auth.errors.login,
     }),
     shallow
   )
@@ -170,9 +169,6 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
             <div className="pt-2">
               <ErrorField name="email" />
               <ErrorField name="password" />
-              {error && (
-                <p className="text-red-main text-sm pt-2 pl-2">{error}</p>
-              )}
             </div>
 
             <div className="text-sm text-center pt-2">

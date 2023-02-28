@@ -64,7 +64,7 @@ const useRegister = () => {
         })
       }
     },
-    [client, setAlert, setCookie, setCustomer, setLoggedIn]
+    [client, setAlert, setCustomer, setLoggedIn]
   )
 
   return { register }
