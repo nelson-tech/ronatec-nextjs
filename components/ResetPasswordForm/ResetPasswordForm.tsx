@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { shallow } from "zustand/shallow"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
@@ -26,15 +25,18 @@ type ResetPasswordFormInputType = {
 // ####
 
 const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
+  const router = useRouter()
+
+  const searchParams = useSearchParams()
+
   const [error, setError] = useState<string | null>(null)
   const [sentEmail, setSentEmail] = useState(false)
   const [passwordReset, setPasswordReset] = useState(false)
-  const router = useRouter()
-  const searchParams = useSearchParams()
 
   const [email, setEmail] = useState<string | null>(
-    searchParams?.get("username") ?? detectedEmail ?? null
+    searchParams?.get("email") ?? detectedEmail ?? null
   )
+
   const [key] = useState<string | null>(searchParams?.get("key") ?? null)
   const [password, setPassword] = useState<string | null>(null)
   const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null)
