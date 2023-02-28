@@ -1,4 +1,4 @@
-import { Fragment, memo, useState } from "react"
+import { memo, useState } from "react"
 import { TrashIcon } from "@heroicons/react/20/solid"
 
 import type { CartItem as CartItemType } from "@api/codegen/graphql"
@@ -38,7 +38,7 @@ const CartItem = memo(
       ""
 
     return (
-      <Fragment>
+      <>
         {lineItem?.product?.node && (
           <li className="py-6 flex items-center justify-between">
             {lineItem?.product?.node?.image && (
@@ -90,7 +90,7 @@ const CartItem = memo(
             </div>
           </li>
         )}
-      </Fragment>
+      </>
     )
   },
   function areEqual(prev, next) {

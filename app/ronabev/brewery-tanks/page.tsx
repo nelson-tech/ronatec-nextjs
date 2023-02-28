@@ -1,5 +1,3 @@
-import { Fragment } from "react"
-
 import Image from "@components/Image"
 import PageHeader from "@components/PageHeader"
 
@@ -9,7 +7,7 @@ import PageHeader from "@components/PageHeader"
 
 const BreweryTanksPage = () => {
   return (
-    <Fragment>
+    <>
       <div className="max-w-7xl mx-auto">
         <PageHeader title="Brewery Tanks" />
         <div className="w-full px-4 md:px-8">
@@ -40,7 +38,7 @@ const BreweryTanksPage = () => {
           individual requirements of our customers.
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 

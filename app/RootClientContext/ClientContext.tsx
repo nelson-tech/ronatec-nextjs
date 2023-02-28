@@ -1,11 +1,11 @@
 "use client"
 
-import { Fragment, useEffect, useState } from "react"
+import { useEffect } from "react"
+import { shallow } from "zustand/shallow"
 
 import useCart from "@lib/hooks/useCart"
 import getTokensClient from "@lib/utils/getTokensClient"
 import useStore from "@lib/hooks/useStore"
-import { shallow } from "zustand/shallow"
 
 //
 // Types
@@ -43,7 +43,7 @@ const ClientContext = ({ children }: ClientContextProps) => {
     }
   }, [ready, fetchCart, setLoggedIn, setReady])
 
-  return <Fragment>{children}</Fragment>
+  return <>{children}</>
 }
 
 export default ClientContext

@@ -1,4 +1,3 @@
-import { Fragment } from "react"
 import type { Metadata } from "next/types"
 
 import type { RankMathProductTypeSeo } from "@api/codegen/graphql"
@@ -19,7 +18,7 @@ const AboutPage = async () => {
   const cards = page?.page_about?.acf?.cards
 
   return (
-    <Fragment>
+    <>
       <div className="mx-auto max-w-7xl">
         <PageHeader title="About Us" />
         <section className="flex flex-col px-4 md:flex-row pb-8">
@@ -55,7 +54,7 @@ const AboutPage = async () => {
             })}
         </section>
       </div>
-    </Fragment>
+    </>
   )
 }
 

@@ -1,4 +1,3 @@
-import { Fragment } from "react"
 import type { Metadata } from "next/types"
 import OfficeBuildingIcon from "@heroicons/react/24/outline/BuildingOfficeIcon"
 
@@ -24,7 +23,7 @@ const WarehousesPage = async () => {
   const markers = warehouses?.markers
 
   return (
-    <Fragment>
+    <>
       <div className="w-full bg-accent flex justify-center">
         <Map
           markers={markers as Post_Maps_Markers[]}
@@ -50,7 +49,7 @@ const WarehousesPage = async () => {
           </div>
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 

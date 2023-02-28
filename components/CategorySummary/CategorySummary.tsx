@@ -1,4 +1,4 @@
-import { Fragment, RefObject } from "react"
+import type { RefObject } from "react"
 
 import { ProductCategory } from "@api/codegen/graphql"
 import isServer from "@lib/utils/isServer"
@@ -21,7 +21,7 @@ export type PropsType = {
 
 const Summary = ({ category, productRef, main }: PropsType) => {
   return (
-    <Fragment>
+    <>
       {category?.name && (
         <div
           className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl"
@@ -81,7 +81,7 @@ const Summary = ({ category, productRef, main }: PropsType) => {
           </div>
         </div>
       )}
-    </Fragment>
+    </>
   )
 }
 

@@ -4,12 +4,12 @@ import ClipboardCheckIcon from "@heroicons/react/24/outline/DocumentCheckIcon"
 import XIcon from "@heroicons/react/20/solid/XMarkIcon"
 import ChevronUpIcon from "@heroicons/react/20/solid/ChevronUpIcon"
 
+import { MenuItem } from "@api/codegen/graphql"
 import customerMenu from "@lib/customerMenu"
 import useLogout from "@lib/hooks/auth/useLogout"
 import useStore from "@lib/hooks/useStore"
 
 import Link from "@components/Link"
-import { MenuItem } from "@api/codegen/graphql"
 import LoginIcon from "@components/icons/Login"
 
 // ####
@@ -39,7 +39,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
     "font-extrabold uppercase tracking-wider text-gray-800 pl-4"
 
   return (
-    <Fragment>
+    <>
       <Transition.Child
         as={Fragment}
         enter="transition ease-in-out duration-300 transform"
@@ -339,7 +339,7 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
           </div>
         </Dialog.Panel>
       </Transition.Child>
-    </Fragment>
+    </>
   )
 })
 

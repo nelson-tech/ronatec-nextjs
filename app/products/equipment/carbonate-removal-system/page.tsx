@@ -1,5 +1,3 @@
-import { Fragment } from "react"
-
 import { SEO_TITLE } from "@lib/constants"
 
 import PageHeader from "@components/PageHeader"
@@ -17,10 +15,10 @@ const title = "Carbonate Removal System"
 
 const CarbonateRemovalSystemPage = () => {
   return (
-    <Fragment>
+    <>
       <PageHeader title={title} />
       <CarbonateRemovalSystemComponent />
-    </Fragment>
+    </>
   )
 }
 

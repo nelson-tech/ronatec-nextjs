@@ -1,12 +1,13 @@
 "use client"
 
-import { Fragment, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { shallow } from "zustand/shallow"
 
 import type { Product, ProductCategory } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
-import { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
+import type { GetFilteredProductsPropsType } from "@lib/server/getFilteredProducts"
 import { defaultPagination, PaginationType } from "@lib/pagination"
+import type { FullProduct } from "@lib/types/products"
 import useFilteredProducts from "@lib/hooks/useFilteredProducts"
 import { SortOptionType } from "@lib/store/slices/shop"
 
@@ -15,7 +16,6 @@ import CategorySummary from "@components/CategorySummary"
 import Sort from "@components/Sort"
 import ProductGrid from "@components/ProductGrid"
 import Pagination from "@components/Pagination"
-import { FullProduct } from "@lib/types/products"
 
 // ####
 // #### Types
@@ -84,7 +84,7 @@ const Products = ({ initialProducts, ...props }: ProductsPropsType) => {
   }
 
   return (
-    <Fragment>
+    <>
       {!isCategories && (
         <Breadcrumbs category={(props as CategoryPropsType).category} />
       )}
@@ -120,7 +120,7 @@ const Products = ({ initialProducts, ...props }: ProductsPropsType) => {
             )}
           </div>
         )}
-    </Fragment>
+    </>
   )
 }
 

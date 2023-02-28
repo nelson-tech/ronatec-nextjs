@@ -1,7 +1,8 @@
-import PageHeader from "@components/PageHeader"
-import { SEO_TITLE } from "@lib/constants"
 import Link from "next/link"
-import { Fragment } from "react"
+
+import { SEO_TITLE } from "@lib/constants"
+
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Variables
@@ -15,7 +16,7 @@ const title = "Plating On Plastics"
 
 const PlatingOnPlasticsPage = () => {
   return (
-    <Fragment>
+    <>
       <PageHeader title={title} />
       <div className="max-w-7xl p-8 mx-auto">
         <div className="text-gray-800 md:p-8 space-y-4">
@@ -41,7 +42,7 @@ const PlatingOnPlasticsPage = () => {
           </p>
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 

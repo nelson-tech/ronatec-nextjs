@@ -1,4 +1,3 @@
-import { Fragment } from "react"
 import type { Metadata } from "next/types"
 import {
   Employee,
@@ -26,7 +25,7 @@ const ContactPage = async () => {
   const map = page?.page_about_contact?.acf?.map
 
   return (
-    <Fragment>
+    <>
       <div className="w-full bg-accent flex justify-center">
         <Map
           markers={map?.markers as Post_Maps_Markers[]}
@@ -80,7 +79,7 @@ const ContactPage = async () => {
           )}
         </div>
       </div>
-    </Fragment>
+    </>
   )
 }
 
