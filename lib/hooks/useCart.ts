@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import shallow from "zustand/shallow"
+import { shallow } from "zustand/shallow"
 
 import getClient from "@api/client"
 import {
@@ -28,67 +28,97 @@ const useCart = () => {
   const fetchCart = useCallback(async () => {
     setLoading(true)
 
-    const cartData = await client.request(GetCartDocument)
+    try {
+      const cartData = await client.request(GetCartDocument)
 
-    cartData.cart && setCart(cartData.cart as Cart)
+      cartData.cart && setCart(cartData.cart as Cart)
+    } catch (error) {
+      console.warn("Error fetching cart in useCart:", error)
+    }
 
     setLoading(false)
   }, [client, setCart, setLoading])
 
-  const clearCart = async () => {
+  const clearCart = useCallback(async () => {
     setLoading(true)
 
-    const clearCartData = await client.request(ClearCartDocument, { input: {} })
+    try {
+      const clearCartData = await client.request(ClearCartDocument, {
+        input: {},
+      })
 
-    clearCartData.emptyCart?.cart &&
-      setCart(clearCartData.emptyCart.cart as Cart)
+      clearCartData.emptyCart?.cart &&
+        setCart(clearCartData.emptyCart.cart as Cart)
+    } catch (error) {
+      console.warn("Error clearing cart in useCart:", error)
 
-    return clearCartData
-  }
-
-  const removeItem = async (input: RemoveCartItemMutationVariables) => {
-    setLoading(true)
-
-    const removeItemData = await client.request(RemoveCartItemDocument, input)
-
-    removeItemData.removeItemsFromCart?.cart &&
-      setCart(removeItemData.removeItemsFromCart.cart as Cart)
-
-    setLoading(false)
-
-    return removeItemData
-  }
-
-  const addToCart = async (input: AddToCartMutationVariables) => {
-    setLoading(true)
-
-    const cartData = await client.request(AddToCartDocument, input)
-
-    if (cartData.addToCart?.cart) {
-      setCart(cartData.addToCart.cart as Cart)
-      setOpen(true)
+      fetchCart()
     }
 
     setLoading(false)
+  }, [client, fetchCart, setCart, setLoading])
 
-    return cartData
-  }
+  const removeItem = useCallback(
+    async (input: RemoveCartItemMutationVariables) => {
+      setLoading(true)
 
-  const updateCart = async (input: UpdateCartItemQuantityMutationVariables) => {
-    setLoading(true)
+      try {
+        const removeItemData = await client.request(
+          RemoveCartItemDocument,
+          input
+        )
 
-    const updateCartData = await client.request(
-      UpdateCartItemQuantityDocument,
-      input
-    )
+        removeItemData.removeItemsFromCart?.cart &&
+          setCart(removeItemData.removeItemsFromCart.cart as Cart)
+      } catch (error) {
+        console.warn("Error removing item in useCart:", error)
+      }
 
-    updateCartData.updateItemQuantities?.cart &&
-      setCart(updateCartData.updateItemQuantities.cart as Cart)
+      setLoading(false)
+    },
+    [client, setCart, setLoading]
+  )
 
-    setLoading(false)
+  const addToCart = useCallback(
+    async (input: AddToCartMutationVariables) => {
+      setLoading(true)
 
-    return updateCartData
-  }
+      try {
+        const cartData = await client.request(AddToCartDocument, input)
+
+        if (cartData.addToCart?.cart) {
+          setCart(cartData.addToCart.cart as Cart)
+          setOpen(true)
+        }
+      } catch (error) {
+        console.warn("Error adding item in useCart:", error)
+      }
+
+      setLoading(false)
+    },
+    [client, setCart, setOpen, setLoading]
+  )
+
+  const updateCart = useCallback(
+    async (input: UpdateCartItemQuantityMutationVariables) => {
+      setLoading(true)
+
+      try {
+        const updateCartData = await client.request(
+          UpdateCartItemQuantityDocument,
+          input
+        )
+
+        updateCartData.updateItemQuantities?.cart &&
+          setCart(updateCartData.updateItemQuantities.cart as Cart)
+      } catch (error) {
+        console.warn("Error updating cart in useCart:", error)
+      }
+
+      setLoading(false)
+    },
+    [client, setCart, setLoading]
+  )
 
   return { clearCart, removeItem, addToCart, updateCart, fetchCart }
 }
