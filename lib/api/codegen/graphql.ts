@@ -25495,15 +25495,8 @@ export type ImageBaseFragment = {
   } | null
 }
 
-export type CustomerBaseFragment = {
+export type CustomerAddressesFragment = {
   __typename?: "Customer"
-  id: string
-  firstName?: string | null
-  lastName?: string | null
-  displayName?: string | null
-  email?: string | null
-  orderCount?: number | null
-  date?: string | null
   billing?: {
     __typename?: "CustomerAddress"
     address1?: string | null
@@ -25532,6 +25525,16 @@ export type CustomerBaseFragment = {
     postcode?: string | null
     state?: string | null
   } | null
+}
+
+export type CustomerBaseFragment = {
+  __typename?: "Customer"
+  id: string
+  firstName?: string | null
+  lastName?: string | null
+  email?: string | null
+  orderCount?: number | null
+  sessionToken?: string | null
 }
 
 export type EmployeeBaseFragment = {
@@ -28028,38 +28031,9 @@ export type CheckoutMutation = {
       id: string
       firstName?: string | null
       lastName?: string | null
-      displayName?: string | null
       email?: string | null
       orderCount?: number | null
-      date?: string | null
-      billing?: {
-        __typename?: "CustomerAddress"
-        address1?: string | null
-        address2?: string | null
-        city?: string | null
-        company?: string | null
-        country?: CountriesEnum | null
-        email?: string | null
-        firstName?: string | null
-        lastName?: string | null
-        phone?: string | null
-        postcode?: string | null
-        state?: string | null
-      } | null
-      shipping?: {
-        __typename?: "CustomerAddress"
-        address1?: string | null
-        address2?: string | null
-        city?: string | null
-        company?: string | null
-        country?: CountriesEnum | null
-        email?: string | null
-        firstName?: string | null
-        lastName?: string | null
-        phone?: string | null
-        postcode?: string | null
-        state?: string | null
-      } | null
+      sessionToken?: string | null
     } | null
     order?: {
       __typename?: "Order"
@@ -28296,38 +28270,9 @@ export type LoginUserMutation = {
       id: string
       firstName?: string | null
       lastName?: string | null
-      displayName?: string | null
       email?: string | null
       orderCount?: number | null
-      date?: string | null
-      billing?: {
-        __typename?: "CustomerAddress"
-        address1?: string | null
-        address2?: string | null
-        city?: string | null
-        company?: string | null
-        country?: CountriesEnum | null
-        email?: string | null
-        firstName?: string | null
-        lastName?: string | null
-        phone?: string | null
-        postcode?: string | null
-        state?: string | null
-      } | null
-      shipping?: {
-        __typename?: "CustomerAddress"
-        address1?: string | null
-        address2?: string | null
-        city?: string | null
-        company?: string | null
-        country?: CountriesEnum | null
-        email?: string | null
-        firstName?: string | null
-        lastName?: string | null
-        phone?: string | null
-        postcode?: string | null
-        state?: string | null
-      } | null
+      sessionToken?: string | null
     } | null
   } | null
 }
@@ -28368,38 +28313,9 @@ export type RegisterCustomerMutation = {
       id: string
       firstName?: string | null
       lastName?: string | null
-      displayName?: string | null
       email?: string | null
       orderCount?: number | null
-      date?: string | null
-      billing?: {
-        __typename?: "CustomerAddress"
-        address1?: string | null
-        address2?: string | null
-        city?: string | null
-        company?: string | null
-        country?: CountriesEnum | null
-        email?: string | null
-        firstName?: string | null
-        lastName?: string | null
-        phone?: string | null
-        postcode?: string | null
-        state?: string | null
-      } | null
-      shipping?: {
-        __typename?: "CustomerAddress"
-        address1?: string | null
-        address2?: string | null
-        city?: string | null
-        company?: string | null
-        country?: CountriesEnum | null
-        email?: string | null
-        firstName?: string | null
-        lastName?: string | null
-        phone?: string | null
-        postcode?: string | null
-        state?: string | null
-      } | null
+      sessionToken?: string | null
     } | null
   } | null
 }
@@ -32816,38 +32732,9 @@ export type GetCustomerDataQuery = {
     id: string
     firstName?: string | null
     lastName?: string | null
-    displayName?: string | null
     email?: string | null
     orderCount?: number | null
-    date?: string | null
-    billing?: {
-      __typename?: "CustomerAddress"
-      address1?: string | null
-      address2?: string | null
-      city?: string | null
-      company?: string | null
-      country?: CountriesEnum | null
-      email?: string | null
-      firstName?: string | null
-      lastName?: string | null
-      phone?: string | null
-      postcode?: string | null
-      state?: string | null
-    } | null
-    shipping?: {
-      __typename?: "CustomerAddress"
-      address1?: string | null
-      address2?: string | null
-      city?: string | null
-      company?: string | null
-      country?: CountriesEnum | null
-      email?: string | null
-      firstName?: string | null
-      lastName?: string | null
-      phone?: string | null
-      postcode?: string | null
-      state?: string | null
-    } | null
+    sessionToken?: string | null
   } | null
 }
 
@@ -39751,12 +39638,12 @@ export const CardsFragmentFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode<CardsFragmentFragment, unknown>
-export const CustomerBaseFragmentDoc = {
+export const CustomerAddressesFragmentDoc = {
   kind: "Document",
   definitions: [
     {
       kind: "FragmentDefinition",
-      name: { kind: "Name", value: "CustomerBase" },
+      name: { kind: "Name", value: "CustomerAddresses" },
       typeCondition: {
         kind: "NamedType",
         name: { kind: "Name", value: "Customer" },
@@ -39764,12 +39651,6 @@ export const CustomerBaseFragmentDoc = {
       selectionSet: {
         kind: "SelectionSet",
         selections: [
-          { kind: "Field", name: { kind: "Name", value: "id" } },
-          { kind: "Field", name: { kind: "Name", value: "firstName" } },
-          { kind: "Field", name: { kind: "Name", value: "lastName" } },
-          { kind: "Field", name: { kind: "Name", value: "displayName" } },
-          { kind: "Field", name: { kind: "Name", value: "email" } },
-          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
           {
             kind: "Field",
             name: { kind: "Name", value: "billing" },
@@ -39790,7 +39671,6 @@ export const CustomerBaseFragmentDoc = {
               ],
             },
           },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
           {
             kind: "Field",
             name: { kind: "Name", value: "shipping" },
@@ -39811,6 +39691,30 @@ export const CustomerBaseFragmentDoc = {
               ],
             },
           },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<CustomerAddressesFragment, unknown>
+export const CustomerBaseFragmentDoc = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "FragmentDefinition",
+      name: { kind: "Name", value: "CustomerBase" },
+      typeCondition: {
+        kind: "NamedType",
+        name: { kind: "Name", value: "Customer" },
+      },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "id" } },
+          { kind: "Field", name: { kind: "Name", value: "firstName" } },
+          { kind: "Field", name: { kind: "Name", value: "lastName" } },
+          { kind: "Field", name: { kind: "Name", value: "email" } },
+          { kind: "Field", name: { kind: "Name", value: "orderCount" } },
+          { kind: "Field", name: { kind: "Name", value: "sessionToken" } },
         ],
       },
     },
@@ -42348,50 +42252,9 @@ export const CheckoutDocument = {
           { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "firstName" } },
           { kind: "Field", name: { kind: "Name", value: "lastName" } },
-          { kind: "Field", name: { kind: "Name", value: "displayName" } },
           { kind: "Field", name: { kind: "Name", value: "email" } },
           { kind: "Field", name: { kind: "Name", value: "orderCount" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "billing" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "shipping" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
+          { kind: "Field", name: { kind: "Name", value: "sessionToken" } },
         ],
       },
     },
@@ -42548,50 +42411,9 @@ export const LoginUserDocument = {
           { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "firstName" } },
           { kind: "Field", name: { kind: "Name", value: "lastName" } },
-          { kind: "Field", name: { kind: "Name", value: "displayName" } },
           { kind: "Field", name: { kind: "Name", value: "email" } },
           { kind: "Field", name: { kind: "Name", value: "orderCount" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "billing" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "shipping" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
+          { kind: "Field", name: { kind: "Name", value: "sessionToken" } },
         ],
       },
     },
@@ -42781,50 +42603,9 @@ export const RegisterCustomerDocument = {
           { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "firstName" } },
           { kind: "Field", name: { kind: "Name", value: "lastName" } },
-          { kind: "Field", name: { kind: "Name", value: "displayName" } },
           { kind: "Field", name: { kind: "Name", value: "email" } },
           { kind: "Field", name: { kind: "Name", value: "orderCount" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "billing" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "shipping" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
+          { kind: "Field", name: { kind: "Name", value: "sessionToken" } },
         ],
       },
     },
@@ -46252,50 +46033,9 @@ export const GetCustomerDataDocument = {
           { kind: "Field", name: { kind: "Name", value: "id" } },
           { kind: "Field", name: { kind: "Name", value: "firstName" } },
           { kind: "Field", name: { kind: "Name", value: "lastName" } },
-          { kind: "Field", name: { kind: "Name", value: "displayName" } },
           { kind: "Field", name: { kind: "Name", value: "email" } },
           { kind: "Field", name: { kind: "Name", value: "orderCount" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "billing" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
-          { kind: "Field", name: { kind: "Name", value: "date" } },
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "shipping" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "address1" } },
-                { kind: "Field", name: { kind: "Name", value: "address2" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } },
-                { kind: "Field", name: { kind: "Name", value: "company" } },
-                { kind: "Field", name: { kind: "Name", value: "country" } },
-                { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "firstName" } },
-                { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "phone" } },
-                { kind: "Field", name: { kind: "Name", value: "postcode" } },
-                { kind: "Field", name: { kind: "Name", value: "state" } },
-              ],
-            },
-          },
+          { kind: "Field", name: { kind: "Name", value: "sessionToken" } },
         ],
       },
     },

@@ -11,8 +11,6 @@ const getCustomerData = async () => {
 
     const customerData = await client.request(GetCustomerDataDocument)
 
-    console.log("CustomerData", tokens, customerData)
-
     return customerData.customer as Customer | null | undefined
   } catch (error) {
     console.warn("Error in getCustomerData:", error)

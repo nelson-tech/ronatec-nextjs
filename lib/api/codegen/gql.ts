@@ -21,7 +21,9 @@ const documents = {
     types.CardsFragmentFragmentDoc,
   "fragment ImageBase on MediaItem {\n  id\n  databaseId\n  altText\n  sourceUrl\n  mimeType\n  mediaDetails {\n    height\n    width\n  }\n  fileSize\n}":
     types.ImageBaseFragmentDoc,
-  "fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  displayName\n  email\n  orderCount\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  date\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}":
+  "fragment CustomerAddresses on Customer {\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}":
+    types.CustomerAddressesFragmentDoc,
+  "fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  email\n  orderCount\n  sessionToken\n}":
     types.CustomerBaseFragmentDoc,
   "fragment EmployeeBase on Employee {\n  id\n  databaseId\n  slug\n  title\n  position {\n    position\n  }\n  departments {\n    nodes {\n      name\n    }\n  }\n  contact {\n    contact {\n      office\n      fax\n      email\n      address\n      orders\n    }\n  }\n}":
     types.EmployeeBaseFragmentDoc,
@@ -170,8 +172,14 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: "fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  displayName\n  email\n  orderCount\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  date\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}"
-): (typeof documents)["fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  displayName\n  email\n  orderCount\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  date\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}"]
+  source: "fragment CustomerAddresses on Customer {\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}"
+): (typeof documents)["fragment CustomerAddresses on Customer {\n  billing {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n  shipping {\n    address1\n    address2\n    city\n    company\n    country\n    email\n    firstName\n    lastName\n    phone\n    postcode\n    state\n  }\n}"]
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: "fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  email\n  orderCount\n  sessionToken\n}"
+): (typeof documents)["fragment CustomerBase on Customer {\n  id\n  firstName\n  lastName\n  email\n  orderCount\n  sessionToken\n}"]
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
