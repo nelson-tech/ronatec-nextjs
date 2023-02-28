@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 
-import useStore from "@lib/hooks/useStore"
 import useRegister from "@lib/hooks/auth/useRegister"
 
 import MenuLink from "@components/Link"
@@ -17,8 +16,6 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 const RegisterForm = () => {
   const [loading, setLoading] = useState(false)
-
-  const error = useStore((state) => state.auth.errors.register)
 
   const { register: registerUser } = useRegister()
 
@@ -171,7 +168,6 @@ const RegisterForm = () => {
             </div>
 
             <div className="flex items-center relative">
-              <div className="text-sm text-red-main">{error}&nbsp;</div>
               <div className="text-sm absolute right-0">
                 <MenuLink
                   title="Login"

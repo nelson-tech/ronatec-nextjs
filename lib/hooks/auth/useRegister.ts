@@ -1,3 +1,4 @@
+import { useCallback } from "react"
 import { shallow } from "zustand/shallow"
 
 import getClient from "@api/client"
@@ -22,46 +23,49 @@ const useRegister = () => {
 
   const client = getClient()
 
-  const register = async (input: RegisterUserInput) => {
-    try {
-      const registerData = await client.request(RegisterUserDocument, {
-        input,
-      })
+  const register = useCallback(
+    async (input: RegisterUserInput) => {
+      try {
+        const registerData = await client.request(RegisterUserDocument, {
+          input,
+        })
 
-      const registrationData = registerData?.registerUser
+        const registrationData = registerData?.registerUser
 
-      if (
-        registrationData?.user?.jwtAuthToken &&
-        registrationData.user.jwtRefreshToken
-      ) {
-        // Set cookies
-        setCookie(AUTH_TOKEN_KEY, registrationData.user.jwtAuthToken)
-        setCookie(REFRESH_TOKEN_KEY, registrationData.user.jwtRefreshToken)
+        if (
+          registrationData?.user?.jwtAuthToken &&
+          registrationData.user.jwtRefreshToken
+        ) {
+          // Set cookies
+          setCookie(AUTH_TOKEN_KEY, registrationData.user.jwtAuthToken)
+          setCookie(REFRESH_TOKEN_KEY, registrationData.user.jwtRefreshToken)
 
-        const customer = registrationData.user as Customer
+          const customer = registrationData.user as Customer
 
-        setCustomer(customer)
+          setCustomer(customer)
+          setAlert({
+            open: true,
+            kind: "success",
+            primary: `Welcome${
+              (customer?.firstName || customer?.lastName) && ","
+            }${customer?.firstName && ` ${customer.firstName}`}${
+              customer?.lastName && ` ${customer.lastName}`
+            }!`,
+            secondary: "You are now registered.",
+          })
+          setLoggedIn(true)
+        }
+      } catch (error) {
+        console.warn("Error during registration:", error)
         setAlert({
           open: true,
-          kind: "success",
-          primary: `Welcome${
-            (customer?.firstName || customer?.lastName) && ","
-          }${customer?.firstName && ` ${customer.firstName}`}${
-            customer?.lastName && ` ${customer.lastName}`
-          }!`,
-          secondary: "You are now registered.",
+          kind: "error",
+          primary: "Error during registration.",
         })
-        setLoggedIn(true)
       }
-    } catch (error) {
-      console.warn("Error during registration:", error)
-      setAlert({
-        open: true,
-        kind: "error",
-        primary: "Error during registration.",
-      })
-    }
-  }
+    },
+    [client, setAlert, setCookie, setCustomer, setLoggedIn]
+  )
 
   return { register }
 }
