@@ -3,6 +3,7 @@ import getOrderById from "@lib/server/getOrderById"
 
 import OrderConfirmation from "@components/OrderConfirmation"
 import { Metadata } from "next/types"
+import Link from "@components/Link"
 
 // ####
 // #### Types
@@ -31,13 +32,25 @@ const ThanksPage = async ({ searchParams }: ThanksPageParamsType) => {
             <OrderConfirmation order={order as Order} />
           ) : (
             <>
-              <div>
+              <div className="mx-auto max-w-md text-gray-700">
                 <h2 className="text-xl font-extrabold text-gray-400 text-center">
-                  <p>Oops, no order found...</p>
-                  <p>
-                    Please contact us if you think there&apos;s been a mistake.
-                  </p>
+                  Oops, no order found...
                 </h2>
+                <p className="my-8">
+                  If you checked out as a guest, you won&apos;t be able to see
+                  order details here, but a copy of your order has been emailed
+                  to.
+                </p>
+                <p>
+                  Please{" "}
+                  <Link
+                    href={"/about/contact"}
+                    className="text-accent hover:text-highlight transition-colors underline"
+                  >
+                    contact us
+                  </Link>{" "}
+                  if you think there&apos;s been a mistake.
+                </p>
               </div>
             </>
           )}
