@@ -1,30 +1,34 @@
-import type { HTMLProps } from "react"
+import { forwardRef, Ref } from "react"
 import NextLink from "next/link"
+import type { LinkProps } from "next/link"
+
+// ####
+// #### Types
+// ####
+
+export type LinkPropsType = Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  keyof LinkProps
+> &
+  LinkProps & {
+    children?: React.ReactNode
+  } & React.RefAttributes<HTMLAnchorElement>
 
 // ####
 // #### Component
 // ####
 
-const Link = ({
-  href,
-  title,
-  target,
-  className,
-  children,
-  onClick,
-}: HTMLProps<HTMLAnchorElement>) => {
-  return (
-    <NextLink
-      href={href ?? ""}
-      title={title}
-      target={target}
-      onClick={onClick}
-      id="nextlink"
-      className={className}
-    >
+const Link = forwardRef(
+  (
+    { children, ...linkProps }: LinkPropsType,
+    ref: Ref<HTMLAnchorElement> | undefined
+  ) => (
+    <NextLink ref={ref} {...linkProps}>
       {children}
     </NextLink>
   )
-}
+)
+
+Link.displayName = "CustomLink"
 
 export default Link
