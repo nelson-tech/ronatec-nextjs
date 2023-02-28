@@ -1,6 +1,5 @@
 "use client"
 
-import { Fragment } from "react"
 import { shallow } from "zustand/shallow"
 
 import { Customer } from "@api/codegen/graphql"
@@ -39,7 +38,7 @@ const Checkout = ({ customer }: PropsType) => {
   const loaded = typeof emptyCart === "boolean"
 
   return (
-    <Fragment>
+    <>
       {loaded ? (
         emptyCart ? (
           <div className="max-w-max mx-auto min-h-full py-24">
@@ -59,18 +58,11 @@ const Checkout = ({ customer }: PropsType) => {
                 >
                   View products
                 </Link>
-                {/* <a
-                  href="#"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Contact support
-                </a> */}
               </div>
             </div>
           </div>
         ) : (
           <>
-            {!loggedIn && authReady && <GuestCheckoutWarning />}
             <main className="lg:min-h-screen lg:overflow-hidden lg:flex lg:flex-row-reverse max-w-7xl mx-auto">
               <h1 className="sr-only">Checkout</h1>
 
@@ -95,7 +87,7 @@ const Checkout = ({ customer }: PropsType) => {
 
               {customer?.id ? (
                 <div>
-                  {!loggedIn && <GuestCheckoutWarning />}
+                  {!loggedIn && authReady && <GuestCheckoutWarning />}
                   <CheckoutForm customer={customer as Customer} />
                 </div>
               ) : (
@@ -119,7 +111,7 @@ const Checkout = ({ customer }: PropsType) => {
           className="flex mx-auto min-h-screen -mt-24"
         />
       )}
-    </Fragment>
+    </>
   )
 }
 

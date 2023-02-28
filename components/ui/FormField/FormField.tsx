@@ -22,6 +22,9 @@ type PropsType = {
   textArea?: boolean
   textAreaRows?: number
   textAreaStyle?: string
+  options?: string[]
+  select?: boolean
+  defaultValue?: string
 }
 
 // ####
@@ -44,6 +47,9 @@ const FormField = ({
   textArea,
   textAreaRows,
   textAreaStyle,
+  select,
+  options,
+  defaultValue,
 }: PropsType) => {
   // Styles
   const containerStyling = containerStyle ?? "col-span-full"
@@ -68,6 +74,18 @@ const FormField = ({
             {...register(name, registerOptions)}
             className={textAreaStyling}
           />
+        ) : select ? (
+          <select
+            id={name}
+            autoComplete={autoComplete}
+            className={inputStyling}
+            defaultValue={defaultValue}
+            {...register(name, registerOptions)}
+          >
+            {options?.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
         ) : (
           <input
             type={type}

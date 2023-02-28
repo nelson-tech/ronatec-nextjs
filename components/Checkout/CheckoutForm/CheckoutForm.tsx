@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import DocumentDuplicateIcon from "@heroicons/react/20/solid/DocumentDuplicateIcon"
 // import { LockClosedIcon } from "@heroicons/react/solid"
 
-import useCart from "@lib/hooks/useCart"
+import getClient from "@api/client"
 import useStore from "@lib/hooks/useStore"
 import {
   CheckoutDocument,
@@ -19,7 +19,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 import FormField from "@components/ui/FormField"
 
 import schema from "./formSchema"
-import getClient from "@api/client"
+import useCart from "@lib/hooks/useCart"
 
 // ####
 // #### Types
@@ -58,9 +58,9 @@ const CheckoutForm = ({ customer }: PropsType) => {
 
   const [loading, setLoading] = useState(false)
 
-  const { clearCart } = useCart()
-
   const setAlert = useStore((state) => state.alert.setAlert)
+
+  const { clearCart } = useCart()
 
   const client = getClient()
 
@@ -126,25 +126,42 @@ const CheckoutForm = ({ customer }: PropsType) => {
     input.paymentMethod = "cod"
     input.isPaid = false
 
-    const checkoutData = await client.request(CheckoutDocument, { input })
-
-    if (checkoutData?.checkout?.order) {
-      clearCart().then((_) => {
-        checkoutData?.checkout?.order &&
-          router.push(
-            `/thanks${
-              checkoutData.checkout.order.orderNumber
-                ? `?order=${checkoutData.checkout.order.orderNumber}`
-                : ""
-            }`
-          )
-      })
-    } else {
+    try {
       setAlert({
         open: true,
-        kind: "error",
-        primary: "Error Checking Out",
+        kind: "info",
+        primary: "Processing order.",
       })
+
+      const checkoutData = await client.request(CheckoutDocument, { input })
+
+      if (checkoutData?.checkout?.order) {
+        setAlert({
+          open: true,
+          kind: "success",
+          primary: "Order has been successfully created.",
+          secondary: "Redirecting...",
+        })
+
+        router.push(
+          `/thanks${
+            checkoutData.checkout.order.orderNumber
+              ? `?order=${checkoutData.checkout.order.orderNumber}`
+              : ""
+          }`
+        )
+
+        clearCart()
+      } else {
+        setAlert({
+          open: true,
+          kind: "error",
+          primary: "Error Checking Out",
+        })
+      }
+    } catch (error) {
+      console.warn("Error in CheckoutForm:", error)
+      setAlert({ open: true, kind: "error", primary: "Error checking out." })
     }
 
     setLoading(false)
@@ -160,13 +177,13 @@ const CheckoutForm = ({ customer }: PropsType) => {
     <>
       <section
         aria-labelledby="payment-heading"
-        className="flex-auto overflow-y-auto px-4 pt-12 pb-16 sm:px-6 sm:pt-16 lg:px-8 lg:pt-0 lg:pb-16"
+        className="flex-auto overflow-y-auto px-4 pt-4 pb-16 sm:px-6 sm:pt-4 lg:px-8 lg:pt-0 lg:pb-16"
       >
         <h2 id="payment-heading" className="sr-only">
           Payment and shipping details
         </h2>
 
-        <div className="max-w-2xl mx-auto lg:pt-16">
+        <div className="max-w-2xl mx-auto">
           <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-12 gap-y-6 gap-x-4">
               <h2 className="col-span-full text-xl font-semibold">
@@ -273,6 +290,19 @@ const CheckoutForm = ({ customer }: PropsType) => {
                 type="text"
                 autoComplete="postal-code"
                 containerStyle="col-span-full md:col-span-4"
+              />
+
+              <FormField
+                register={register}
+                errors={errors}
+                name="billing.country"
+                label="Country"
+                type="select"
+                select
+                options={Object.values(CountriesEnum)}
+                defaultValue={customer.billing?.country ?? CountriesEnum.Us}
+                autoComplete="country-name"
+                containerStyle="col-span-full"
               />
             </div>
 
@@ -417,6 +447,19 @@ const CheckoutForm = ({ customer }: PropsType) => {
                     autoComplete="postal-code"
                     containerStyle="col-span-full md:col-span-4"
                   />
+
+                  <FormField
+                    register={register}
+                    errors={errors}
+                    name="shipping.country"
+                    label="Country"
+                    type="select"
+                    select
+                    options={Object.values(CountriesEnum)}
+                    defaultValue={customer.billing?.country ?? CountriesEnum.Us}
+                    autoComplete="country-name"
+                    containerStyle="col-span-full"
+                  />
                 </div>
               </>
             )}
@@ -431,14 +474,6 @@ const CheckoutForm = ({ customer }: PropsType) => {
                 "Place Order"
               )}
             </button>
-
-            {/* <p className="flex justify-center text-sm font-medium text-gray-500 mt-6">
-              <LockClosedIcon
-                className="w-5 h-5 text-gray-400 mr-1.5"
-                aria-hidden="true"
-              />
-              Payment details stored in plain text
-            </p> */}
           </form>
         </div>
       </section>
