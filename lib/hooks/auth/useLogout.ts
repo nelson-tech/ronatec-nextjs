@@ -1,11 +1,12 @@
+import { useCallback } from "react"
 import { useRouter } from "next/navigation"
+import { deleteCookie } from "cookies-next"
 import { shallow } from "zustand/shallow"
 
 import getClient from "@api/client"
 import { LogoutUserDocument } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
-import { deleteCookie } from "cookies-next"
 
 const useLogout = () => {
   const router = useRouter()
@@ -21,12 +22,14 @@ const useLogout = () => {
 
   const client = getClient()
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await client.request(LogoutUserDocument, { input: {} })
 
     // Delete cookies
     deleteCookie(AUTH_TOKEN_KEY)
     deleteCookie(REFRESH_TOKEN_KEY)
+
+    client.setHeader("Authorization", "")
 
     setLoggedIn(false)
     setCustomer(null)
@@ -38,7 +41,8 @@ const useLogout = () => {
     })
 
     router.push("/")
-  }
+  }, [client, router, setAlert, setCustomer, setLoggedIn])
+
   return { logout }
 }
 
