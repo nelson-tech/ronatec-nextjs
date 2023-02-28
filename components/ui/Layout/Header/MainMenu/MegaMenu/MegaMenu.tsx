@@ -86,7 +86,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                         }
                                       >
                                         {subColumn.url !== "#" ? (
-                                          <p
+                                          <div
                                             className={headerStyle}
                                             onClick={() => close()}
                                           >
@@ -94,11 +94,10 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                               href={
                                                 subColumn.url
                                                   ? subColumn.url === "#"
-                                                    ? undefined
+                                                    ? ""
                                                     : subColumn.url
                                                   : ""
                                               }
-                                              disabled={subColumn.url === "#"}
                                               title={subColumn.label}
                                               className={`${
                                                 subColumn.label === "Browse All"
@@ -108,16 +107,16 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                             >
                                               {subColumn.label}
                                             </Link>
-                                          </p>
+                                          </div>
                                         ) : (
-                                          <p
+                                          <div
                                             className={headerStyle}
                                             onClick={() => close()}
                                           >
                                             <div title={subColumn.label}>
                                               {subColumn.label}
                                             </div>
-                                          </p>
+                                          </div>
                                         )}
                                         <ul role="list" className="">
                                           {subColumn.childItems?.nodes &&
@@ -153,7 +152,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                         return (
                           column.label && (
                             <div key={column.label + index + column.url}>
-                              <p
+                              <div
                                 id={`desktop-featured-heading-${megaItem.id}`}
                                 className={headerStyle}
                                 onClick={() => close()}
@@ -164,7 +163,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                 >
                                   {column.label}
                                 </Link>
-                              </p>
+                              </div>
                               <ul role="list" className="mt-2">
                                 {column.childItems?.nodes &&
                                   column.childItems.nodes.map(
