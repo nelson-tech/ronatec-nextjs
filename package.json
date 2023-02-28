@@ -25,7 +25,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.11",
+    "@headlessui/react": "^1.7.12",
     "@heroicons/react": "^2.0.16",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^2.9.11",
@@ -51,15 +51,15 @@
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",
     "zod": "^3.20.6",
-    "zustand": "^4.3.3"
+    "zustand": "^4.3.4"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^3.2.0",
+    "@graphql-codegen/cli": "^3.2.1",
     "@graphql-codegen/client-preset": "^2.1.0",
     "@graphql-codegen/typescript": "^3.0.1",
     "@graphql-codegen/typescript-operations": "^3.0.1",
-    "@next/bundle-analyzer": "^13.1.6",
-    "@playwright/test": "^1.31.0",
+    "@next/bundle-analyzer": "^13.2.1",
+    "@playwright/test": "^1.31.1",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
@@ -71,7 +71,7 @@
     "@types/jwt-decode": "^3.1.0",
     "@types/jwt-encode": "^1.0.0",
     "@types/lodash.debounce": "^4.0.7",
-    "@types/node": "^18.14.0",
+    "@types/node": "^18.14.2",
     "@types/nodemailer": "^6.4.7",
     "@types/nodemailer-smtp-transport": "^2.7.5",
     "@types/prop-types": "^15.7.5",
@@ -81,7 +81,7 @@
     "@types/smoothscroll-polyfill": "^0.3.1",
     "autoprefixer": "^10.4.13",
     "encoding": "^0.1.13",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-config-next": "^13.2.1",
     "eslint-config-prettier": "^8.6.0",
     "husky": ">=6",
