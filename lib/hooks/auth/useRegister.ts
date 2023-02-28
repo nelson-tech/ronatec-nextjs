@@ -3,8 +3,8 @@ import { shallow } from "zustand/shallow"
 import getClient from "@api/client"
 import {
   Customer,
-  RegisterCustomerDocument,
-  RegisterUserMutationVariables,
+  RegisterUserDocument,
+  RegisterUserInput,
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
@@ -22,28 +22,45 @@ const useRegister = () => {
 
   const client = getClient()
 
-  const register = async (input: RegisterUserMutationVariables) => {
-    const registerData = await client.request(RegisterCustomerDocument, input)
-    const registrationData = registerData?.registerCustomer
-    if (registrationData?.authToken && registrationData.refreshToken) {
-      // Set cookies
-      setCookie(AUTH_TOKEN_KEY, registrationData.authToken)
-      setCookie(REFRESH_TOKEN_KEY, registrationData.refreshToken)
+  const register = async (input: RegisterUserInput) => {
+    try {
+      const registerData = await client.request(RegisterUserDocument, {
+        input,
+      })
 
-      const customer = registrationData.customer as Customer
+      const registrationData = registerData?.registerUser
 
-      setCustomer(customer)
+      if (
+        registrationData?.user?.jwtAuthToken &&
+        registrationData.user.jwtRefreshToken
+      ) {
+        // Set cookies
+        setCookie(AUTH_TOKEN_KEY, registrationData.user.jwtAuthToken)
+        setCookie(REFRESH_TOKEN_KEY, registrationData.user.jwtRefreshToken)
+
+        const customer = registrationData.user as Customer
+
+        setCustomer(customer)
+        setAlert({
+          open: true,
+          kind: "success",
+          primary: `Welcome${
+            (customer?.firstName || customer?.lastName) && ","
+          }${customer?.firstName && ` ${customer.firstName}`}${
+            customer?.lastName && ` ${customer.lastName}`
+          }!`,
+          secondary: "You are now registered.",
+        })
+        setLoggedIn(true)
+      }
+    } catch (error) {
+      console.warn("Error during registration:", error)
       setAlert({
         open: true,
-        kind: "success",
-        primary: `Welcome${(customer?.firstName || customer?.lastName) && ","}${
-          customer?.firstName && ` ${customer.firstName}`
-        }${customer?.lastName && ` ${customer.lastName}`}!`,
-        secondary: "You are now registered.",
+        kind: "error",
+        primary: "Error during registration.",
       })
-      setLoggedIn(true)
     }
-    // TODO - Set Error
   }
 
   return { register }
