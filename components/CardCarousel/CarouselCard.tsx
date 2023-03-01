@@ -35,7 +35,7 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
       onClick={() => handleClick(`/products/${slug}`)}
       title={name}
       data-testid="carousel-card"
-      className="group relative w-56 h-72 rounded cursor-pointer p-6 flex flex-col overflow-hidden xl:w-auto"
+      className="group relative w-56 h-72 rounded cursor-pointer p-6 flex flex-col overflow-hidden"
     >
       <div aria-hidden="true" className="absolute inset-0 w-56 h-72">
         {image && image.sourceUrl && (

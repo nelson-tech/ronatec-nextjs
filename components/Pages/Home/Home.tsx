@@ -34,7 +34,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl pb-4">
+      <div className="pb-4">
         <div className="mx-auto max-w-7xl px-2 w-full py-16 text-center">
           <div className="px-4 sm:px-8">
             <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl">
@@ -79,20 +79,18 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
         </div>
 
         {cards && (
-          <div className="relative bg-white pb-16 py-8">
-            <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl">
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                {cards.map((card) => {
-                  if (card) {
-                    return (
-                      <IconCard
-                        card={card}
-                        key={card.title ?? "" + card.icon ?? ""}
-                      />
-                    )
-                  }
-                })}
-              </div>
+          <div className="mx-auto max-w-7xl relative bg-white pb-16 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {cards.map((card) => {
+                if (card) {
+                  return (
+                    <IconCard
+                      card={card}
+                      key={card.title ?? "" + card.icon ?? ""}
+                    />
+                  )
+                }
+              })}
             </div>
           </div>
         )}
@@ -112,7 +110,7 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
         })}
 
         {supplier && (
-          <div className="mx-auto w-full px-5 md:w-2/3 lg:w-1/2">
+          <div className="mx-auto max-w-7xl w-full px-5 md:w-2/3 lg:w-1/2">
             <SupplierCard
               headerText="Featured Supplier"
               supplier={supplier}

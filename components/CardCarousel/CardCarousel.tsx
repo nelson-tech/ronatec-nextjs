@@ -29,8 +29,8 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
 
   return (
     <div className="bg-white" data-testid="card-carousel">
-      <div className="pb-8 xl:max-w-7xl xl:mx-auto xl:px-8">
-        <div className="px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
+      <div className="pb-8">
+        <div className="xl:max-w-7xl xl:mx-auto px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
             {header}
           </h2>
@@ -47,8 +47,8 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
 
         <div className="mt-4 flow-root">
           <div className="-my-2">
-            <div className="box-content py-2 relative h-80 overflow-x-auto xl:overflow-visible">
-              <div className="absolute px-8 min-w-screen-xl flex space-x-8 sm:px-6 lg:px-8 xl:relative xl:px-0 xl:space-x-0 xl:grid xl:grid-cols-5 xl:gap-x-8">
+            <div className="box-content py-2 relative h-80 overflow-x-auto">
+              <div className="absolute px-8 min-w-screen-xl flex space-x-8 sm:px-6 lg:px-8">
                 {
                   // Show loading icon if no items set
                   // TODO - Account for error cases
