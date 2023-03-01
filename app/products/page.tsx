@@ -23,6 +23,7 @@ const ProductsPage = async () => {
     <>
       {categories && categories.length > 0 && (
         <ProductCategory
+          isCategories
           categories={categories}
           categorySlugs={categorySlugs}
           initialProducts={

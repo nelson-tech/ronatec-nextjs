@@ -23,7 +23,7 @@ import Pagination from "@components/Pagination"
 
 type CategoryPropsType = {
   category: ProductCategory | null | undefined
-  initialProducts: Product[] | null | undefined
+  initialProducts: FullProduct[] | null | undefined
 }
 
 type CategoriesPropsType = {
@@ -32,14 +32,19 @@ type CategoriesPropsType = {
   initialProducts: FullProduct[] | null | undefined
 }
 
-type ProductsPropsType = CategoryPropsType | CategoriesPropsType
+type ProductsPropsType = (CategoryPropsType | CategoriesPropsType) & {
+  isCategories?: boolean | undefined
+}
 
 // ####
 // #### Component
 // ####
 
-const Products = ({ initialProducts, ...props }: ProductsPropsType) => {
-  const isCategories = Object.hasOwn(props, "categorySlugs")
+const Products = ({
+  initialProducts,
+  isCategories,
+  ...props
+}: ProductsPropsType) => {
   const productRef = useRef<HTMLDivElement>(null)
 
   const { selectedSort, setGlobalSort } = useStore(
