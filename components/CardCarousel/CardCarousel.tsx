@@ -21,8 +21,6 @@ export type PropsType = {
 // ####
 
 const CardCarousel = ({ header, link, items, products }: PropsType) => {
-  console.log("Categories", items)
-
   const categories = items
     ? items.filter((item) => {
         return item.ancestors?.nodes && item.ancestors.nodes.length == 1
