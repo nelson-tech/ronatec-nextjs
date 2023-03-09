@@ -27,7 +27,7 @@ const CarbonateRemovalSystemComponent = () => {
             <h2 className="text-xl font-extrabold text-gray-100">Features</h2>
           </div>
           <div>
-            <ul className="list-disc ml-8 text-xl space-y-4 text-green-main md:columns-2">
+            <ul className="list-disc ml-8 text-xl space-y-4 text-highlight md:columns-2">
               <li>
                 <span className={listStyle}>
                   Variable capacity as specified by end user. Can accommodate
@@ -73,7 +73,7 @@ const CarbonateRemovalSystemComponent = () => {
               </li>
               <li>
                 <span className={listStyle}>
-                  Handles all sodium carbonate bearing plating solutions
+                  Handles all sodium carbonate bearing plating solutions
                 </span>
               </li>
             </ul>

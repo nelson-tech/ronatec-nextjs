@@ -5,7 +5,7 @@ import { Menu } from "@headlessui/react"
 import LogoutIcon from "@heroicons/react/24/outline/ArrowRightCircleIcon"
 
 import useLogout from "@lib/hooks/auth/useLogout"
-import userMenu from "@lib/userMenu"
+import customerMenu from "@lib/customerMenu"
 
 import Link from "@components/Link"
 
@@ -14,8 +14,6 @@ import Link from "@components/Link"
 // ####
 
 const AuthMenu = memo(function AuthMenu() {
-  // const user = useStore(state => state.auth.user)
-
   const { logout } = useLogout()
 
   const handleLogout = async () => {
@@ -24,13 +22,13 @@ const AuthMenu = memo(function AuthMenu() {
   const capitalize = (input: string) => {
     return input
       .split(" ")
-      .map(word => word[0].toUpperCase() + word.substring(1))
+      .map((word) => word[0].toUpperCase() + word.substring(1))
       .join(" ")
   }
 
   return (
     <>
-      {userMenu.map(item => {
+      {customerMenu.map((item) => {
         return (
           <Menu.Item
             key={"usernav" + item.name}
@@ -54,15 +52,6 @@ const AuthMenu = memo(function AuthMenu() {
           <div className="target">Sign out</div>
         </div>
       </Menu.Item>
-
-      {/* {user && (
-        <Menu.Item>
-          <div className="transition flex cursor-pointer items-center outline-none ring-transparent text-red-main px-4 py-2 text-sm hover:bg-red-main hover:text-white">
-            <UserIcon className="h-4 w-4 mr-1.5" />
-            <div className="target">{user.username}</div>
-          </div>
-        </Menu.Item>
-      )} */}
     </>
   )
 })

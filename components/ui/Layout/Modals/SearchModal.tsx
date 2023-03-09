@@ -11,11 +11,11 @@ import SearchForm from "@components/SearchForm"
 
 const SearchModal = () => {
   const { searchOpen, setSearchOpen } = useStore(
-    state => ({
+    (state) => ({
       searchOpen: state.ui.searchOpen,
       setSearchOpen: state.ui.setSearchOpen,
     }),
-    shallow,
+    shallow
   )
 
   return (

@@ -19,11 +19,11 @@ type MobileMenuInputType = { menuItems: MenuItem[] }
 
 const MobileMenu = ({ menuItems }: MobileMenuInputType) => {
   const { open, setOpen } = useStore(
-    state => ({
+    (state) => ({
       open: state.ui.mobileMenuOpen,
       setOpen: state.ui.setMobileMenuOpen,
     }),
-    shallow,
+    shallow
   )
 
   return (

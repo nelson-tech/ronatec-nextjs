@@ -9,7 +9,7 @@ import Link from "@components/Link"
 const GuestCheckoutWarning = () => {
   return (
     <>
-      <div className="rounded-md bg-yellow-50 p-4">
+      <div className="rounded bg-yellow-50 p-4">
         <div className="flex">
           <div className="flex-shrink-0">
             <ExclamationIcon
@@ -27,18 +27,18 @@ const GuestCheckoutWarning = () => {
                 features like tracking the status of your order and viewing past
                 orders.{" "}
                 <Link
-                  href="/register?redirect=/checkout"
+                  href="/register?redirect=checkout"
                   title="Register a new account."
-                  className="underline transition hover:text-green-main"
+                  className="underline transition hover:text-highlight"
                 >
                   Creating an account
                 </Link>{" "}
                 is fast and only requires an email address. If you already have
                 an account,{" "}
                 <Link
-                  href="/login?redirect=/checkout"
+                  href="/login?redirect=checkout"
                   title="Login to your account."
-                  className="underline transition hover:text-green-main"
+                  className="underline transition hover:text-highlight"
                 >
                   click here to login
                 </Link>

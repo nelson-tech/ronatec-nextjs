@@ -1,14 +1,18 @@
-import { ParsedUrlQuery } from "querystring"
+import type { Metadata } from "next"
 
-import ProductBySku from "@components/Pages/ProductBySku"
+import { GetProductsSlugsQuery } from "@api/codegen/graphql"
+import type { RankMathProductTypeSeo } from "@api/codegen/graphql"
+import getCachedQuery from "@lib/server/getCachedQuery"
+import getProductBySlug from "@lib/server/getProductBySlug"
+import getCategoryBySlug from "@lib/server/getCategoryBySlug"
+import parseMetaData from "@lib/utils/parseMetaData"
+
 import Link from "@components/Link"
-import {
-  GetCategoryBySlugDocument,
-  GetProductDataBySlugDocument,
-  Product,
-  ProductCategory,
-} from "@api/codegen/graphql"
-import useClient from "@api/client"
+import ProductBySku from "@components/Pages/ProductBySku"
+
+// ####
+// #### Variables
+// ####
 
 const messages = {
   seo: { title: "Product", description: "No product found." },
@@ -22,45 +26,25 @@ const messages = {
 // #### Types
 // ####
 
-interface IParams extends ParsedUrlQuery {
-  slug: string
-  categorySlug: string
-}
-
-const getProductBySlug = async (category: string, slug: string) => {
-  const client = useClient()
-
-  const productData = await client.request(GetProductDataBySlugDocument, {
-    id: slug,
-  })
-
-  const categoryData = await client.request(GetCategoryBySlugDocument, {
-    id: category,
-  })
-
-  return {
-    category: categoryData.productCategory as ProductCategory,
-    product: productData.product as Product,
-  }
+type ProductPageParamsType = {
+  params: { category: string; slug: string }
 }
 
 // ####
 // #### Component
 // ####
 
-const ProductPage = async ({
-  params,
-}: {
-  params: { category: string; slug: string }
-}) => {
-  const { category, product } = await getProductBySlug(
-    params.category,
-    params.slug,
-  )
+const ProductPage = async ({ params }: ProductPageParamsType) => {
+  const productPromise = getProductBySlug(params.slug)
+  const categoryPromise = getCategoryBySlug(params.category)
+
+  const [product, category] = await Promise.all([
+    productPromise,
+    categoryPromise,
+  ])
 
   return (
-    <>
-      <div />
+    <div>
       {product && category ? (
         <>
           <ProductBySku product={product} category={category} />
@@ -73,52 +57,38 @@ const ProductPage = async ({
             <Link
               href="/products"
               title={messages.productMissing.buttonText}
-              className="mt-8 py-4 px-6 rounded-md bg-blue-main hover:bg-green-main text-white transition"
+              className="mt-8 py-4 px-6 rounded bg-accent hover:bg-highlight text-white transition-colors"
             >
               {messages.productMissing.buttonText}
             </Link>
           </div>
         </>
       )}
-    </>
+    </div>
   )
 }
 
 export default ProductPage
 
-// ####
-// #### Data Fetching
-// ####
+export const revalidate = 60 // revalidate this page every 60 seconds
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const { client } = urql()
+export async function generateStaticParams() {
+  const { data } = await getCachedQuery<GetProductsSlugsQuery>("getHomeData")
 
-//   const { data, error } = await client
-//     .query<GetProductsWithCategoriesQuery>(GetProductsWithCategoriesDocument)
-//     .toPromise()
+  return (
+    data?.products?.nodes?.map((product) => ({
+      slug: product.slug ?? "",
+      category: product.productCategories?.nodes[0]?.slug ?? "",
+    })) ?? []
+  )
+}
 
-//   type Path = {
-//     params: IParams
-//   }
+export async function generateMetadata({
+  params,
+}: ProductPageParamsType): Promise<Metadata> {
+  const product = await getProductBySlug(params.slug)
 
-//   const paths: Path[] = []
+  const metaData = parseMetaData(product?.seo as RankMathProductTypeSeo)
 
-//   data?.products?.nodes &&
-//     data.products.nodes.map(product => {
-//       if (product?.productCategories?.nodes) {
-//         product.productCategories.nodes.map(category => {
-//           if (product?.slug && category?.slug) {
-//             const path = {
-//               params: { slug: product.slug, categorySlug: category.slug },
-//             }
-//             paths.push(path)
-//           }
-//         })
-//       }
-//     })
-
-//   return {
-//     paths,
-//     fallback: false,
-//   }
-// }
+  return metaData
+}

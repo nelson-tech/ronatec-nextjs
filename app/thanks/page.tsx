@@ -1,9 +1,17 @@
 import { Order } from "@api/codegen/graphql"
-// import useStore from "@lib/hooks/useStore"
-import useOrderById from "@lib/serverCalls/useOrderById"
+import getOrderById from "@lib/server/getOrderById"
 
 import OrderConfirmation from "@components/OrderConfirmation"
-// import Link from "@components/Link"
+import { Metadata } from "next/types"
+import Link from "@components/Link"
+
+// ####
+// #### Types
+// ####
+
+type ThanksPageParamsType = {
+  searchParams?: { order: string }
+}
 
 // ####
 // #### Component
@@ -11,12 +19,8 @@ import OrderConfirmation from "@components/OrderConfirmation"
 
 // TODO - Fix error/missing display order
 
-const ThanksPage = async ({
-  searchParams,
-}: {
-  searchParams?: { order: string }
-}) => {
-  const order = await useOrderById(searchParams?.order)
+const ThanksPage = async ({ searchParams }: ThanksPageParamsType) => {
+  const order = await getOrderById(searchParams?.order)
 
   // const loggedIn = useStore(state => state.auth.loggedIn)
 
@@ -28,28 +32,26 @@ const ThanksPage = async ({
             <OrderConfirmation order={order as Order} />
           ) : (
             <>
-              <div>
+              <div className="mx-auto max-w-md text-gray-700">
                 <h2 className="text-xl font-extrabold text-gray-400 text-center">
-                  <p>Oops, no order found...</p>
-                  <p>
-                    Please contact us if you think there&apos;s been a mistake.
-                  </p>
+                  Oops, no order found...
                 </h2>
+                <p className="my-8">
+                  If you checked out as a guest, you won&apos;t be able to see
+                  order details here, but a copy of your order has been emailed
+                  to.
+                </p>
+                <p>
+                  Please{" "}
+                  <Link
+                    href={"/about/contact"}
+                    className="text-accent hover:text-highlight transition-colors underline"
+                  >
+                    contact us
+                  </Link>{" "}
+                  if you think there&apos;s been a mistake.
+                </p>
               </div>
-              {/* {loggedIn && (
-                <div className="mt-8 text-center text-gray-500">
-                  <p>
-                    You can view your previous orders from the{" "}
-                    <Link
-                      href="/orders"
-                      className="text-blue-main hover:text-green-main transition underline"
-                    >
-                      dashboard
-                    </Link>
-                    .
-                  </p>
-                </div>
-              )} */}
             </>
           )}
         </div>
@@ -59,3 +61,30 @@ const ThanksPage = async ({
 }
 
 export default ThanksPage
+
+export const revalidate = 0 // dynamically server this page
+
+export async function generateMetadata(
+  params: ThanksPageParamsType
+): Promise<Metadata> {
+  const order = await getOrderById(params?.searchParams?.order)
+  const orderNumber = order?.orderNumber
+
+  const metaData = {
+    title: orderNumber
+      ? `Order #${orderNumber} Confirmation`
+      : `Order Confirmation`,
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+      googleBot: {
+        index: false,
+        follow: false,
+        noimageindex: true,
+      },
+    },
+  }
+
+  return metaData
+}

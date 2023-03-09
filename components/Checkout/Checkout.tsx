@@ -9,18 +9,14 @@ import Link from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import CartSummary from "./CartSummary"
 import CheckoutForm from "./CheckoutForm"
-import DiscountForm from "./DiscountForm"
 import GuestCheckoutWarning from "./GuestCheckoutWarning"
 import MobileSummary from "./MobileSummary"
-import PricingSummary from "./PricingSummary"
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  hidePrices?: boolean
-  discounts?: boolean
   customer: Customer | null | undefined
 }
 
@@ -28,20 +24,18 @@ type PropsType = {
 // #### Component
 // ####
 
-const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
-  const cart = useStore(state => state.cart.state)
+const Checkout = ({ customer }: PropsType) => {
+  const cart = useStore((state) => state.cart.state)
   const { loggedIn, authReady } = useStore(
-    state => ({
+    (state) => ({
       loggedIn: state.auth.loggedIn,
       authReady: state.auth.ready,
     }),
-    shallow,
+    shallow
   )
 
   const emptyCart = cart?.isEmpty
   const loaded = typeof emptyCart === "boolean"
-
-  console.log("Checkout", customer)
 
   return (
     <>
@@ -60,26 +54,19 @@ const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
               <div className="mt-10 flex space-x-3 justify-center">
                 <Link
                   href="/products"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-main hover:bg-green-main focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-blue-main hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   View products
                 </Link>
-                {/* <a
-                  href="#"
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Contact support
-                </a> */}
               </div>
             </div>
           </div>
         ) : (
           <>
-            {!loggedIn && authReady && <GuestCheckoutWarning />}
             <main className="lg:min-h-screen lg:overflow-hidden lg:flex lg:flex-row-reverse max-w-7xl mx-auto">
               <h1 className="sr-only">Checkout</h1>
 
-              <MobileSummary hidePrices={hidePrices} />
+              <MobileSummary />
 
               {/* Order summary */}
               <section
@@ -94,22 +81,15 @@ const Checkout = ({ hidePrices, discounts, customer }: PropsType) => {
                   role="list"
                   className="flex-auto overflow-y-auto divide-y divide-gray-200 px-6"
                 >
-                  <CartSummary hidePrices={hidePrices} />
+                  <CartSummary />
                 </ul>
-
-                {!hidePrices && (
-                  <div className="sticky bottom-0 flex-none bg-gray-50 border-t border-gray-200 p-6">
-                    {discounts && <DiscountForm />}
-
-                    <PricingSummary />
-                  </div>
-                )}
               </section>
 
-              {customer?.id &&
-              ((loggedIn && customer.id !== "guest") ||
-                (!loggedIn && customer.id === "guest")) ? (
-                <CheckoutForm customer={customer as Customer} />
+              {customer?.id ? (
+                <div>
+                  {!loggedIn && authReady && <GuestCheckoutWarning />}
+                  <CheckoutForm customer={customer as Customer} />
+                </div>
               ) : (
                 <>
                   <div className="h-screen mt-48 mx-auto">

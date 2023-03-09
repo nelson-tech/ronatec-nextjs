@@ -1,18 +1,18 @@
-import { Cart, GetCartQuery, GetViewerQuery, User } from "@api/codegen/graphql"
+import { Cart, GetCartQuery, GetViewerQuery } from "@api/codegen/graphql"
 
 export type Layout_AuthData_Type = {
   tokens: CLIENT_Tokens_Type
-  setTokens: [string, string | boolean][]
+  newAuth: boolean
   isAuth: boolean
   user: GetViewerQuery["viewer"] | null
   cart?: GetCartQuery["cart"]
 }
 
 export type CLIENT_Tokens_Type = {
-  auth?: string | null | undefined
-  refresh?: string | null | undefined
-  cart?: string | null | undefined
-  remove?: boolean | null | undefined
+  auth: string | null | undefined
+  refresh: string | null | undefined
+  cart: string | null | undefined
+  customer: string | null | undefined
 }
 
 export type EP_Auth_Input_Set_Type = {

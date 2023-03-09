@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 import nodemailer from "nodemailer"
+
 require("dotenv").config()
 
 // ####
@@ -17,8 +18,8 @@ const TankQuote = (req: NextApiRequest, res: NextApiResponse) => {
   const smtpConfig = {
     service: "gmail",
     auth: {
-      user: USERNAME || "",
-      pass: PASSWORD || "",
+      user: USERNAME ?? "",
+      pass: PASSWORD ?? "",
     },
   }
 
@@ -30,13 +31,13 @@ const TankQuote = (req: NextApiRequest, res: NextApiResponse) => {
     subject: "Website Quote Request",
     replyTo: req.body["Contact - Email"],
     html: `<div>
-    ${Object.keys(req.body).map(key => {
+    ${Object.keys(req.body).map((key) => {
       return `<h2>${key}</h2><p>${req.body[key]}</p>`
     })}
   </div>`,
   }
 
-  transporter.sendMail(mailData, (err, info) => {
+  transporter.sendMail(mailData, (err) => {
     if (err) {
       res.send("failed")
     } else {

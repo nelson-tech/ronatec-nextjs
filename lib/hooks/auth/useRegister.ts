@@ -1,55 +1,71 @@
+import { useCallback } from "react"
 import { shallow } from "zustand/shallow"
 
-import useStore from "@lib/hooks/useStore"
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
+  Customer,
   RegisterUserDocument,
-  RegisterUserMutationVariables,
-  User,
+  RegisterUserInput,
 } from "@api/codegen/graphql"
-import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
-import { AUTH_ENDPOINT } from "@lib/constants"
+import useStore from "@lib/hooks/useStore"
+import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
+import setCookie from "@lib/utils/setCookie"
 
 const useRegister = () => {
-  const { loggedIn, error, setUser, setLoggedIn, setAlert } = useStore(
-    state => ({
-      loggedIn: state.auth.loggedIn,
-      error: state.auth.errors.register,
-      setUser: state.auth.setUser,
+  const { setCustomer, setLoggedIn, setAlert } = useStore(
+    (state) => ({
+      setCustomer: state.auth.setCustomer,
       setLoggedIn: state.auth.setLoggedIn,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
-  const client = useClient()
+  const client = getClient()
 
-  const register = async (input: RegisterUserMutationVariables) => {
-    const registerData = await client.request(RegisterUserDocument, input)
-    const newUser = registerData?.registerUser?.user
-    if (!loggedIn && newUser) {
-      const { jwtAuthToken, jwtRefreshToken, ...user } = newUser
+  const register = useCallback(
+    async (input: RegisterUserInput) => {
+      try {
+        const registerData = await client.request(RegisterUserDocument, {
+          input,
+        })
 
-      // Make call to endpoint to set cookies on client
-      const body: EP_Auth_Input_Set_Type = {
-        action: "SET",
-        tokens: { auth: jwtAuthToken, refresh: jwtRefreshToken },
+        const registrationData = registerData?.registerUser
+
+        if (
+          registrationData?.user?.jwtAuthToken &&
+          registrationData.user.jwtRefreshToken
+        ) {
+          // Set cookies
+          setCookie(AUTH_TOKEN_KEY, registrationData.user.jwtAuthToken)
+          setCookie(REFRESH_TOKEN_KEY, registrationData.user.jwtRefreshToken)
+
+          const customer = registrationData.user as Customer
+
+          setCustomer(customer)
+          setAlert({
+            open: true,
+            kind: "success",
+            primary: `Welcome${
+              (customer?.firstName || customer?.lastName) && ","
+            }${customer?.firstName && ` ${customer.firstName}`}${
+              customer?.lastName && ` ${customer.lastName}`
+            }!`,
+            secondary: "You are now registered.",
+          })
+          setLoggedIn(true)
+        }
+      } catch (error) {
+        console.warn("Error during registration:", error)
+        setAlert({
+          open: true,
+          kind: "error",
+          primary: "Error during registration.",
+        })
       }
-      await fetch(AUTH_ENDPOINT, { method: "POST", body: JSON.stringify(body) })
-
-      setUser(user as User)
-      setAlert({
-        open: true,
-        kind: "success",
-        primary: `Welcome${(user?.firstName || user?.lastName) && ","}${
-          user?.firstName && ` ${user.firstName}`
-        }${user?.lastName && ` ${user.lastName}`}!`,
-        secondary: "You are now registered.",
-      })
-      setLoggedIn(true)
-    }
-    // TODO - Set Error
-  }
+    },
+    [client, setAlert, setCustomer, setLoggedIn]
+  )
 
   return { register }
 }

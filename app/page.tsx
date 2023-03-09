@@ -1,28 +1,18 @@
-import { Product, ProductCategory } from "@api/codegen/graphql"
+import { Metadata } from "next/types"
+
+import { RankMathPostTypeSeo } from "@api/codegen/graphql"
+import getHomeData from "@lib/server/getHomeData"
+import parseMetaData from "@lib/utils/parseMetaData"
+
 import Home from "@components/Pages/Home"
-import { API_URL } from "@lib/constants"
-
-const getHomeData = async () => {
-  // Get persisted query for speed
-  const response = await fetch(API_URL + "?queryId=getHomeData", {
-    headers: { "content-type": "application/json" },
-  })
-
-  const { data } = await response.json()
-
-  return {
-    page: data?.page,
-    categories: data?.productCategories?.nodes as
-      | ProductCategory[]
-      | null
-      | undefined,
-    topSellers: data.products?.nodes as Product[] | null | undefined,
-  }
-}
 
 const HomePage = async () => {
   const data = await getHomeData()
-  const { page: home, topSellers, categories } = data
+
+  const home = data?.page
+  const categories = data?.categories
+  const topSellers = data?.topSellers
+
   return (
     <>
       <Home home={home} topSellers={topSellers} categories={categories} />
@@ -31,3 +21,16 @@ const HomePage = async () => {
 }
 
 export default HomePage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getHomeData()
+
+  const metaData = parseMetaData({
+    ...data?.page?.seo,
+    title: "Ronatec C2C, Inc.",
+  } as RankMathPostTypeSeo)
+
+  return metaData
+}

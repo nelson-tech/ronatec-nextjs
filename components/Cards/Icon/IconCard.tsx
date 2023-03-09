@@ -1,15 +1,9 @@
 "use client"
 
 import { Post_Common_Cards } from "@api/codegen/graphql"
-
-import Icon from "@components/ui/Icon"
 import parseNewLines from "@lib/utils/parseNewLines"
 
-// ####
-// #### Dynamic Imports
-// ####
-
-const clientOpts = {}
+import Icon from "@components/ui/Icon"
 
 // ####
 // #### Types
@@ -28,7 +22,7 @@ export type PropsType = {
 const IconCard = ({ card, centerText = true, contentStyle }: PropsType) => {
   return (
     <div
-      className={`flow-root bg-gray-50 rounded-lg px-6 pb-8 md:pt-0 h-full${
+      className={`flow-root bg-gray-50 rounded px-6 pb-8 md:pt-0 h-full${
         centerText && " text-center"
       }`}
       data-testid="icon-card"
@@ -36,7 +30,7 @@ const IconCard = ({ card, centerText = true, contentStyle }: PropsType) => {
       <div className="-mt-6">
         {card.icon && card.icon.name && (
           <div>
-            <span className="inline-flex items-center justify-center p-3 bg-green-main rounded-md shadow-md">
+            <span className="inline-flex items-center justify-center p-3 bg-highlight rounded shadow-md">
               <Icon
                 name={card.icon.name}
                 className="h-6 w-6 text-white"

@@ -43,7 +43,7 @@ describe("Custom Next.js App", () => {
       authExpiration: 42,
     }))
     const { container, getByTestId } = render(
-      <CustomizedApp props={{ protected: true }} />,
+      <CustomizedApp props={{ protected: true }} />
     )
 
     const element = getByTestId("custom-app")
@@ -56,7 +56,7 @@ describe("Custom Next.js App", () => {
       authExpiration: 42,
     }))
     const { container, getByTestId } = render(
-      <CustomizedApp props={{ protected: true }} />,
+      <CustomizedApp props={{ protected: true }} />
     )
 
     const element = getByTestId("custom-app")
@@ -71,7 +71,7 @@ describe("Custom Next.js App", () => {
       authExpiration: 42,
     }))
     const { container, getByTestId } = render(
-      <CustomizedApp props={{ protected: true }} />,
+      <CustomizedApp props={{ protected: true }} />
     )
 
     const element = getByTestId("custom-app")

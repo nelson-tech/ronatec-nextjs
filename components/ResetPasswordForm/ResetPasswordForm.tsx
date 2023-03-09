@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { shallow } from "zustand/shallow"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 import MailIcon from "@heroicons/react/20/solid/EnvelopeIcon"
 
-import useStore from "@lib/hooks/useStore"
 import useResetPassword from "@lib/hooks/useResetPassword"
 
 import MenuLink from "@components/Link"
@@ -27,21 +25,19 @@ type ResetPasswordFormInputType = {
 // ####
 
 const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
+  const router = useRouter()
+
+  const searchParams = useSearchParams()
+
   const [error, setError] = useState<string | null>(null)
   const [sentEmail, setSentEmail] = useState(false)
   const [passwordReset, setPasswordReset] = useState(false)
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
-  const { loggedIn, user } = useStore(
-    state => ({ loggedIn: state.auth.loggedIn, user: state.auth.user }),
-    shallow,
-  )
 
   const [email, setEmail] = useState<string | null>(
-    searchParams.get("username") ?? detectedEmail ?? null,
+    searchParams?.get("email") ?? detectedEmail ?? null
   )
-  const [key, setKey] = useState<string | null>(searchParams.get("key"))
+
+  const [key] = useState<string | null>(searchParams?.get("key") ?? null)
   const [password, setPassword] = useState<string | null>(null)
   const [passwordConfirm, setPasswordConfirm] = useState<string | null>(null)
 
@@ -49,7 +45,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
 
   const {
     sendResetPasswordEmail,
-    resetUserPassword,
+    resetCustomerPassword,
     error: resetError,
     loading,
   } = useResetPassword()
@@ -58,7 +54,6 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     formState: { errors },
     register,
     handleSubmit,
-    setValue,
   } = useForm()
 
   // Check for matching passwords
@@ -79,7 +74,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     }
   }, [router, passwordReset, error])
 
-  const onSendEmailSubmit: SubmitHandler<FieldValues> = async data => {
+  const onSendEmailSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (email && data.email === email) {
       const sentStatus = await sendResetPasswordEmail(email)
       sentStatus && setSentEmail(true)
@@ -87,10 +82,10 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
     console.warn(data)
   }
 
-  const onResetPasswordSubmit: SubmitHandler<FieldValues> = async data => {
+  const onResetPasswordSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (data.passwordConfirm && data.password) {
       if (validPassword && key && email && password) {
-        const resetStatus = await resetUserPassword(key, email, password)
+        const resetStatus = await resetCustomerPassword(key, email, password)
         resetStatus && setPasswordReset(true)
       }
     }
@@ -124,7 +119,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
               <div>
                 <MenuLink
                   href={`/register${
-                    searchParams.get("redirect")
+                    searchParams?.get("redirect")
                       ? `?redirect=${searchParams.get("redirect")}`
                       : ""
                   }`}
@@ -171,11 +166,11 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                     minLength={8}
                     {...register("password", {
                       required: "Password is required.",
-                      onChange: e => {
+                      onChange: (e) => {
                         setPassword(e.target.value)
                       },
                     })}
-                    value={password || ""}
+                    value={password ?? ""}
                     className="appearance-none relative block w-full px-3 py-2 border-x border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Password"
                   />
@@ -191,11 +186,11 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                     minLength={8}
                     {...register("passwordConfirm", {
                       required: "Password confirmation is required.",
-                      onChange: e => {
+                      onChange: (e) => {
                         setPasswordConfirm(e.target.value)
                       },
                     })}
-                    value={passwordConfirm || ""}
+                    value={passwordConfirm ?? ""}
                     className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Confirm Password"
                   />
@@ -224,7 +219,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
@@ -258,12 +253,12 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
                     autoComplete="email"
                     {...register("email", {
                       required: "Email address is required.",
-                      onChange: e => {
+                      onChange: (e) => {
                         setEmail(e.target.value)
                       },
                     })}
-                    value={email || ""}
-                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
+                    value={email ?? ""}
+                    className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                     placeholder="Email address"
                   />
                 </div>
@@ -290,7 +285,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
               <div>
                 <button
                   type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
+                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
                 >
                   <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                     {loading ? (
@@ -308,7 +303,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
             </form>
           )}
           {sentEmail && !error && (
-            <p className="text-green-main text-sm pt-2 pl-2">
+            <p className="text-highlight text-sm pt-2 pl-2">
               Reset request successful. Please check your email for a link to
               reset your password.
             </p>

@@ -20,11 +20,11 @@ const YouTubeIcon = (
 // #### Component
 // ####
 
-const Promo = () => {
+const Promo = ({ className }: { className?: string }) => {
   return (
-    <div className="bg-blue-main">
+    <div className={"bg-blue-main " + className}>
       <div className="h-10 px-4 flex items-center justify-end text-white">
-        <div className="h-6 w-6 mr-6 mt-1 hover:text-red-main">
+        <div className="h-6 w-6 mr-6 mt-1 hover:text-red-400 transition-colors">
           <a
             href="https://www.youtube.com/channel/UCxmKm_9iLJ2skg39mmoKYnA"
             target="_blank"
@@ -34,8 +34,13 @@ const Promo = () => {
             {YouTubeIcon}
           </a>
         </div>
-        <PhoneIcon className="h-6 w-6 mr-2" />{" "}
-        <a href="tel:+1-855-928-9904">+1 (855) 928-9904</a>
+        <a
+          href="tel:+1-855-928-9904"
+          className="flex hover:text-highlight transition-colors"
+        >
+          <PhoneIcon className="h-6 w-6 mr-2" />
+          <span>+1 (855) 928-9904</span>
+        </a>
       </div>
     </div>
   )

@@ -1,6 +1,8 @@
 import { decodeToken } from "./decodeJwt"
 
-export const isTokenValid = (token: string | null | undefined): boolean => {
+export const isTokenValid = (
+  token: string | boolean | null | undefined
+): boolean => {
   if (typeof token === "string") {
     const tokenData = decodeToken(token)
 

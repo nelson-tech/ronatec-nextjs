@@ -11,11 +11,11 @@ import LoginForm from "@components/LoginForm"
 
 const LoginModal = () => {
   const { login, setLoginOpen } = useStore(
-    state => ({
+    (state) => ({
       login: state.auth.loginModal,
       setLoginOpen: state.auth.setLoginModalOpen,
     }),
-    shallow,
+    shallow
   )
 
   return (

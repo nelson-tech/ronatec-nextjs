@@ -64,7 +64,7 @@ describe("Icon Card", () => {
               },
             },
           }}
-        />,
+        />
       )
 
       const element = getByTestId("supplier-card-featured")
@@ -79,7 +79,7 @@ describe("Icon Card", () => {
             isOpen: true,
             chosenSupplier: { title: "Supplier Title" },
           }}
-        />,
+        />
       )
       const element = getByTestId("supplier-card")
       expect(element).toBeTruthy()
@@ -113,7 +113,7 @@ describe("Icon Card", () => {
             setChosenSupplier: undefined,
             setIsOpen: undefined,
           }}
-        />,
+        />
       )
       const element = getByTestId("supplier-card-error")
       expect(element).toBeTruthy()
@@ -126,7 +126,7 @@ describe("Icon Card", () => {
             ...defaultProps,
             supplier: { ...defaultProps.supplier, supplier: undefined },
           }}
-        />,
+        />
       )
       const element = getByTestId("supplier-card-error")
       expect(element).toBeTruthy()

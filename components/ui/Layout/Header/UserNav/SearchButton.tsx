@@ -8,7 +8,7 @@ import useStore from "@lib/hooks/useStore"
 // ####
 
 const SearchButton = () => {
-  const setSearchOpen = useStore(state => state.ui.setSearchOpen)
+  const setSearchOpen = useStore((state) => state.ui.setSearchOpen)
   return (
     <>
       <div

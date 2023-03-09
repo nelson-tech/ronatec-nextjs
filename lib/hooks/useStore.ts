@@ -4,7 +4,7 @@ import { useStore as useZuStore } from "zustand"
 
 const useStore = <T>(
   selector: (state: SlicesType) => T,
-  equalityFn?: (left: T, right: T) => boolean,
+  equalityFn?: (left: T, right: T) => boolean
 ) => {
   const store = useContext(StoreContext)
   if (!store) throw new Error("Missing StoreContext.Provider in the tree")

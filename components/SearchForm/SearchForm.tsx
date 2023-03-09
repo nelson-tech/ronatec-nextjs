@@ -37,7 +37,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
         `/products/${
           product.productCategories?.nodes &&
           product.productCategories.nodes[0]?.slug
-        }/${product.slug}`,
+        }/${product.slug}`
       )
     }
   }
@@ -57,10 +57,11 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
       >
         <div className="relative mt-1">
           <Combobox.Input
-            className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm ring-transparent focus:outline-none sm:text-sm"
+            className="w-full rounded border border-gray-300 bg-white py-2 pl-3 pr-10
+            ring-0 ring-transparent focus:ring-accent focus:border-accent focus:outline-none sm:text-sm"
             onChange={handleSearchField}
             placeholder="Product Name"
-            displayValue={(product: any) => product?.name || ""}
+            displayValue={(product: any) => product?.name ?? ""}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 ring-transparent focus:outline-none">
             {loading && <LoadingSpinner size={5} opacity={50} />}
@@ -75,14 +76,17 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
               leaveFrom="transform scale-100 opacity-100"
               leaveTo="transform scale-95 opacity-0"
             >
-              <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-transparent focus:outline-none sm:text-sm">
-                {results.map(product => (
+              <Combobox.Options
+                className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white text-base
+                shadow-lg ring-transparent focus:outline-none sm:text-sm"
+              >
+                {results.map((product) => (
                   <Combobox.Option
                     key={product.id}
                     value={product}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-8 pr-4 ring-transparent focus:outline-none 
-                        ${active ? "bg-blue-main text-white" : "text-gray-900"}`
+                        ${active ? "bg-accent text-white" : "text-gray-900"}`
                     }
                   >
                     {({ active, selected }) => (
@@ -99,7 +103,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
                         {selected && (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-1.5 ${
-                              active ? "text-white" : "text-blue-main"
+                              active ? "text-white" : "text-accent"
                             }`}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />

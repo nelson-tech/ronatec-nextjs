@@ -1,8 +1,7 @@
 "use client"
 
-import type { Layout_AuthData_Type } from "@lib/types/auth"
 import APIContext from "./APIContext"
-import ClientInitContext from "./ClientInitContext"
+import ClientContext from "./ClientContext"
 import StoreContext from "./StoreContext"
 
 //
@@ -11,20 +10,17 @@ import StoreContext from "./StoreContext"
 
 type RootClientContextProps = {
   children: React.ReactNode
-  authData: Layout_AuthData_Type
 }
 
-const RootClientContext = ({ children, authData }: RootClientContextProps) => {
-  // useNavigationEvent()
+//
+// Component
+//
 
+const RootClientContext = ({ children }: RootClientContextProps) => {
   return (
-    <APIContext tokens={authData.tokens}>
-      <StoreContext authData={authData}>
-        <ClientInitContext authData={authData}>
-          {/* <RootStyleRegistry colors={colors}> */}
-          {children}
-          {/* </RootStyleRegistry> */}
-        </ClientInitContext>
+    <APIContext>
+      <StoreContext>
+        <ClientContext>{children}</ClientContext>
       </StoreContext>
     </APIContext>
   )

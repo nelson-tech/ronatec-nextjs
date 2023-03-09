@@ -1,22 +1,21 @@
-import useClient from "@api/client"
+import getClient from "@api/client"
 import { GetOrdersDataDocument, Order } from "@api/codegen/graphql"
+import getTokensServer from "@lib/utils/getTokensServer"
+
 import OrderSummary from "@components/Orders/Summary"
-import getTokens from "@lib/utils/getTokens"
 
 // ####
 // #### Server Calls
 // ####
 
 const getOrders = async () => {
-  const { tokens } = await getTokens()
-
-  const client = useClient(tokens)
   try {
-    client.setHeader("auth", "true")
-    const ordersData = await client.request(GetOrdersDataDocument)
-    client.setHeader("auth", "false")
+    const { tokens } = await getTokensServer()
 
-    return ordersData.orders?.nodes
+    const client = getClient(tokens)
+    const ordersData = await client.request(GetOrdersDataDocument)
+
+    return ordersData.orders?.nodes as Order[]
   } catch (error) {
     console.warn("Error fetching orders:", error)
     return null
@@ -51,11 +50,11 @@ const OrdersPage = async () => {
             <h2 className="sr-only">Recent orders</h2>
 
             <div className="space-y-8">
-              {orders.map(order => {
+              {orders.map((order) => {
                 if (order.orderNumber) {
                   return (
                     <div key={order.orderNumber}>
-                      <OrderSummary order={order as Order} detailsLink />
+                      <OrderSummary order={order} detailsLink />
                     </div>
                   )
                 }
@@ -69,3 +68,19 @@ const OrdersPage = async () => {
 }
 
 export default OrdersPage
+
+export const revalidate = 0 // dynamically serve this page
+
+export const metadata = {
+  title: "Orders",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+    },
+  },
+}

@@ -25,7 +25,7 @@ const PageTitle = ({
     <>
       <NextSeo title={title} description={description} {...seoConfig} />
       {banner && (
-        <div className="w-screen mx-auto text-2xl bg-green-main text-white text-center py-2">
+        <div className="w-screen mx-auto text-2xl bg-highlight text-white text-center py-2">
           <h2>{title}</h2>
         </div>
       )}

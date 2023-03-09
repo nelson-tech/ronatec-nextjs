@@ -54,7 +54,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories")
       expect(element).toBeTruthy()
@@ -71,7 +71,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories")
       expect(element).toBeTruthy()
@@ -88,7 +88,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories")
       expect(element).toBeTruthy()
@@ -105,7 +105,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories")
       expect(element).toBeTruthy()
@@ -122,7 +122,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories")
       expect(element).toBeTruthy()
@@ -143,7 +143,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories-clickable-medium")
       act(() => {
@@ -163,7 +163,7 @@ describe("Category Summary", () => {
               },
             },
           }}
-        />,
+        />
       )
       const element = getByTestId("sub-categories-clickable-small")
       act(() => {

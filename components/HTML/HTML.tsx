@@ -14,7 +14,7 @@ const HTML = ({ html }: Props) => {
   return (
     <div
       className="danger"
-      dangerouslySetInnerHTML={{ __html: html || "" }}
+      dangerouslySetInnerHTML={{ __html: html ?? "" }}
     ></div>
   )
 }

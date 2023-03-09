@@ -1,13 +1,13 @@
 "use client"
 
-import Image, { ImageProps } from "next/image"
-
 import SlickSlider, { Settings as SliderSettings } from "react-slick"
+
+import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
+
+import Image from "@components/Image"
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-
-import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -43,23 +43,25 @@ const Slider = ({
   containerClassName,
 }: SliderPropsType) => {
   return (
-    <div className={containerClassName + " " + sliderStyle}>
-      <SlickSlider {...options} className="w-full h-96 ">
-        {slides.map((slide, index) => {
+    <div
+      className={`${
+        rounded && "rounded overflow-hidden"
+      } ${containerClassName}`}
+    >
+      <SlickSlider
+        {...options}
+        className={`w-full rounded overflow-hidden z-10 ${sliderStyle}`}
+      >
+        {slides.map((slide) => {
           const image = slide?.image
           return (
-            <div
-              key={image?.id}
-              className={` relative w-full h-96 ${
-                rounded && " rounded-lg overflow-hidden"
-              }`}
-            >
+            <div key={image?.id} className={` relative w-full aspect-[3/2]`}>
               <Image
                 src={image?.sourceUrl ?? ""}
+                alt={image?.altText ?? ""}
                 fill
                 sizes="(max-width: 400px) 100vw,(max-width: 768px) 50vw,33vw"
-                alt={image?.altText ?? ""}
-                className="object-cover"
+                className="object-cover -z-[1]"
               />
             </div>
           )

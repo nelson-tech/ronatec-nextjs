@@ -1,24 +1,6 @@
-import useClient from "@api/client"
-import { Customer, GetCustomerDataDocument } from "@api/codegen/graphql"
+import getCustomerData from "@lib/server/getCustomerData"
 
 import Checkout from "@components/Checkout"
-import getTokens from "@lib/utils/getTokens"
-
-// ####
-// #### Server Calls
-// ####
-
-const getCustomerData = async () => {
-  const { tokens } = await getTokens()
-
-  const client = useClient(tokens)
-
-  const customerData = await client.request(GetCustomerDataDocument)
-
-  console.log("CustomerData", tokens, customerData)
-
-  return customerData.customer
-}
 
 // ####
 // #### Component
@@ -29,9 +11,17 @@ const CheckoutPage = async () => {
 
   return (
     <>
-      <Checkout hidePrices customer={customer as Customer} />
+      <Checkout customer={customer} />
     </>
   )
 }
 
 export default CheckoutPage
+
+export const revalidate = 0 // dynamically serve this page
+
+export const metadata = {
+  title: "Checkout",
+  description: "Checkout to complete your order!",
+  keywords: ["Checkout", "Shop", "Ronatec", "Metal Finishing"],
+}

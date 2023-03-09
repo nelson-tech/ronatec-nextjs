@@ -1,55 +1,50 @@
-import { default as NextImage } from "next/image"
+"use client"
 
-// import { ImageContainer } from "./style"
+import { useState } from "react"
+import NextImage from "next/image"
+import type { ImageProps } from "next/image"
+import { Transition } from "@headlessui/react"
 
-// ####
-// #### Types
-// ####
+type ImagePropsType = ImageProps
 
-type Props = {
-  src: string
-  alt?: string
-  fill?: boolean
-  height?: number | undefined | null
-  width?: number | undefined | null
-  title?: string | undefined | null
-  rounded?: "sm" | "md" | "lg"
-  priority?: boolean
-  sizes?: string | undefined
-  className?: string | undefined
-}
+const Image = (props: ImagePropsType) => {
+  const [loading, setLoading] = useState(true)
 
-// ####
-// #### Component
-// ####
-
-const Image = ({
-  src,
-  fill,
-  alt,
-  title,
-  height,
-  width,
-  rounded,
-  priority,
-  className,
-  sizes,
-}: Props) => {
-  const fillSize: { [key: string]: any } = { fill }
-  height && (fillSize["height"] = height)
-  width && (fillSize["width"] = width)
   return (
-    // <ImageContainer rounded={rounded}>
-    <NextImage
-      className={className}
-      src={src}
-      alt={alt ?? ""}
-      title={title || alt || ""}
-      {...fillSize}
-      priority={priority}
-      sizes={sizes}
-    />
-    // </ImageContainer>
+    <div
+      className={`
+       w-full h-full overflow-hidden relative`}
+    >
+      <Transition
+        appear={true}
+        show={loading}
+        enter="transition-opacity duration-500"
+        enterFrom="opacity-0"
+        enterTo="opacity-50"
+        leave="transition-opacity duration-500"
+        leaveFrom="opacity-50"
+        leaveTo="opacity-0"
+        className="absolute top-0 left-0 z-30 w-full h-full "
+      >
+        <NextImage
+          {...{
+            ...props,
+            src: `${props.src}?width=200&blur=12&format=webp&quality=60&grayscale=1`,
+          }}
+          unoptimized
+        />
+      </Transition>
+      <NextImage
+        {...props}
+        onLoadingComplete={(img) => {
+          setLoading(false)
+          // props.onLoadingComplete && props.onLoadingComplete(img)
+        }}
+        className={`${
+          loading ? "opacity-0" : "opacity-100"
+        } transition-opacity ${props.className ? props.className : ""}`}
+      />
+    </div>
   )
 }
 

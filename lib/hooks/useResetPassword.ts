@@ -1,13 +1,20 @@
 "use client"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
+  Customer,
+  GetCustomerDataDocument,
   ResetUserPasswordDocument,
   SendPasswordResetEmailDocument,
   User,
 } from "@api/codegen/graphql"
-import { AUTH_ENDPOINT } from "@lib/constants"
-import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
+import {
+  AUTH_TOKEN_KEY,
+  CUSTOMER_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from "@lib/constants"
+import encodeToken from "@lib/utils/encodeJwt"
+import setCookie from "@lib/utils/setCookie"
 import { useState } from "react"
 
 import useStore from "./useStore"
@@ -18,12 +25,12 @@ const useResetPassword = () => {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const client = useClient()
+  const client = getClient()
 
-  const { setAlert, setLoggedIn, setUser } = useStore(state => ({
+  const { setAlert, setLoggedIn, setCustomer } = useStore((state) => ({
     setAlert: state.alert.setAlert,
     setLoggedIn: state.auth.setLoggedIn,
-    setUser: state.auth.setUser,
+    setCustomer: state.auth.setCustomer,
   }))
 
   const sendResetPasswordEmail = (username: string) => {
@@ -35,7 +42,7 @@ const useResetPassword = () => {
         setLoading(false)
         return true
       })
-      .catch(errors => {
+      .catch((errors) => {
         const message = errorCodes[errors.message]
           ? errorCodes[errors.message]
           : `Error: ${errors.message}`
@@ -45,52 +52,17 @@ const useResetPassword = () => {
       })
   }
 
-  const resetUserPassword = (
+  const resetCustomerPassword = async (
     key: string,
     username: string,
-    password: string,
+    password: string
   ) => {
     setError(null)
     setLoading(true)
-    return client
+
+    const resetData = await client
       .request(ResetUserPasswordDocument, { key, login: username, password })
-      .then(async response => {
-        const user = (response.resetUserPassword?.user as User) || null
-
-        if (user) {
-          const { jwtAuthToken, jwtRefreshToken, ...plainUser } = user
-          setUser(plainUser)
-
-          // Make call to endpoint to set cookies on client
-          const body: EP_Auth_Input_Set_Type = {
-            action: "SET",
-            tokens: { auth: jwtAuthToken, refresh: jwtRefreshToken },
-          }
-          await fetch(AUTH_ENDPOINT, {
-            method: "POST",
-            body: JSON.stringify(body),
-          })
-
-          setLoggedIn(true)
-
-          setAlert({
-            open: true,
-            kind: "success",
-            primary: `Welcome back${
-              (user?.firstName || user?.lastName) && ","
-            }${user?.firstName && ` ${user.firstName}`}${
-              user?.lastName && ` ${user.lastName}`
-            }!`,
-            secondary: "Your password has been reset.",
-          })
-
-          setLoading(false)
-          return true
-        }
-        setLoading(false)
-        return false
-      })
-      .catch(errors => {
+      .catch((errors) => {
         const message = errorCodes[errors.message]
           ? errorCodes[errors.message]
           : `Error: ${errors.message}`
@@ -98,10 +70,53 @@ const useResetPassword = () => {
         setLoading(false)
         return false
       })
+
+    if (typeof resetData !== "boolean") {
+      const user = resetData?.resetUserPassword?.user
+        ? (resetData.resetUserPassword.user as User)
+        : null
+
+      if (user) {
+        const { jwtAuthToken, jwtRefreshToken } = user
+
+        // Get customer data
+        const customerData = await client.request(GetCustomerDataDocument)
+
+        const customer = customerData?.customer
+          ? (customerData.customer as Customer)
+          : null
+
+        // Encode customer into token
+        const customerToken = customer ? encodeToken(customer) : null
+
+        // Set cookies
+        setCookie(AUTH_TOKEN_KEY, jwtAuthToken)
+        setCookie(REFRESH_TOKEN_KEY, jwtRefreshToken)
+        // Set customer token's expiration to same as refreshToken
+        customerToken &&
+          setCookie(CUSTOMER_TOKEN_KEY, customerToken, {}, jwtRefreshToken)
+
+        setLoggedIn(true)
+        setCustomer(customer)
+
+        setAlert({
+          open: true,
+          kind: "success",
+          primary: `Welcome back${(user?.firstName || user?.lastName) && ","}${
+            user?.firstName && ` ${user.firstName}`
+          }${user?.lastName && ` ${user.lastName}`}!`,
+          secondary: "Your password has been reset.",
+        })
+        setLoading(false)
+        return true
+      }
+    }
+
+    return false
   }
 
   return {
-    resetUserPassword,
+    resetCustomerPassword,
     sendResetPasswordEmail,
     error,
     loading,

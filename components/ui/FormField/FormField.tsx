@@ -22,6 +22,9 @@ type PropsType = {
   textArea?: boolean
   textAreaRows?: number
   textAreaStyle?: string
+  options?: string[]
+  select?: boolean
+  defaultValue?: string
 }
 
 // ####
@@ -44,13 +47,16 @@ const FormField = ({
   textArea,
   textAreaRows,
   textAreaStyle,
+  select,
+  options,
+  defaultValue,
 }: PropsType) => {
   // Styles
   const containerStyling = containerStyle ?? "col-span-full"
   const labelStyling = labelStyle ?? "block text-sm font-medium text-gray-700"
   const inputStyling =
     inputStyle ??
-    "mt-1 block w-full border-gray-300 border-b p-2 rounded-md shadow-sm outline-none focus:ring-blue-main focus:border-blue-main sm:text-sm"
+    "mt-1 block w-full border-gray-300 border-b p-2 rounded shadow-sm outline-none focus:ring-blue-main focus:border-blue-main sm:text-sm"
   const errorStyling = errorStyle ?? "block text-red-main text-sm pt-2 pl-1"
   const textAreaStyling = textAreaStyle ?? inputStyling
   return (
@@ -66,8 +72,20 @@ const FormField = ({
             rows={textAreaRows ?? 5}
             id={name}
             {...register(name, registerOptions)}
-            className={inputStyling}
+            className={textAreaStyling}
           />
+        ) : select ? (
+          <select
+            id={name}
+            autoComplete={autoComplete}
+            className={inputStyling}
+            defaultValue={defaultValue}
+            {...register(name, registerOptions)}
+          >
+            {options?.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
         ) : (
           <input
             type={type}

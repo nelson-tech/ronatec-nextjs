@@ -1,24 +1,23 @@
 "use client"
 
-import useClient from "@api/client"
-import {
-  GetProductsByCategoryDocument,
-  GetProductsByCategoryQuery,
-  GetProductsByCategoryQueryVariables,
-  Product,
-} from "@api/codegen/graphql"
 import { useCallback, useState } from "react"
+
+import { GetProductsDataByCategoryQuery, Product } from "@api/codegen/graphql"
+import getFilteredProducts, {
+  GetFilteredProductsPropsType,
+} from "@lib/server/getFilteredProducts"
+import { FullProduct } from "@lib/types/products"
 
 // ####
 // #### Types
 // ####
 
 type UseFilteredProductsPropsType = {
-  initialProducts: Product[]
+  initialProducts: FullProduct[] | null | undefined
 }
 
 type PageDataType = DeepNull<
-  GetProductsByCategoryQuery,
+  GetProductsDataByCategoryQuery,
   "products"
 >["products"]["pageInfo"]
 
@@ -29,29 +28,22 @@ type PageDataType = DeepNull<
 const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
   const [loading, setLoading] = useState(false)
   const [products, setProducts] = useState<Product[] | null>(
-    props?.initialProducts ?? null,
+    props?.initialProducts ?? null
   )
   const [pageData, setPageData] = useState<PageDataType>()
 
-  const client = useClient()
-
   const fetchProducts = useCallback(
-    async (queryVars: GetProductsByCategoryQueryVariables) => {
+    async (queryVars: GetFilteredProductsPropsType) => {
       setLoading(true)
 
-      const productsData = await client.request(
-        GetProductsByCategoryDocument,
-        queryVars,
-      )
+      const productsData = await getFilteredProducts(queryVars)
 
-      productsData.products?.nodes &&
-        setProducts(productsData.products.nodes as Product[])
-      productsData.products?.pageInfo &&
-        setPageData(productsData.products.pageInfo)
+      productsData?.nodes && setProducts(productsData.nodes as Product[])
+      productsData?.pageInfo && setPageData(productsData.pageInfo)
 
       setLoading(false)
     },
-    [client],
+    []
   )
 
   return { products, pageData, loading, fetchProducts }

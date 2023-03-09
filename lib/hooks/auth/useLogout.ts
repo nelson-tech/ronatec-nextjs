@@ -1,43 +1,38 @@
+import { useCallback } from "react"
 import { useRouter } from "next/navigation"
+import { deleteCookie } from "cookies-next"
 import { shallow } from "zustand/shallow"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import { LogoutUserDocument } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
-import { EP_Auth_Input_Logout_Type } from "@lib/types/auth"
-import { AUTH_ENDPOINT } from "@lib/constants"
+import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
 
 const useLogout = () => {
   const router = useRouter()
 
-  const { setLoggedIn, setUser, setAlert } = useStore(
-    state => ({
+  const { setLoggedIn, setCustomer, setAlert } = useStore(
+    (state) => ({
       setLoggedIn: state.auth.setLoggedIn,
-      setUser: state.auth.setUser,
+      setCustomer: state.auth.setCustomer,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
-  const client = useClient()
+  const client = getClient()
 
-  const logout = async () => {
-    client.setHeader("auth", "true")
+  const logout = useCallback(async () => {
     await client.request(LogoutUserDocument, { input: {} })
-    client.setHeader("auth", "false")
 
-    // Make client call to API to set cookies for frontend
-    const body: EP_Auth_Input_Logout_Type = {
-      action: "LOGOUT",
-    }
+    // Delete cookies
+    deleteCookie(AUTH_TOKEN_KEY)
+    deleteCookie(REFRESH_TOKEN_KEY)
 
-    await fetch(AUTH_ENDPOINT, {
-      method: "POST",
-      body: JSON.stringify(body),
-    })
+    client.setHeader("Authorization", "")
 
     setLoggedIn(false)
-    setUser(null)
+    setCustomer(null)
     setAlert({
       open: true,
       primary: "Logged out.",
@@ -46,7 +41,8 @@ const useLogout = () => {
     })
 
     router.push("/")
-  }
+  }, [client, router, setAlert, setCustomer, setLoggedIn])
+
   return { logout }
 }
 

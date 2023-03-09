@@ -1,4 +1,3 @@
-const plugin = require("tailwindcss/plugin")
 const defaultTheme = require("tailwindcss/defaultTheme")
 
 module.exports = {
@@ -75,5 +74,9 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: ["@tailwindcss/forms"],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/line-clamp"),
+  ],
 }

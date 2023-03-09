@@ -1,8 +1,0 @@
-fragment User on User {
-	id
-	databaseId
-	firstName
-	lastName
-	username
-	email
-}

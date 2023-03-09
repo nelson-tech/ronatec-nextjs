@@ -1,92 +1,74 @@
 import { shallow } from "zustand/shallow"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
+  Customer,
   LoginUserDocument,
   LoginUserMutationVariables,
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
-import { AUTH_ENDPOINT } from "@lib/constants"
-import { EP_Auth_Input_Set_Type } from "@lib/types/auth"
+import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
+import setCookie from "@lib/utils/setCookie"
+import { useCallback } from "react"
 
 const useLogin = () => {
-  const { setAlert, setUser, setLoggedIn, setLoginError } = useStore(
-    state => ({
-      setUser: state.auth.setUser,
+  const { setAlert, setCustomer, setLoggedIn } = useStore(
+    (state) => ({
+      setCustomer: state.auth.setCustomer,
       setLoggedIn: state.auth.setLoggedIn,
-      setLoginError: state.auth.setLoginError,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
-  const client = useClient()
+  const client = getClient()
 
-  const login = async ({ input }: LoginUserMutationVariables) => {
-    client.setHeader("auth", "false")
-    await client
-      .request(LoginUserDocument, { input })
-      .then(async data => {
-        console.log("Login Data", data)
+  const login = useCallback(
+    async ({ input }: LoginUserMutationVariables) => {
+      await client
+        .request(LoginUserDocument, { input })
+        .then(async (data) => {
+          if (data) {
+            const { login } = data
+            if (login?.authToken && login.refreshToken) {
+              const customer = login.customer
 
-        if (data) {
-          const { login } = data
-          if (login?.user?.jwtAuthToken) {
-            const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
+              // Set authToken in client
+              client.setHeader("Authorization", `Bearer ${login.authToken}`)
 
-            // Set authToken in client
-            client.setHeader("auth", "true")
-            client.setHeader("Authorization", `Bearer ${jwtAuthToken}`)
+              // Set customer in store
+              setCustomer(customer as Customer)
 
-            // Set cart session in client
-            user.wooSessionToken &&
-              client.setHeader(
-                "woocommerce-session",
-                `Session ${user.wooSessionToken}`,
-              )
+              // Set cookies
+              setCookie(AUTH_TOKEN_KEY, login.authToken)
+              setCookie(REFRESH_TOKEN_KEY, login.refreshToken)
 
-            // Set user in store
-            setUser(user)
-
-            // Make client call to API to set cookies for frontend
-            const body: EP_Auth_Input_Set_Type = {
-              action: "SET",
-              tokens: {
-                auth: jwtAuthToken,
-                refresh: jwtRefreshToken,
-                cart: user.wooSessionToken,
-              },
+              setAlert({
+                open: true,
+                kind: "success",
+                primary: `Welcome back${
+                  (customer?.firstName || customer?.lastName) && ","
+                }${customer?.firstName && ` ${customer.firstName}`}${
+                  customer?.lastName && ` ${customer.lastName}`
+                }!`,
+                secondary: "You are now logged in.",
+              })
+              setLoggedIn(true)
             }
-
-            await fetch(AUTH_ENDPOINT, {
-              method: "POST",
-              body: JSON.stringify(body),
-            })
-
-            setAlert({
-              open: true,
-              kind: "success",
-              primary: `Welcome back${
-                (user?.firstName || user?.lastName) && ","
-              }${user?.firstName && ` ${user.firstName}`}${
-                user?.lastName && ` ${user.lastName}`
-              }!`,
-              secondary: "You are now logged in.",
-            })
-            setLoggedIn(true)
           }
-        }
-      })
-      .catch(error => {
-        console.warn("Error logging in", error)
+        })
+        .catch((error) => {
+          console.warn("Error logging in", error)
 
-        if (error.message.includes("invalid")) {
-          setLoginError("Email or password is incorrect.")
-        }
-      })
-
-    client.setHeader("auth", "false")
-  }
+          setAlert({
+            open: true,
+            kind: "error",
+            primary: "Email or password is incorrect.",
+          })
+        })
+    },
+    [client, setAlert, setCustomer, setLoggedIn]
+  )
 
   return { login }
 }
