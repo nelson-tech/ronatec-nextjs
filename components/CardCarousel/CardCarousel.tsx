@@ -22,22 +22,22 @@ export type PropsType = {
 
 const CardCarousel = ({ header, link, items, products }: PropsType) => {
   const categories = items
-    ? items.filter(item => {
-        return item.ancestors === null
+    ? items.filter((item) => {
+        return item.ancestors?.nodes && item.ancestors.nodes.length == 1
       })
     : null
 
   return (
     <div className="bg-white" data-testid="card-carousel">
-      <div className="pb-8 xl:max-w-7xl xl:mx-auto xl:px-8">
-        <div className="px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
+      <div className="pb-8">
+        <div className="xl:max-w-7xl xl:mx-auto px-8 sm:px-6 sm:flex sm:items-center sm:justify-between lg:px-8 xl:px-0">
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
             {header}
           </h2>
           {link && (
             <MenuLink
               href={link.path}
-              className="hidden text-sm font-semibold text-blue-main hover:text-blue-dark sm:block"
+              className="hidden text-sm font-semibold text-accent hover:text-blue-dark sm:block"
             >
               {link.label}
               <span aria-hidden="true"> &rarr;</span>
@@ -47,8 +47,8 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
 
         <div className="mt-4 flow-root">
           <div className="-my-2">
-            <div className="box-content py-2 relative h-80 overflow-x-auto xl:overflow-visible">
-              <div className="absolute px-8 min-w-screen-xl flex space-x-8 sm:px-6 lg:px-8 xl:relative xl:px-0 xl:space-x-0 xl:grid xl:grid-cols-5 xl:gap-x-8">
+            <div className="box-content py-2 relative h-80 overflow-x-auto">
+              <div className="absolute px-8 min-w-screen-xl flex space-x-8 sm:px-6 lg:px-8">
                 {
                   // Show loading icon if no items set
                   // TODO - Account for error cases
@@ -56,10 +56,10 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                     categories.map((item, index) => {
                       return (
                         <CarouselCard
-                          name={item.name || ""}
-                          slug={item.slug || ""}
+                          name={item.name ?? ""}
+                          slug={item.slug ?? ""}
                           image={item.image ?? undefined}
-                          key={item.name || "" + item.slug}
+                          key={item.name ?? "" + item.slug}
                           index={index}
                         />
                       )
@@ -76,10 +76,10 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
 
                       return (
                         <CarouselCard
-                          name={cardProduct.name || ""}
+                          name={cardProduct.name ?? ""}
                           slug={path}
                           image={cardProduct.image ?? undefined}
-                          key={cardProduct.name || "" + cardProduct.slug}
+                          key={cardProduct.name ?? "" + cardProduct.slug}
                           index={index}
                         />
                       )
@@ -105,7 +105,7 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
           <div className="mt-6 px-8 sm:hidden">
             <MenuLink
               href={link.path}
-              className="block text-sm font-semibold text-blue-main hover:text-blue-dark"
+              className="block text-sm font-semibold text-accent hover:text-blue-dark"
             >
               {link.label}
               <span aria-hidden="true"> &rarr;</span>

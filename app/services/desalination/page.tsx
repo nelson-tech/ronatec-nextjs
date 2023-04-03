@@ -1,3 +1,7 @@
+import { SEO_TITLE } from "@lib/constants"
+
+import PageHeader from "@components/PageHeader"
+
 // ####
 // #### Component
 // ####
@@ -5,8 +9,9 @@
 const DesalinationPage = () => {
   return (
     <>
-      <div className="max-w-7xl p-8 mx-auto">
-        <div className="text-gray-500 space-y-4">
+      <div className="max-w-7xl px-8 mx-auto">
+        <PageHeader title="Desalination" />
+        <div className="text-gray-500 space-y-4 prose max-w-none">
           <div className="pb-4 space-y-4">
             <p>
               Desalination, desalinization, or desalinisation refers to any of
@@ -17,7 +22,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">Viable Methods Of Desalination</h3>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>
                 <strong>Distillation:</strong> Boiling water and condensing the
                 vapor, leaving behind the unwanted dissolved solids.
@@ -40,7 +45,7 @@ const DesalinationPage = () => {
             <h3 className="font-bold py-2">
               Ronatec Exclusively Uses The RDI Method
             </h3>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>3rd generation CDI system and design.</li>
               <li>Patented carbon electrodes.</li>
               <li>
@@ -56,7 +61,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">RDI Desalinization System</h3>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>Pump (if necessary)</li>
               <li>Standard pre-filtration (if necessary)</li>
               <li>Multiple stage RDI Process Cylinders</li>
@@ -68,7 +73,7 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">Advantages of RDITM System</h3>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>
                 <strong>Capital Costs</strong>: 42% less than distillation, 10 -
                 20% less than RO.
@@ -91,14 +96,14 @@ const DesalinationPage = () => {
 
           <div className="space-y-2 border-t pb-4">
             <h3 className="font-bold py-2">History Of Technology</h3>
-            <ul className="list-disc ml-8">
+            <ul className="list-disc">
               <li>
                 Research &amp; Development was funded by the US Department of
                 Defense in order to develop an alternative technology to RO.
               </li>
               <li>
                 <a
-                  className="underline text-blue-main hover:text-green-main"
+                  className="underline text-blue-main hover:text-highlight"
                   href="ftp://ftp.rta.nato.int/PubFullText/RTO/MP/RTO-MP-HFM-086/MP-HFM-086-11.pdf"
                 >
                   2 Pilot Units built and delivered to Army
@@ -110,7 +115,7 @@ const DesalinationPage = () => {
               </li>
               <li>
                 <a
-                  className="underline text-blue-main hover:text-green-main"
+                  className="underline text-blue-main hover:text-highlight"
                   href="http://www.spectrum.ieee.org/apr08/6098"
                 >
                   Australian government implementing a version of the
@@ -122,7 +127,7 @@ const DesalinationPage = () => {
 
           <div className="bg-white border-t pb-4">
             <h3 className="font-bold py-2">RDI Desalination Team</h3>
-            <div className="max-w-7xl mx-auto divide-y divide-gray-200 lg:py-8 lg:flex lg:justify-center lg:divide-y-0 lg:divide-x">
+            <div className="lg:py-8 lg:flex lg:justify-center lg:divide-y-0 lg:divide-x">
               <div className="py-8 lg:py-0 lg:w-1/3 lg:flex-none">
                 <div className="max-w-xs mx-auto px-4 flex items-center lg:max-w-none lg:px-8">
                   <div className="ml-4 flex-auto flex flex-col">
@@ -169,3 +174,17 @@ const DesalinationPage = () => {
 }
 
 export default DesalinationPage
+
+export const metadata = {
+  title: `Desalination ${SEO_TITLE}`,
+  description:
+    "Desalination, desalinization, or desalinisation refers to any of several processes that remove excess salt and other minerals from water.",
+  keywords: [
+    "desalination",
+    "desalinization",
+    "desalinisation",
+    "Shop",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}

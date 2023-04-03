@@ -25,9 +25,9 @@ const LineItem = ({ product, quantity }: PropsType) => {
               <div className="w-16 object-center object-cover rounded overflow-hidden mr-6">
                 <Image
                   src={product.image.sourceUrl}
-                  alt={product.image.altText || ""}
-                  height={product.image.mediaDetails?.height}
-                  width={product.image.mediaDetails?.width}
+                  alt={product.image.altText ?? ""}
+                  height={product.image.mediaDetails?.height ?? undefined}
+                  width={product.image.mediaDetails?.width ?? undefined}
                 />
               </div>
             )}

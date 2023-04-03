@@ -38,7 +38,7 @@ const requestMiddleware = async (request: any) => {
         if (refreshToken) {
           const refreshData = await graphqlClient?.request(
             RefreshAuthTokenDocument,
-            { input: { jwtRefreshToken: refreshToken as string } },
+            { input: { jwtRefreshToken: refreshToken as string } }
           )
           const newAuth = refreshData?.refreshJwtAuthToken?.authToken
           if (newAuth) {
@@ -67,11 +67,11 @@ const responseMiddleware = async (response: any) => {
   }
 
   if (response.errors) {
-    const traceId = response.headers.get("x-b3-traceid") || "unknown"
+    const traceId = response.headers.get("x-b3-traceid") ?? "unknown"
     console.error(
       `[${traceId}] Request error:
         status ${response.status}
-        details: ${response.errors}`,
+        details: ${response.errors}`
     )
   }
 }
@@ -80,7 +80,7 @@ const responseMiddleware = async (response: any) => {
 // #### Hook
 // ####
 
-const useClient = (tokens?: CLIENT_Tokens_Type) => {
+const getClient = (tokens?: CLIENT_Tokens_Type) => {
   if (!graphqlClient) {
     // Create new, unauthenticated client
 
@@ -111,4 +111,4 @@ const useClient = (tokens?: CLIENT_Tokens_Type) => {
   return graphqlClient
 }
 
-export default useClient
+export default getClient

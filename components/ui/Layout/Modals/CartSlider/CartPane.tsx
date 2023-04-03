@@ -1,8 +1,8 @@
-import { Fragment, memo, useState } from "react"
+import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { shallow } from "zustand/shallow"
 import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon"
-import XIcon from "@heroicons/react/24/outline/XCircleIcon"
+import XIcon from "@heroicons/react/20/solid/XMarkIcon"
 
 import useCart from "@lib/hooks/useCart"
 import useStore from "@lib/hooks/useStore"
@@ -18,14 +18,14 @@ import CartItem from "./CartItem"
 // ####
 
 const CartPane = () => {
-  const [loading, setLoading] = useState(false)
+  const [_, setLoading] = useState(false)
 
   const { cart, setOpen } = useStore(
-    state => ({
+    (state) => ({
       cart: state.cart.state,
       setOpen: state.cart.setOpen,
     }),
-    shallow,
+    shallow
   )
 
   const { clearCart } = useCart()
@@ -39,10 +39,7 @@ const CartPane = () => {
 
   return (
     <>
-      <div
-        className="fixed inset-y-0 right-0 md:max-w-full flex"
-        style={{ maxWidth: "380px" }}
-      >
+      <div className="fixed inset-y-0 right-0 max-w-[350px] sm:max-w-lg md:max-w-full flex">
         <Transition.Child
           as={Fragment}
           enter="transform transition ease-in-out duration-300"
@@ -58,7 +55,7 @@ const CartPane = () => {
                 <LoadingSpinner className="h-24" />
               </div>
             )}
-            <div className="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
+            <div className="h-full flex flex-col rounded-l bg-white shadow-xl overflow-y-scroll">
               <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                 <div className="flex items-start justify-between">
                   <Dialog.Title className="text-lg font-extrabold text-gray-900">
@@ -85,7 +82,7 @@ const CartPane = () => {
                         className="-my-6 divide-y divide-gray-200"
                       >
                         {cart?.contents?.nodes &&
-                          cart?.contents?.nodes.map(lineItem => (
+                          cart?.contents?.nodes.map((lineItem) => (
                             <CartItem
                               key={lineItem?.key}
                               lineItem={lineItem}
@@ -126,7 +123,7 @@ const CartPane = () => {
                     href="/checkout"
                     title="Checkout"
                     onClick={() => setOpen(false)}
-                    className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-accent hover:bg-highlight"
+                    className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded shadow-sm text-base font-medium text-white bg-accent hover:bg-highlight"
                   >
                     Checkout
                   </Link>
@@ -134,7 +131,7 @@ const CartPane = () => {
                 <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                   <button
                     type="button"
-                    className="text-red-600 font-medium hover:text-green-main"
+                    className="text-red-600 font-medium hover:text-highlight"
                     onClick={handleClearCart}
                   >
                     Clear Cart &nbsp;

@@ -19,10 +19,7 @@ const EmployeeCard = ({ employee }: PropsType) => {
   const contact = employee.contact?.contact
   return (
     <>
-      <div
-        className="flow-root rounded-lg px-6 pb-0 md:pt-0 h-full"
-        data-testid="employee-card"
-      >
+      <div className="px-6 pb-0 h-full" data-testid="employee-card">
         {employee.title && (
           <h2 className="mt-0 text-xl font-bold text-black tracking-tight border-b-2">
             {employee.title}
@@ -44,7 +41,13 @@ const EmployeeCard = ({ employee }: PropsType) => {
                     iconKey="email-icon"
                   />
                 </span>
-                {contact.email}
+                <a
+                  href={`mailto:${contact.email}`}
+                  title={`Email ${employee.title}`}
+                  className="hover:text-highlight transition-colors"
+                >
+                  {contact.email}
+                </a>
               </div>
             )}
             {contact.office && (
@@ -57,7 +60,13 @@ const EmployeeCard = ({ employee }: PropsType) => {
                     iconKey="phone-icon"
                   />
                 </span>
-                {contact.office}
+                <a
+                  href={`tel:${contact.office}`}
+                  title={`Call ${employee.title}`}
+                  className="hover:text-highlight transition-colors"
+                >
+                  {contact.office}
+                </a>
               </div>
             )}
           </div>

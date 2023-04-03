@@ -1,24 +1,25 @@
 import Image from "@components/Image"
+import PageHeader from "@components/PageHeader"
 
 // ####
 // #### Component
 // ####
 
-const BreweryTanksPage = ({}) => {
+const BreweryTanksPage = () => {
   return (
     <>
-      <div className="flex items-center justify-center w-full">
-        <div className="rounded-lg m-8 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <PageHeader title="Brewery Tanks" />
+        <div className="w-full px-4 md:px-8">
           <Image
             src="https://cdn.ronatec.us/ronatec/20211207144134/tanks.jpg"
             alt="Brewery Tanks"
             width={1200}
             height={800}
+            className="rounded overflow-hidden"
           />
         </div>
-      </div>
-      <div className="max-w-7xl px-8 mx-auto">
-        <div className="text-gray-800 px-8 pb-8">
+        <div className="text-gray-800 prose max-w-none p-8">
           <p>
             Tanks for fermentation and conditioning of commercial beverages.
           </p>
@@ -26,7 +27,7 @@ const BreweryTanksPage = ({}) => {
             Brewery tanks from 3.5-barrels/4-hectoliters to 150
             barrels/172-hectoliters.
           </p>
-          <ul className="lis list-disc list-inside py-6">
+          <ul className="lis list-disc list-inside py-4">
             <li>Custom-built true shadowless manways.</li>
             <li>Separate CIP and blow off tubes.</li>
             <li>
@@ -42,3 +43,17 @@ const BreweryTanksPage = ({}) => {
 }
 
 export default BreweryTanksPage
+
+export const metadata = {
+  title: "Brewery Tanks",
+  description:
+    "Tanks for fermentation and conditioning of commercial beverages.",
+  keywords: [
+    "brewery",
+    "tanks",
+    "brewery tanks",
+    "Shop",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}

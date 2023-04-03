@@ -37,7 +37,7 @@ describe("Breadcrumbs", () => {
 
     it("Should show ancestor category.", () => {
       expect(
-        screen.getByTestId(mockCategory!.ancestors!.nodes![0]!.name!),
+        screen.getByTestId(mockCategory!.ancestors!.nodes![0]!.name!)
       ).toBeInTheDocument()
     })
 

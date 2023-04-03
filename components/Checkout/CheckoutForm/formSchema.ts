@@ -1,34 +1,4 @@
-import { string, object, boolean, discriminatedUnion, literal } from "zod"
-
-type OptionalStringFieldType = {
-  optional: true
-}
-
-type MinStringFieldType = {
-  min: number
-  max?: number
-  message: string
-}
-
-type MaxStringFieldType = {
-  min?: number
-  max: number
-  message: string
-}
-
-type EmailStringFieldType = {
-  message: string
-}
-
-type StringFieldType =
-  | OptionalStringFieldType
-  | MinStringFieldType
-  | MaxStringFieldType
-  | EmailStringFieldType
-
-type FormInputRequirementsType = {
-  [key: string]: StringFieldType
-}
+import { string, object, discriminatedUnion, literal } from "zod"
 
 const messages = {
   email: "Valid email is required.",
@@ -54,27 +24,27 @@ const contactSchema = object({
     .max(17, messages.phone),
   firstName: string({ invalid_type_error: messages.firstName }).min(
     1,
-    messages.firstName,
+    messages.firstName
   ),
   lastName: string({ invalid_type_error: messages.lastName }).min(
     1,
-    messages.lastName,
+    messages.lastName
   ),
   company: string().nullable(),
   address1: string({ invalid_type_error: messages.address1 }).min(
     3,
-    messages.address1,
+    messages.address1
   ),
   address2: string().nullable(),
   city: string({ invalid_type_error: messages.city }).min(2, messages.city),
   state: string({ invalid_type_error: messages.state }).min(2, messages.state),
   postcode: string({ invalid_type_error: messages.postcode }).min(
     3,
-    messages.postcode,
+    messages.postcode
   ),
   country: string({ invalid_type_error: messages.country }).min(
     2,
-    messages.country,
+    messages.country
   ),
 })
 

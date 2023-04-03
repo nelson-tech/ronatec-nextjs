@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 
-const useScrollDirection = (offset: number = 10) => {
+const useScrollDirection = (offset: number = 5) => {
   const [scrollDirection, setScrollDirection] = useState<"down" | "up" | null>(
-    null,
+    null
   )
 
   const [atTop, setAtTop] = useState(true)
@@ -14,7 +14,8 @@ const useScrollDirection = (offset: number = 10) => {
       const scrollY = window.scrollY
       const direction = scrollY > lastScrollY ? "down" : "up"
 
-      scrollY > offset ? setAtTop(false) : setAtTop(true)
+      scrollY < 1 && setAtTop(true)
+      scrollY > 40 && setAtTop(false)
 
       if (
         direction !== scrollDirection &&

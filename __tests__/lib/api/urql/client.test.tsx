@@ -12,7 +12,7 @@ it("renders", () => {
   const wrapper = render(
     <Provider value={mockClient as unknown as Client}>
       <>Testing Client</>
-    </Provider>,
+    </Provider>
   )
   expect(mockClient.executeQuery).toBeCalledTimes(0)
 })

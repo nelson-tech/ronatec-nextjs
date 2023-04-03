@@ -9,7 +9,7 @@ import Link from "@components/Link"
 // ####
 
 export type PropsType = {
-  category: ProductCategory
+  category: ProductCategory | null | undefined
   product?: boolean
   info?: boolean
 }
@@ -56,8 +56,8 @@ const Breadcrumbs = ({
               </svg>
             </div>
           </li>
-          {category.ancestors?.nodes &&
-            category.ancestors.nodes.map((ancestor: ProductCategory, index) => {
+          {category?.ancestors?.nodes &&
+            category?.ancestors.nodes.map((ancestor: ProductCategory) => {
               if (ancestor) {
                 return (
                   <li key={ancestor.id}>
@@ -65,7 +65,7 @@ const Breadcrumbs = ({
                       <Link
                         href={`/products/${ancestor.slug}`}
                         data-testid={ancestor.name}
-                        title={`View all ${category.name} products`}
+                        title={`View all ${category?.name} products`}
                         className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
                       >
                         {ancestor.name}
@@ -94,45 +94,28 @@ const Breadcrumbs = ({
               {product ? (
                 <>
                   <Link
-                    href={`/products/${category.slug}`}
-                    data-testid={category.name}
-                    title={`View all ${category.name} products`}
-                    className="transition hover:text-green-main"
+                    href={`/products/${category?.slug}`}
+                    data-testid={category?.name}
+                    title={`View all ${category?.name} products`}
+                    className="transition hover:text-highlight"
                   >
-                    {category.name}
+                    {category?.name}
                   </Link>
-                  <div className="ml-2 hover:text-green-main">
-                    <Link
-                      href={`/products/${category.slug}/info`}
-                      title="Learn more"
-                    >
-                      <InformationCircleIcon className="h-4 w-4" />
-                    </Link>
-                  </div>
                 </>
               ) : info ? (
                 <>
                   <Link
-                    href={`/products/${category.slug}`}
-                    data-testid={category.name}
-                    title={`View all ${category.name} products`}
-                    className="transition hover:text-green-main"
+                    href={`/products/${category?.slug}`}
+                    data-testid={category?.name}
+                    title={`View all ${category?.name} products`}
+                    className="transition hover:text-highlight"
                   >
-                    {category.name}
-                    <span className="text-green-main pl-4">View products</span>
+                    {category?.name}
+                    <span className="text-highlight pl-4">View products</span>
                   </Link>
                 </>
               ) : (
-                <>
-                  {category.name}
-                  <Link
-                    href={`/products/${category.slug}/info`}
-                    data-testid={category.name}
-                    title="Learn more"
-                  >
-                    <InformationCircleIcon className="h-4 w-4 ml-2 hover:text-green-main" />
-                  </Link>
-                </>
+                <>{category?.name}</>
               )}
             </div>
           </li>

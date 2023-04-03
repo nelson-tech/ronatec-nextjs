@@ -1,15 +1,16 @@
 "use client"
 
+import Image from "next/image"
+
+import { MenuItem } from "@api/codegen/graphql"
 import useScrollDirection from "@lib/hooks/useScrollDirection"
 
 import Link from "@components/Link"
-import Image from "@components/Image"
 
 import Promo from "./Promo"
 import MainMenu from "./MainMenu"
 import Usernav from "./UserNav"
 import MobileNav from "./MobileNav"
-import { MenuItem } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -29,8 +30,8 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
 
   const logo = (
     <>
-      <div className={`w-10 h-10 text-center text-blue-main relative`}>
-        <Image src="/images/ronatec.png" alt="Ronatec Logo" fill sizes="10vw" />
+      <div className={`w-10 h-10 text-center text-accent relative`}>
+        <Image src="/images/ronatec.svg" alt="Ronatec Logo" fill sizes="10vw" />
       </div>
     </>
   )
@@ -39,7 +40,7 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
     <>
       <header
         className={`z-30 sticky ${
-          scrollDirection === "down" ? "-top-16" : "top-0"
+          scrollDirection === "down" ? "-top-20" : "top-0"
         } transition-all duration-500`}
       >
         <nav aria-label="Top" className="border-b bg-white border-gray-200">
@@ -58,8 +59,8 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
               <div className="">
                 <div className="h-16 flex items-center justify-between">
                   {/* Logo (lg+) */}
-                  <div className="hidden lg:flex lg:items-center h-8 w-8">
-                    <Link href="/" className="text-blue-main">
+                  <div className="hidden lg:flex lg:items-center">
+                    <Link href="/" className="text-accent">
                       <span className="sr-only">Ronatec C2C, Inc.</span>
                       {logo}
                     </Link>
@@ -72,7 +73,7 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
 
                   {/* Logo (lg-) */}
                   <div className="h-8 w-8 lg:hidden">
-                    <Link href="/" className="text-blue-main">
+                    <Link href="/" className="text-accent">
                       <span className="sr-only">Ronatec C2C, Inc.</span>
                       {logo}
                     </Link>

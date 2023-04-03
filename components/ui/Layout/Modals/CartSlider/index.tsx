@@ -8,11 +8,11 @@ import CartPane from "./CartPane"
 
 const CartSlider = () => {
   const { open, setOpen } = useStore(
-    state => ({
+    (state) => ({
       open: state.cart.open,
       setOpen: state.cart.setOpen,
     }),
-    shallow,
+    shallow
   )
 
   return (

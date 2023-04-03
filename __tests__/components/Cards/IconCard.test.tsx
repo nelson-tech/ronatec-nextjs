@@ -19,7 +19,7 @@ describe("Icon Card", () => {
 
   it("Should render with centered text", () => {
     const { getByTestId } = render(
-      <IconCard {...{ card: { ...defaultProps.card }, centerText: true }} />,
+      <IconCard {...{ card: { ...defaultProps.card }, centerText: true }} />
     )
     const element = getByTestId("icon-card")
     expect(element).toBeTruthy()
@@ -29,7 +29,7 @@ describe("Icon Card", () => {
     const { getByTestId } = render(
       <IconCard
         {...{ card: { ...defaultProps.card, icon: { name: "icon-name" } } }}
-      />,
+      />
     )
     const element = getByTestId("icon-card")
     expect(element).toBeTruthy()

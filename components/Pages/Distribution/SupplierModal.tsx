@@ -13,7 +13,7 @@ import { ChosenSupplierType } from "@components/Cards/Supplier"
 
 type PropsType = {
   isOpen: boolean
-  setIsOpen: (o: boolean) => void
+  setIsOpen: (open: boolean) => void
   chosenSupplier: ChosenSupplierType | undefined
 }
 
@@ -62,32 +62,32 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="inline-block mt-32 border-2 border-gray-100 w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <Dialog.Panel className="inline-block mt-32 border-2 border-gray-100 w-full max-w-md my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded">
                 {chosenSupplier && (
-                  <div className="">
+                  <a
+                    href={chosenSupplier.url ?? undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group"
+                  >
                     {chosenSupplier.image && chosenSupplier.image.sourceUrl && (
                       <div className="w-full h-full overflow-hidden">
-                        <a
-                          href={chosenSupplier.url || undefined}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="flex justify-center"
-                        >
+                        <div className="flex justify-center">
                           <Image
                             src={chosenSupplier.image.sourceUrl}
                             width={
-                              chosenSupplier.image.mediaDetails?.width ||
+                              chosenSupplier.image.mediaDetails?.width ??
                               undefined
                             }
                             height={
-                              chosenSupplier.image.mediaDetails?.height ||
+                              chosenSupplier.image.mediaDetails?.height ??
                               undefined
                             }
-                            alt={chosenSupplier.image.altText || undefined}
-                            title={chosenSupplier.title || ""}
+                            alt={chosenSupplier.image.altText ?? ""}
+                            title={chosenSupplier.title ?? ""}
                             className="object-cover"
                           />
-                        </a>
+                        </div>
                       </div>
                     )}
 
@@ -100,26 +100,21 @@ const SupplierModal = ({ isOpen, setIsOpen, chosenSupplier }: PropsType) => {
                     )}
 
                     <div className="bg-blue-main text-gray-100 text-center w-full">
-                      <a
-                        href={chosenSupplier.url || undefined}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex py-2 items-center justify-center w-full h-full pl-4 hover-underline-animation"
-                      >
-                        {/* <Underlined className="target"> */}
-                        Visit {chosenSupplier.title}
-                        {/* </Underlined> */}
+                      <div className="flex py-2 items-center justify-center w-full h-full pl-4">
+                        <span className="underline-animation group-hover:underline-animation">
+                          Visit {chosenSupplier.title}
+                        </span>
                         <div className="px-4">
                           <Icon
                             name="external-link"
-                            className="text-gray-700 w-4 ml-4"
+                            className="text-gray-700 group-hover:text-gray-300 w-4 ml-4"
                             type="regular"
                             iconKey={chosenSupplier.url + "--open-new-window"}
                           />
                         </div>
-                      </a>
+                      </div>
                     </div>
-                  </div>
+                  </a>
                 )}
               </Dialog.Panel>
             </Transition.Child>

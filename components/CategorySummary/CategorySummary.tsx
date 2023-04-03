@@ -1,105 +1,79 @@
-import { RefObject } from "react"
+import type { RefObject } from "react"
 
 import { ProductCategory } from "@api/codegen/graphql"
+import isServer from "@lib/utils/isServer"
 
-import Link from "@components/Link"
-import Image from "@components/Image"
+import CategoryLink from "@components/CategoryLink"
 
 // ####
 // #### Types
 // ####
 
 export type PropsType = {
-  category: ProductCategory
+  category: ProductCategory | null | undefined
   productRef?: RefObject<HTMLDivElement>
+  main?: boolean
 }
 
 // ####
 // #### Component
 // ####
 
-const Summary = ({ category, productRef }: PropsType) => {
+const Summary = ({ category, productRef, main }: PropsType) => {
   return (
     <>
-      <div
-        className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl"
-        data-testid="category-summary"
-      >
-        <div className="flex items-center">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-            {category.name}
-          </h1>
-        </div>
-        <p className="mt-4 text-base text-gray-500">{category.description}</p>
-        <p className="pt-2">
-          <Link
-            href={`/products/${category.slug}/info`}
-            title="Learn more"
-            className="text-gray-400 hover:text-green-main text-sm"
-          >
-            Learn more...
-          </Link>
-        </p>
-      </div>
-      {/* Sub-categories */}
-
-      {category.children?.nodes && category.children.nodes.length > 0 && (
+      {category?.name && (
         <div
-          className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl"
-          data-testid="sub-categories"
+          className="pt-8 pb-8 px-8 mx-auto lg:max-w-7xl"
+          data-testid="category-summary"
         >
-          <h2 className="font-bold text-2xl text-gray-900 uppercase">
-            Sub-Categories{" "}
+          <div className="flex items-center">
+            <h2 className="text-4xl font-extrabold tracking-tight text-gray-900">
+              {category?.name}
+            </h2>
             <span
-              className="ml-4 text-sm hidden md:inline font-normal text-gray-400 normal-case cursor-pointer"
+              className="ml-4 text-sm inline font-normal text-gray-400 normal-case cursor-pointer"
               data-testid="sub-categories-clickable-medium"
               onClick={() => {
-                productRef?.current?.scrollIntoView({ behavior: "smooth" })
+                if (!isServer) {
+                  productRef?.current?.scrollIntoView({ behavior: "smooth" })
+                }
               }}
             >
               Scroll down for Products
             </span>
-          </h2>
-
-          <div
-            className="text-sm md:hidden font-normal text-gray-400 normal-case cursor-pointer"
-            data-testid="sub-categories-clickable-small"
-            onClick={() => {
-              productRef?.current?.scrollIntoView({ behavior: "smooth" })
-            }}
-          >
-            Scroll down for Products
           </div>
+          <div
+            className="mt-4 py-2 text-base text-gray-500 
+            prose max-w-none prose-sm 
+            prose-headings:border-t prose-headings:pt-2 prose-headings:mt-4 
+            prose-a:text-accent hover:prose-a:text-highlight prose-p:mt-4"
+            dangerouslySetInnerHTML={{ __html: category?.description ?? "" }}
+          />
+        </div>
+      )}
+      {/* Sub-categories */}
+
+      {category?.children?.nodes && category?.children.nodes.length > 0 && (
+        <div
+          className="px-8 text-gray-500 pb-8 mx-auto lg:max-w-7xl"
+          data-testid="sub-categories"
+        >
+          {!main && (
+            <h4 className="font-bold text-2xl text-gray-900 uppercase tracking-wide flex items-center mb-2">
+              Sub-Categories
+            </h4>
+          )}
+
           <div className="text-sm">
-            <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
-              {category.children.nodes.map((subCategory: ProductCategory) => {
+            <div className="grid grid-cols-2 md:grid-cols-4">
+              {category?.children.nodes.map((subCategory: ProductCategory) => {
                 if (subCategory) {
                   return (
-                    <div
+                    <CategoryLink
+                      category={subCategory}
                       key={subCategory?.id}
-                      className="m-4 hover:shadow rounded"
-                    >
-                      <Link
-                        href={`/products/${subCategory?.slug}`}
-                        title={subCategory?.name || ""}
-                      >
-                        <div className="">
-                          {subCategory.image && subCategory.image.sourceUrl && (
-                            <div className="w-32 mx-auto h-32 pt-2">
-                              <Image
-                                src={subCategory.image.sourceUrl}
-                                alt={subCategory?.name || ""}
-                                height={subCategory.image.mediaDetails?.height}
-                                width={subCategory.image.mediaDetails?.width}
-                              />
-                            </div>
-                          )}
-                          <div className="text-center align-bottom py-2">
-                            {subCategory?.name}
-                          </div>
-                        </div>
-                      </Link>
-                    </div>
+                    />
                   )
                 }
               })}
@@ -107,14 +81,6 @@ const Summary = ({ category, productRef }: PropsType) => {
           </div>
         </div>
       )}
-
-      <h2
-        ref={productRef}
-        className="max-w-7xl mx-auto px-8 pb-4 text-2xl font-bold text-gray-900 uppercase"
-        data-testid="products-header"
-      >
-        Products
-      </h2>
     </>
   )
 }

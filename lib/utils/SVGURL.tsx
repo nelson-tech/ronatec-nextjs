@@ -4,7 +4,6 @@ import { convertDocEleToReact } from "./convertDocElToReact"
 export const SVGUrl = ({
   uri,
   iconKey,
-  ...props
 }: {
   uri: string
   iconKey?: string
@@ -15,8 +14,8 @@ export const SVGUrl = ({
   useEffect(() => {
     setLoading(true)
     fetch(uri)
-      .then(res => res.text())
-      .then(res => {
+      .then((res) => res.text())
+      .then((res) => {
         const domParser = new DOMParser()
         const ele = domParser.parseFromString(res, "image/svg+xml")
 
@@ -26,7 +25,7 @@ export const SVGUrl = ({
             uri,
             key: iconKey,
             iconKey,
-          }),
+          })
         )
 
         setLoading(false)

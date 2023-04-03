@@ -45,7 +45,7 @@ const Icon = ({
   }
   const uri = `${ICON_BASE}/${iconType}/${name}.svg`
 
-  const { loading, svgEl } = SVGUrl({ uri, iconKey })
+  const { svgEl } = SVGUrl({ uri, iconKey })
 
   return (
     <div className={className + " transition icon"} data-testid="icon">

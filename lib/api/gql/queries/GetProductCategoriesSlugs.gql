@@ -1,0 +1,7 @@
+query GetProductCategoriesSlugs {
+  productCategories(where: { hideEmpty: true }, first: 99) {
+    nodes {
+      slug
+    }
+  }
+}

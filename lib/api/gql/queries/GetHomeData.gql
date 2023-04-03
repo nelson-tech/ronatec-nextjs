@@ -92,11 +92,19 @@ query GetHomeData {
             label
           }
         }
-        videoLink {
-          title
-          provider
-          videoId
-          videoUrl
+        videoLinks {
+          videoLink {
+            title
+            provider
+            videoId
+            videoUrl
+            placeholder {
+              ...ImageBase
+            }
+            videoFile {
+              ...ImageBase
+            }
+          }
         }
         ...FeaturedSupplierFragment
       }

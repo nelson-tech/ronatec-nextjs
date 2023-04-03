@@ -19,7 +19,7 @@ type PropsType = {
 // ####
 
 const Pagination = ({ pageInfo, setPagination, productRef }: PropsType) => {
-  const productsPerPage = useStore(state => state.shop.productsPerPage)
+  const productsPerPage = useStore((state) => state.shop.productsPerPage)
 
   const scrollIntoView = () => {
     window.scrollTo({
@@ -62,7 +62,7 @@ const Pagination = ({ pageInfo, setPagination, productRef }: PropsType) => {
           {pageInfo.hasPreviousPage && (
             <button
               onClick={handlePrevious}
-              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50"
             >
               Previous
             </button>
@@ -70,7 +70,7 @@ const Pagination = ({ pageInfo, setPagination, productRef }: PropsType) => {
           {pageInfo.hasNextPage && (
             <button
               onClick={handleNext}
-              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded text-gray-700 bg-white hover:bg-gray-50"
             >
               Next
             </button>

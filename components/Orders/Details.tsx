@@ -28,7 +28,7 @@ const OrderDetails = ({ order }: PropsType) => {
   return (
     <div key={order.orderNumber}>
       <h3 className="sr-only">
-        Order placed on <time dateTime={order.date || ""}>{order.date}</time>
+        Order placed on <time dateTime={order.date ?? ""}>{order.date}</time>
       </h3>
 
       <OrderSummary order={order} />

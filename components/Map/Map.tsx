@@ -1,5 +1,6 @@
 "use client"
 
+import { CSSProperties } from "react"
 import {
   ComposableMap,
   Geographies,
@@ -7,36 +8,17 @@ import {
   Marker,
 } from "react-simple-maps"
 
+import { Maybe, Post_Maps_Markers } from "@api/codegen/graphql"
+
 import "./style.css"
 import geoShape from "./shape.json"
-import allStates from "./states.json"
-
 import twConfig from "../../tailwind.config"
-import {
-  Maybe,
-  Post_Maps_MapOptions,
-  Post_Maps_Markers,
-} from "@api/codegen/graphql"
 
 // ####
 // #### Variables
 // ####
 
-const offsets = {
-  VT: [50, -8],
-  NH: [34, 2],
-  MA: [30, -1],
-  RI: [28, 2],
-  CT: [35, 10],
-  NJ: [34, 1],
-  DE: [33, 0],
-  MD: [47, 10],
-  DC: [49, 21],
-}
-
 const colors = twConfig.theme.extend.colors
-
-const CENTER_US = { lat: 39.5, lng: -98.35 }
 
 // ####
 // #### Types
@@ -49,62 +31,51 @@ type CoordinatesType = {
 
 type Props = {
   center?: CoordinatesType
-  options?: Post_Maps_MapOptions
   markers?: Maybe<Post_Maps_Markers>[] | null
-  containerClassNames?: string
-  markerLabels?: boolean
+  className?: string | null | undefined
+  style?: CSSProperties
 }
 
 // ####
 // #### Component
 // ####
 
-const Map = ({
-  options,
-  markers,
-  markerLabels,
-  containerClassNames,
-}: Props) => {
+const Map = ({ markers, className, style }: Props) => {
   return (
-    <div className={containerClassNames}>
-      <ComposableMap
-        projection="geoAlbersUsa"
-        className={"bg-accent aspect-[2] md:aspect-[3]"}
-      >
-        <Geographies geography={geoShape} className="">
-          {({ geographies }) =>
-            geographies.map(geo => {
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill="#fff"
-                  stroke={colors.accent}
-                />
-              )
-            })
-          }
-        </Geographies>
-        {markers &&
-          markers.map(marker => {
+    <ComposableMap
+      projection="geoAlbersUsa"
+      className={
+        "bg-accent w-full max-w-7xl aspect-[2] md:aspect-[3] " + className
+      }
+      style={style}
+    >
+      <Geographies geography={geoShape} className="">
+        {({ geographies }) =>
+          geographies.map((geo) => {
             return (
-              <Marker
-                coordinates={[
-                  marker?.center?.lng ?? 0,
-                  marker?.center?.lat ?? 0,
-                ]}
-                key={marker?.label}
-                className="relative"
-              >
-                <circle r={12} stroke="#000" fill={colors.highlight} />
-                {/* <text textAnchor="middle" fill="#F53" className="m-4 bg-accent">
-                  {marker?.label}
-                </text> */}
-              </Marker>
+              <Geography
+                key={geo.rsmKey}
+                geography={geo}
+                fill="#fff"
+                stroke={colors.accent}
+              />
             )
-          })}
-      </ComposableMap>
-    </div>
+          })
+        }
+      </Geographies>
+      {markers &&
+        markers.map((marker) => {
+          return (
+            <Marker
+              coordinates={[marker?.center?.lng ?? 0, marker?.center?.lat ?? 0]}
+              key={marker?.label}
+              className="relative"
+            >
+              <circle r={12} stroke="#000" fill={colors.highlight} />
+            </Marker>
+          )
+        })}
+    </ComposableMap>
   )
 }
 

@@ -1,20 +1,20 @@
 "use client"
 
-import useClient from "@api/client"
-import { CLIENT_Tokens_Type } from "@lib/types/auth"
+import getClient from "@api/client"
+import getTokensClient from "@lib/utils/getTokensClient"
 
 type APIContextPropsType = {
   children: React.ReactNode
-  tokens: CLIENT_Tokens_Type
 }
 
-const APIContext = ({ children, tokens }: APIContextPropsType) => {
+const APIContext = ({ children }: APIContextPropsType) => {
   //
   // Initiate client-side API client
   //
 
-  // Create client-side GQL client with available tokens
-  const client = useClient(tokens)
+  getTokensClient().then(({ tokens }) => {
+    getClient(tokens)
+  })
 
   return <>{children}</>
 }

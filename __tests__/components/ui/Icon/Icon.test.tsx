@@ -22,7 +22,7 @@ describe("Icon", () => {
 
   it("Should render with solid type added", () => {
     const { getByTestId } = render(
-      <Icon {...{ ...defaultProps, type: "solid" }} />,
+      <Icon {...{ ...defaultProps, type: "solid" }} />
     )
     const element = getByTestId("icon")
     expect(element).toBeTruthy()
@@ -30,7 +30,7 @@ describe("Icon", () => {
 
   it("Should render with unavailable type added", () => {
     const { getByTestId } = render(
-      <Icon {...{ ...defaultProps, type: "marshmallow" }} />,
+      <Icon {...{ ...defaultProps, type: "marshmallow" }} />
     )
     const element = getByTestId("icon")
     expect(element).toBeTruthy()

@@ -1,18 +1,13 @@
-import {
-  Element,
-  Text,
-  HTMLReactParserOptions,
-  domToReact,
-} from "html-react-parser"
+import { Element, domToReact } from "html-react-parser"
 import { Tab } from "@headlessui/react"
 import { htmlParserOptions } from "."
 
 const ParsedTabs = ({ domNode }: { domNode: Element }) => {
   const possibleTabList = domNode.children.find(
-    child => child instanceof Element && child.attribs.class === "tab-list",
+    (child) => child instanceof Element && child.attribs.class === "tab-list"
   )
   const possibleTabPanels = domNode.children.find(
-    child => child instanceof Element && child.attribs.class === "tab-panels",
+    (child) => child instanceof Element && child.attribs.class === "tab-panels"
   )
 
   const tabList =

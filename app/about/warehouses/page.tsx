@@ -1,24 +1,15 @@
+import type { Metadata } from "next/types"
 import OfficeBuildingIcon from "@heroicons/react/24/outline/BuildingOfficeIcon"
 
-import {
-  GetWarehousesDataDocument,
+import type {
   Post_Maps_Markers,
+  RankMathProductTypeSeo,
 } from "@api/codegen/graphql"
-import useClient from "@api/client"
+import parseMetaData from "@lib/utils/parseMetaData"
+import getWarehousesData from "@lib/server/about/getWarehouseData"
 
+import PageHeader from "@components/PageHeader"
 import Map from "@components/Map"
-
-// ####
-// #### Server Calls
-// ####
-
-const getWarehousesData = async () => {
-  const client = useClient()
-
-  const warehousesData = await client.request(GetWarehousesDataDocument)
-
-  return warehousesData.page
-}
 
 // ####
 // #### Component
@@ -33,13 +24,18 @@ const WarehousesPage = async () => {
 
   return (
     <>
-      <Map markers={markers as Post_Maps_Markers[]} />
-
-      <div className="relative bg-white py-8 px-2">
-        <div className="mx-auto max-w-md w-2/3 sm:max-w-3xl lg:px-8 lg:max-w-7xl">
-          <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 text-sm font-medium">
+      <div className="w-full bg-accent flex justify-center">
+        <Map
+          markers={markers as Post_Maps_Markers[]}
+          style={{ maxHeight: "400px" }}
+        />
+      </div>
+      <div className="mx-auto px-8 lg:max-w-7xl">
+        <PageHeader title="Distribution" />
+        <div className="w-full flex justify-center">
+          <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 text-sm md:text-base max-w-[90%] md:max-w-[80%]">
             {warehouses?.markers &&
-              warehouses.markers.map(warehouse => {
+              warehouses.markers.map((warehouse) => {
                 return (
                   <div
                     className="flex py-4 items-center text-center"
@@ -57,8 +53,14 @@ const WarehousesPage = async () => {
   )
 }
 
-// ####
-// #### API
-// ####
-
 export default WarehousesPage
+
+export const revalidate = 60 // revalidate this page every 60 seconds
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getWarehousesData()
+
+  const metaData = parseMetaData(page?.seo as RankMathProductTypeSeo)
+
+  return metaData
+}

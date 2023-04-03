@@ -11,7 +11,7 @@ import { ErrorAlert, InfoAlert, SuccessAlert, WarningAlert } from "./Alert"
 // ####
 
 const Alerts = () => {
-  const { setAlert, ...alert } = useStore(state => state.alert)
+  const { setAlert, ...alert } = useStore((state) => state.alert)
 
   const onClose = () => {
     setAlert({ open: false })
@@ -53,7 +53,7 @@ const Alerts = () => {
                 : alert.kind === "warning"
                 ? `bg-yellow-50 text-yellow-700`
                 : ""
-            } relative my-2 max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto overflow-hidden`}
+            } relative my-2 max-w-sm w-full bg-white shadow-lg rounded pointer-events-auto overflow-hidden`}
             role="alert"
           >
             {alert.kind === "info" && (

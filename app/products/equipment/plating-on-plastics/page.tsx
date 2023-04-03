@@ -1,5 +1,15 @@
 import Link from "next/link"
 
+import { SEO_TITLE } from "@lib/constants"
+
+import PageHeader from "@components/PageHeader"
+
+// ####
+// #### Variables
+// ####
+
+const title = "Plating On Plastics"
+
 // ####
 // #### Component
 // ####
@@ -7,6 +17,7 @@ import Link from "next/link"
 const PlatingOnPlasticsPage = () => {
   return (
     <>
+      <PageHeader title={title} />
       <div className="max-w-7xl p-8 mx-auto">
         <div className="text-gray-800 md:p-8 space-y-4">
           <p>
@@ -23,7 +34,7 @@ const PlatingOnPlasticsPage = () => {
           <p>
             <Link
               href="/about/contact"
-              className="text-blue-main underline hover:text-green-main focus:text-green-main"
+              className="text-blue-main underline hover:text-highlight focus:text-highlight"
             >
               Contact us
             </Link>{" "}
@@ -36,3 +47,16 @@ const PlatingOnPlasticsPage = () => {
 }
 
 export default PlatingOnPlasticsPage
+
+export const metadata = {
+  title: `${title} ${SEO_TITLE}`,
+  description:
+    "Ronatec C2C plastics plating products meet industry environmental regulations and standards while offering low-temperature operations, superior plating applications, and a high production yield.",
+  keywords: [
+    "Plating",
+    "Plating on plastics",
+    "Heater",
+    "Ronatec",
+    "Metal Finishing",
+  ],
+}

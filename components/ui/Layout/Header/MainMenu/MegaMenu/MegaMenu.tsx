@@ -24,7 +24,7 @@ type MegaMenuProps = {
 // ####
 
 const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
-  const path = megaItem.url || "/"
+  const path = megaItem.url ?? "/"
 
   const headerStyle = "font-extrabold text-base text-gray-900"
 
@@ -61,7 +61,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                 className="absolute inset-0 top-1/2 w-screen bg-white shadow"
                 aria-hidden="true"
               /> */}
-              <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+              <div className="overflow-hidden rounded shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative grid grid-cols-3 min-w-full bg-white pl-8 pt-6 pb-6">
                   {/* <div className="grid grid-cols-2 gap-y-10 gap-x-8"> */}
                   {megaItem.childItems?.nodes &&
@@ -85,22 +85,39 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                             : "")
                                         }
                                       >
-                                        <p
-                                          className={headerStyle}
-                                          onClick={() => close()}
-                                        >
-                                          <Link
-                                            href={subColumn.url ?? ""}
-                                            title={subColumn.label}
-                                            className={`${
-                                              subColumn.label === "Browse All"
-                                                ? "text-accent hover:text-green-main"
-                                                : "hover:text-accent"
-                                            }  transition`}
+                                        {subColumn.url !== "#" ? (
+                                          <div
+                                            className={headerStyle}
+                                            onClick={() => close()}
                                           >
-                                            {subColumn.label}
-                                          </Link>
-                                        </p>
+                                            <Link
+                                              href={
+                                                subColumn.url
+                                                  ? subColumn.url === "#"
+                                                    ? ""
+                                                    : subColumn.url
+                                                  : ""
+                                              }
+                                              title={subColumn.label}
+                                              className={`${
+                                                subColumn.label === "Browse All"
+                                                  ? "text-accent hover:text-highlight"
+                                                  : "hover:text-accent"
+                                              }  transition`}
+                                            >
+                                              {subColumn.label}
+                                            </Link>
+                                          </div>
+                                        ) : (
+                                          <div
+                                            className={headerStyle}
+                                            onClick={() => close()}
+                                          >
+                                            <div title={subColumn.label}>
+                                              {subColumn.label}
+                                            </div>
+                                          </div>
+                                        )}
                                         <ul role="list" className="">
                                           {subColumn.childItems?.nodes &&
                                             subColumn.childItems.nodes.map(
@@ -114,20 +131,20 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                                     <Link
                                                       href={item.url ?? ""}
                                                       title={item.label}
-                                                      className="w-full hover:text-green-main"
+                                                      className="w-full hover:text-highlight"
                                                     >
                                                       <div className="py-2 w-full">
                                                         {item.label}
                                                       </div>
                                                     </Link>
                                                   </li>
-                                                ),
+                                                )
                                             )}
                                         </ul>
                                       </div>
                                     )
                                   )
-                                },
+                                }
                               )}
                           </div>
                         )
@@ -135,7 +152,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                         return (
                           column.label && (
                             <div key={column.label + index + column.url}>
-                              <p
+                              <div
                                 id={`desktop-featured-heading-${megaItem.id}`}
                                 className={headerStyle}
                                 onClick={() => close()}
@@ -146,7 +163,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                 >
                                   {column.label}
                                 </Link>
-                              </p>
+                              </div>
                               <ul role="list" className="mt-2">
                                 {column.childItems?.nodes &&
                                   column.childItems.nodes.map(
@@ -166,7 +183,7 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
                                           </div>
                                         </Link>
                                       </li>
-                                    ),
+                                    )
                                   )}
                               </ul>
                             </div>

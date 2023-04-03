@@ -1,7 +1,7 @@
 "use client"
 
 import { MutableRefObject, useEffect, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { shallow } from "zustand/shallow"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
@@ -29,15 +29,13 @@ type LoginFormProps = {
 const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const [loading, setLoading] = useState(false)
   const params = useSearchParams()
-  const redirect = params.get("redirect")
-  const router = useRouter()
+  const redirect = params?.get("redirect")
 
-  const { loggedIn, error } = useStore(
-    state => ({
+  const { loggedIn } = useStore(
+    (state) => ({
       loggedIn: state.auth.loggedIn,
-      error: state.auth.errors.login,
     }),
-    shallow,
+    shallow
   )
 
   const { login } = useLogin()
@@ -56,7 +54,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const onSubmit: SubmitHandler<{
     email: string
     password: string
-  }> = async data => {
+  }> = async (data) => {
     setLoading(true)
     if (data.email && data.password) {
       const input = {
@@ -123,7 +121,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
             method="post"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="rounded-md shadow-sm -space-y-px">
+            <div className=" -space-y-px">
               <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
@@ -131,13 +129,15 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                 <input
                   id="email-address"
                   type="email"
-                  ref={e => {
+                  ref={(e) => {
                     ref(e)
                     modalRef && e && (modalRef.current = e)
                   }}
                   autoComplete="email"
                   {...restEmail}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300
+                  placeholder-gray-500 text-gray-900 rounded-t
+                  focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Email address"
                 />
               </div>
@@ -160,7 +160,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
                     },
                     required: "Password is required.",
                   })}
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b focus:outline-none focus:ring-accent focus:border-accent focus:z-10 sm:text-sm"
                   placeholder="Password"
                 />
               </div>
@@ -169,9 +169,6 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
             <div className="pt-2">
               <ErrorField name="email" />
               <ErrorField name="password" />
-              {error && (
-                <p className="text-red-main text-sm pt-2 pl-2">{error}</p>
-              )}
             </div>
 
             <div className="text-sm text-center pt-2">
@@ -189,7 +186,7 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
               <button
                 type="submit"
                 title="Click to sign in."
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded text-white bg-accent hover:bg-highlight focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-highlight"
               >
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   {loading ? (

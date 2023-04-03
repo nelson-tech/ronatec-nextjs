@@ -1,76 +1,146 @@
-import useClient from "@api/client"
+import { useCallback } from "react"
+import { shallow } from "zustand/shallow"
+
+import getClient from "@api/client"
 import {
   AddToCartDocument,
-  AddToCartMutationVariables,
-  Cart,
   ClearCartDocument,
   GetCartDocument,
   RemoveCartItemDocument,
-  RemoveCartItemMutationVariables,
   UpdateCartItemQuantityDocument,
+} from "@api/codegen/graphql"
+import type {
+  AddToCartMutationVariables,
+  Cart,
+  RemoveCartItemMutationVariables,
   UpdateCartItemQuantityMutationVariables,
 } from "@api/codegen/graphql"
 import useStore from "./useStore"
 
 const useCart = () => {
-  const client = useClient()
+  const client = getClient()
 
-  const { state: cart, setCart, setLoading } = useStore(stores => stores.cart)
+  const { loading, setCart, setLoading, setOpen, setAlert } = useStore(
+    (stores) => ({
+      loading: stores.cart.loading,
+      setCart: stores.cart.setCart,
+      setLoading: stores.cart.setLoading,
+      setOpen: stores.cart.setOpen,
+      setAlert: stores.alert.setAlert,
+    }),
+    shallow
+  )
 
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     setLoading(true)
 
-    const cartData = await client.request(GetCartDocument)
+    try {
+      const cartData = await client.request(GetCartDocument)
 
-    cartData.cart && setCart(cartData.cart as Cart)
+      cartData.cart && setCart(cartData.cart as Cart)
+    } catch (error) {
+      console.warn("Error fetching cart in useCart:", error)
+    }
 
     setLoading(false)
-  }
+  }, [client, setCart, setLoading])
 
-  const clearCart = async () => {
+  const clearCart = useCallback(async () => {
     setLoading(true)
 
-    const clearCartData = await client.request(ClearCartDocument, { input: {} })
+    try {
+      const clearCartData = await client.request(ClearCartDocument, {
+        input: {},
+      })
 
-    await fetchCart()
+      clearCartData.emptyCart?.cart &&
+        setCart(clearCartData.emptyCart.cart as Cart)
+    } catch (error) {
+      console.warn("Error clearing cart in useCart:", error)
 
-    return clearCartData
-  }
+      fetchCart()
+    }
 
-  const removeItem = async (input: RemoveCartItemMutationVariables) => {
-    setLoading(true)
+    setLoading(false)
+  }, [client, fetchCart, setCart, setLoading])
 
-    const removeItemData = await client.request(RemoveCartItemDocument, input)
+  const removeItem = useCallback(
+    async (input: RemoveCartItemMutationVariables) => {
+      setLoading(true)
 
-    await fetchCart()
+      try {
+        const removeItemData = await client.request(
+          RemoveCartItemDocument,
+          input
+        )
 
-    return removeItemData
-  }
+        removeItemData.removeItemsFromCart?.cart &&
+          setCart(removeItemData.removeItemsFromCart.cart as Cart)
+      } catch (error) {
+        console.warn("Error removing item in useCart:", error)
+      }
 
-  const addToCart = async (input: AddToCartMutationVariables) => {
-    setLoading(true)
+      setLoading(false)
+    },
+    [client, setCart, setLoading]
+  )
 
-    const cartData = await client.request(AddToCartDocument, input)
+  const addToCart = useCallback(
+    async (input: AddToCartMutationVariables) => {
+      setLoading(true)
 
-    await fetchCart()
+      try {
+        const cartData = await client.request(AddToCartDocument, input)
 
-    return cartData
-  }
+        if (cartData.addToCart?.cart) {
+          setCart(cartData.addToCart.cart as Cart)
+          setOpen(true)
+        } else {
+          setAlert({
+            open: true,
+            kind: "error",
+            primary: "Error adding to the shopping cart.",
+            secondary: "Please try refreshing the page.",
+          })
+        }
+      } catch (error) {
+        console.warn("Error adding item in useCart:", error)
 
-  const updateCart = async (input: UpdateCartItemQuantityMutationVariables) => {
-    setLoading(true)
+        setAlert({
+          open: true,
+          kind: "error",
+          primary: "Error adding to the shopping cart.",
+          secondary: "Please try refreshing the page.",
+        })
+      }
 
-    const updateCartData = await client.request(
-      UpdateCartItemQuantityDocument,
-      input,
-    )
+      setLoading(false)
+    },
+    [client, setAlert, setCart, setOpen, setLoading]
+  )
 
-    await fetchCart()
+  const updateCart = useCallback(
+    async (input: UpdateCartItemQuantityMutationVariables) => {
+      setLoading(true)
 
-    return updateCartData
-  }
+      try {
+        const updateCartData = await client.request(
+          UpdateCartItemQuantityDocument,
+          input
+        )
 
-  return { clearCart, removeItem, addToCart, updateCart, fetchCart }
+        updateCartData.updateItemQuantities?.cart &&
+          setCart(updateCartData.updateItemQuantities.cart as Cart)
+      } catch (error) {
+        console.warn("Error updating cart in useCart:", error)
+      }
+
+      setLoading(false)
+    },
+    [client, setCart, setLoading]
+  )
+
+  return { loading, clearCart, removeItem, addToCart, updateCart, fetchCart }
 }
 
 export default useCart

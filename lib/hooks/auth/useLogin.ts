@@ -1,69 +1,74 @@
 import { shallow } from "zustand/shallow"
 
-import useClient from "@api/client"
+import getClient from "@api/client"
 import {
+  Customer,
   LoginUserDocument,
   LoginUserMutationVariables,
 } from "@api/codegen/graphql"
 import useStore from "@lib/hooks/useStore"
 import { AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY } from "@lib/constants"
 import setCookie from "@lib/utils/setCookie"
+import { useCallback } from "react"
 
 const useLogin = () => {
-  const { setAlert, setUser, setLoggedIn, setLoginError } = useStore(
-    state => ({
-      setUser: state.auth.setUser,
+  const { setAlert, setCustomer, setLoggedIn } = useStore(
+    (state) => ({
+      setCustomer: state.auth.setCustomer,
       setLoggedIn: state.auth.setLoggedIn,
-      setLoginError: state.auth.setLoginError,
       setAlert: state.alert.setAlert,
     }),
-    shallow,
+    shallow
   )
 
-  const client = useClient()
+  const client = getClient()
 
-  const login = async ({ input }: LoginUserMutationVariables) => {
-    await client
-      .request(LoginUserDocument, { input })
-      .then(async data => {
-        if (data) {
-          const { login } = data
-          if (login?.user?.jwtAuthToken && login.user.jwtRefreshToken) {
-            const { jwtAuthToken, jwtRefreshToken, ...user } = login.user
+  const login = useCallback(
+    async ({ input }: LoginUserMutationVariables) => {
+      await client
+        .request(LoginUserDocument, { input })
+        .then(async (data) => {
+          if (data) {
+            const { login } = data
+            if (login?.authToken && login.refreshToken) {
+              const customer = login.customer
 
-            // Set authToken in client
+              // Set authToken in client
+              client.setHeader("Authorization", `Bearer ${login.authToken}`)
 
-            client.setHeader("Authorization", `Bearer ${jwtAuthToken}`)
+              // Set customer in store
+              setCustomer(customer as Customer)
 
-            // Set user in store
-            setUser(user)
+              // Set cookies
+              setCookie(AUTH_TOKEN_KEY, login.authToken)
+              setCookie(REFRESH_TOKEN_KEY, login.refreshToken)
 
-            // Set cookies
-            setCookie(AUTH_TOKEN_KEY, jwtAuthToken)
-            setCookie(REFRESH_TOKEN_KEY, jwtRefreshToken)
-
-            setAlert({
-              open: true,
-              kind: "success",
-              primary: `Welcome back${
-                (user?.firstName || user?.lastName) && ","
-              }${user?.firstName && ` ${user.firstName}`}${
-                user?.lastName && ` ${user.lastName}`
-              }!`,
-              secondary: "You are now logged in.",
-            })
-            setLoggedIn(true)
+              setAlert({
+                open: true,
+                kind: "success",
+                primary: `Welcome back${
+                  (customer?.firstName || customer?.lastName) && ","
+                }${customer?.firstName && ` ${customer.firstName}`}${
+                  customer?.lastName && ` ${customer.lastName}`
+                }!`,
+                secondary: "You are now logged in.",
+              })
+              setLoggedIn(true)
+            }
           }
-        }
-      })
-      .catch(error => {
-        console.warn("Error logging in", error)
+        })
+        .catch((error) => {
+          console.warn("Error logging in", error)
 
-        if (error.message.includes("invalid")) {
-          setLoginError("Email or password is incorrect.")
-        }
-      })
-  }
+          setAlert({
+            open: true,
+            kind: "error",
+            primary: "Email or password is incorrect.",
+          })
+        })
+    },
+    [client, setAlert, setCustomer, setLoggedIn]
+  )
 
   return { login }
 }

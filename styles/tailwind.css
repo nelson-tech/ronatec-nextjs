@@ -81,13 +81,13 @@ html {
   -ms-transform: scaleX(-1);
 }
 
-.hover-underline-animation {
+.underline-animation {
   /* display: inline-block; */
   position: relative;
   /* color: var(--accent); */
 }
 
-.hover-underline-animation:after {
+.underline-animation:after {
   content: "";
   position: absolute;
   width: 100%;
@@ -100,7 +100,12 @@ html {
   transition: transform 0.3s ease-out;
 }
 
-.hover-underline-animation:hover:after {
+.group:hover .group-hover\:underline-animation:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.underline-animation:hover:after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
@@ -132,8 +137,8 @@ html {
 }
 
 .category-info div {
-  font-size: 0.875rem /* 14px */;
-  line-height: 1.25rem /* 20px */;
+  font-size: 1rem /* 16px */;
+  line-height: 1.5rem /* 20px */;
 }
 
 .category-info ul {
