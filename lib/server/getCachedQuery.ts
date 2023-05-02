@@ -7,14 +7,19 @@ type DynamicReturnType<T> = {
 const getCachedQuery = async <T extends unknown>(
   queryId: string
 ): Promise<DynamicReturnType<T>> => {
-  const cachedResponse = await fetch(API_URL + `?queryId=${queryId}`, {
-    headers: { "content-type": "application/json" },
-    next: { revalidate: 60 },
-  })
+  try {
+    const cachedResponse = await fetch(API_URL + `?queryId=${queryId}`, {
+      headers: { "content-type": "application/json" },
+      next: { revalidate: 60 },
+    })
 
-  const { data } = await cachedResponse.json()
+    const { data } = await cachedResponse.json()
 
-  return { data }
+    return { data }
+  } catch (error) {
+    console.warn("Error in GetCachedQuery", error, queryId)
+    return { data: null }
+  }
 }
 
 export default getCachedQuery
