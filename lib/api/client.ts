@@ -84,7 +84,7 @@ const getClient = (tokens?: CLIENT_Tokens_Type) => {
   if (!graphqlClient) {
     // Create new, unauthenticated client
 
-    graphqlClient = new GraphQLClient(API_URL as string, {
+    graphqlClient = new GraphQLClient(API_URL ?? "", {
       requestMiddleware,
       responseMiddleware,
     })
