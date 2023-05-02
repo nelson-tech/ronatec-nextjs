@@ -5,6 +5,7 @@ const nextConfig = {
     appDir: true,
     serverComponentsExternalPackages: ["cross-fetch"],
   },
+  output: "standalone",
   reactStrictMode: true,
   swcMinify: true,
   images: {
