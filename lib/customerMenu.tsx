@@ -3,7 +3,13 @@ import CollectionIcon from "@heroicons/react/24/outline/InboxStackIcon"
 type UserMenuItem = {
   name: string
   href: string
-  icon: (props: React.ComponentProps<"svg">) => JSX.Element
+  icon: (
+    props: {
+      title?: string | undefined
+      titleId?: string | undefined
+      className?: string | undefined
+    } & React.RefAttributes<SVGSVGElement>
+  ) => JSX.Element
 }
 
 const customerMenu: UserMenuItem[] = [
