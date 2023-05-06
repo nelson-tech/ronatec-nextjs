@@ -12,7 +12,7 @@ const Image = (props: ImagePropsType) => {
 
   return (
     <div
-      className={`
+      className={`flex justify-center items-center
        w-full h-full overflow-hidden relative`}
     >
       <Transition
