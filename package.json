@@ -7,7 +7,7 @@
     "analyze": "cross-env ANALYZE=true next build",
     "dev": "next dev -p 8140",
     "build": "next build",
-    "start": "next start -p 8140",
+    "start": "next start",
     "lint": "next lint",
     "pm2-dev-start": "pm2 start npm --name \"Ronatec Next.js Dev\" -- run dev",
     "pm2-dev-stop": "pm2 stop \"Ronatec Next.js Dev\" && pm2 delete \"Ronatec Next.js Dev\"",
