@@ -20,7 +20,7 @@ const Checkout = () => {
   }))
 
   const emptyCart = (cart?.count ?? 0) <= 0
-  const loaded = typeof emptyCart === "boolean"
+  const loaded = typeof cart === "object"
 
   console.log("Cart & User", cart, user)
 
@@ -72,22 +72,10 @@ const Checkout = () => {
                 </ul>
               </section>
 
-              {user?.id ? (
-                <div>
-                  {!user?.id && <GuestCheckoutWarning />}
-                  <CheckoutForm />
-                </div>
-              ) : (
-                <>
-                  <div className="h-screen mt-48 mx-auto">
-                    <LoadingSpinner
-                      size={12}
-                      opacity={50}
-                      className="mx-auto"
-                    />
-                  </div>
-                </>
-              )}
+              <div>
+                {!user?.id && <GuestCheckoutWarning />}
+                <CheckoutForm />
+              </div>
             </main>
           </>
         )
