@@ -43,6 +43,7 @@ const CarouselCard = memo(({ name, slug, image, wcImage }: PropsType) => {
             <Image
               src={image.url}
               alt={image.alt ?? ""}
+              fill
               title={name}
               className="object-cover w-full h-full"
             />
@@ -53,6 +54,7 @@ const CarouselCard = memo(({ name, slug, image, wcImage }: PropsType) => {
               <Image
                 src={wcImage.src}
                 alt={wcImage.alt ?? wcImage.name ?? ""}
+                fill
                 title={name}
                 className="object-cover w-full h-full"
               />

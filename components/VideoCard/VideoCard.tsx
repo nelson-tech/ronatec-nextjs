@@ -52,8 +52,8 @@ const VideoCard = ({
               <Image
                 src={videoLink.placeholderImage.url ?? ""}
                 alt={videoLink.placeholderImage.alt ?? ""}
-                width={videoLink.placeholderImage?.width ?? undefined}
-                height={videoLink.placeholderImage?.height ?? undefined}
+                width={videoLink.placeholderImage?.width ?? 640}
+                height={videoLink.placeholderImage?.height ?? 360}
                 className="w-full aspect-video"
               />
             ) : (
