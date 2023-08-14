@@ -1,6 +1,7 @@
 "use client"
 
-import { createStore } from "zustand"
+import { createWithEqualityFn } from "zustand/traditional"
+import { shallow } from "zustand/shallow"
 
 import createAlertSlice, { AlertSliceType } from "./slices/alert"
 import createAuthSlice, { AuthSliceType } from "./slices/auth"
@@ -35,11 +36,14 @@ export const StoreContext = createContext<StoreType | null>(null)
 //
 
 export const createClientStore = (initialState?: initialStateType) => {
-  return createStore<SlicesType>()((...a) => ({
-    ...createAlertSlice(...a),
-    ...createAuthSlice(initialState?.auth)(...a),
-    ...createCartSlice(initialState?.cart)(...a),
-    ...createShopSlice(...a),
-    ...createUISlice(...a),
-  }))
+  return createWithEqualityFn<SlicesType>()(
+    (...a) => ({
+      ...createAlertSlice(...a),
+      ...createAuthSlice(initialState?.auth)(...a),
+      ...createCartSlice(initialState?.cart)(...a),
+      ...createShopSlice(...a),
+      ...createUISlice(...a),
+    }),
+    shallow
+  )
 }

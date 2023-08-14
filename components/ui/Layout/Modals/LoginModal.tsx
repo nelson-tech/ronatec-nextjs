@@ -1,6 +1,4 @@
-import { shallow } from "zustand/shallow"
-
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 import Modal from "@components/ui/Modal"
 import LoginForm from "@components/LoginForm"
@@ -10,13 +8,10 @@ import LoginForm from "@components/LoginForm"
 // ####
 
 const LoginModal = () => {
-  const { login, setLoginOpen } = useStore(
-    (state) => ({
-      login: state.auth.loginModal,
-      setLoginOpen: state.auth.setLoginModalOpen,
-    }),
-    shallow
-  )
+  const { login, setLoginOpen } = useStore((state) => ({
+    login: state.auth.loginModal,
+    setLoginOpen: state.auth.setLoginModalOpen,
+  }))
 
   return (
     <>

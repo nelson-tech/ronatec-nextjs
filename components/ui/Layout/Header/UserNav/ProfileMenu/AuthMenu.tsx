@@ -4,17 +4,17 @@ import { memo } from "react"
 import { Menu } from "@headlessui/react"
 import LogoutIcon from "@heroicons/react/24/outline/ArrowRightCircleIcon"
 
-import useLogout from "@lib/hooks/auth/useLogout"
-import customerMenu from "@lib/customerMenu"
+import customerMenu from "@utils/customerMenu"
 
 import Link from "@components/Link"
+import useAuth from "@hooks/useAuth"
 
 // ####
 // #### Component
 // ####
 
 const AuthMenu = memo(function AuthMenu() {
-  const { logout } = useLogout()
+  const { logout } = useAuth()
 
   const handleLogout = async () => {
     await logout()

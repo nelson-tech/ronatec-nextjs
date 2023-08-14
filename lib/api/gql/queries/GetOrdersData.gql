@@ -1,7 +1,0 @@
-query GetOrdersData {
-  orders {
-    nodes {
-      ...OrderProductBase
-    }
-  }
-}

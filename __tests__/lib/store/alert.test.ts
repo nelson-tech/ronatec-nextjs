@@ -1,8 +1,8 @@
 // store/counter.store.spec.ts
 import { act, renderHook } from "@testing-library/react"
 import { useStore } from "@mocks/zustand"
-import { initialState } from "@lib/store/slices/alert"
-import { AlertProps } from "@lib/types"
+import { initialState } from "@store/slices/alert"
+import { AlertProps } from "@types"
 
 const defaultAlert: AlertProps = {
   open: true,

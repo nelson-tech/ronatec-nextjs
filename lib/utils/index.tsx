@@ -1,7 +1,5 @@
 "use client"
 
-export { default as parse, htmlParserOptions } from "./htmlParser"
-
 export function removeTrailingSlash(url: string) {
   return url.replace(/\/$/, "")
 }

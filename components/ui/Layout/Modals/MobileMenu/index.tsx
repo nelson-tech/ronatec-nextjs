@@ -1,30 +1,26 @@
 import { Fragment } from "react"
-import { shallow } from "zustand/shallow"
 import { Dialog, Transition } from "@headlessui/react"
 
-import { MenuItem } from "@api/codegen/graphql"
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 import MenuPane from "./MenuPane"
+import type { MobileMenuLink } from "payload/generated-types"
 
 // ####
 // #### Types
 // ####
 
-type MobileMenuInputType = { menuItems: MenuItem[] }
+type MobileMenuInputType = { menuItems: MobileMenuLink }
 
 // ####
 // #### Component
 // ####
 
 const MobileMenu = ({ menuItems }: MobileMenuInputType) => {
-  const { open, setOpen } = useStore(
-    (state) => ({
-      open: state.ui.mobileMenuOpen,
-      setOpen: state.ui.setMobileMenuOpen,
-    }),
-    shallow
-  )
+  const { open, setOpen } = useStore((state) => ({
+    open: state.ui.mobileMenuOpen,
+    setOpen: state.ui.setMobileMenuOpen,
+  }))
 
   return (
     <>

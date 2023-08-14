@@ -5,7 +5,7 @@ import { Menu } from "@headlessui/react"
 import ClipboardCheckIcon from "@heroicons/react/24/outline/ClipboardDocumentCheckIcon"
 import LoginIcon from "@heroicons/react/24/outline/ArrowLeftCircleIcon"
 
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 import Link from "@components/Link"
 

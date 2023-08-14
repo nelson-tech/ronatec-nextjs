@@ -1,36 +1,27 @@
-import {
-  GetHomeDataQuery,
-  Page_PageHome_Acf_VideoLinks_VideoLink,
-  Post_Common_Cards,
-  Product,
-  ProductCategory,
-  Supplier,
-} from "@api/codegen/graphql"
-
 import CardCarousel from "@components/CardCarousel"
 import Link from "@components/Link"
 import VideoCard from "@components/VideoCard"
 import SupplierCard from "@components/Cards/Supplier"
 import IconCard from "@components/Cards/Icon"
+import type { Category, Home, Product } from "payload/generated-types"
 
 // ####
 // #### Types
 // ####
 
 type PropsType = {
-  home: GetHomeDataQuery["page"]
+  home: Home | undefined
   topSellers: Product[] | null | undefined
-  categories: ProductCategory[] | null | undefined
 }
 
 // ####
 // #### Component
 // ####
 
-const Home = ({ home, categories, topSellers }: PropsType) => {
-  const cards = home?.page_home?.acf?.cards as Post_Common_Cards[]
-  const supplier = home?.page_home?.acf?.featuredSupplier as Supplier
-  const videoLinks = home?.page_home?.acf?.videoLinks
+const HomePage = ({ home, topSellers }: PropsType) => {
+  const cards = home?.cards
+  const supplier = home?.featuredSupplier
+  const videoLinks = home?.videos
 
   return (
     <>
@@ -68,15 +59,20 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
           </div>
         </div>
 
-        <div className="mt-4">
-          <CardCarousel
-            header="Shop by Category"
-            link={{ label: "Browse all categories", path: "/products" }}
-            items={categories}
-          />
+        {home?.carousels && (
+          <div className="mt-4">
+            {typeof home.carousels.categories?.categories?.at(0) ===
+              "object" && (
+              <CardCarousel
+                header="Shop by Category"
+                link={{ label: "Browse all categories", url: "/products" }}
+                categories={home.carousels.categories.categories as Category[]}
+              />
+            )}
 
-          <CardCarousel header="Top Selling Products" products={topSellers} />
-        </div>
+            <CardCarousel header="Top Selling Products" products={topSellers} />
+          </div>
+        )}
 
         {cards && (
           <div className="mx-auto max-w-7xl relative bg-white pb-16 py-8 px-4 sm:px-6 lg:px-8">
@@ -96,20 +92,18 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
         )}
 
         {videoLinks?.map((videoLink) => {
-          if (videoLink?.videoLink)
+          if (videoLink?.id)
             return (
               <VideoCard
-                key={videoLink.videoLink.title}
-                videoLink={
-                  videoLink?.videoLink as Page_PageHome_Acf_VideoLinks_VideoLink
-                }
+                key={videoLink.id}
+                videoLink={videoLink}
                 cardStyle={`pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto`}
                 light
               />
             )
         })}
 
-        {supplier && (
+        {typeof supplier === "object" && (
           <div className="mx-auto max-w-7xl w-full px-5 md:w-2/3 lg:w-1/2">
             <SupplierCard
               headerText="Featured Supplier"
@@ -123,4 +117,4 @@ const Home = ({ home, categories, topSellers }: PropsType) => {
   )
 }
 
-export default Home
+export default HomePage

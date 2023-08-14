@@ -3,9 +3,10 @@ import { useRouter } from "next/navigation"
 import CheckIcon from "@heroicons/react/20/solid/CheckIcon"
 import { Combobox, Transition } from "@headlessui/react"
 
-import useSearch from "@lib/hooks/useSearch"
+import useSearch from "@hooks/useSearch"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import { Product } from "payload/generated-types"
 
 // ####
 // #### Types
@@ -30,15 +31,14 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
     getSearchResults(search)
   }
 
-  const handleChange = (product: any | undefined) => {
+  const handleChange = (product: Product | undefined) => {
     if (product) {
       setModalClosed && setModalClosed(false)
-      router.push(
-        `/products/${
-          product.productCategories?.nodes &&
-          product.productCategories.nodes[0]?.slug
-        }/${product.slug}`
-      )
+
+      const firstCategory = product.categories?.at(0)
+      const categorySlug =
+        typeof firstCategory === "object" ? firstCategory.slug : ""
+      router.push(`/products/${categorySlug}/${product.slug}`)
     }
   }
 
@@ -82,7 +82,7 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
               >
                 {results.map((product) => (
                   <Combobox.Option
-                    key={product.id}
+                    key={product?.id}
                     value={product}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-8 pr-4 ring-transparent focus:outline-none 
@@ -96,9 +96,10 @@ const SearchForm = ({ setModalClosed }: PropsType) => {
                             selected ? "font-semibold" : ""
                           }
                           `}
-                        >
-                          {product.name}
-                        </span>
+                          dangerouslySetInnerHTML={{
+                            __html: product?.title ?? "",
+                          }}
+                        ></span>
 
                         {selected && (
                           <span

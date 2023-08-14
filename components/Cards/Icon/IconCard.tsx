@@ -1,16 +1,16 @@
 "use client"
 
-import { Post_Common_Cards } from "@api/codegen/graphql"
-import parseNewLines from "@lib/utils/parseNewLines"
+import parseNewLines from "@utils/parseNewLines"
 
 import Icon from "@components/ui/Icon"
+import { Card } from "payload/generated-types"
 
 // ####
 // #### Types
 // ####
 
 export type PropsType = {
-  card: Post_Common_Cards
+  card: Card[0]
   centerText?: boolean
   contentStyle?: string
 }

@@ -6,7 +6,7 @@ const defaultProps: PropsType = {
   iconKey: "icon-key",
 }
 
-jest.mock("@lib/utils/SVGURL", () => ({
+jest.mock("@utils/SVGURL", () => ({
   SVGUrl: ({ uri, iconKey }: { uri: string; iconKey: string }) => ({
     loading: false,
     svgEl: <div></div>,

@@ -3,8 +3,7 @@ import { Disclosure } from "@headlessui/react"
 import { useForm } from "react-hook-form"
 import XIcon from "@heroicons/react/20/solid/XCircleIcon"
 import FilterIcon from "@heroicons/react/20/solid/FunnelIcon"
-
-import { InputMaybe, ProductCategory } from "@api/codegen/graphql"
+import { Category } from "payload/generated-types"
 
 // ####
 // #### Types
@@ -12,9 +11,9 @@ import { InputMaybe, ProductCategory } from "@api/codegen/graphql"
 
 export type PropsType = {
   children: ReactNode
-  categories: ProductCategory[]
+  categories: Category[]
   productRef: RefObject<HTMLDivElement>
-  selectedCategories: InputMaybe<string> | InputMaybe<string>[]
+  selectedCategories: string | string[]
   setSelectedCategories: (categories: string[]) => void
 }
 
@@ -29,27 +28,27 @@ const Filters = ({
   selectedCategories,
   setSelectedCategories,
 }: PropsType) => {
-  const defaultFilteredCategories = categories
-    .map((category) => {
-      let filteredCategories = [category.slug]
+  // const defaultFilteredCategories = categories
+  //   .map((category) => {
+  //     let filteredCategories = [category.slug]
 
-      category?.children?.nodes &&
-        category.children.nodes.map((child: ProductCategory) => {
-          let childCategories = [child?.slug]
+  //     category?.children?.nodes &&
+  //       category.children.nodes.map((child: ProductCategory) => {
+  //         let childCategories = [child?.slug]
 
-          child?.children?.nodes &&
-            child.children.nodes.map((grandchild: ProductCategory) => {
-              childCategories.push(grandchild?.slug)
-            })
+  //         child?.children?.nodes &&
+  //           child.children.nodes.map((grandchild: ProductCategory) => {
+  //             childCategories.push(grandchild?.slug)
+  //           })
 
-          filteredCategories = filteredCategories.concat(childCategories)
-        })
+  //         filteredCategories = filteredCategories.concat(childCategories)
+  //       })
 
-      return filteredCategories.flat().filter((a) => !!a)
-    })
-    .flat() as string[]
+  //     return filteredCategories.flat().filter((a) => !!a)
+  //   })
+  //   .flat() as string[]
 
-  const categoryList = selectedCategories ?? defaultFilteredCategories
+  const categoryList = selectedCategories // ?? defaultFilteredCategories
 
   const { register, getValues } = useForm()
 
@@ -58,7 +57,7 @@ const Filters = ({
     setSelectedCategories(selected)
   }
 
-  const CategoryItem = ({ category }: { category: ProductCategory }) => {
+  const CategoryItem = ({ category }: { category: Category }) => {
     if (category.slug) {
       return (
         <div
@@ -71,7 +70,7 @@ const Filters = ({
             type="checkbox"
             className="flex-shrink-0 h-4 w-4 border-gray-300 rounded text-blue-main focus:ring-blue-main"
             defaultChecked={categoryList.includes(`${category.slug}`)}
-            data-testid={`${category.name}-input`}
+            data-testid={`${category.title}-input`}
             {...register(`category-${category.slug}`)}
           />
           <label
@@ -80,7 +79,7 @@ const Filters = ({
           >
             {/* {child && "- "}
             {grandchild && "- - "} */}
-            {category.name}
+            {category.title}
           </label>
         </div>
       )

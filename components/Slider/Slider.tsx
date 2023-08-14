@@ -2,19 +2,18 @@
 
 import SlickSlider, { Settings as SliderSettings } from "react-slick"
 
-import { Maybe, Post_Common_Slides } from "@api/codegen/graphql"
-
 import Image from "@components/Image"
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
+import { ConsultingSlides } from "payload/generated-types"
 
 // ####
 // #### Types
 // ####
 
 export type SliderPropsType = {
-  slides: Maybe<Post_Common_Slides>[]
+  slides: ConsultingSlides
   sliderStyle?: string
   rounded?: boolean
   options?: SliderSettings
@@ -53,12 +52,12 @@ const Slider = ({
         className={`w-full rounded overflow-hidden z-10 ${sliderStyle}`}
       >
         {slides.map((slide) => {
-          const image = slide?.image
+          const image = typeof slide?.image === "object" ? slide.image : null
           return (
             <div key={image?.id} className={` relative w-full aspect-[3/2]`}>
               <Image
-                src={image?.sourceUrl ?? ""}
-                alt={image?.altText ?? ""}
+                src={image?.url ?? ""}
+                alt={image?.alt ?? ""}
                 fill
                 sizes="(max-width: 400px) 100vw,(max-width: 768px) 50vw,33vw"
                 className="object-cover -z-[1]"

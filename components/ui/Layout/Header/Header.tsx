@@ -2,8 +2,7 @@
 
 import Image from "next/image"
 
-import { MenuItem } from "@api/codegen/graphql"
-import useScrollDirection from "@lib/hooks/useScrollDirection"
+import useScrollDirection from "@hooks/useScrollDirection"
 
 import Link from "@components/Link"
 
@@ -11,6 +10,7 @@ import Promo from "./Promo"
 import MainMenu from "./MainMenu"
 import Usernav from "./UserNav"
 import MobileNav from "./MobileNav"
+import { Menu } from "payload/generated-types"
 
 // ####
 // #### Types
@@ -18,14 +18,14 @@ import MobileNav from "./MobileNav"
 
 type HeaderProps = {
   promo?: boolean
-  menuItems: MenuItem[]
+  menus: Menu
 }
 
 // ####
 // #### Component
 // ####
 
-const Header = ({ promo = false, menuItems }: HeaderProps) => {
+const Header = ({ promo = false, menus }: HeaderProps) => {
   const { scrollDirection, atTop } = useScrollDirection()
 
   const logo = (
@@ -66,7 +66,7 @@ const Header = ({ promo = false, menuItems }: HeaderProps) => {
                     </Link>
                   </div>
 
-                  <MainMenu menuItems={menuItems} />
+                  <MainMenu menuItems={menus.mainMenu.links} />
 
                   {/* Mobile menu and search (lg-) */}
                   <MobileNav />

@@ -1,9 +1,7 @@
-import { Product, ProductCategory } from "@api/codegen/graphql"
-
-import LoadingSpinner from "@components/ui/LoadingSpinner"
-import MenuLink from "@components/Link"
-
+import { Category, Product } from "payload/generated-types"
 import CarouselCard from "./CarouselCard"
+import Link from "@components/Link"
+import LoadingSpinner from "@components/ui/LoadingSpinner"
 
 // ####
 // #### Types
@@ -11,8 +9,8 @@ import CarouselCard from "./CarouselCard"
 
 export type PropsType = {
   header: string
-  link?: { label: string; path: string }
-  items?: ProductCategory[] | null | undefined
+  link?: { label?: string | undefined; url?: string | undefined }
+  categories?: Category[] | null | undefined
   products?: Product[] | null | undefined
 }
 
@@ -20,13 +18,7 @@ export type PropsType = {
 // #### Component
 // ####
 
-const CardCarousel = ({ header, link, items, products }: PropsType) => {
-  const categories = items
-    ? items.filter((item) => {
-        return item.ancestors?.nodes && item.ancestors.nodes.length == 1
-      })
-    : null
-
+const CardCarousel = ({ header, link, categories, products }: PropsType) => {
   return (
     <div className="bg-white" data-testid="card-carousel">
       <div className="pb-8">
@@ -34,14 +26,14 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
           <h2 className="text-2xl font-extrabold tracking-tight text-gray-900">
             {header}
           </h2>
-          {link && (
-            <MenuLink
-              href={link.path}
+          {link?.url && (
+            <Link
+              href={link.url}
               className="hidden text-sm font-semibold text-accent hover:text-blue-dark sm:block"
             >
               {link.label}
               <span aria-hidden="true"> &rarr;</span>
-            </MenuLink>
+            </Link>
           )}
         </div>
 
@@ -56,10 +48,15 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                     categories.map((item, index) => {
                       return (
                         <CarouselCard
-                          name={item.name ?? ""}
+                          name={item.title ?? ""}
                           slug={item.slug ?? ""}
-                          image={item.image ?? undefined}
-                          key={item.name ?? "" + item.slug}
+                          image={
+                            typeof item.image === "object"
+                              ? item.image ?? undefined
+                              : undefined
+                          }
+                          wcImage={item.wc?.image}
+                          key={item.title ?? "" + item.slug}
                           index={index}
                         />
                       )
@@ -67,19 +64,24 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
                   ) : products ? (
                     products.map((cardProduct, index) => {
                       const path = `${
-                        cardProduct.productCategories?.nodes
-                          ? cardProduct.productCategories.nodes[0]
-                            ? cardProduct.productCategories.nodes[0].slug + "/"
+                        cardProduct?.categories
+                          ? typeof cardProduct.categories[0] === "object"
+                            ? cardProduct.categories[0].slug + "/"
                             : ""
                           : ""
-                      }${cardProduct.slug}`
+                      }${cardProduct?.slug}`
 
                       return (
                         <CarouselCard
-                          name={cardProduct.name ?? ""}
+                          name={cardProduct?.title ?? ""}
                           slug={path}
-                          image={cardProduct.image ?? undefined}
-                          key={cardProduct.name ?? "" + cardProduct.slug}
+                          image={
+                            typeof cardProduct.featuredImage === "object"
+                              ? cardProduct?.featuredImage
+                              : undefined
+                          }
+                          wcImage={cardProduct.wc?.images?.at(0)}
+                          key={cardProduct?.title ?? "" + cardProduct?.slug}
                           index={index}
                         />
                       )
@@ -101,15 +103,15 @@ const CardCarousel = ({ header, link, items, products }: PropsType) => {
           </div>
         </div>
 
-        {link && (
+        {link?.url && (
           <div className="mt-6 px-8 sm:hidden">
-            <MenuLink
-              href={link.path}
+            <Link
+              href={link.url}
               className="block text-sm font-semibold text-accent hover:text-blue-dark"
             >
               {link.label}
               <span aria-hidden="true"> &rarr;</span>
-            </MenuLink>
+            </Link>
           </div>
         )}
       </div>

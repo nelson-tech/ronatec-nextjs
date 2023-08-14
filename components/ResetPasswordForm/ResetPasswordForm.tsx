@@ -7,10 +7,11 @@ import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 import MailIcon from "@heroicons/react/20/solid/EnvelopeIcon"
 
-import useResetPassword from "@lib/hooks/useResetPassword"
+import useAuth from "@hooks/useAuth"
 
 import MenuLink from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import useStore from "@hooks/useStore"
 
 // ####
 // #### Types
@@ -43,12 +44,12 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
 
   const [validPassword, setValidPassword] = useState<boolean>(false)
 
-  const {
-    sendResetPasswordEmail,
-    resetCustomerPassword,
-    error: resetError,
-    loading,
-  } = useResetPassword()
+  const { loading, resetError } = useStore((stores) => ({
+    resetError: stores.auth.errors.reset,
+    loading: stores.auth.loading,
+  }))
+
+  const { forgotPassword, resetPassword } = useAuth()
 
   const {
     formState: { errors },
@@ -76,7 +77,7 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
 
   const onSendEmailSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (email && data.email === email) {
-      const sentStatus = await sendResetPasswordEmail(email)
+      const sentStatus = await forgotPassword({ email })
       sentStatus && setSentEmail(true)
     }
     console.warn(data)
@@ -85,7 +86,10 @@ const ResetPasswordForm = ({ detectedEmail }: ResetPasswordFormInputType) => {
   const onResetPasswordSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (data.passwordConfirm && data.password) {
       if (validPassword && key && email && password) {
-        const resetStatus = await resetCustomerPassword(key, email, password)
+        const resetStatus = await resetPassword({
+          token: key,
+          password,
+        })
         resetStatus && setPasswordReset(true)
       }
     }

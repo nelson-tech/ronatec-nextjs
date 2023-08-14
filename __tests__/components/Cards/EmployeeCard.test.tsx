@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react"
 import EmployeeCard, {
   PropsType,
-} from "@components/Cards/Employee/EmployeeCard"
+} from "app/about/contact/EmployeeCard"
 
 const defaultProps: PropsType = {
   employee: {

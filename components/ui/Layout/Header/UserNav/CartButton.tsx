@@ -1,9 +1,8 @@
 "use client"
 
-import { shallow } from "zustand/shallow"
 import ShoppingCartIcon from "@heroicons/react/24/outline/ShoppingCartIcon"
 
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 
@@ -12,14 +11,13 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 // ####
 
 const CartButton = () => {
-  const { cart, loading, setOpen } = useStore(
-    (state) => ({
-      cart: state.cart.state,
-      loading: state.cart.loading,
-      setOpen: state.cart.setOpen,
-    }),
-    shallow
-  )
+  const count = useStore((stores) => stores.cart.state?.count)
+
+  const { loading, setOpen } = useStore((state) => ({
+    cart: state.cart.state,
+    loading: state.cart.loading,
+    setOpen: state.cart.setOpen,
+  }))
 
   return (
     <button
@@ -37,10 +35,10 @@ const CartButton = () => {
       ) : (
         <span
           className={`ml-2 w-4 text-sm font-medium text-gray-400 ${
-            cart?.contents?.itemCount ?? "group-hover:text-gray-500"
+            count ?? "group-hover:text-gray-500"
           }`}
         >
-          {cart?.contents?.itemCount ?? 0}
+          {count ?? 0}
         </span>
       )}
       <span className="sr-only">items in cart, view bag</span>

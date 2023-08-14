@@ -3,7 +3,7 @@
 import { Fragment, useEffect } from "react"
 import { Transition } from "@headlessui/react"
 
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 import { ErrorAlert, InfoAlert, SuccessAlert, WarningAlert } from "./Alert"
 
 // ####

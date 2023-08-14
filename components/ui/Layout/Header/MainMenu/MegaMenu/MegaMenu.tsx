@@ -1,12 +1,10 @@
 "use client"
-
 import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
 import ChevronDownIcon from "@heroicons/react/20/solid/ChevronDownIcon"
 
-import { MenuItem } from "@api/codegen/graphql"
-import { GetDesktopLinkStyleType } from "../MainMenu"
-
+import type { MainMenuLink as MainMenuLinkType } from "payload/generated-types"
+import MainMenuLink from "../MainMenuLink"
 import Link from "@components/Link"
 
 // ####
@@ -14,17 +12,16 @@ import Link from "@components/Link"
 // ####
 
 type MegaMenuProps = {
-  megaItem: MenuItem
-
-  getStyle: GetDesktopLinkStyleType
+  megaItem: MainMenuLinkType[0]
 }
 
 // ####
 // #### Component
 // ####
 
-const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
-  const path = megaItem.url ?? "/"
+const MegaMenu = ({ megaItem }: MegaMenuProps) => {
+  const { link } = megaItem
+  const path = link.url ?? "/"
 
   const headerStyle = "font-extrabold text-base text-gray-900"
 
@@ -32,19 +29,13 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
     <Popover className="relative">
       {({ open, close }) => (
         <>
-          <Popover.Button
-            className={getStyle({
-              open,
-              path,
-            })}
-          >
-            {megaItem.label}
+          <MainMenuLink menuItem={megaItem} mega={true}>
             <ChevronDownIcon
               className={`transition ml-1 w-4 h-4 ${
                 open && "transform rotate-180"
               } text-gray-400`}
             />
-          </Popover.Button>
+          </MainMenuLink>
 
           <Transition
             as={Fragment}
@@ -64,127 +55,123 @@ const MegaMenu = ({ megaItem, getStyle }: MegaMenuProps) => {
               <div className="overflow-hidden rounded shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative grid grid-cols-3 min-w-full bg-white pl-8 pt-6 pb-6">
                   {/* <div className="grid grid-cols-2 gap-y-10 gap-x-8"> */}
-                  {megaItem.childItems?.nodes &&
-                    megaItem.childItems.nodes.map((column: MenuItem, index) => {
-                      if (column.menuFields?.column) {
+                  {link.children &&
+                    link.children.map((column, index) => {
+                      const { children, header, megaColumn } = column
+                      if (megaColumn) {
                         return (
                           <div key={column.id} className="">
-                            {column.childItems?.nodes &&
-                              column.childItems.nodes.map(
-                                (subColumn: MenuItem, subIndex) => {
-                                  return (
-                                    subColumn.label && (
-                                      <div
-                                        key={subColumn.id}
-                                        className={
-                                          " " +
-                                          (subIndex > 0
-                                            ? "mt-8"
-                                            : subColumn.label === "Browse All"
-                                            ? "mb-8"
-                                            : "")
-                                        }
-                                      >
-                                        {subColumn.url !== "#" ? (
-                                          <div
-                                            className={headerStyle}
-                                            onClick={() => close()}
+                            {column.children &&
+                              column.children.map((subColumn, subIndex) => {
+                                const { label, url, children, type } = subColumn
+                                return (
+                                  label && (
+                                    <div
+                                      key={subColumn.id}
+                                      className={
+                                        " " +
+                                        (subIndex > 0
+                                          ? "mt-8"
+                                          : label === "Browse All"
+                                          ? "mb-8"
+                                          : "")
+                                      }
+                                    >
+                                      {type !== "textOnly" ? (
+                                        <div
+                                          className={headerStyle}
+                                          onClick={() => close()}
+                                        >
+                                          <Link
+                                            href={
+                                              url
+                                                ? url === "#"
+                                                  ? ""
+                                                  : url
+                                                : ""
+                                            }
+                                            title={label}
+                                            className={`${
+                                              label === "Browse All"
+                                                ? "text-accent hover:text-highlight"
+                                                : "hover:text-accent"
+                                            }  transition`}
                                           >
-                                            <Link
-                                              href={
-                                                subColumn.url
-                                                  ? subColumn.url === "#"
-                                                    ? ""
-                                                    : subColumn.url
-                                                  : ""
-                                              }
-                                              title={subColumn.label}
-                                              className={`${
-                                                subColumn.label === "Browse All"
-                                                  ? "text-accent hover:text-highlight"
-                                                  : "hover:text-accent"
-                                              }  transition`}
-                                            >
-                                              {subColumn.label}
-                                            </Link>
-                                          </div>
-                                        ) : (
-                                          <div
-                                            className={headerStyle}
-                                            onClick={() => close()}
-                                          >
-                                            <div title={subColumn.label}>
-                                              {subColumn.label}
-                                            </div>
-                                          </div>
-                                        )}
-                                        <ul role="list" className="">
-                                          {subColumn.childItems?.nodes &&
-                                            subColumn.childItems.nodes.map(
-                                              (item: MenuItem) =>
-                                                item.label && (
-                                                  <li
-                                                    key={item.id}
-                                                    className="flex w-full group"
-                                                    onClick={() => close()}
+                                            {label}
+                                          </Link>
+                                        </div>
+                                      ) : (
+                                        <div
+                                          className={headerStyle}
+                                          onClick={() => close()}
+                                        >
+                                          <div title={label}>{label}</div>
+                                        </div>
+                                      )}
+                                      <ul role="list" className="">
+                                        {children &&
+                                          children.map(
+                                            (item) =>
+                                              item.label && (
+                                                <li
+                                                  key={item.id}
+                                                  className="flex w-full group"
+                                                  onClick={() => close()}
+                                                >
+                                                  <Link
+                                                    href={item.url ?? ""}
+                                                    title={item.label}
+                                                    className="w-full hover:text-highlight"
                                                   >
-                                                    <Link
-                                                      href={item.url ?? ""}
-                                                      title={item.label}
-                                                      className="w-full hover:text-highlight"
-                                                    >
-                                                      <div className="py-2 w-full">
-                                                        {item.label}
-                                                      </div>
-                                                    </Link>
-                                                  </li>
-                                                )
-                                            )}
-                                        </ul>
-                                      </div>
-                                    )
+                                                    <div className="py-2 w-full">
+                                                      {item.label}
+                                                    </div>
+                                                  </Link>
+                                                </li>
+                                              )
+                                          )}
+                                      </ul>
+                                    </div>
                                   )
-                                }
-                              )}
+                                )
+                              })}
                           </div>
                         )
                       } else {
                         return (
-                          column.label && (
-                            <div key={column.label + index + column.url}>
+                          link.label && (
+                            <div key={column.id}>
                               <div
                                 id={`desktop-featured-heading-${megaItem.id}`}
                                 className={headerStyle}
                                 onClick={() => close()}
                               >
-                                <Link
-                                  href={column.url ?? ""}
-                                  title={column.label}
-                                >
-                                  {column.label}
+                                <Link href={link.url ?? ""} title={link.label}>
+                                  {link.label}
                                 </Link>
                               </div>
                               <ul role="list" className="mt-2">
-                                {column.childItems?.nodes &&
-                                  column.childItems.nodes.map(
-                                    (item: MenuItem) => (
+                                {children &&
+                                  children.map((child) => {
+                                    const { label, url } = child
+                                    return (
                                       <li
-                                        key={item.id}
+                                        key={child.id}
                                         className="flex w-full group"
                                         onClick={() => close()}
                                       >
                                         <Link
-                                          href={item.url ?? ""}
-                                          title={item.label ?? ""}
+                                          href={url ?? ""}
+                                          title={label ?? ""}
                                           className="w-full hover:text-gray-800"
                                         >
                                           <div className="py-2 w-full">
-                                            {item.label}
+                                            {label}
                                           </div>
                                         </Link>
                                       </li>
                                     )
-                                  )}
+                                  })}
                               </ul>
                             </div>
                           )

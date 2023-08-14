@@ -6,7 +6,7 @@ import parse, {
 
 import Image from "@components/Image"
 import Link from "@components/Link"
-import { ParsedTabs } from "."
+import ParsedTabs from "./tabs"
 
 export const htmlParserOptions: HTMLReactParserOptions =
   typeof window === "undefined"

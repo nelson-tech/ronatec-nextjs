@@ -13,7 +13,7 @@ const mockedGetAuthToken = jest.spyOn(utils, "getAuthToken")
 //   typeof getAuthToken
 // >
 
-jest.mock("@lib/store", () => ({
+jest.mock("@store", () => ({
   useCreateStore: jest.fn(),
   Provider: jest.fn(),
 }))

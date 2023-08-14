@@ -5,7 +5,7 @@ import {
   OrderEnum,
   ProductsOrderByEnum,
   SortOptionType,
-} from "@lib/store/slices/shop"
+} from "@store/slices/shop"
 
 const { MenuOrder, Slug, Date } = ProductsOrderByEnum
 

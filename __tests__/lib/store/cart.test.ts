@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react"
 import { useStore } from "@mocks/zustand"
-import { initialState } from "@lib/store/slices/cart"
+import { initialState } from "@store/slices/cart"
 import { Cart } from "@api/codegen/graphql"
 
 const defaultCart: Cart = {

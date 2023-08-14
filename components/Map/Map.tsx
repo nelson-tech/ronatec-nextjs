@@ -8,11 +8,10 @@ import {
   Marker,
 } from "react-simple-maps"
 
-import { Maybe, Post_Maps_Markers } from "@api/codegen/graphql"
-
 import "./style.css"
 import geoShape from "./shape.json"
 import twConfig from "../../tailwind.config"
+import type { Map as MapType } from "payload/generated-types"
 
 // ####
 // #### Variables
@@ -30,8 +29,7 @@ type CoordinatesType = {
 }
 
 type Props = {
-  center?: CoordinatesType
-  markers?: Maybe<Post_Maps_Markers>[] | null
+  map: MapType
   className?: string | null | undefined
   style?: CSSProperties
 }
@@ -40,7 +38,7 @@ type Props = {
 // #### Component
 // ####
 
-const Map = ({ markers, className, style }: Props) => {
+const Map = ({ map, className, style }: Props) => {
   return (
     <ComposableMap
       projection="geoAlbersUsa"
@@ -57,17 +55,17 @@ const Map = ({ markers, className, style }: Props) => {
                 key={geo.rsmKey}
                 geography={geo}
                 fill="#fff"
-                stroke={colors.accent}
+                stroke={colors?.accent}
               />
             )
           })
         }
       </Geographies>
-      {markers &&
-        markers.map((marker) => {
+      {map.markers &&
+        map.markers.map((marker) => {
           return (
             <Marker
-              coordinates={[marker?.center?.lng ?? 0, marker?.center?.lat ?? 0]}
+              coordinates={[marker?.lon ?? 0, marker?.lat ?? 0]}
               key={marker?.label}
               className="relative"
             >

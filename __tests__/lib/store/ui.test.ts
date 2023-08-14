@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react"
 import { useStore } from "@mocks/zustand"
-import { initialState } from "@lib/store/slices/ui"
+import { initialState } from "@store/slices/ui"
 
 describe("UI Store", () => {
   it("Should have default values", () => {

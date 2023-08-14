@@ -2,20 +2,24 @@
 
 import { useState } from "react"
 import debounce from "lodash.debounce"
-
-import getClient from "@api/client"
-import { Product, QuickSearchDocument } from "@api/codegen/graphql"
+import qs from "qs"
+import type { Product } from "payload/generated-types"
 
 const useSearch = () => {
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState<Product[] | undefined>()
 
-  const client = getClient()
-
   const fetchSearchResults = async (search: string) => {
     setLoading(true)
-    const data = await client.request(QuickSearchDocument, { search })
-    data.products?.nodes && setResults(data.products.nodes as Product[])
+    const query = qs.stringify(
+      { where: { title: { like: search } } },
+      { addQueryPrefix: true }
+    )
+    const response = await fetch(`/api/products${query}`)
+
+    const productsData: { errors: string[]; docs: Product[] } =
+      await response.json()
+    productsData.docs && setResults(productsData.docs)
     setLoading(false)
   }
 

@@ -2,11 +2,10 @@
 
 import { memo } from "react"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
-
-import { MediaItem } from "@api/codegen/graphql"
+import Image from "@components/Image"
 
 import Link from "@components/Link"
+import { Category, Image as ImageType } from "payload/generated-types"
 
 // ####
 // #### Types
@@ -15,15 +14,16 @@ import Link from "@components/Link"
 export type PropsType = {
   name: string
   slug: string
-  image?: MediaItem | undefined
+  image?: ImageType | undefined
   index: number
+  wcImage?: Exclude<Category["wc"], undefined>["image"]
 }
 
 // ####
 // #### Component
 // ####
 
-const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
+const CarouselCard = memo(({ name, slug, image, wcImage }: PropsType) => {
   const router = useRouter()
 
   const handleClick = (path: string) => {
@@ -38,18 +38,26 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
       className="group relative w-56 h-72 rounded cursor-pointer p-6 flex flex-col overflow-hidden"
     >
       <div aria-hidden="true" className="absolute inset-0 w-56 h-72">
-        {image && image.sourceUrl && (
+        {image?.url ? (
           <div className="w-56 h-72 relative">
             <Image
-              src={image.sourceUrl}
-              alt={image.altText ?? ""}
+              src={image.url}
+              alt={image.alt ?? ""}
               title={name}
-              fill
-              sizes="33vw"
-              priority={index < 2}
-              className="object-cover"
+              className="object-cover w-full h-full"
             />
           </div>
+        ) : (
+          wcImage?.src && (
+            <div className="w-56 h-72 relative">
+              <Image
+                src={wcImage.src}
+                alt={wcImage.alt ?? wcImage.name ?? ""}
+                title={name}
+                className="object-cover w-full h-full"
+              />
+            </div>
+          )
         )}
       </div>
       <span
@@ -61,7 +69,7 @@ const CarouselCard = memo(({ name, slug, image, index }: PropsType) => {
         title={name ?? ""}
         className="relative mt-auto text-center text-xl font-bold text-white"
       >
-        {name}
+        <span dangerouslySetInnerHTML={{ __html: name }} />
       </Link>
     </div>
   )

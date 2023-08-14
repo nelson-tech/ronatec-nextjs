@@ -1,26 +1,15 @@
-import { Customer } from "@api/codegen/graphql"
 import jwt_decode from "jwt-decode"
 
 type JWToken = {
-  iss: string
+  email: string
+  id: string
+  collection: number
   iat: number
-  nbf: number
   exp: number
-  data: {
-    user: {
-      id: string
-    }
-  }
 }
 
-export const decodeToken = (token: string) => {
-  const tokenData = jwt_decode<JWToken>(token ?? "")
+export const decodeToken = (token: string | null | undefined) => {
+  const tokenData = token ? jwt_decode<JWToken>(token) : null
 
   return tokenData
-}
-
-export const decodeCustomerToken = (token: string) => {
-  const customerData = jwt_decode<Customer>(token ?? "")
-
-  return customerData
 }

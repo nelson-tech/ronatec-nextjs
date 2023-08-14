@@ -4,7 +4,7 @@ import { Fragment } from "react"
 import { Menu, Transition } from "@headlessui/react"
 import UserIcon from "@heroicons/react/24/outline/UserCircleIcon"
 
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 import AuthMenu from "./AuthMenu"
 import GuestMenu from "./GuestMenu"

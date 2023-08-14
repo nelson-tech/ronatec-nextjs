@@ -1,15 +1,14 @@
 import InformationCircleIcon from "@heroicons/react/20/solid/InformationCircleIcon"
 
-import { Supplier, Supplier_Supplier } from "@api/codegen/graphql"
-
 import Image from "@components/Image"
 import Icon from "@components/ui/Icon"
+import { Supplier } from "payload/generated-types"
 
 // ####
 // #### Types
 // ####
 
-export type ChosenSupplierType = Supplier_Supplier & {
+export type ChosenSupplierType = Supplier & {
   title: string
 }
 
@@ -36,13 +35,13 @@ const SupplierCard = ({
   setChosenSupplier,
   chosenSupplier,
 }: PropsType) => {
-  const { title, supplier } = givenSupplier
+  const { title, description, id, image, url } = givenSupplier
 
-  if (supplier) {
+  if (givenSupplier) {
     if (featured) {
       return (
         <a
-          href={supplier.url ?? undefined}
+          href={url ?? undefined}
           target="_blank"
           rel="noreferrer"
           className="bg-grey-50 w-full mx-auto mt-0 flex flex-col rounded overflow-hidden shadow mb-8 group"
@@ -53,22 +52,22 @@ const SupplierCard = ({
               <h2 className="text-2xl">{headerText}</h2>
             </div>
           )}
-          {supplier.image && supplier.image.sourceUrl && (
+          {typeof image === "object" && image.url && (
             <div className="w-full relative rounded h-full overflow-hidden">
               <Image
-                src={supplier.image.sourceUrl}
-                width={supplier.image.mediaDetails?.width ?? undefined}
-                height={supplier.image.mediaDetails?.height ?? undefined}
-                alt={supplier.image.altText ?? ""}
+                src={image.url}
+                width={image.width ?? undefined}
+                height={image.height ?? undefined}
+                alt={image.alt ?? ""}
                 title={title ?? undefined}
               />
             </div>
           )}
 
-          {supplier.text && (
+          {description && (
             <div className="p-8 h-full">
               <div className="flex items-baseline text-gray-500">
-                <p className="text-center">{supplier.text}</p>
+                <p className="text-center">{description}</p>
               </div>
             </div>
           )}
@@ -83,7 +82,7 @@ const SupplierCard = ({
                   name="external-link"
                   className="text-gray-400 group-hover:text-white transition-colors w-4 ml-4"
                   type="regular"
-                  iconKey={supplier.url + "--open-new-window"}
+                  iconKey={url + "--open-new-window"}
                 />
               </span>
             </p>
@@ -102,7 +101,7 @@ const SupplierCard = ({
           <div
             onClick={() => {
               setIsOpen(true)
-              title && setChosenSupplier({ ...givenSupplier.supplier, title })
+              title && setChosenSupplier({ ...givenSupplier, title })
             }}
             data-testid="supplier-card-clickable"
             className={`

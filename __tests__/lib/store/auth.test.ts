@@ -1,7 +1,7 @@
 // store/counter.store.spec.ts
 import { act, renderHook } from "@testing-library/react"
 import { useStore } from "@mocks/zustand"
-import { initialState } from "@lib/store/slices/auth"
+import { initialState } from "@store/slices/auth"
 import { User } from "@api/codegen/graphql"
 
 const defaultUser: User = {

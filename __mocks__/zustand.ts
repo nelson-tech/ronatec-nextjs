@@ -1,5 +1,5 @@
-import vanillaStore from "@lib/store/vanilla"
-import createAuthSlice, { AuthSliceType } from "@lib/store/slices/auth"
+import vanillaStore from "@store/vanilla"
+import createAuthSlice, { AuthSliceType } from "@store/slices/auth"
 
 import create from "zustand"
 import createVanilla from "zustand/vanilla"

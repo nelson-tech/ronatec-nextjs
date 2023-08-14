@@ -1,7 +1,6 @@
 "use client"
 
-import { SVGUrl } from "@lib/utils/SVGURL"
-import { Maybe } from "@api/codegen/graphql"
+import { SVGUrl } from "@utils/SVGURL"
 
 // ####
 // #### Variables
@@ -17,7 +16,7 @@ const ICON_BASE = `${process.env.NEXT_PUBLIC_CDN_BASE_URL}/icons`
 
 export type PropsType = {
   name: string
-  type?: Maybe<string>
+  type?: string | null | undefined
   className?: string
   ariaHidden?: boolean
   iconStyling?: string

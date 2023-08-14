@@ -1,9 +1,8 @@
 "use client"
 
+import { VideoLink } from "payload/generated-types"
 import type { JSXElementConstructor, ReactElement } from "react"
 import ReactPlayer, { Config } from "react-player"
-
-import type { Page_PageHome_Acf_VideoLinks_VideoLink } from "@api/codegen/graphql"
 
 // ####
 // #### Types
@@ -18,7 +17,7 @@ export type VideoPlayerPropsType = {
     | ReactElement<any, string | JSXElementConstructor<any>>
     | undefined
   divStyle?: string
-  videoLink: Page_PageHome_Acf_VideoLinks_VideoLink
+  videoLink: VideoLink[0]
 }
 // ####
 // #### Component
@@ -30,20 +29,22 @@ const VideoPlayer = ({
   divStyle,
   light = true,
 }: VideoPlayerPropsType) => {
-  const { videoId, videoUrl, provider, videoFile } = videoLink
+  const { url, provider, video, videoId } = videoLink
 
-  const url =
+  const videoURL =
     provider === "youtube"
       ? `https://www.youtube.com/watch?v=${videoId}`
-      : videoUrl
-      ? videoUrl
+      : provider === "other"
+      ? url
+      : typeof video === "object"
+      ? video.url
       : undefined
 
   const config: Config = {}
 
-  if (videoFile?.mediaItemUrl) {
+  if (typeof video === "object") {
     config.file = {
-      attributes: { ...videoFile.mediaDetails },
+      attributes: { ...video },
       forceVideo: true,
     }
   }
@@ -59,7 +60,7 @@ const VideoPlayer = ({
         controls={provider !== "youtube"}
         width="100%"
         height="100%"
-        url={url}
+        url={videoURL}
         config={config}
       />
     </div>

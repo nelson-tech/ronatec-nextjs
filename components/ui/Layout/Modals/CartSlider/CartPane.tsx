@@ -1,11 +1,10 @@
 import { Fragment, useState } from "react"
 import { Dialog, Transition } from "@headlessui/react"
-import { shallow } from "zustand/shallow"
 import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon"
 import XIcon from "@heroicons/react/20/solid/XMarkIcon"
 
-import useCart from "@lib/hooks/useCart"
-import useStore from "@lib/hooks/useStore"
+import useCart from "@hooks/useCart"
+import useStore from "@hooks/useStore"
 
 import LoadingSpinner from "@components/ui/LoadingSpinner"
 import Link from "@components/Link"
@@ -18,17 +17,13 @@ import CartItem from "./CartItem"
 // ####
 
 const CartPane = () => {
-  const [_, setLoading] = useState(false)
+  const { cart, setOpen, setLoading } = useStore((state) => ({
+    cart: state.cart.state,
+    setOpen: state.cart.setOpen,
+    setLoading: state.cart.setLoading,
+  }))
 
-  const { cart, setOpen } = useStore(
-    (state) => ({
-      cart: state.cart.state,
-      setOpen: state.cart.setOpen,
-    }),
-    shallow
-  )
-
-  const { clearCart } = useCart()
+  const { removeItem, clearCart } = useCart()
 
   const handleClearCart = async () => {
     setLoading(true)
@@ -75,20 +70,20 @@ const CartPane = () => {
 
                 <div className="mt-8 h-full">
                   <div className="flow-root h-full">
-                    {cart?.contents?.nodes &&
-                    cart.contents.nodes?.length > 0 ? (
+                    {cart?.items && cart.items.length > 0 ? (
                       <ul
                         role="list"
                         className="-my-6 divide-y divide-gray-200"
                       >
-                        {cart?.contents?.nodes &&
-                          cart?.contents?.nodes.map((lineItem) => (
-                            <CartItem
-                              key={lineItem?.key}
-                              lineItem={lineItem}
-                              setOpen={setOpen}
-                            />
-                          ))}
+                        {cart.items.map((lineItem) => (
+                          <CartItem
+                            key={lineItem?.id}
+                            lineItem={lineItem}
+                            setOpen={setOpen}
+                            removeFromCart={removeItem}
+                            setCartLoading={setLoading}
+                          />
+                        ))}
                       </ul>
                     ) : (
                       <div className="text-gray-600 h-full">
@@ -111,7 +106,7 @@ const CartPane = () => {
 
               <div
                 className={`border-t border-gray-200 py-6 px-4 sm:px-6${
-                  cart?.isEmpty !== false && " hidden"
+                  (cart?.count ?? 0) === 0 && " hidden"
                 }`}
               >
                 {/* <div className="flex justify-between text-base font-medium text-gray-900">

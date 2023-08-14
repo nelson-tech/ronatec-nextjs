@@ -2,16 +2,15 @@
 
 import { MutableRefObject, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { shallow } from "zustand/shallow"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 
-import useLogin from "@lib/hooks/auth/useLogin"
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 import Link from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import useAuth from "@hooks/useAuth"
 
 // ####
 // #### Types
@@ -31,14 +30,11 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
   const params = useSearchParams()
   const redirect = params?.get("redirect")
 
-  const { loggedIn } = useStore(
-    (state) => ({
-      loggedIn: state.auth.loggedIn,
-    }),
-    shallow
-  )
+  const { loggedIn } = useStore((state) => ({
+    loggedIn: state.auth.loggedIn,
+  }))
 
-  const { login } = useLogin()
+  const { login } = useAuth()
 
   const {
     formState: { errors },
@@ -58,13 +54,13 @@ const LoginForm = ({ modalRef, setOpen }: LoginFormProps) => {
     setLoading(true)
     if (data.email && data.password) {
       const input = {
-        username: data.email,
+        email: data.email,
         password: data.password,
       }
 
       console.log("Submitting")
 
-      await login({ input })
+      await login(input)
     }
     setLoading(false)
   }

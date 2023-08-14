@@ -5,7 +5,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -21,17 +21,23 @@
       }
     ],
     "paths": {
-      "@api": ["lib/api"],
-      "@api/*": ["lib/api/*"],
       "@components/*": ["components/*"],
       "@assets/*": ["assets/*"],
-      "@lib": ["lib"],
-      "@lib/*": ["lib/*"],
       "@pages/*": ["pages/*"],
-      "@styles": ["styles"],
       "@styles/*": ["styles/*"],
-      "@mocks/*": ["__mocks__/*"]
-    }
+      "@hooks/*": ["lib/hooks/*"],
+      "@server/*": ["lib/server/*"],
+      "@store": ["lib/store"],
+      "@store/*": ["lib/store/*"],
+      "@lib/types": ["lib/types"],
+      "@lib/types/*": ["lib/types/*"],
+      "@utils/*": ["lib/utils/*"],
+      "@mocks/*": ["__mocks__/*"],
+      "payload/generated-types": ["./payload/payload-types.ts"],
+      "payload-config": ["./payload/payload.config.ts"],
+      "~payload/*": ["./payload/*"]
+    },
+    "strictNullChecks": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

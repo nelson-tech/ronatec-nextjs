@@ -1,146 +1,225 @@
 import { useCallback } from "react"
-import { shallow } from "zustand/shallow"
 
-import getClient from "@api/client"
-import {
-  AddToCartDocument,
-  ClearCartDocument,
-  GetCartDocument,
-  RemoveCartItemDocument,
-  UpdateCartItemQuantityDocument,
-} from "@api/codegen/graphql"
-import type {
-  AddToCartMutationVariables,
-  Cart,
-  RemoveCartItemMutationVariables,
-  UpdateCartItemQuantityMutationVariables,
-} from "@api/codegen/graphql"
 import useStore from "./useStore"
+import type { Cart, ProductItems } from "payload/generated-types"
+import { CreateCartResponseData } from "@pages/api/createCart"
 
 const useCart = () => {
-  const client = getClient()
+  const { cartState } = useStore((stores) => ({
+    cartState: stores.cart.state,
+  }))
 
-  const { loading, setCart, setLoading, setOpen, setAlert } = useStore(
-    (stores) => ({
-      loading: stores.cart.loading,
-      setCart: stores.cart.setCart,
-      setLoading: stores.cart.setLoading,
-      setOpen: stores.cart.setOpen,
-      setAlert: stores.alert.setAlert,
-    }),
-    shallow
-  )
+  const { setCart, setLoading, setOpen, setAlert } = useStore((stores) => ({
+    setCart: stores.cart.setCart,
+    setLoading: stores.cart.setLoading,
+    setOpen: stores.cart.setOpen,
+    setAlert: stores.alert.setAlert,
+  }))
 
   const fetchCart = useCallback(async () => {
     setLoading(true)
 
-    try {
-      const cartData = await client.request(GetCartDocument)
+    if (cartState?.id) {
+      try {
+        const response = await fetch(`/api/carts/${cartState.id}`)
 
-      cartData.cart && setCart(cartData.cart as Cart)
-    } catch (error) {
-      console.warn("Error fetching cart in useCart:", error)
+        const cart: Cart = await response.json()
+
+        cart.id && setCart(cart)
+      } catch (error) {
+        console.warn("Error fetching cart", error)
+      }
     }
 
     setLoading(false)
-  }, [client, setCart, setLoading])
+  }, [setCart, setLoading, cartState?.id])
 
   const clearCart = useCallback(async () => {
     setLoading(true)
 
-    try {
-      const clearCartData = await client.request(ClearCartDocument, {
-        input: {},
-      })
+    if (cartState?.id) {
+      try {
+        const response = await fetch(`/api/carts/${cartState.id}`, {
+          method: "patch",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            items: [],
+          }),
+        })
 
-      clearCartData.emptyCart?.cart &&
-        setCart(clearCartData.emptyCart.cart as Cart)
-    } catch (error) {
-      console.warn("Error clearing cart in useCart:", error)
+        const data: { message: string; doc: Cart } = await response.json()
 
-      fetchCart()
+        data.doc?.id && setCart(data.doc)
+      } catch (error) {
+        console.warn("Error clearing cart in useCart:", error)
+
+        fetchCart()
+      }
+
+      setLoading(false)
+    } else {
+      // TODO: Provide feedback for missing cart ID
     }
+  }, [fetchCart, setCart, setLoading, cartState?.id])
 
-    setLoading(false)
-  }, [client, fetchCart, setCart, setLoading])
+  const updateCart = useCallback(async (cartData: Partial<Cart>) => {
+    const response = await fetch(`/actions/cart/${cartState?.id}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartData),
+    })
+
+    const data: { cart: Cart } = await response?.json()
+    console.log("Fetch survived", data)
+
+    data.cart?.id && setCart(data.cart)
+  }, [])
 
   const removeItem = useCallback(
-    async (input: RemoveCartItemMutationVariables) => {
+    async (productID: string) => {
       setLoading(true)
 
-      try {
-        const removeItemData = await client.request(
-          RemoveCartItemDocument,
-          input
-        )
-
-        removeItemData.removeItemsFromCart?.cart &&
-          setCart(removeItemData.removeItemsFromCart.cart as Cart)
-      } catch (error) {
-        console.warn("Error removing item in useCart:", error)
-      }
-
-      setLoading(false)
-    },
-    [client, setCart, setLoading]
-  )
-
-  const addToCart = useCallback(
-    async (input: AddToCartMutationVariables) => {
-      setLoading(true)
-
-      try {
-        const cartData = await client.request(AddToCartDocument, input)
-
-        if (cartData.addToCart?.cart) {
-          setCart(cartData.addToCart.cart as Cart)
-          setOpen(true)
-        } else {
-          setAlert({
-            open: true,
-            kind: "error",
-            primary: "Error adding to the shopping cart.",
-            secondary: "Please try refreshing the page.",
+      if (cartState?.id && cartState?.items) {
+        const filteredItems = cartState.items
+          .filter((item) => {
+            return (
+              (typeof item.product === "object"
+                ? item.product.id
+                : item.product) !== productID
+            )
           })
+          .map(({ product, price, title, quantity }: ProductItems[0]) => {
+            const formattedItem: ProductItems[0] = {
+              product: typeof product === "object" ? product.id : product,
+              price,
+              title,
+              quantity,
+            }
+            return formattedItem
+          }) as ProductItems
+
+        try {
+          await updateCart({ items: filteredItems })
+        } catch (error) {
+          console.warn("Error removing cart item.", error)
         }
-      } catch (error) {
-        console.warn("Error adding item in useCart:", error)
-
-        setAlert({
-          open: true,
-          kind: "error",
-          primary: "Error adding to the shopping cart.",
-          secondary: "Please try refreshing the page.",
-        })
+      } else {
+        // TODO: Provide feedback for missing cart ID or fetch cart from any possible ID (store or cookie)
       }
-
       setLoading(false)
     },
-    [client, setAlert, setCart, setOpen, setLoading]
+    [setCart, setLoading, cartState?.id]
   )
 
-  const updateCart = useCallback(
-    async (input: UpdateCartItemQuantityMutationVariables) => {
+  const addCartItems = useCallback(
+    async (newItems: ProductItems) => {
       setLoading(true)
 
-      try {
-        const updateCartData = await client.request(
-          UpdateCartItemQuantityDocument,
-          input
-        )
+      console.log("Adding item")
 
-        updateCartData.updateItemQuantities?.cart &&
-          setCart(updateCartData.updateItemQuantities.cart as Cart)
-      } catch (error) {
-        console.warn("Error updating cart in useCart:", error)
+      type MergeCartItemsInputType = {
+        newItems: ProductItems
+        existingItems: ProductItems
       }
 
+      type MergeCartItemsType = (args: MergeCartItemsInputType) => ProductItems
+
+      const mergeCartItems: MergeCartItemsType = ({
+        newItems,
+        existingItems,
+      }) => {
+        let mergedItems = new Map<string, ProductItems[0]>()
+        ;[...newItems, ...existingItems].forEach((item) => {
+          const productID =
+            typeof item.product === "object" ? item.product.id : item.product
+
+          mergedItems.has(productID)
+            ? mergedItems.set(productID, {
+                ...item,
+                product: productID,
+                quantity:
+                  (mergedItems.get(productID)?.quantity ?? 0) + item.quantity,
+              })
+            : mergedItems.set(productID, { ...item, product: productID })
+        })
+
+        return Array.from(mergedItems.values())
+      }
+
+      const mergedItems = mergeCartItems({
+        newItems,
+        existingItems: cartState?.items ?? [],
+      })
+
+      console.log("Merged Items", mergedItems)
+
+      if (cartState?.id) {
+        try {
+          await updateCart({ items: mergedItems })
+        } catch (error) {
+          console.warn("Error adding cart items.", error)
+        }
+      } else {
+        // Create cart
+        try {
+          const newCartResponse = await fetch("/api/createCart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items: mergedItems }),
+          })
+
+          const newCartData =
+            (await newCartResponse.json()) as CreateCartResponseData
+          if (newCartData?.cart) {
+            setCart(newCartData.cart)
+          }
+        } catch (error) {
+          console.warn("Error creating new cart.", error)
+        }
+      }
       setLoading(false)
     },
-    [client, setCart, setLoading]
+    [setCart, setLoading, cartState?.id]
   )
 
-  return { loading, clearCart, removeItem, addToCart, updateCart, fetchCart }
+  // const updateCartItemQuantity = useCallback(
+  //   async (input: UpdateCartItemQuantityMutationVariables) => {
+  //     setLoading(true);
+
+  //     if (cartState?.id) {
+  //       try {
+  //         const updatedCartData = await client.request(
+  //           UpdateCartItemQuantityDocument,
+  //           input
+  //         );
+
+  //         updatedCartData.updateCartItemQuantity &&
+  //           setCart(updatedCartData.updateCartItemQuantity as Cart);
+  //       } catch (error) {
+  //         console.warn("Error updating cart item quantity.", error);
+  //       }
+  //     } else {
+  //       // TODO: Provide feedback for missing cart ID
+  //     }
+
+  //     setLoading(false);
+  //   },
+  //   [client, setCart, setLoading]
+  // );
+
+  return {
+    clearCart,
+    removeItem,
+    addCartItems,
+    // updateCartItemQuantity,
+    fetchCart,
+  }
 }
 
 export default useCart

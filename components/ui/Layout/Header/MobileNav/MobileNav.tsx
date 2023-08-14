@@ -3,7 +3,7 @@
 import MenuIcon from "@components/icons/Menu"
 import SearchIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon"
 
-import useStore from "@lib/hooks/useStore"
+import useStore from "@hooks/useStore"
 
 // ####
 // #### Component

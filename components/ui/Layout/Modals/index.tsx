@@ -1,17 +1,16 @@
 "use client"
 
-import { MenuItem } from "@api/codegen/graphql"
-
 import CartSlider from "./CartSlider"
 import LoginModal from "./LoginModal"
 import MobileMenu from "./MobileMenu"
 import SearchModal from "./SearchModal"
+import { MobileMenuLink } from "payload/generated-types"
 
 // ####
 // #### Types
 // ####
 
-type ModalsInputType = { menuItems: MenuItem[] }
+type ModalsInputType = { menuItems: MobileMenuLink | undefined }
 
 // ####
 // #### Component

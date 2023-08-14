@@ -1,31 +1,18 @@
+import { Product } from "payload/generated-types"
 import { StateCreator } from "zustand"
-
-import { OrderEnum, ProductsOrderByEnum } from "@api/codegen/graphql"
-
-const { MenuOrder, Slug, Date } = ProductsOrderByEnum
-
-const { Asc, Desc } = OrderEnum
 
 export type SortOptionType = {
   name: string
-  id: { field: ProductsOrderByEnum; order: OrderEnum }
+  id: { orderby: keyof Product | undefined; order: "" | "-" }
 }
 
 export const sortOptions: SortOptionType[] = [
-  { name: "Default", id: { field: MenuOrder, order: Asc } },
-  { name: "A - Z", id: { field: Slug, order: Asc } },
-  { name: "Z - A", id: { field: Slug, order: Desc } },
-  { name: "Newest", id: { field: Date, order: Desc } },
-  { name: "Oldest", id: { field: Date, order: Asc } },
+  { name: "Default", id: { orderby: undefined, order: "" } },
+  { name: "A - Z", id: { orderby: "title", order: "" } },
+  { name: "Z - A", id: { orderby: "title", order: "-" } },
+  { name: "Newest", id: { orderby: "createdAt", order: "-" } },
+  { name: "Oldest", id: { orderby: "createdAt", order: "" } },
 ]
-
-export type ShopSliceType = typeof initialState & {
-  shop: {
-    setViewMode: (viewMode: "grid" | "list") => void
-    setGlobalSort: (selectedSort: SortOptionType) => void
-    setProductsPerPage: (productsPerPage: number) => void
-  }
-}
 
 export const initialState = {
   shop: {
@@ -33,6 +20,16 @@ export const initialState = {
     selectedSort: sortOptions[0],
     productsPerPage: 12,
   },
+}
+
+export type ShopInitialStateType = typeof initialState
+
+export type ShopSliceType = ShopInitialStateType & {
+  shop: {
+    setViewMode: (viewMode: "grid" | "list") => void
+    setGlobalSort: (selectedSort: SortOptionType) => void
+    setProductsPerPage: (productsPerPage: number) => void
+  }
 }
 
 const createShopSlice: StateCreator<ShopSliceType, [], []> = (set) => ({

@@ -3,8 +3,8 @@ import "@testing-library/jest-dom/extend-expect"
 
 import UserMenu from "@components/ui/Layout/Header/UserNav/ProfileMenu/Menu"
 
-import useStore from "@lib/hooks/useStore"
-jest.mock("@lib/hooks/useStore")
+import useStore from "@hooks/useStore"
+jest.mock("@hooks/useStore")
 const setStore = (input: any) => {
   const mockedStore = useStore as unknown as jest.MockedFn<typeof useStore>
   mockedStore.mockImplementation(() => input)

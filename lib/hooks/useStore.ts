@@ -1,6 +1,7 @@
-import { SlicesType, StoreContext } from "@lib/store"
 import { useContext } from "react"
 import { useStore as useZuStore } from "zustand"
+
+import { SlicesType, StoreContext } from "@store"
 
 const useStore = <T>(
   selector: (state: SlicesType) => T,

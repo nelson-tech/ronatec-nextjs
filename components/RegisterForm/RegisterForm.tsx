@@ -5,10 +5,11 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { ErrorMessage } from "@hookform/error-message"
 import LockClosedIcon from "@heroicons/react/20/solid/LockClosedIcon"
 
-import useRegister from "@lib/hooks/auth/useRegister"
+import useAuth from "@hooks/useAuth"
 
 import MenuLink from "@components/Link"
 import LoadingSpinner from "@components/ui/LoadingSpinner"
+import { UserUpdate } from "@lib/types/user"
 
 // ####
 // #### Component
@@ -17,7 +18,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 const RegisterForm = () => {
   const [loading, setLoading] = useState(false)
 
-  const { register: registerUser } = useRegister()
+  const { register: registerUser } = useAuth()
 
   const {
     formState: { errors },
@@ -42,12 +43,13 @@ const RegisterForm = () => {
 
     setLoading(true)
 
-    const input = {
-      username: email,
+    const input: UserUpdate = {
+      email,
       firstName,
       lastName,
-      email,
       password,
+      billing: {},
+      shipping: {},
     }
 
     await registerUser(input)

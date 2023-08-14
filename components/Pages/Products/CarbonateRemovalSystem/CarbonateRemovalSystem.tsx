@@ -108,9 +108,15 @@ const CarbonateRemovalSystemComponent = () => {
 
           <VideoCard
             videoLink={{
-              title: "",
+              title: "Carbonate Removal System",
               videoId: "tb54hMJb1jE",
-              videoUrl: "https://youtu.be/tb54hMJb1jE",
+              video: {
+                id: "tb54hMJb1jE",
+                alt: "Carbonate Removal System",
+                createdAt: "",
+                updatedAt: "",
+                url: "https://youtu.be/tb54hMJb1jE",
+              },
             }}
             cardStyle="pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto"
             light
