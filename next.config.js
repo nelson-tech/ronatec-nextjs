@@ -20,8 +20,8 @@ const nextConfig = {
       "ronatec.us",
       "assets.ronatec.us",
     ],
-    loader: "custom",
-    loaderFile: "lib/utils/imageLoader.ts",
+    // loader: "custom",
+    // loaderFile: "lib/utils/imageLoader.ts",
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
