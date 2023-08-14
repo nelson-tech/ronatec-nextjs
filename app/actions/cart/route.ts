@@ -1,4 +1,4 @@
-import getPayloadAndUser from "@server/utils/getPayloadAndUser"
+import getPayloadAndUser from "@server/getPayloadAndUser"
 import { NextResponse } from "next/server"
 
 export async function GET(request: Request) {

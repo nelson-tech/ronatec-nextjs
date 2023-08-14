@@ -1,5 +1,5 @@
 import { Cart, Menu, Settings, User } from "payload/payload-types"
-import getPayloadAndUser from "@server/utils/getPayloadAndUser"
+import getPayloadAndUser from "@server/getPayloadAndUser"
 
 type LayoutDataReturnType = {
   menus: Menu | null

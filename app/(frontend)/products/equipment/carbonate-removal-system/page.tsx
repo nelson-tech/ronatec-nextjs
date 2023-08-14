@@ -1,7 +1,7 @@
 import { SEO_TITLE } from "@utils/constants"
 
 import PageHeader from "@components/PageHeader"
-import CarbonateRemovalSystemComponent from "@components/Pages/Products/CarbonateRemovalSystem"
+import CarbonateRemovalSystemComponent from "./CarbonateRemovalSystem"
 
 // ####
 // #### Variables

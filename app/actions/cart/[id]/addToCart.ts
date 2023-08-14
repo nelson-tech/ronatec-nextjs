@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-import getPayloadAndUser from "@server/utils/getPayloadAndUser"
+import getPayloadAndUser from "@server/getPayloadAndUser"
 
 export const addToCart = async (request: Request, { params }) => {
   const data = await request.json()

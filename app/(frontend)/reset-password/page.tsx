@@ -1,5 +1,5 @@
 import ResetPasswordForm from "@components/ResetPasswordForm"
-import getPayloadAndUser from "@server/utils/getPayloadAndUser"
+import getPayloadAndUser from "@server/getPayloadAndUser"
 
 const getCustomerEmail = async () => {
   const { user } = await getPayloadAndUser()

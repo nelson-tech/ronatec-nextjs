@@ -7,7 +7,7 @@ import IconCard from "@components/Cards/Icon"
 import Map from "@components/Map"
 
 import EmployeeCard from "./EmployeeCard"
-import getGlobalData from "@server/utils/getGlobalData"
+import getGlobalData from "@server/getGlobalData"
 
 // ####
 // #### Component

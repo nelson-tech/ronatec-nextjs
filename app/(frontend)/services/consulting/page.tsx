@@ -2,12 +2,12 @@ import type { Metadata } from "next/types"
 
 import parseNewLines from "@utils/parseNewLines"
 import parseMetaData from "@utils/parseMetaData"
+import getGlobalData from "@server/getGlobalData"
+import type { Card } from "payload/generated-types"
 
 import Slider from "@components/Slider"
 import IconCard from "@components/Cards/Icon"
 import PageHeader from "@components/PageHeader"
-import type { Card } from "payload/generated-types"
-import getGlobalData from "@server/utils/getGlobalData"
 
 // ####
 // #### Component

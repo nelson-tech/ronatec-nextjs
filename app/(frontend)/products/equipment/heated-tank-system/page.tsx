@@ -1,7 +1,7 @@
 import { SEO_TITLE } from "@utils/constants"
 
 import PageHeader from "@components/PageHeader"
-import HeatedTankSystemComponent from "@components/Pages/Products/HeatedTankSystem"
+import HeatedTankSystemComponent from "./HeatedTankSystem"
 
 // ####
 // #### Variables

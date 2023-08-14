@@ -5,7 +5,7 @@ import parseNewLines from "@utils/parseNewLines"
 
 import Image from "@components/Image"
 import PageHeader from "@components/PageHeader"
-import getGlobalData from "@server/utils/getGlobalData"
+import getGlobalData from "@server/getGlobalData"
 
 // ####
 // #### Component

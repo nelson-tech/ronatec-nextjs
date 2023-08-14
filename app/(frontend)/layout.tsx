@@ -1,6 +1,6 @@
 import "@styles/tailwind.css"
 
-import getLayoutData from "@server/load/getLayoutData"
+import getLayoutData from "./layout.load"
 
 import ScrollToTop from "@components/ui/ScrollToTop"
 // import Analytics from "@components/Analytics"

@@ -5,7 +5,7 @@ import parseMetaData from "@utils/parseMetaData"
 
 import PageHeader from "@components/PageHeader"
 import Map from "@components/Map"
-import getGlobalData from "@server/utils/getGlobalData"
+import getGlobalData from "@server/getGlobalData"
 
 // ####
 // #### Component

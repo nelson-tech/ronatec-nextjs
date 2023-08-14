@@ -1,4 +1,4 @@
-import getPayloadAndUser from "@server/utils/getPayloadAndUser"
+import getPayloadAndUser from "@server/getPayloadAndUser"
 
 const getOrders = async () => {
   const { payload, user } = await getPayloadAndUser()

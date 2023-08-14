@@ -1,4 +1,4 @@
-import getCookieData from "@server/utils/getCookieData"
+import getCookieData from "@server/getCookieData"
 import getPayloadClient from "~payload/payloadClient"
 
 const getPayloadAndUser = async () => {
