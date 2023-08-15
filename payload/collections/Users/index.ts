@@ -20,7 +20,10 @@ const Users: CollectionConfig = {
     create: anyone,
     update: adminsAndUser,
     delete: admins,
-    admin: ({ req: { user } }) => checkRole(["admin"], user),
+    admin: ({ req: { user } }) => {
+      console.log("User", user)
+      return checkRole(["admin"], user)
+    },
   },
   auth: {
     cookies: {
