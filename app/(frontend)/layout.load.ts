@@ -24,16 +24,16 @@ const getLayoutData = async (): Promise<LayoutDataReturnType> => {
 
   let cartP: Promise<Cart | void> = Promise.resolve()
 
-  let cart: Cart | null | undefined = null
+  let cart: Cart | null | undefined =
+    typeof user?.cart === "object" ? user?.cart : null
 
-  if (cartId) {
+  if (cartId && !cart) {
     try {
       cartP = payload
         .findByID({ collection: "carts", id: cartId })
         .catch((e) => console.warn("Error fetching guest cart."))
     } catch (error) {
-      console.warn("Error fetching guest cart.")
-      // TODO - Possibly create cart if e.message.includes("not found")
+      console.warn("No cart found.")
     }
   } else {
     cartP = Promise.resolve()
