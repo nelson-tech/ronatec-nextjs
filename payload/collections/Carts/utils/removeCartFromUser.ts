@@ -1,7 +1,11 @@
 import { Payload } from "payload"
 import { User } from "../../../payload-types"
 
-const removeCartFromUser = async (userID: string, payload: Payload) => {
+const removeCartFromUser = async (
+  userID: string,
+  cartId: string,
+  payload: Payload
+) => {
   try {
     // get user data
     const userData = (await payload.findByID({
@@ -10,11 +14,14 @@ const removeCartFromUser = async (userID: string, payload: Payload) => {
     })) as User
 
     // if user found and cart exists, remove it
-    userData.cart &&
+    const userCartId =
+      typeof userData.cart === "object" ? userData.cart.id : userData.cart
+
+    userCartId === cartId &&
       (await payload.update({
         collection: "users",
         id: userID,
-        data: { cart: undefined },
+        data: { cart: "" },
       }))
   } catch (error) {
     console.warn("Error removing cart from user.")

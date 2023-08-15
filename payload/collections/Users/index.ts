@@ -7,6 +7,7 @@ import { checkRole } from "../../access/checkRole"
 import { loginAfterCreate } from "./hooks/loginAfterCreate"
 import purgeOldCarts from "./hooks/purgeOldCarts"
 import { UserFields } from "./fields"
+import beforeLogin from "./hooks/beforeLogin"
 
 const Users: CollectionConfig = {
   slug: "users",
@@ -31,6 +32,7 @@ const Users: CollectionConfig = {
     beforeChange: [],
     afterChange: [loginAfterCreate],
     afterLogin: [purgeOldCarts],
+    beforeLogin,
   },
   fields: UserFields,
   timestamps: true,

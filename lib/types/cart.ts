@@ -1,3 +1,3 @@
-export type EP_Cart_Input_Check_Type = {
-  action: "CHECK"
-}
+import { Cart } from "payload/generated-types"
+
+export type CartUpdate = Omit<Cart, "id" | "createdAt" | "updatedAt">

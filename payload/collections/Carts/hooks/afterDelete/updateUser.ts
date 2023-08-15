@@ -1,6 +1,7 @@
-import { CollectionAfterDeleteHook } from "payload/types"
-import removeCartFromUser from "../../utils/removeCartFromUser"
-import { Cart, User } from "payload/generated-types"
+import type { CollectionAfterDeleteHook } from "payload/types"
+import type { Cart } from "payload/generated-types"
+
+import removeCartFromUser from "~payload/collections/Carts/utils/removeCartFromUser"
 
 const updateUser: CollectionAfterDeleteHook<Cart> = async ({
   req,
@@ -10,7 +11,7 @@ const updateUser: CollectionAfterDeleteHook<Cart> = async ({
   const userId = typeof doc.user === "object" ? doc.user.id : doc.user
   // remove cart from previous owner if exists
   if (userId) {
-    await removeCartFromUser(userId, req.payload)
+    await removeCartFromUser(userId, doc.id, req.payload)
   }
 }
 

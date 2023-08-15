@@ -2,11 +2,12 @@ import { useCallback } from "react"
 
 import useStore from "./useStore"
 import type { Cart, ProductItems } from "payload/generated-types"
-import { CreateCartResponseData } from "@pages/api/createCart"
+import mergeCartItems from "./utils/mergeCartItems"
 
 const useCart = () => {
-  const { cartState } = useStore((stores) => ({
+  const { cartState, user } = useStore((stores) => ({
     cartState: stores.cart.state,
+    user: stores.auth.user,
   }))
 
   const { setCart, setLoading, setOpen, setAlert } = useStore((stores) => ({
@@ -34,40 +35,9 @@ const useCart = () => {
     setLoading(false)
   }, [setCart, setLoading, cartState?.id])
 
-  const clearCart = useCallback(async () => {
-    setLoading(true)
-
-    if (cartState?.id) {
-      try {
-        const response = await fetch(`/api/carts/${cartState.id}`, {
-          method: "patch",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            items: [],
-          }),
-        })
-
-        const data: { message: string; doc: Cart } = await response.json()
-
-        data.doc?.id && setCart(data.doc)
-      } catch (error) {
-        console.warn("Error clearing cart in useCart:", error)
-
-        fetchCart()
-      }
-
-      setLoading(false)
-    } else {
-      // TODO: Provide feedback for missing cart ID
-    }
-  }, [fetchCart, setCart, setLoading, cartState?.id])
-
   const updateCart = useCallback(async (cartData: Partial<Cart>) => {
-    const response = await fetch(`/actions/cart/${cartState?.id}`, {
-      method: "POST",
+    const response = await fetch(`/api/carts/${cartState?.id}`, {
+      method: "PATCH",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -75,11 +45,26 @@ const useCart = () => {
       body: JSON.stringify(cartData),
     })
 
-    const data: { cart: Cart } = await response?.json()
-    console.log("Fetch survived", data)
+    const data: { message: string; doc: Cart } = await response?.json()
 
-    data.cart?.id && setCart(data.cart)
+    data.doc?.id && setCart(data.doc)
   }, [])
+
+  const clearCart = useCallback(async () => {
+    setLoading(true)
+
+    if (cartState?.id) {
+      try {
+        await updateCart({ items: [] })
+      } catch (error) {
+        console.warn("Error clearing cart in useCart:", error)
+      }
+
+      setLoading(false)
+    } else {
+      // TODO: Provide feedback for missing cart ID
+    }
+  }, [fetchCart, setCart, setLoading, cartState?.id])
 
   const removeItem = useCallback(
     async (productID: string) => {
@@ -121,43 +106,10 @@ const useCart = () => {
     async (newItems: ProductItems) => {
       setLoading(true)
 
-      console.log("Adding item")
-
-      type MergeCartItemsInputType = {
-        newItems: ProductItems
-        existingItems: ProductItems
-      }
-
-      type MergeCartItemsType = (args: MergeCartItemsInputType) => ProductItems
-
-      const mergeCartItems: MergeCartItemsType = ({
-        newItems,
-        existingItems,
-      }) => {
-        let mergedItems = new Map<string, ProductItems[0]>()
-        ;[...newItems, ...existingItems].forEach((item) => {
-          const productID =
-            typeof item.product === "object" ? item.product.id : item.product
-
-          mergedItems.has(productID)
-            ? mergedItems.set(productID, {
-                ...item,
-                product: productID,
-                quantity:
-                  (mergedItems.get(productID)?.quantity ?? 0) + item.quantity,
-              })
-            : mergedItems.set(productID, { ...item, product: productID })
-        })
-
-        return Array.from(mergedItems.values())
-      }
-
       const mergedItems = mergeCartItems({
         newItems,
         existingItems: cartState?.items ?? [],
       })
-
-      console.log("Merged Items", mergedItems)
 
       if (cartState?.id) {
         try {
@@ -168,16 +120,25 @@ const useCart = () => {
       } else {
         // Create cart
         try {
-          const newCartResponse = await fetch("/api/createCart", {
+          const response = await fetch("/api/carts", {
             method: "POST",
+            credentials: "include",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ items: mergedItems }),
+            body: JSON.stringify({ items: mergedItems, user: user?.id }),
           })
 
-          const newCartData =
-            (await newCartResponse.json()) as CreateCartResponseData
-          if (newCartData?.cart) {
-            setCart(newCartData.cart)
+          const data: { message: string; doc: Cart } = await response?.json()
+
+          if (data.doc?.id) {
+            // Set Cookie
+            !data.doc.user &&
+              (await fetch(`/actions/cart/cookie`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: data.doc.id }),
+              }))
+
+            setCart(data.doc)
           }
         } catch (error) {
           console.warn("Error creating new cart.", error)

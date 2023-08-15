@@ -55,7 +55,6 @@ export const UserFields: Field[] = [
     hasMany: false,
     required: false,
     admin: { hidden: false, position: "sidebar" },
-    maxDepth: 0,
   },
   {
     type: "tabs",

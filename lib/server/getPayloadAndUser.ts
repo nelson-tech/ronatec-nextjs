@@ -7,7 +7,12 @@ const getPayloadAndUser = async () => {
   const { auth, cart: cartFromCookie } = getCookieData()
 
   const user = auth?.id
-    ? await payload.findByID({ collection: "users", id: auth?.id })
+    ? await payload
+        .findByID({ collection: "users", id: auth?.id })
+        .catch((e) => {
+          console.warn("User from cookie not found")
+          return null
+        })
     : null
 
   return { payload, user, cartFromCookie }

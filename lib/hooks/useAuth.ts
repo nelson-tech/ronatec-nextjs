@@ -1,8 +1,11 @@
 import { useCallback } from "react"
 
 import useStore from "./useStore"
-import type { User } from "payload/generated-types"
+import type { Cart, User } from "payload/generated-types"
 import type { UserUpdate } from "@lib/types/user"
+import { CartUpdate } from "@lib/types/cart"
+import mergeCartItems from "./utils/mergeCartItems"
+import qs from "qs"
 
 type AuthPayloadType = {
   user: User
@@ -13,10 +16,25 @@ type AuthPayloadType = {
 const errorCodes: { [key: string]: string } = {}
 
 const useAuth = () => {
-  const { setUser, setLoggedIn, setLoading, setResetError, setToken } =
-    useStore((stores) => stores.auth)
-
-  const { setAlert } = useStore((stores) => stores.alert)
+  const {
+    cartState,
+    setCart,
+    setAlert,
+    setUser,
+    setLoggedIn,
+    setLoading,
+    setResetError,
+    setToken,
+  } = useStore((stores) => ({
+    cartState: stores.cart.state,
+    setCart: stores.cart.setCart,
+    setAlert: stores.alert.setAlert,
+    setUser: stores.auth.setUser,
+    setLoggedIn: stores.auth.setLoggedIn,
+    setLoading: stores.auth.setLoading,
+    setResetError: stores.auth.setResetError,
+    setToken: stores.auth.setToken,
+  }))
 
   const login = useCallback(
     async ({
@@ -50,12 +68,29 @@ const useAuth = () => {
               open: true,
               kind: "success",
               primary: `Welcome back${
-                user.firstName || (user.lastName && ",")
-              }${user.firstName && ` ${user.firstName}`}${
-                user.lastName && ` ${user.lastName}`
-              }!`,
+                (user.firstName || user.lastName) && ","
+              }${` ${user.firstName}`}${` ${user.lastName}`}!`,
               secondary: "You are now logged in.",
             })
+
+          if (cartState?.id) {
+            // User had guest cart before logging in
+            // Delete guest cart cookie (cart will come from user cookie now)
+            try {
+              console.log("Deleting cart cookie")
+
+              await fetch("/actions/cart/cookie", {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+            } catch (error) {
+              console.warn("Error deleting cart cookie", error)
+            }
+          }
+
+          typeof user.cart === "object" && setCart(user.cart)
         }
       } catch (error) {
         console.warn("Error logging in", error)
@@ -156,6 +191,7 @@ const useAuth = () => {
 
       if (logoutData) {
         setUser(null)
+        setCart(null)
         setToken({ value: null, exp: null })
         setLoggedIn(false)
 

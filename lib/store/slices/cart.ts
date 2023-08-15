@@ -27,6 +27,8 @@ export const initialState = {
   },
 }
 
+// TODO: Remove cookieId and setCookieId
+
 const createCartSlice = (
   defaultValues?: Partial<(typeof initialState)["cart"]> | undefined
 ): StateCreator<CartSliceType, [], []> => {

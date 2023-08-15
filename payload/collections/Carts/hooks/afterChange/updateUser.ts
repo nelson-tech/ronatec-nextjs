@@ -27,7 +27,7 @@ const updateUserHook: CollectionAfterChangeHook<Cart> = async ({
 
       // remove cart from previous owner if exists
       if (previousOwner && (isAdmin || previousOwner === userId)) {
-        await removeCartFromUser(previousOwner, req.payload)
+        await removeCartFromUser(previousOwner, doc.id, req.payload)
       }
 
       // add cart to new owner if admin or actual user
