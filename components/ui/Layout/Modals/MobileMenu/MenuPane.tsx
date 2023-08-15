@@ -1,6 +1,7 @@
 import { Fragment, memo } from "react"
 import { Dialog, Disclosure, Transition } from "@headlessui/react"
 import { ChevronUpIcon, XMarkIcon } from "@heroicons/react/20/solid"
+import { ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline"
 
 import useAuth from "@hooks/useAuth"
 import useStore from "@hooks/useStore"
@@ -163,7 +164,63 @@ const MenuPane = memo(function MenuPane({ menuItems }: MenuPaneInputType) {
                   )}
                 </div>
               )
-            })}
+            })}{" "}
+          </div>
+
+          <div className="border-t border-gray-200 py-6 text-sm font-bold text-gray-600">
+            {loggedIn ? (
+              <>
+                {customerMenu.map((item) => (
+                  <div
+                    className="outline-none"
+                    key={item.name + item.href}
+                    onClick={() => setOpen(false)}
+                  >
+                    <Link
+                      href={item.href}
+                      title={item.name}
+                      className="transition flex items-center px-3.5 py-2 hover:bg-accent hover:text-white"
+                    >
+                      {item.icon({ className: "h-6 w-6 mr-4" })}
+                      <div>{item.name}</div>
+                    </Link>
+                  </div>
+                ))}
+                <div
+                  onClick={handleLogout}
+                  title="Sign out"
+                  className="transition outline-none"
+                >
+                  <div className="flex items-center w-full px-4 py-2 transition text-red-main hover:bg-red-main hover:text-white cursor-pointer">
+                    {/* <LogoutIcon className="h-6 w-6 mr-3.5" /> */}
+                    Sign out
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="group" onClick={() => setOpen(false)}>
+                  <Link
+                    href="/register"
+                    title="Register"
+                    className="transition flex items-center outline-none px-3.5 py-2 hover:bg-accent hover:text-white"
+                  >
+                    <ClipboardDocumentCheckIcon className="h-6 w-6 mr-4" />
+                    <div>Register</div>
+                  </Link>
+                </div>
+                <div onClick={() => setOpen(false)} className="group">
+                  <Link
+                    href="/login"
+                    title="Sign in"
+                    className="transition flex items-center outline-none text-highlight px-4 py-2 hover:bg-highlight hover:text-white"
+                  >
+                    <LoginIcon size={6} styling="mr-3.5" />
+                    <div>Sign in</div>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </Dialog.Panel>
       </Transition.Child>
