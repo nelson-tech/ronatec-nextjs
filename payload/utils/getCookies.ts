@@ -1,4 +1,3 @@
-import type { Payload } from "payload"
 import cookie from "cookie"
 import jwtDecode from "jwt-decode"
 
@@ -7,11 +6,13 @@ import { AUTH_TOKEN_KEY, CART_TOKEN_KEY } from "@utils/constants"
 import { USER_JWT_DATA } from "@lib/types/auth"
 
 const getCookies = (req: PayloadRequest) => {
-  const payload: Payload = req.payload
+  let cookies: { [key: string]: string } = {}
 
-  payload.authenticate
-
-  const cookies = cookie.parse(req.headers["cookie"])
+  try {
+    cookies = cookie.parse(req.headers["cookie"])
+  } catch (error) {
+    console.warn("No cookies found in header.")
+  }
 
   const guestCartId = cookies[CART_TOKEN_KEY]
 
