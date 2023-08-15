@@ -66,7 +66,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const metaData = parseMetaData(page?.meta)
 
-  console.log("Meta", metaData, page?.meta)
-
   return metaData
 }

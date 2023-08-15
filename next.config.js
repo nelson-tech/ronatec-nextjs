@@ -9,6 +9,7 @@ const nextConfig = {
   //   // serverComponentsExternalPackages: ["cross-fetch"],
   //   serverActions: true,
   // },
+  transpilePackages: ["@payloadcms/plugin-nested-docs"],
   pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
   // output: "standalone",
   // reactStrictMode: true,

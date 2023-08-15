@@ -6,7 +6,6 @@ import { buildConfig } from "payload/config"
 import Categories from "./collections/Categories"
 import Media from "./collections/Media"
 import Orders from "./collections/Orders"
-// import { Pages as PagesCollection } from "./collections/Pages"
 import Products from "./collections/Products"
 import Users from "./collections/Users"
 import Logo from "./components/Logo"
@@ -16,8 +15,6 @@ import Menus from "./globals/Menus"
 import { Settings } from "./globals/Settings"
 import adapter from "./utils/s3adapter"
 import { Carts } from "./collections/Carts"
-// import customGraphQLOperations from "./graphql";
-import AfterDashboard from "./components/AfterDashboard"
 import Suppliers from "./collections/Suppliers"
 import Employees from "./collections/Employees"
 import Tags from "./collections/Tags"
@@ -34,7 +31,7 @@ const config = buildConfig({
       // The BeforeDashboard component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import BeforeDashboard statement on line 15.
       beforeDashboard: [BeforeDashboard],
-      afterDashboard: [AfterDashboard],
+      afterDashboard: [],
       graphics: {
         Logo,
         Icon: Logo,
