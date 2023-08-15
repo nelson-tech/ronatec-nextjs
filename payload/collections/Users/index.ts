@@ -1,8 +1,8 @@
 import type { CollectionConfig } from "payload/types"
 
-import { admins } from "../../access/admins"
-import { anyone } from "../../access/anyone"
-import adminsAndUser from "./access/adminsAndUser"
+import { anyone } from "~payload/access/anyone"
+import { admins } from "~payload/access/admins"
+import adminsAndUser from "~payload/access/adminsAndUser"
 import { checkRole } from "../../access/checkRole"
 import { loginAfterCreate } from "./hooks/loginAfterCreate"
 import purgeOldCarts from "./hooks/purgeOldCarts"
@@ -16,9 +16,9 @@ const Users: CollectionConfig = {
     defaultColumns: ["name", "email"],
   },
   access: {
-    read: adminsAndUser,
+    read: adminsAndUser("users", "id", "read"),
     create: anyone,
-    update: adminsAndUser,
+    update: adminsAndUser("users", "id", "update"),
     delete: admins,
     admin: ({ req: { user } }) => {
       console.log("User", user)

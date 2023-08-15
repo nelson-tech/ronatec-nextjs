@@ -1,6 +1,6 @@
 import { CollectionConfig } from "payload/dist/collections/config/types"
 
-import adminsAndUser from "./access/adminsAndUser"
+import adminsAndUser from "~payload/access/adminsAndUser"
 import beforeChange from "./hooks/beforeChange"
 import afterChange from "./hooks/afterChange"
 import afterDelete from "./hooks/afterDelete"
@@ -34,10 +34,10 @@ export const Carts: CollectionConfig = {
     },
   ],
   access: {
-    read: adminsAndUser,
-    create: adminsAndUser,
-    update: adminsAndUser,
-    delete: adminsAndUser,
+    read: adminsAndUser("carts", "user.id", "read"),
+    create: adminsAndUser("carts", "user.id", "create"),
+    update: adminsAndUser("carts", "user.id", "update"),
+    delete: adminsAndUser("carts", "user.id", "delete"),
   },
   hooks: { afterRead, beforeChange, afterChange, afterDelete, beforeRead },
   admin: { group: "Shop", hidden: false },
