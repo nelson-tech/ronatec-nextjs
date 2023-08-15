@@ -24,7 +24,7 @@ const Users: CollectionConfig = {
   },
   auth: {
     cookies: {
-      domain: "localhost",
+      domain: process.env.COOKIE_DOMAIN,
     },
     tokenExpiration: 3 * 24 * 60 * 60, // 3 days
   },
