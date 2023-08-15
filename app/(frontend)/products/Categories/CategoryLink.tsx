@@ -32,8 +32,7 @@ const CategoryLink = ({ category }: CategoryLinkPropsType) => {
                 <Image
                   src={category.wc.image.src}
                   alt={category.wc.image.alt ?? ""}
-                  width={200}
-                  height={128}
+                  fill
                   className="object-contain w-full aspect-video rounded overflow-hidden"
                 />
               )
