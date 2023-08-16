@@ -1,11 +1,19 @@
 import { Payload, getPayload } from "payload/dist/payload"
 import config from "./payload.config"
 
-if (!process.env.MONGODB_URI) {
+const MONGODB_URI = process.env.MONGODB_URI ?? ""
+const PAYLOAD_SECRET = process.env.PAYLOAD_SECRET ?? ""
+
+const MAIL_USERNAME = process.env.MAIL_USERNAME
+const MAIL_PASSWORD = process.env.MAIL_PASSWORD
+const MAIL_HOST = process.env.MAIL_HOST
+const MAIL_PORT = process.env.MAIL_PORT
+
+if (!MONGODB_URI) {
   throw new Error("MONGODB_URI environment variable is missing")
 }
 
-if (!process.env.PAYLOAD_SECRET) {
+if (!PAYLOAD_SECRET) {
   throw new Error("PAYLOAD_SECRET environment variable is missing")
 }
 
@@ -33,9 +41,19 @@ export const getPayloadClient = async (): Promise<Payload> => {
   if (!cached.promise) {
     cached.promise = getPayload({
       // Make sure that your environment variables are filled out accordingly
-      mongoURL: process.env.MONGODB_URI as string,
-      secret: process.env.PAYLOAD_SECRET as string,
+      mongoURL: MONGODB_URI,
+      secret: PAYLOAD_SECRET,
       config: config,
+      email: {
+        transportOptions: {
+          host: MAIL_HOST,
+          auth: { user: MAIL_USERNAME, pass: MAIL_PASSWORD },
+          port: Number.parseInt(MAIL_PORT ?? "587"),
+          // secure: true,
+        },
+        fromName: "Ronatec C2C, Inc.",
+        fromAddress: "michael@ronatec.us",
+      },
     })
   }
 
