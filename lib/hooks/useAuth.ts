@@ -68,8 +68,8 @@ const useAuth = () => {
               open: true,
               kind: "success",
               primary: `Welcome back${
-                (user.firstName || user.lastName) && ","
-              }${` ${user.firstName}`}${` ${user.lastName}`}!`,
+                user.fullName ? `, ${user.fullName}` : ""
+              }!`,
               secondary: "You are now logged in.",
             })
 
@@ -130,9 +130,7 @@ const useAuth = () => {
           setAlert({
             open: true,
             kind: "success",
-            primary: `Welcome${user.firstName || (user.lastName && ",")}${
-              user.firstName && ` ${user.firstName}`
-            }${user.lastName && ` ${user.lastName}`}!`,
+            primary: `Welcome${user.fullName ? `, ${user.fullName}` : ""}!`,
             secondary: "You are now registered.",
           })
         }
@@ -222,7 +220,7 @@ const useAuth = () => {
         const data = await fetch("/api/users/forgot-password", {
           method: "post",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: email }),
+          body: JSON.stringify({ email }),
         })
 
         setLoading(false)
@@ -265,9 +263,9 @@ const useAuth = () => {
           setAlert({
             open: true,
             kind: "success",
-            primary: `Welcome back${user.firstName || (user.lastName && ",")}${
-              user.firstName && ` ${user.firstName}`
-            }${user.lastName && ` ${user.lastName}`}!`,
+            primary: `Welcome back${
+              user.fullName ? `, ${user.fullName}` : ""
+            }!`,
             secondary: "Your password has been reset.",
           })
 
