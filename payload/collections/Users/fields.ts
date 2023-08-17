@@ -21,6 +21,7 @@ export const UserFields: Field[] = [
       width: "50%",
     },
   },
+  { name: "fullName", type: "text", admin: { hidden: true } },
   {
     name: "roles",
     type: "select",
@@ -47,7 +48,6 @@ export const UserFields: Field[] = [
     },
     admin: { position: "sidebar" },
   },
-
   {
     name: "cart",
     type: "relationship",

@@ -438,6 +438,7 @@ export interface User {
   id: string
   firstName?: string
   lastName?: string
+  fullName?: string
   roles?: ("admin" | "customer")[]
   cart?: string | Cart
   orders?: string[] | Order[]

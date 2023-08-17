@@ -10,27 +10,34 @@ const adminsAndUser: <T extends keyof Config["collections"]>(
 ) => Access<Config["collections"][T], User> =
   (collection, userIdField, loggingLabel) =>
   ({ req: { user }, id }) => {
-    console.log("User", collection, loggingLabel, user)
+    loggingLabel && console.log("User", collection, loggingLabel, user)
 
     if (user) {
       if (checkRole(["admin"], user)) {
-        console.log("User verified as administrator", collection, loggingLabel)
+        loggingLabel &&
+          console.log(
+            "User verified as administrator",
+            collection,
+            loggingLabel
+          )
 
         return true
       }
 
-      console.log(
-        "User is not administrator. Checking ID",
-        collection,
-        loggingLabel
-      )
+      loggingLabel &&
+        console.log(
+          "User is not administrator. Checking ID",
+          collection,
+          loggingLabel
+        )
       return {
         [userIdField]: { equals: user.id },
       } as Where
     }
-    console.log("User failed auth checks", collection, loggingLabel)
+    loggingLabel &&
+      console.log("User failed auth checks", collection, loggingLabel)
     return {
-      user: { equals: null },
+      [userIdField.split(".id").at(0) ?? "user"]: { equals: null },
     }
   }
 

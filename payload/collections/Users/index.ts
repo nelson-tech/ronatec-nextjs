@@ -8,20 +8,20 @@ import { loginAfterCreate } from "./hooks/loginAfterCreate"
 import purgeOldCarts from "./hooks/purgeOldCarts"
 import { UserFields } from "./fields"
 import beforeLogin from "./hooks/beforeLogin"
+import beforeChange from "./hooks/beforeChange"
 
 const Users: CollectionConfig = {
   slug: "users",
   admin: {
-    useAsTitle: "name",
+    useAsTitle: "fullName",
     defaultColumns: ["name", "email"],
   },
   access: {
-    read: adminsAndUser("users", "id", "read"),
+    read: adminsAndUser("users", "id"),
     create: anyone,
-    update: adminsAndUser("users", "id", "update"),
+    update: adminsAndUser("users", "id"),
     delete: admins,
     admin: ({ req: { user } }) => {
-      console.log("User", user)
       return checkRole(["admin"], user)
     },
   },
@@ -32,7 +32,7 @@ const Users: CollectionConfig = {
     tokenExpiration: 3 * 24 * 60 * 60, // 3 days
   },
   hooks: {
-    beforeChange: [],
+    beforeChange,
     afterChange: [loginAfterCreate],
     afterLogin: [purgeOldCarts],
     beforeLogin,
