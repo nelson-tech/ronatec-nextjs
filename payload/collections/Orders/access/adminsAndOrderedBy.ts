@@ -1,7 +1,7 @@
 import type { Access } from "payload/config"
 
-import { checkRole } from "../../../access/checkRole"
-import { Order, User } from "../../../payload-types"
+import { checkRole } from "~payload/access/checkRole"
+import { Order, User } from "payload/generated-types"
 
 export const adminsAndOrderedBy: Access<Order, User> = ({
   req: { user },
@@ -13,9 +13,9 @@ export const adminsAndOrderedBy: Access<Order, User> = ({
     }
 
     return {
-      "orderedBy.user.id": { equals: user.id },
+      user: { equals: user.id },
     }
   }
 
-  return true
+  return { user: { exists: false } }
 }

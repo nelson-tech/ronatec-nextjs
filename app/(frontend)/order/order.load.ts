@@ -8,7 +8,7 @@ const getOrderById = async (number: string | undefined) => {
       const data = await payload.find({
         collection: "orders",
         where: { orderNumber: { equals: number } },
-        overrideAccess: true,
+        overrideAccess: false,
         user,
       })
 
