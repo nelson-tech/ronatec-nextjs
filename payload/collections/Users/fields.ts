@@ -21,7 +21,26 @@ export const UserFields: Field[] = [
       width: "50%",
     },
   },
-  { name: "fullName", type: "text", admin: { hidden: true } },
+  // Virtual fullName field
+  {
+    name: "fullName",
+    type: "text",
+    admin: { hidden: true },
+    access: { create: () => false, update: () => false },
+    hooks: {
+      beforeChange: [
+        ({ siblingData }) => {
+          delete siblingData["fullName"]
+        },
+      ],
+      afterRead: [
+        ({ data }) =>
+          `${data?.firstName ? `${data?.firstName} ` : ""}${
+            data?.lastName ? data.lastName : ""
+          }`,
+      ],
+    },
+  },
   {
     name: "roles",
     type: "select",

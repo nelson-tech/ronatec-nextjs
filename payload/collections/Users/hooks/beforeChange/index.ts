@@ -1,6 +1,5 @@
 import { BeforeChangeHook } from "payload/dist/collections/config/types"
-import updateFullName from "./updateFullName"
 
-const beforeChange: BeforeChangeHook[] = [updateFullName]
+const beforeChange: BeforeChangeHook[] = []
 
 export default beforeChange
