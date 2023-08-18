@@ -37,7 +37,7 @@ const handleGuestCart: CollectionBeforeLoginHook<User> = async ({
                 .findByID({
                   collection: "carts",
                   id: userCartId,
-                  overrideAccess: true,
+                  overrideAccess: false,
                   user,
                 })
                 .catch((e) =>
@@ -56,7 +56,7 @@ const handleGuestCart: CollectionBeforeLoginHook<User> = async ({
             collection: "carts",
             id: userCartId,
             data: { items: mergedItems },
-            overrideAccess: true,
+            overrideAccess: false,
             user,
           })
         } catch (error) {
