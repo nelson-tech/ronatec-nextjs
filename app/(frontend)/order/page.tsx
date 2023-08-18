@@ -19,7 +19,8 @@ type OrderPageParamsType = {
 // ####
 
 const OrderPage = async ({ searchParams }: OrderPageParamsType) => {
-  const order = await getOrderById(searchParams?.number)
+  const orders = await getOrderById(searchParams?.number)
+  const order = (orders?.totalDocs ?? 0) > 0 ? orders?.docs.at(0) : null
   return (
     <div className="max-w-7xl mx-auto py-16 px-8 sm:px-6 lg:pb-24 lg:px-8">
       <div className="max-w-xl">
@@ -61,7 +62,9 @@ export default OrderPage
 export const revalidate = 0 // dynamically serve this page
 
 export async function generateMetadata({ searchParams }: OrderPageParamsType) {
-  const order = await getOrderById(searchParams?.number)
+  const orders = await getOrderById(searchParams?.number)
+  const order = (orders?.totalDocs ?? 0) > 0 ? orders?.docs.at(0) : null
+
   const metaData: Metadata = {
     title: order?.orderNumber ? `Order #${order.orderNumber}` : "Order Details",
     robots: {

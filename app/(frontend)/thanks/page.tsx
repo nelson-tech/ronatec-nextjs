@@ -18,9 +18,9 @@ type ThanksPageParamsType = {
 // TODO - Fix error/missing display order
 
 const ThanksPage = async ({ searchParams }: ThanksPageParamsType) => {
-  const order = await getOrderById(searchParams?.order)
+  const ordersData = await getOrderById(searchParams?.order)
 
-  // const loggedIn = useStore(state => state.auth.loggedIn)
+  const order = (ordersData?.totalDocs ?? 0) > 0 ? ordersData?.docs.at(0) : null
 
   return (
     <>
@@ -37,7 +37,7 @@ const ThanksPage = async ({ searchParams }: ThanksPageParamsType) => {
                 <p className="my-8">
                   If you checked out as a guest, you won&apos;t be able to see
                   order details here, but a copy of your order has been emailed
-                  to.
+                  to you.
                 </p>
                 <p>
                   Please{" "}
@@ -65,7 +65,9 @@ export const revalidate = 0 // dynamically server this page
 export async function generateMetadata(
   params: ThanksPageParamsType
 ): Promise<Metadata> {
-  const order = await getOrderById(params?.searchParams?.order)
+  const ordersData = await getOrderById(params?.searchParams?.order)
+
+  const order = (ordersData?.totalDocs ?? 0) > 0 ? ordersData?.docs.at(0) : null
   const orderNumber = order?.orderNumber
 
   const metaData = {
