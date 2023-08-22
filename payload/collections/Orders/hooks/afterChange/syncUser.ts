@@ -1,3 +1,4 @@
+import { Payload } from "payload"
 import type { AfterChangeHook } from "payload/dist/collections/config/types"
 import { Order, User } from "payload/generated-types"
 
@@ -6,19 +7,18 @@ import { Order, User } from "payload/generated-types"
 const syncUser: AfterChangeHook<Order> = async ({
   req,
   doc,
+  previousDoc,
   // operation
 }) => {
-  const { payload } = req
-  const { user, items } = doc
+  const payload = req.payload as Payload
+  const { user } = doc
 
-  const orderedByID = typeof user === "object" ? user.id : user
+  const userId = typeof user === "object" ? user.id : user
 
-  if (!orderedByID) {
-    payload.logger.error("Error in `syncUser` hook: No user ID found on order")
-  } else {
-    const fullUser: User = await req.payload.findByID({
+  if (userId) {
+    const fullUser: User = await payload.findByID({
       collection: "users",
-      id: orderedByID,
+      id: userId,
     })
 
     if (fullUser && typeof fullUser === "object") {
@@ -37,7 +37,7 @@ const syncUser: AfterChangeHook<Order> = async ({
       })
 
       ;(userOrderIDs?.length ?? 0) > 0 &&
-        (await req.payload.update({
+        (await payload.update({
           collection: "users",
           id: fullUser.id,
           data: {
@@ -45,6 +45,36 @@ const syncUser: AfterChangeHook<Order> = async ({
             orders: userOrderIDs,
           },
         }))
+    }
+
+    if (previousDoc.user) {
+      // Order's user has been changed
+      // New user already assigned above
+      // Remove order from previous user
+
+      const previousUserId =
+        typeof previousDoc.user === "object"
+          ? previousDoc.user.id
+          : previousDoc.user
+
+      const previousUser = await payload.findByID({
+        collection: "users",
+        id: previousUserId,
+      })
+
+      const updatedOrders = previousUser.orders
+        ? previousUser.orders
+            .map((order: string | Order) =>
+              typeof order === "object" ? order.id : order
+            )
+            .filter((orderId) => orderId !== previousDoc.id)
+        : []
+
+      const updatedUser = await payload.update({
+        collection: "users",
+        id: previousUserId,
+        data: { orders: updatedOrders },
+      })
     }
   }
 }

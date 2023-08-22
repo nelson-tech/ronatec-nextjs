@@ -1,8 +1,12 @@
 import { BeforeChangeHook } from "payload/dist/collections/config/types"
 import { Order } from "payload/generated-types"
 
-const addOrderNumber: BeforeChangeHook<Order> = async ({ req, data }) => {
-  if (!data?.orderNumber) {
+const addOrderNumber: BeforeChangeHook<Order> = async ({
+  req,
+  data,
+  operation,
+}) => {
+  if (operation === "create") {
     // Get highest order number
     const highestOrder = await req.payload.find({
       collection: "orders",

@@ -6,7 +6,7 @@ const destroyCart: AfterChangeHook<Order> = async ({ req, doc }) => {
   try {
     const cart = await req.payload.findByID({
       collection: "carts",
-      id: doc.cartId,
+      id: doc.cart?.id,
     })
 
     if (cart.id) {
