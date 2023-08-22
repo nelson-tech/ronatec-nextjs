@@ -46,8 +46,8 @@ const handleGuestCart: CollectionBeforeLoginHook<User> = async ({
 
         // Merge items
         const mergedItems = mergeCartItems({
-          existingItems: userCart?.items,
-          newItems: guestCart.items,
+          existingItems: userCart?.items ?? [],
+          newItems: guestCart.items ?? [],
         })
 
         // Update user cart

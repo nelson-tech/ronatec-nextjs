@@ -104,7 +104,15 @@ const useAuth = () => {
 
       setLoading(false)
     },
-    [setAlert, setUser, setLoggedIn, setLoading, setToken]
+    [
+      cartState?.id,
+      setAlert,
+      setCart,
+      setUser,
+      setLoggedIn,
+      setLoading,
+      setToken,
+    ]
   )
 
   const register = useCallback(
@@ -174,7 +182,7 @@ const useAuth = () => {
     }
 
     setLoading(false)
-  }, [])
+  }, [setLoading, setLoggedIn, setToken, setUser])
 
   const logout = useCallback(async () => {
     setLoading(true)
@@ -209,7 +217,7 @@ const useAuth = () => {
     }
 
     setLoading(false)
-  }, [setAlert, setUser, setLoggedIn, setLoading, setToken])
+  }, [setAlert, setCart, setUser, setLoggedIn, setLoading, setToken])
 
   const forgotPassword = useCallback(
     async ({ email }: { email: string }) => {

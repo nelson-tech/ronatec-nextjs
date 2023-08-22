@@ -66,7 +66,7 @@ const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
 
       setLoading(false)
     },
-    []
+    [pageData?.page, productsPerPage]
   )
 
   return { products, pageData, loading, fetchProducts }
