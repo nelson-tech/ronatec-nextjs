@@ -7,32 +7,11 @@ import afterDelete from "./hooks/afterDelete"
 import afterRead from "./hooks/afterRead"
 import ProductItemsField from "../../fields/productItems"
 import beforeRead from "./hooks/beforeRead"
+import fields from "./fields"
 
 export const Carts: CollectionConfig = {
   slug: "carts",
-  fields: [
-    ProductItemsField({ readOnly: false }),
-    {
-      name: "count",
-      label: "Items in cart",
-      type: "number",
-      admin: { readOnly: true, position: "sidebar" },
-    },
-    {
-      name: "user",
-      type: "relationship",
-      relationTo: "users",
-      required: false,
-      hasMany: false,
-      admin: { hidden: false, position: "sidebar" },
-      maxDepth: 0,
-    },
-    {
-      name: "lastEdit",
-      type: "number",
-      hidden: true,
-    },
-  ],
+  fields,
   access: {
     read: adminsAndUser("carts", "user.id"),
     create: adminsAndUser("carts", "user.id"),
