@@ -1,10 +1,14 @@
 import { Field } from "payload/types"
+import { admins } from "~payload/access/admins"
+import { anyone } from "~payload/access/anyone"
+import prices from "./prices"
+import totals from "./totals"
 
 type PropsType = {
   readOnly?: boolean
 }
 
-const ProductItemsField: (props: PropsType) => Field = ({ readOnly }) => ({
+const ProductItemsField: <T>(props: PropsType) => Field = ({ readOnly }) => ({
   name: "items",
   type: "array",
   interfaceName: "ProductItems",
@@ -37,7 +41,23 @@ const ProductItemsField: (props: PropsType) => Field = ({ readOnly }) => ({
       type: "text",
       required: true,
     },
-    { name: "price", type: "text", required: true },
+    prices,
+    totals,
+    {
+      name: "discount",
+      type: "group",
+      fields: [
+        {
+          name: "type",
+          type: "select",
+          options: [
+            { label: "$ Off", value: "amount" },
+            { label: "% Off", value: "percentage" },
+          ],
+        },
+      ],
+      access: { create: admins, read: anyone, update: admins },
+    },
     {
       name: "quantity",
       type: "number",
