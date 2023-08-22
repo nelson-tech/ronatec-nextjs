@@ -19,11 +19,6 @@ const cartFields: Field[] = [
     admin: { hidden: false, position: "sidebar" },
     maxDepth: 0,
   },
-  {
-    name: "lastEdit",
-    type: "number",
-    hidden: true,
-  },
   totals,
   {
     name: "coupons",
