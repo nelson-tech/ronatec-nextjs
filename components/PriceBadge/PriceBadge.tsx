@@ -1,5 +1,4 @@
 import type { Product } from "payload/generated-types"
-import getParsedPrice from "@utils/getParsedPrice"
 
 type PropsType = {
   product: Product | null
@@ -7,7 +6,8 @@ type PropsType = {
 }
 
 const PriceBadge = ({ product, className }: PropsType) => {
-  const price = getParsedPrice({ product })
+  const price = product?.prices?.formatted?.price
+
   return <>{price !== "$0.00" && <div className={className}>{price}</div>}</>
 }
 

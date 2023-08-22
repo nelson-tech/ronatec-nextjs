@@ -1,3 +1,5 @@
+"use client"
+
 import { Tab } from "@headlessui/react"
 
 import type { ProductImage, Product } from "payload/generated-types"
@@ -20,11 +22,11 @@ const ProductGallery = ({
   return (
     <div
       id="product-image"
-      className="w-full md:w-1/2 lg:w-full md:px-4 lg:px-0 flex justify-center relative"
+      className="w-full md:w-1/2 lg:w-full md:px-4 lg:px-0 flex relative"
     >
       {/* <!-- Image Gallery --> */}
       {images.length > 1 || (wcImages?.length ?? 0) > 1 ? (
-        <Tab.Group as="div" className="flex flex-col items-center w-full">
+        <Tab.Group as="div" className="flex flex-col w-full">
           <Tab.Panels className="object-contain w-full relative" as="div">
             {images.length > 1
               ? images.map(
@@ -50,7 +52,7 @@ const ProductGallery = ({
                     image.src && (
                       <Tab.Panel
                         key={image.id + "main"}
-                        className="w-full aspect-square"
+                        className="w-full min-h-[300px]"
                         id="WCimage"
                       >
                         <Image
@@ -58,7 +60,7 @@ const ProductGallery = ({
                           alt={image.alt ?? ""}
                           fill
                           sizes={image.sizes}
-                          className="rounded object-contain w-full h-full "
+                          className="rounded object-contain w-full aspect-square"
                         />
                       </Tab.Panel>
                     )

@@ -35,20 +35,25 @@ const useCart = () => {
     setLoading(false)
   }, [setCart, setLoading, cartState?.id])
 
-  const updateCart = useCallback(async (cartData: Partial<Cart>) => {
-    const response = await fetch(`/api/carts/${cartState?.id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(cartData),
-    })
+  const updateCart = useCallback(
+    async (cartData: Partial<Cart>) => {
+      const response = await fetch(`/api/carts/${cartState?.id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartData),
+      })
 
-    const data: { message: string; doc: Cart } = await response?.json()
+      const data: { message: string; doc: Cart } = await response?.json()
 
-    data.doc?.id && setCart(data.doc)
-  }, [])
+      console.log("Updated cart", data)
+
+      data.doc?.id && setCart(data.doc)
+    },
+    [cartState?.id, setCart]
+  )
 
   const clearCart = useCallback(async () => {
     setLoading(true)
@@ -64,7 +69,7 @@ const useCart = () => {
     } else {
       // TODO: Provide feedback for missing cart ID
     }
-  }, [fetchCart, setCart, setLoading, cartState?.id])
+  }, [setLoading, updateCart, cartState?.id])
 
   const removeItem = useCallback(
     async (productID: string) => {
@@ -79,10 +84,10 @@ const useCart = () => {
                 : item.product) !== productID
             )
           })
-          .map(({ product, price, title, quantity }: ProductItems[0]) => {
+          .map(({ product, totals, title, quantity }: ProductItems[0]) => {
             const formattedItem: ProductItems[0] = {
               product: typeof product === "object" ? product.id : product,
-              price,
+              totals,
               title,
               quantity,
             }
@@ -99,7 +104,7 @@ const useCart = () => {
       }
       setLoading(false)
     },
-    [setCart, setLoading, cartState?.id]
+    [setLoading, cartState?.id, cartState?.items, updateCart]
   )
 
   const addCartItems = useCallback(
@@ -114,6 +119,7 @@ const useCart = () => {
       if (cartState?.id) {
         try {
           await updateCart({ items: mergedItems })
+          setOpen(true)
         } catch (error) {
           console.warn("Error adding cart items.", error)
         }
@@ -139,6 +145,7 @@ const useCart = () => {
               }))
 
             setCart(data.doc)
+            setOpen(true)
           }
         } catch (error) {
           console.warn("Error creating new cart.", error)
@@ -146,39 +153,48 @@ const useCart = () => {
       }
       setLoading(false)
     },
-    [setCart, setLoading, cartState?.id]
+    [
+      setCart,
+      setLoading,
+      setOpen,
+      updateCart,
+      user?.id,
+      cartState?.id,
+      cartState?.items,
+    ]
   )
 
-  // const updateCartItemQuantity = useCallback(
-  //   async (input: UpdateCartItemQuantityMutationVariables) => {
-  //     setLoading(true);
+  const updateCartItemQuantity = useCallback(
+    async (lineItem: ProductItems[0]) => {
+      setLoading(true)
 
-  //     if (cartState?.id) {
-  //       try {
-  //         const updatedCartData = await client.request(
-  //           UpdateCartItemQuantityDocument,
-  //           input
-  //         );
+      const mergedItems = mergeCartItems({
+        newItems: [lineItem],
+        existingItems: cartState?.items ?? [],
+      })
 
-  //         updatedCartData.updateCartItemQuantity &&
-  //           setCart(updatedCartData.updateCartItemQuantity as Cart);
-  //       } catch (error) {
-  //         console.warn("Error updating cart item quantity.", error);
-  //       }
-  //     } else {
-  //       // TODO: Provide feedback for missing cart ID
-  //     }
+      console.log("Merged Items", lineItem, mergedItems)
 
-  //     setLoading(false);
-  //   },
-  //   [client, setCart, setLoading]
-  // );
+      if (cartState?.id) {
+        try {
+          await updateCart({ items: mergedItems })
+        } catch (error) {
+          console.warn("Error updating cart item quantity.", error)
+        }
+      } else {
+        // TODO: Provide feedback for missing cart ID
+      }
+
+      setLoading(false)
+    },
+    [updateCart, setLoading, cartState?.id, cartState?.items]
+  )
 
   return {
     clearCart,
     removeItem,
     addCartItems,
-    // updateCartItemQuantity,
+    updateCartItemQuantity,
     fetchCart,
   }
 }
