@@ -1,4 +1,4 @@
-import type { User } from "../payload-types"
+import { User } from "payload/generated-types"
 
 export const checkRole = (
   allRoles: User["roles"] = [],

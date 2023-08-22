@@ -14,8 +14,18 @@ export type ProductItems = {
     id?: string
   }[]
   title: string
-  price: string
+  prices?: Prices
+  totals?: PriceTotals
+  discount?: {
+    type?: "amount" | "percentage"
+  }
   quantity: number
+  id?: string
+}[]
+export type OrderComments = {
+  name?: string
+  date?: string
+  comment?: string
   id?: string
 }[]
 export type VideoLink = {
@@ -368,9 +378,10 @@ export interface Product {
   tags?: string[] | Tag[]
   publishedDate?: string
   sold?: number
-  lanco?: boolean
-  price?: string
+  prices?: Prices
+  onSale?: boolean
   meta?: Meta
+  lanco?: boolean
   updatedAt: string
   createdAt: string
   _status?: "draft" | "published"
@@ -420,6 +431,16 @@ export interface Tag {
   updatedAt: string
   createdAt: string
 }
+export interface Prices {
+  regularPrice?: number
+  salePrice?: number
+  formatted?: {
+    price?: string
+    regularPrice?: string
+    salePrice?: string
+    price_range?: string
+  }
+}
 export interface Meta {
   title?: string
   description?: string
@@ -431,8 +452,20 @@ export interface Cart {
   count?: number
   user?: string | User
   lastEdit?: number
+  totals?: PriceTotals
+  coupons?: {
+    id?: string
+  }[]
   updatedAt: string
   createdAt: string
+}
+export interface PriceTotals {
+  subTotal?: number
+  total?: number
+  formatted?: {
+    subTotal?: string
+    total?: string
+  }
 }
 export interface User {
   id: string
@@ -483,37 +516,52 @@ export interface Order {
   id: string
   orderNumber?: number
   status?: "pending" | "complete" | "cancelled"
+  count?: number
+  coupons?: {
+    id?: string
+  }[]
+  totals?: PriceTotals
   user?: string | User
-  notified?: boolean
-  cartId: string
-  shipToDifferentAddress?: boolean
+  cart?: {
+    id?: string
+    createdAt?: string
+    updatedAt?: string
+  }
   items?: ProductItems
-  billing: {
-    firstName?: string
-    lastName?: string
-    company?: string
-    phone?: string
-    email?: string
-    address1?: string
-    address2?: string
-    city?: string
-    state?: string
-    postcode?: string
-    country?: string
+  contact: {
+    shipToDifferentAddress?: boolean
+    billing: {
+      firstName?: string
+      lastName?: string
+      company?: string
+      phone?: string
+      email?: string
+      address1?: string
+      address2?: string
+      city?: string
+      state?: string
+      postcode?: string
+      country?: string
+    }
+    shipping: {
+      firstName?: string
+      lastName?: string
+      company?: string
+      phone?: string
+      email?: string
+      address1?: string
+      address2?: string
+      city?: string
+      state?: string
+      postcode?: string
+      country?: string
+    }
   }
-  shipping: {
-    firstName?: string
-    lastName?: string
-    company?: string
-    phone?: string
-    email?: string
-    address1?: string
-    address2?: string
-    city?: string
-    state?: string
-    postcode?: string
-    country?: string
-  }
+  amountPaid?: number
+  amountDue?: number
+  amountRefunded?: number
+  customerNote?: string
+  comments?: OrderComments
   updatedAt: string
   createdAt: string
 }

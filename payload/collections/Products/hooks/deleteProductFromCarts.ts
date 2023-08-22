@@ -5,7 +5,6 @@ import { Cart } from "payload/generated-types"
 export const deleteProductFromCarts: AfterDeleteHook = async ({ req, id }) => {
   const usersWithProductInCart = await req.payload.find({
     collection: "users",
-    overrideAccess: true,
     where: {
       "cart.items.product": {
         equals: id,
