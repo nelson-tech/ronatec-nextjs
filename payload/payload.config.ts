@@ -43,7 +43,7 @@ const config = buildConfig({
     },
     // webpack: (config) => ({ ...config, externals: { sharp: "sharp" } }),
   },
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
   cookiePrefix: process.env.PAYLOAD_COOKIE_PREFIX,
   collections: [
     // PagesCollection,
