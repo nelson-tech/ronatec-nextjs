@@ -2,6 +2,8 @@ import { CollectionConfig } from "payload/types"
 import { slugField } from "../../fields/slug"
 import { RowLabelArgs } from "payload/dist/admin/components/forms/RowLabel/types"
 import { meta } from "../../fields/meta"
+import virtualField from "~payload/fields/virtual"
+import prices from "~payload/fields/prices"
 
 const wcFields: CollectionConfig["fields"] = [
   {
@@ -290,8 +292,14 @@ export const ProductFields: CollectionConfig["fields"] = [
     },
   },
   { name: "sold", type: "number", admin: { position: "sidebar" } },
-  { name: "lanco", type: "checkbox", admin: { position: "sidebar" } },
-  { name: "price", type: "text", admin: { position: "sidebar" } },
+  prices,
+  virtualField({
+    name: "onSale",
+    type: "checkbox",
+    returnValue: ({ siblingData }) =>
+      !!siblingData.prices.salePrice &&
+      siblingData.prices.regularPrice > siblingData.prices.salePrice,
+  }),
   meta({
     generateTitle: ({ doc }) =>
       `${(doc as { title: { value: string } }).title.value} - Ronatec`,
@@ -305,4 +313,5 @@ export const ProductFields: CollectionConfig["fields"] = [
       return `/products/${fields.slug.value}`
     },
   }),
+  { name: "lanco", type: "checkbox", admin: { position: "sidebar" } },
 ]
