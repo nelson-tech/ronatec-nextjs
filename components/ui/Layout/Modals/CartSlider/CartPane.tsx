@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react"
+import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import ArrowRightIcon from "@heroicons/react/24/outline/ArrowRightIcon"
 import XIcon from "@heroicons/react/20/solid/XMarkIcon"
@@ -50,7 +50,7 @@ const CartPane = () => {
                 <LoadingSpinner className="h-24" />
               </div>
             )}
-            <div className="h-full flex flex-col rounded-l bg-white shadow-xl overflow-y-scroll">
+            <div className="flex flex-col justify-between h-full rounded-l bg-white shadow-xl overflow-y-scroll">
               <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                 <div className="flex items-start justify-between">
                   <Dialog.Title className="text-lg font-extrabold text-gray-900">
@@ -68,8 +68,8 @@ const CartPane = () => {
                   </div>
                 </div>
 
-                <div className="mt-8 h-full">
-                  <div className="flow-root h-full">
+                <div className="mt-8 ">
+                  <div className="h-full">
                     {cart?.items && cart.items.length > 0 ? (
                       <ul
                         role="list"
@@ -109,10 +109,10 @@ const CartPane = () => {
                   (cart?.count ?? 0) === 0 && " hidden"
                 }`}
               >
-                {/* <div className="flex justify-between text-base font-medium text-gray-900">
-                    <p>Subtotal</p>
-                    <p>{cart?.subtotal}</p>
-                  </div> */}
+                <div className="flex justify-between text-base font-medium text-gray-900">
+                  <p>Subtotal</p>
+                  <p>{cart?.totals?.formatted?.subTotal}</p>
+                </div>
                 <div className="mt-2">
                   <Link
                     href="/checkout"
