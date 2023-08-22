@@ -3,6 +3,8 @@ import { Field } from "payload/types"
 import { admins } from "~payload/access/admins"
 import contactFields from "~payload/fields/contact"
 import { ensureFirstUserIsAdmin } from "./hooks/ensureFirstUserIsAdmin"
+import virtualField from "~payload/fields/virtual"
+import { User } from "payload/generated-types"
 
 export const UserFields: Field[] = [
   {
@@ -21,26 +23,14 @@ export const UserFields: Field[] = [
       width: "50%",
     },
   },
-  // Virtual fullName field
-  {
+  virtualField<User>({
     name: "fullName",
     type: "text",
-    admin: { hidden: true },
-    access: { create: () => false, update: () => false },
-    hooks: {
-      beforeChange: [
-        ({ siblingData }) => {
-          delete siblingData["fullName"]
-        },
-      ],
-      afterRead: [
-        ({ data }) =>
-          `${data?.firstName ? `${data?.firstName} ` : ""}${
-            data?.lastName ? data.lastName : ""
-          }`,
-      ],
-    },
-  },
+    returnValue: ({ data, req, context }) =>
+      `${data?.firstName ? `${data?.firstName} ` : ""}${
+        data?.lastName ? data.lastName : ""
+      }`,
+  }),
   {
     name: "roles",
     type: "select",
