@@ -4,8 +4,33 @@ import ProductItemsField from "~payload/fields/productItems"
 import contactFields from "~payload/fields/contact"
 import type { RowLabelArgs } from "payload/dist/admin/components/forms/RowLabel/types"
 import totals from "~payload/fields/totals"
+import virtualField from "~payload/fields/virtual"
+import { Order } from "payload/generated-types"
 
 const fields: Field[] = [
+  virtualField<Order>({
+    name: "fullName",
+    type: "text",
+    returnValue: ({ data, req, context }) =>
+      `${
+        data?.contact?.billing.firstName
+          ? `${data.contact.billing.firstName} `
+          : ""
+      }${data?.contact?.billing.lastName ? data.contact.billing.lastName : ""}`,
+  }),
+
+  virtualField<Order>({
+    name: "orderTitle",
+    type: "text",
+    returnValue: ({ data, req, context }) =>
+      `${
+        data?.contact?.billing.firstName
+          ? `${data.contact.billing.firstName} `
+          : ""
+      }${
+        data?.contact?.billing.lastName ? data.contact.billing.lastName : ""
+      } - ${data?.orderNumber}`,
+  }),
   {
     name: "orderNumber",
     type: "number",
@@ -23,7 +48,7 @@ const fields: Field[] = [
   },
   {
     name: "count",
-    label: "Items in cart",
+    label: "Items in order",
     type: "number",
     admin: { readOnly: true, position: "sidebar" },
   },
@@ -37,7 +62,7 @@ const fields: Field[] = [
       position: "sidebar",
     },
   },
-  totals,
+  { ...totals, admin: { position: "sidebar" } },
   {
     name: "user",
     type: "relationship",
@@ -94,11 +119,11 @@ const fields: Field[] = [
         ],
       },
       {
-        label: "Payment",
+        name: "payment",
         fields: [
-          { name: "amountPaid", type: "number" },
-          { name: "amountDue", type: "number" },
-          { name: "amountRefunded", type: "number" },
+          { name: "paid", label: "Amount Paid", type: "number" },
+          { name: "due", label: "Amount Due", type: "number" },
+          { name: "refunded", label: "Amount Refunded", type: "number" },
         ],
       },
       {
@@ -109,7 +134,7 @@ const fields: Field[] = [
             type: "textarea",
             admin: {
               description: "Note placed by customer at time of order.",
-              condition: (data) => !!data,
+              condition: (data) => !!data.customerNote,
               readOnly: true,
             },
           },

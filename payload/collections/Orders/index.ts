@@ -10,7 +10,7 @@ const Orders: CollectionConfig = {
   slug: "orders",
   admin: {
     group: "Shop",
-    useAsTitle: "orderNumber",
+    useAsTitle: "orderTitle",
     defaultColumns: ["createdAt"],
   },
   access: {

@@ -451,7 +451,6 @@ export interface Cart {
   items?: ProductItems
   count?: number
   user?: string | User
-  lastEdit?: number
   totals?: PriceTotals
   coupons?: {
     id?: string
@@ -514,6 +513,8 @@ export interface User {
 }
 export interface Order {
   id: string
+  fullName?: string
+  orderTitle?: string
   orderNumber?: number
   status?: "pending" | "complete" | "cancelled"
   count?: number
@@ -557,9 +558,11 @@ export interface Order {
       country?: string
     }
   }
-  amountPaid?: number
-  amountDue?: number
-  amountRefunded?: number
+  payment: {
+    paid?: number
+    due?: number
+    refunded?: number
+  }
   customerNote?: string
   comments?: OrderComments
   updatedAt: string
