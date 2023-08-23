@@ -22,8 +22,6 @@ const Checkout = () => {
   const emptyCart = (cart?.count ?? 0) <= 0
   const loaded = typeof cart === "object"
 
-  console.log("Cart & User", cart, user)
-
   return (
     <>
       {loaded ? (
@@ -72,7 +70,7 @@ const Checkout = () => {
                 </ul>
               </section>
 
-              <div>
+              <div className="w-full">
                 {!user?.id && <GuestCheckoutWarning />}
                 <CheckoutForm />
               </div>
