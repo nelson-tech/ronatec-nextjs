@@ -83,9 +83,14 @@ const CategoryLayout = ({
     const query = qs.stringify(
       {
         where: {
-          categories: {
-            in: selectedCategories?.map((category) => category?.id),
-          },
+          and: [
+            {
+              categories: {
+                in: selectedCategories?.map((category) => category?.id),
+              },
+            },
+            { _status: { equals: "published" } },
+          ],
         },
       },
       { addQueryPrefix: false }
