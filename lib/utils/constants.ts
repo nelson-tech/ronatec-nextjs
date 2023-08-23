@@ -8,4 +8,3 @@ export const SITE_NAME = `${process.env.NEXT_PUBLIC_SITE_NAME}`
 export const SEO_TITLE = `- ${SITE_NAME}`
 
 export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}`
-export const FRONTEND_BASE = `${process.env.NEXT_PUBLIC_FRONTEND_HOST}`
