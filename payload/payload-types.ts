@@ -377,6 +377,7 @@ export interface Product {
   categories?: string[] | Category[]
   tags?: string[] | Tag[]
   publishedDate?: string
+  ordered?: number
   sold?: number
   prices?: Prices
   onSale?: boolean
