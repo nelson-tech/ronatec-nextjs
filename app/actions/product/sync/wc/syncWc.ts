@@ -138,8 +138,6 @@ export const syncWc = async (req: Request, res: Response) => {
             } else {
               // no matching slug, create product
 
-              console.log("No match, creating product")
-
               const product: Omit<Product, "id" | "updatedAt" | "createdAt"> = {
                 title: formattedProduct.name ?? "",
                 slug: formattedProduct.slug,

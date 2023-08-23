@@ -1,4 +1,3 @@
-import { Endpoint } from "payload/dist/config/types"
 import { checkRole } from "~payload/access/checkRole"
 import { Category } from "payload/generated-types"
 import he from "he"
@@ -114,6 +113,6 @@ export const syncWc = async (req: Request, res: Response) => {
 
     return await syncCategories(topCats).then((r) => NextResponse.json({}))
   } else {
-    NextResponse.json({ error: "Authorization denied" })
+    return NextResponse.json({ error: "Authorization denied" })
   }
 }
