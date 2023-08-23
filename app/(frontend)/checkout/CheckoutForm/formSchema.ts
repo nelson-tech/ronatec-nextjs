@@ -20,8 +20,9 @@ const contactSchema = object({
     message: messages.email,
   }),
   phone: string({ invalid_type_error: messages.phone })
-    .min(5, messages.phone)
-    .max(17, messages.phone),
+    // .min(5, messages.phone)
+    // .max(17, messages.phone)
+    .nullable(),
   firstName: string({ invalid_type_error: messages.firstName }).min(
     1,
     messages.firstName
@@ -31,25 +32,13 @@ const contactSchema = object({
     messages.lastName
   ),
   company: string().nullable(),
-  address1: string({ invalid_type_error: messages.address1 }).min(
-    3,
-    messages.address1
-  ),
+  address1: string({ invalid_type_error: messages.address1 }).nullable(),
   address2: string().nullable(),
-  city: string({ invalid_type_error: messages.city }).min(2, messages.city),
-  state: string({ invalid_type_error: messages.state }).min(2, messages.state),
-  postcode: string({ invalid_type_error: messages.postcode }).min(
-    3,
-    messages.postcode
-  ),
-  country: string({ invalid_type_error: messages.country }).min(
-    2,
-    messages.country
-  ),
+  city: string({ invalid_type_error: messages.city }).nullable(),
+  state: string({ invalid_type_error: messages.state }).nullable(),
+  postcode: string({ invalid_type_error: messages.postcode }).nullable(),
+  country: string({ invalid_type_error: messages.country }).nullable(),
 })
-
-const truf = literal(true)
-truf.value
 
 const schema = discriminatedUnion("shipToDifferentAddress", [
   object({
