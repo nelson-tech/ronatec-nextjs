@@ -9,6 +9,7 @@ import Link from "@components/Link"
 
 import Breadcrumbs from "../../Breadcrumbs"
 import ProductDetails from "./ProductDetails"
+import { SEO_TITLE } from "@utils/constants"
 
 // ####
 // #### Variables
@@ -93,6 +94,9 @@ export async function generateMetadata({
   const { product } = await getProductBySlug(params.slug)
 
   const metaData = parseMetaData(product?.meta)
+
+  !metaData.title &&
+    (metaData.title = `${product?.title ?? "Product Details"} ${SEO_TITLE}`)
 
   return metaData
 }
