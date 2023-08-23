@@ -109,16 +109,19 @@ const CartPane = () => {
                   (cart?.count ?? 0) === 0 && " hidden"
                 }`}
               >
-                <div className="flex justify-between text-base font-medium text-gray-900">
-                  <p>Subtotal</p>
-                  <p>{cart?.totals?.formatted?.subTotal}</p>
-                </div>
+                {cart?.totals?.formatted?.subTotal !== "$0.00" && (
+                  <div className="flex justify-between text-base font-medium text-gray-500">
+                    <p>Subtotal</p>
+                    <p>{cart?.totals?.formatted?.subTotal}</p>
+                  </div>
+                )}
                 <div className="mt-2">
                   <Link
                     href="/checkout"
                     title="Checkout"
                     onClick={() => setOpen(false)}
-                    className="flex w-full justify-center items-center px-6 py-3 border border-transparent rounded shadow-sm text-base font-medium text-white bg-accent hover:bg-highlight"
+                    className="flex w-full justify-center items-center px-6 py-3 border border-transparent
+                    rounded shadow-sm text-base font-medium text-white bg-accent hover:bg-highlight transition-colors"
                   >
                     Checkout
                   </Link>
@@ -126,7 +129,7 @@ const CartPane = () => {
                 <div className="mt-6 flex justify-center text-sm text-center text-gray-500">
                   <button
                     type="button"
-                    className="text-red-600 font-medium hover:text-highlight"
+                    className="text-red-600 font-medium hover:text-highlight transition-colors"
                     onClick={handleClearCart}
                   >
                     Clear Cart &nbsp;
@@ -135,7 +138,7 @@ const CartPane = () => {
                     or{" "}
                     <button
                       type="button"
-                      className="text-accent font-medium hover:text-highlight"
+                      className="text-accent font-medium hover:text-highlight transition-colors"
                       onClick={() => setOpen(false)}
                     >
                       Continue Shopping
