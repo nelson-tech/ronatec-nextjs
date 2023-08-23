@@ -7,7 +7,8 @@ const getHomeData = async () => {
     const topSellersData = await payload.find({
       collection: "products",
       limit: 8,
-      sort: "sold",
+      sort: "-ordered",
+      where: { _status: { equals: "published" } },
     })
 
     const home = (await payload.findGlobal({ slug: "home" })) as Home

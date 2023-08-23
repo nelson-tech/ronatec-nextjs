@@ -291,6 +291,7 @@ export const ProductFields: CollectionConfig["fields"] = [
       position: "sidebar",
     },
   },
+  { name: "ordered", type: "number", admin: { position: "sidebar" } },
   { name: "sold", type: "number", admin: { position: "sidebar" } },
   prices,
   virtualField({
