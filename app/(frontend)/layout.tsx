@@ -11,15 +11,9 @@ import Alerts from "@components/ui/Alerts"
 
 import RootClientContext from "./RootClientContext"
 
-import localFont from "next/font/local"
-
 // ####
 // #### Variables
 // ####
-
-const font = localFont({
-  src: "./Exo-VariableFont.woff2",
-})
 
 // ####
 // #### Component
@@ -28,19 +22,17 @@ const font = localFont({
 const FrontendLayout = async ({ children }: { children: React.ReactNode }) => {
   const { menus, settings, user, promo, cart } = await getLayoutData()
   return (
-    <div className={font.className}>
-      <RootClientContext user={user} cart={cart}>
-        <div id="top" />
-        {menus && <Header menus={menus} promo />}
-        <div className="min-h-screen bg-white z-0">{children}</div>
-        <Footer />
-        <Modals menuItems={menus?.mobileMenu.links} />
+    <RootClientContext user={user} cart={cart}>
+      <div id="top" />
+      {menus && <Header menus={menus} promo />}
+      <div className="min-h-screen bg-white z-0">{children}</div>
+      <Footer />
+      <Modals menuItems={menus?.mobileMenu.links} />
 
-        <Alerts />
-        <ScrollToTop />
-        {/* <Analytics /> */}
-      </RootClientContext>
-    </div>
+      <Alerts />
+      <ScrollToTop />
+      {/* <Analytics /> */}
+    </RootClientContext>
   )
 }
 

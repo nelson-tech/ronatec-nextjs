@@ -1,7 +1,13 @@
+import localFont from "next/font/local"
+
+const font = localFont({
+  src: "./Exo-VariableFont.woff2",
+})
+
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en-us">
-      <body>{children}</body>
+      <body className={font.className}>{children}</body>
     </html>
   )
 }
