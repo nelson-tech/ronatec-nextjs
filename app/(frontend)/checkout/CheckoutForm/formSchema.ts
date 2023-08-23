@@ -1,8 +1,11 @@
-import { string, object, discriminatedUnion, literal } from "zod"
+import { string, object, discriminatedUnion, literal, union } from "zod"
 
 const messages = {
   email: "Valid email is required.",
-  phone: "Phone number is required (5-17 characters long).",
+  phone: {
+    min: "Phone number must be at least 7 characters long.",
+    max: "Phone number cannot be more than 17 characters long.",
+  },
   firstName: "First name is required.",
   lastName: "Last name is required.",
   address1: "Valid address is required.",
@@ -19,10 +22,12 @@ const contactSchema = object({
   }).email({
     message: messages.email,
   }),
-  phone: string({ invalid_type_error: messages.phone })
-    // .min(5, messages.phone)
-    // .max(17, messages.phone)
-    .nullable(),
+  phone: union([
+    string().min(7, messages.phone.min).max(17, messages.phone.max),
+    string().length(0),
+  ])
+    .optional()
+    .transform((e) => (e === "" ? undefined : e)),
   firstName: string({ invalid_type_error: messages.firstName }).min(
     1,
     messages.firstName
@@ -31,13 +36,13 @@ const contactSchema = object({
     1,
     messages.lastName
   ),
-  company: string().nullable(),
-  address1: string({ invalid_type_error: messages.address1 }).nullable(),
-  address2: string().nullable(),
-  city: string({ invalid_type_error: messages.city }).nullable(),
-  state: string({ invalid_type_error: messages.state }).nullable(),
-  postcode: string({ invalid_type_error: messages.postcode }).nullable(),
-  country: string({ invalid_type_error: messages.country }).nullable(),
+  company: string().optional(),
+  address1: string({ invalid_type_error: messages.address1 }).optional(),
+  address2: string().optional(),
+  city: string({ invalid_type_error: messages.city }).optional(),
+  state: string({ invalid_type_error: messages.state }).optional(),
+  postcode: string({ invalid_type_error: messages.postcode }).optional(),
+  country: string({ invalid_type_error: messages.country }).optional(),
 })
 
 const schema = discriminatedUnion("shipToDifferentAddress", [

@@ -25,6 +25,7 @@ type PropsType = {
   options?: string[]
   select?: boolean
   defaultValue?: string
+  required?: boolean
 }
 
 // ####
@@ -50,6 +51,7 @@ const FormField = ({
   select,
   options,
   defaultValue,
+  required,
 }: PropsType) => {
   // Styles
   const containerStyling = containerStyle ?? "col-span-full"
@@ -65,6 +67,7 @@ const FormField = ({
         {!labelAfter && (
           <label htmlFor={name} className={labelStyling}>
             {label}
+            {required && <span className="ml-1 font-bold text-red-600">*</span>}
           </label>
         )}
         {textArea ? (
