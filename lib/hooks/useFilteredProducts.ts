@@ -6,6 +6,7 @@ import { Product } from "payload/generated-types"
 import { SortOptionType } from "@store/slices/shop"
 import { PaginatedDocs } from "payload/dist/mongoose/types"
 import useStore from "./useStore"
+import qs from "qs"
 
 // ####
 // #### Types
@@ -48,10 +49,15 @@ const useFilteredProducts = (props?: UseFilteredProductsPropsType) => {
     async ({ sort, page }: { sort?: SortOptionType["id"]; page?: number }) => {
       setLoading(true)
 
+      const query = qs.stringify(
+        { where: { _status: { equals: "published" } } },
+        { addQueryPrefix: false }
+      )
+
       const response = await fetch(
         `/api/products?limit=${productsPerPage}${
           sort ? `&sort=${sort.order}${sort.orderby}` : ""
-        }&page=${page ?? pageData?.page}`
+        }&page=${page ?? pageData?.page}&${query}`
       )
 
       const productsData: {

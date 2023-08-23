@@ -33,6 +33,7 @@ const getShopData = async () => {
   try {
     const productsByCategory = (await client.find({
       collection: "products",
+      where: { _status: { equals: "published" } },
     })) as PaginatedDocs<Product>
 
     data.productsData = productsByCategory

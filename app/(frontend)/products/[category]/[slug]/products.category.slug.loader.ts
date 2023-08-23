@@ -9,7 +9,9 @@ const getProductBySlug = async (slug: string) => {
   try {
     const products = await client.find({
       collection: "products",
-      where: { slug: { equals: slug } },
+      where: {
+        and: [{ slug: { equals: slug } }, { _status: { equals: "published" } }],
+      },
     })
 
     products?.docs?.length > 0 && (product = products.docs[0])

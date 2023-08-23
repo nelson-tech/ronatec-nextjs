@@ -68,7 +68,12 @@ const getCategoryBySlug = async (slug: string) => {
     try {
       const productsByCategory = (await client.find({
         collection: "products",
-        where: { categories: { in: [data.category.id, ...data.childIds] } },
+        where: {
+          and: [
+            { categories: { in: [data.category.id, ...data.childIds] } },
+            { _status: { equals: "published" } },
+          ],
+        },
         page: 1,
       })) as PaginatedDocs<Product>
 
