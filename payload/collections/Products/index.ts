@@ -20,6 +20,7 @@ const Products: CollectionConfig = {
   hooks,
   versions: {
     drafts: { autosave: true },
+    maxPerDoc: 5,
   },
   access: {
     read: anyone,
