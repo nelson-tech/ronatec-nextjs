@@ -10,15 +10,18 @@ const prices: Field = {
     afterRead: [
       ({ siblingData }) => {
         const prices = siblingData?.prices
-        const regularPrice = formatCurrency(prices?.regularPrice)
-        const salePrice = formatCurrency(prices?.salePrice)
         const price =
           prices?.salePrice && prices.salePrice < (prices?.regularPrice ?? 0)
-            ? salePrice
-            : regularPrice
+            ? prices.salePrice
+            : prices.regularPrice
+        const regularPrice = formatCurrency(prices?.regularPrice)
+        const salePrice = formatCurrency(prices?.salePrice)
+
+        const formattedPrice = formatCurrency(price)
         return {
           ...prices,
-          formatted: { price, regularPrice, salePrice },
+          price,
+          formatted: { price: formattedPrice, regularPrice, salePrice },
         }
       },
     ],
@@ -26,6 +29,7 @@ const prices: Field = {
   fields: [
     { name: "regularPrice", type: "number" },
     { name: "salePrice", type: "number" },
+    virtualField({ name: "price", type: "number" }),
     {
       name: "formatted",
       type: "group",
