@@ -4,6 +4,7 @@ import { RowLabelArgs } from "payload/dist/admin/components/forms/RowLabel/types
 import { meta } from "../../fields/meta"
 import virtualField from "~payload/fields/virtual"
 import prices from "~payload/fields/prices"
+import { Product } from "payload/generated-types"
 
 const wcFields: CollectionConfig["fields"] = [
   {
@@ -243,23 +244,110 @@ export const ProductFields: CollectionConfig["fields"] = [
               },
             ],
           },
-          {
+          virtualField<Product>({
             name: "hasVariation",
             type: "checkbox",
-            hidden: false,
-            admin: { readOnly: true, hidden: true },
-          },
+            returnValue: ({ data }) => (data?.variations?.length ?? 0) > 0,
+          }),
         ],
       },
       {
         label: "WC Import",
         description: "Data imported from WooCommerce",
         fields: wcFields,
+        // admin: { condition: (data) => !!data.lanco },
+      },
+      {
+        label: "Details",
+        fields: [
+          { name: "weight", type: "text" },
+          {
+            name: "dimensions",
+            type: "group",
+            fields: [
+              { name: "length", type: "text" },
+              { name: "width", type: "text" },
+              { name: "height", type: "text" },
+            ],
+          },
+          { name: "used", type: "checkbox" },
+        ],
+      },
+      {
+        label: "Managment",
+        fields: [
+          {
+            label: "Stock",
+            type: "collapsible",
+            fields: [
+              { name: "sku", type: "text", unique: true },
+              { name: "manageStock", type: "checkbox" },
+              { name: "stock", type: "number" },
+              virtualField<Product>({
+                name: "inStock",
+                type: "checkbox",
+                returnValue: ({ data }) =>
+                  data?.manageStock ? (data.stock ?? 0) > 0 : true,
+              }),
+            ],
+          },
+          { name: "saleStartDate", type: "date" },
+          { name: "saleEndDate", type: "date" },
+          {
+            label: "Taxes",
+            type: "collapsible",
+            fields: [
+              { name: "isTaxable", type: "checkbox" },
+              {
+                name: "taxClass",
+                type: "text", // TODO: Make taxClass a relation to a tax class collection
+              },
+            ],
+          },
+          {
+            label: "Shipping",
+            type: "collapsible",
+            fields: [
+              { name: "shippingRequired", type: "checkbox" },
+              { name: "shippingTaxable", type: "checkbox" },
+              { name: "shippingClass", type: "text" }, // TODO: Make shippingClass relation to shipping class collection
+            ],
+            admin: { condition: (data) => data.type !== "virtual" },
+          },
+          {
+            label: "Downloads",
+            type: "collapsible",
+            fields: [
+              { name: "downloadable", type: "checkbox" },
+              {
+                name: "downloadLimit",
+                type: "number",
+                admin: { condition: (data) => data.downloadable },
+              },
+              {
+                name: "downloadExpiry",
+                type: "number",
+                admin: { condition: (data) => data.downloadable },
+              },
+            ],
+            admin: { condition: (data) => data.type === "virtual" },
+          },
+        ],
+      },
+      {
+        label: "Stats",
+        fields: [
+          { name: "ordered", type: "number" },
+          { name: "sold", type: "number" },
+          // TODO: Make reviews and ratings collection
+          // Fields: product (relation to one), user, rating, review
+
+          // TODO: Make a virtual average rating field
+        ],
       },
     ],
   },
   slugField(),
-  { name: "sku", type: "text", unique: true, admin: { position: "sidebar" } },
   {
     name: "featuredImage",
     type: "upload",
@@ -284,15 +372,20 @@ export const ProductFields: CollectionConfig["fields"] = [
     hasMany: true,
     admin: { position: "sidebar", isSortable: true },
   },
+  { name: "featured", type: "checkbox" },
   {
-    name: "publishedDate",
-    type: "date",
+    name: "type",
+    type: "select",
+    options: [
+      { label: "Simple", value: "simple" },
+      { label: "Variable", value: "variable" },
+      { label: "Grouped", value: "grouped" },
+      { label: "Virtual", value: "virtual" },
+    ],
     admin: {
       position: "sidebar",
     },
   },
-  { name: "ordered", type: "number", admin: { position: "sidebar" } },
-  { name: "sold", type: "number", admin: { position: "sidebar" } },
   prices,
   virtualField({
     name: "onSale",
@@ -301,6 +394,14 @@ export const ProductFields: CollectionConfig["fields"] = [
       !!siblingData.prices.salePrice &&
       siblingData.prices.regularPrice > siblingData.prices.salePrice,
   }),
+  {
+    name: "purchaseNote",
+    type: "textarea",
+    admin: {
+      description: "Note that appears next to Add To Cart button.",
+      position: "sidebar",
+    },
+  },
   meta({
     generateTitle: ({ doc }) =>
       `${(doc as { title: { value: string } }).title.value} - Ronatec`,
@@ -314,5 +415,19 @@ export const ProductFields: CollectionConfig["fields"] = [
       return `/products/${fields.slug.value}`
     },
   }),
+  {
+    name: "upsellIds",
+    type: "relationship",
+    relationTo: "products",
+    hasMany: true,
+    admin: { isSortable: true },
+  },
+  {
+    name: "crossSellIds",
+    type: "relationship",
+    relationTo: "products",
+    hasMany: true,
+    admin: { isSortable: true },
+  },
   { name: "lanco", type: "checkbox", admin: { position: "sidebar" } },
 ]

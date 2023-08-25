@@ -371,17 +371,41 @@ export interface Product {
       extensions?: string
     }
   }
-  slug?: string
+  weight?: string
+  dimensions?: {
+    length?: string
+    width?: string
+    height?: string
+  }
+  used?: boolean
   sku?: string
+  manageStock?: boolean
+  stock?: number
+  inStock?: boolean
+  saleStartDate?: string
+  saleEndDate?: string
+  isTaxable?: boolean
+  taxClass?: string
+  shippingRequired?: boolean
+  shippingTaxable?: boolean
+  shippingClass?: string
+  downloadable?: boolean
+  downloadLimit?: number
+  downloadExpiry?: number
+  ordered?: number
+  sold?: number
+  slug?: string
   featuredImage?: string | ProductImage
   categories?: string[] | Category[]
   tags?: string[] | Tag[]
-  publishedDate?: string
-  ordered?: number
-  sold?: number
+  featured?: boolean
+  type?: "simple" | "variable" | "grouped" | "virtual"
   prices?: Prices
   onSale?: boolean
+  purchaseNote?: string
   meta?: Meta
+  upsellIds?: string[] | Product[]
+  crossSellIds?: string[] | Product[]
   lanco?: boolean
   updatedAt: string
   createdAt: string
@@ -435,6 +459,7 @@ export interface Tag {
 export interface Prices {
   regularPrice?: number
   salePrice?: number
+  price?: number
   formatted?: {
     price?: string
     regularPrice?: string
