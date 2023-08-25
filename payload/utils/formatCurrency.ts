@@ -8,6 +8,6 @@ const formatter = new Intl.NumberFormat("en-US", {
 })
 
 const formatCurrency = (amount: number | null | undefined) =>
-  formatter.format((amount ?? 0) / 100)
+  amount ? formatter.format(amount / 100) : ""
 
 export default formatCurrency
