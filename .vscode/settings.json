@@ -2,6 +2,9 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.words": [
-    "Ronatec"
+    "lanco",
+    "payloadcms",
+    "Ronatec",
+    "WCWH"
   ]
 }
