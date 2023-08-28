@@ -3,6 +3,8 @@ import getWebhookData from "../utils/getWebhookData"
 import productActions from "./productActions"
 import { WCWH_Product } from "../utils/types"
 
+const secret = process.env.WEBHOOK_SECRET
+
 export const GET = async (req: Request, res: Response) => {
   console.log("Incoming Wordpress Product Ping", req)
 
@@ -10,7 +12,7 @@ export const GET = async (req: Request, res: Response) => {
 }
 
 export const POST = async (req: Request, res: Response) => {
-  const { isValid, data, resource, event } = await getWebhookData(req)
+  const { isValid, data, resource, event } = await getWebhookData(req, secret)
 
   let message: string | undefined = ""
 

@@ -15,11 +15,13 @@ type GetWebhookDataReturn<T> =
       event: WCWH_Event
     }
 
-const getWebhookData = async <T>(req): Promise<GetWebhookDataReturn<T>> => {
+const getWebhookData = async <T>(
+  req: Request,
+  secret: string | undefined
+): Promise<GetWebhookDataReturn<T>> => {
   const { headers } = req
   const signature = headers.get("x-wc-webhook-signature") as string
 
-  const secret = process.env.WEBHOOK_SECRET
   const bodyAsText = await req.text()
   const isValid = isValidSignature(secret, bodyAsText, signature)
 

@@ -69,8 +69,6 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
     }
   }
 
-  console.log(product)
-
   return (
     <form className="" onSubmit={handleSubmit}>
       {/* {product?.has_options &&
