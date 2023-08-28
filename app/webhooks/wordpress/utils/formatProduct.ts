@@ -2,19 +2,24 @@ import { Product } from "payload/generated-types"
 import { WCWH_Product } from "./types"
 import { UpdateProduct } from "@lib/types/product"
 import { Payload } from "payload"
+import he from "he"
+import { WCProduct } from "~payload/collections/Products/wcProductType"
 
 type FormatProductArgs = {
-  incoming: WCWH_Product
-  existingProduct?: Product
+  existingProduct?: Product | null
   lanco?: boolean
   payload: Payload
-}
+} & (
+  | { incoming: WCWH_Product; webhook: true }
+  | { incoming: WCProduct; webhook: false }
+)
 
 const formatProduct = async ({
   incoming,
   existingProduct,
   lanco,
   payload,
+  webhook,
 }: FormatProductArgs) => {
   const categoryMatches = await payload.find({
     collection: "categories",
@@ -37,57 +42,84 @@ const formatProduct = async ({
 
   const tagIds = tagMatches.docs.map((tag) => tag.id).filter((tagId) => !!tagId)
 
+  const regularPrice = webhook
+    ? incoming.regular_price
+      ? Number.parseInt(incoming.regular_price)
+      : undefined
+    : incoming.prices.regular_price
+    ? Number.parseInt(incoming.prices.regular_price)
+    : undefined
+
+  const salePrice = webhook
+    ? incoming.sale_price
+      ? Number.parseInt(incoming.sale_price)
+      : undefined
+    : incoming.prices.sale_price
+    ? Number.parseInt(incoming.prices.sale_price)
+    : undefined
+
   const product: UpdateProduct = {
     ...existingProduct,
     ...(lanco ? { lanco } : {}),
-    title: incoming.name,
+    title: he.decode(incoming.name),
     slug: incoming.slug,
-    createdAt: incoming.date_created,
-    type: incoming.virtual ? "virtual" : incoming.type,
-    _status:
-      incoming.status === "publish"
+    createdAt: webhook ? incoming.date_created : undefined,
+    type: webhook
+      ? incoming.virtual
+        ? "virtual"
+        : incoming.type
+      : incoming.type,
+    _status: webhook
+      ? incoming.status === "publish"
         ? "published"
         : ["draft", "pending"].includes(incoming.status)
         ? "draft"
-        : undefined,
-    featured: incoming.featured,
-    shortDescription: incoming.short_description,
+        : undefined
+      : "published",
+    featured: webhook ? incoming.featured : undefined,
+    shortDescription: he.decode(incoming.short_description),
     sku: incoming.sku,
-    saleStartDate: incoming.date_on_sale_from ?? undefined,
-    saleEndDate: incoming.date_on_sale_to ?? undefined,
-    downloadable: incoming.downloadable,
-    downloadLimit:
-      incoming.download_limit === -1 ? undefined : incoming.download_limit,
-    downloadExpiry:
-      incoming.download_expiry === -1 ? undefined : incoming.download_expiry,
-    isTaxable: incoming.tax_status === "taxable",
-    taxClass: incoming.tax_class,
-    manageStock: incoming.manage_stock,
-    stock: incoming.stock_quantity ?? undefined,
-    weight: incoming.weight,
-    dimensions: {
-      length: incoming.dimensions.length,
-      width: incoming.dimensions.width,
-      height: incoming.dimensions.height,
-    },
+    saleStartDate: webhook
+      ? incoming.date_on_sale_from || undefined
+      : undefined,
+    saleEndDate: webhook ? incoming.date_on_sale_to || undefined : undefined,
+    downloadable: webhook ? incoming.downloadable : undefined,
+    downloadLimit: webhook
+      ? incoming.download_limit === -1
+        ? undefined
+        : incoming.download_limit
+      : undefined,
+    downloadExpiry: webhook
+      ? incoming.download_expiry === -1
+        ? undefined
+        : incoming.download_expiry
+      : undefined,
+    isTaxable: webhook ? incoming.tax_status === "taxable" : undefined,
+    taxClass: webhook ? incoming.tax_class : undefined,
+    manageStock: webhook ? incoming.manage_stock : undefined,
+    stock: webhook ? incoming.stock_quantity || undefined : undefined,
+    weight: webhook ? incoming.weight : undefined,
+    dimensions: webhook
+      ? {
+          length: incoming.dimensions.length,
+          width: incoming.dimensions.width,
+          height: incoming.dimensions.height,
+        }
+      : undefined,
     categories: categoryIds,
     tags: tagIds,
     prices: {
-      regularPrice: incoming.regular_price
-        ? Number.parseFloat(incoming.regular_price)
-        : undefined,
-      salePrice: incoming.sale_price
-        ? Number.parseFloat(incoming.sale_price)
-        : undefined,
+      regularPrice: lanco && regularPrice ? regularPrice * 0.97 : regularPrice,
+      salePrice: lanco && salePrice ? salePrice * 0.97 : salePrice,
     },
     wc: {
       wc_id: incoming.id,
-      description: incoming.description,
-      images: incoming.images.map((image) => {
-        const { id: wc_id, ...rest } = image
-
-        return { wc_id, ...rest }
-      }),
+      description: he.decode(incoming.description),
+      images: incoming.images.map((image) => ({
+        wc_id: image.id,
+        src: image.src,
+        alt: image.alt || image.name,
+      })),
       attributes: incoming.attributes.map((attribute) => {
         const { id: wc_id, ...rest } = attribute
 

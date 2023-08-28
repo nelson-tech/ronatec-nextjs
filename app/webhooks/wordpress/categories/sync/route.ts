@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 import { checkRole } from "~payload/access/checkRole"
 import { WCWH_Category } from "../../utils/types"
 import formatCategory from "../../utils/formatCategory"
-import findMatchingCategory from "../../utils/findMatchingCategory"
+import findMatchingDocument from "../../utils/findMatchingDocument"
 
 const url = process.env.WC_SOURCE + "/categories?per_page=100"
 
@@ -20,28 +20,26 @@ export const GET = async (req: Request, res: Response) => {
       // Categories retrieved
 
       const syncCategories = async (targetCats: WCWH_Category[]) => {
-        for await (const rawCategory of targetCats) {
+        targetCats.forEach(async (rawCategory) => {
           // check if WC data has been imported before
-          const matchedByID = await findMatchingCategory({
-            field: "wc.wc_id",
-            value: rawCategory?.id,
+          const matchedByID = await findMatchingDocument({
+            collection: "categories",
+            where: { "wc.wc_id": { equals: rawCategory?.id } },
             payload,
           })
 
           if (!matchedByID) {
             // ("category has not been imported")
-            console.log("Category has not been imported.")
 
             // check for matching slug
-            const matchedBySlug = await findMatchingCategory({
-              field: "slug",
-              value: rawCategory.slug,
+            const matchedBySlug = await findMatchingDocument({
+              collection: "categories",
+              where: { slug: { equals: rawCategory?.slug } },
               payload,
             })
 
             if (matchedBySlug?.id) {
               // existing category, update with WC info
-              console.log("Existing category, update with WC info.")
 
               const formattedCat = await formatCategory({
                 incoming: rawCategory,
@@ -54,22 +52,22 @@ export const GET = async (req: Request, res: Response) => {
                 id: matchedBySlug.id,
                 data: formattedCat,
               })
+
+              console.log("Updated", updatedCategory.title)
             } else {
               // no matching slug, create category
-              console.log("No matching slug, create category.")
 
               const formattedCat = await formatCategory({
                 incoming: rawCategory,
                 payload,
               })
 
-              console.log("Category successfully formatted")
-
               try {
                 const newCategory = await payload.create({
                   collection: "categories",
                   data: formattedCat,
                 })
+                console.log("Created", newCategory.title)
               } catch (error) {
                 console.warn("Error creating new category", error)
               }
@@ -94,7 +92,7 @@ export const GET = async (req: Request, res: Response) => {
           )
 
           children.length > 0 && (await syncCategories(children))
-        }
+        })
       }
 
       // Process top-level first, recursively processing children
