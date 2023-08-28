@@ -1,5 +1,6 @@
 import getPayloadClient from "payload/payloadClient"
 import { Home } from "payload/payload-types"
+import productWhere from "@server/utils/productWhere"
 
 const getHomeData = async () => {
   const payload = await getPayloadClient()
@@ -7,8 +8,8 @@ const getHomeData = async () => {
     const topSellersData = await payload.find({
       collection: "products",
       limit: 8,
-      sort: "-ordered",
-      where: { _status: { equals: "published" } },
+      sort: "-updatedAt",
+      where: productWhere(),
     })
 
     const home = (await payload.findGlobal({ slug: "home" })) as Home

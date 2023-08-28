@@ -1,6 +1,7 @@
 import getPayloadClient from "~payload/payloadClient"
 import { PaginatedDocs } from "payload/dist/mongoose/types"
 import { Category, Product } from "payload/generated-types"
+import productWhere from "@server/utils/productWhere"
 
 export type LoaderData = {
   categories: Category[] | null
@@ -31,12 +32,14 @@ const getShopData = async () => {
 
   // Get products
   try {
-    const productsByCategory = (await client.find({
+    const publishedProducts = (await client.find({
       collection: "products",
-      where: { _status: { equals: "published" } },
+      where: productWhere({
+        categoriesIds: data.categories?.map((category) => category?.id),
+      }),
     })) as PaginatedDocs<Product>
 
-    data.productsData = productsByCategory
+    data.productsData = publishedProducts
   } catch (error) {
     console.warn("Error fetching products", error)
   }

@@ -12,6 +12,7 @@ import type { Category, Product } from "payload/generated-types"
 import useStore from "@hooks/useStore"
 import { SortOptionType } from "@store/slices/shop"
 import qs from "qs"
+import productWhere from "@server/utils/productWhere"
 
 // ####
 // #### Types
@@ -82,16 +83,9 @@ const CategoryLayout = ({
 
     const query = qs.stringify(
       {
-        where: {
-          and: [
-            {
-              categories: {
-                in: selectedCategories?.map((category) => category?.id),
-              },
-            },
-            { _status: { equals: "published" } },
-          ],
-        },
+        where: productWhere({
+          categoriesIds: selectedCategories?.map((category) => category?.id),
+        }),
       },
       { addQueryPrefix: false }
     )

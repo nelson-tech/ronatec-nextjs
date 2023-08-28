@@ -10,7 +10,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 import { ShoppingCartIcon } from "@heroicons/react/24/outline"
 import { ArrowLeftIcon } from "@heroicons/react/20/solid"
 import range from "@utils/range"
-import StockBadge from "@components/StockBadge/StockBadge"
+import StockBadge from "@components/StockBadge"
 
 type AddToCartButtonProps = {
   product: Product

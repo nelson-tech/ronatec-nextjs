@@ -1,6 +1,7 @@
 import getPayloadClient from "~payload/payloadClient"
 import { PaginatedDocs } from "payload/dist/mongoose/types"
 import { Category, Product } from "payload/generated-types"
+import productWhere from "@server/utils/productWhere"
 
 export type LoaderData = {
   productsData: PaginatedDocs<Product> | null
@@ -68,12 +69,9 @@ const getCategoryBySlug = async (slug: string) => {
     try {
       const productsByCategory = (await client.find({
         collection: "products",
-        where: {
-          and: [
-            { categories: { in: [data.category.id, ...data.childIds] } },
-            { _status: { equals: "published" } },
-          ],
-        },
+        where: productWhere({
+          categoriesIds: [data.category.id, ...data.childIds],
+        }),
         page: 1,
       })) as PaginatedDocs<Product>
 
