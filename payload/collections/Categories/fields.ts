@@ -75,23 +75,7 @@ const fields: Field[] = [
                 type: "number",
               },
               {
-                name: "name",
-                type: "text",
-              },
-              {
-                name: "slug",
-                type: "text",
-              },
-              {
-                name: "description",
-                type: "textarea",
-              },
-              {
                 name: "parent",
-                type: "number",
-              },
-              {
-                name: "count",
                 type: "number",
               },
               {
@@ -108,34 +92,10 @@ const fields: Field[] = [
                     type: "text",
                   },
                   {
-                    name: "thumbnail",
-                    type: "text",
-                  },
-                  {
-                    name: "srcset",
-                    type: "text",
-                  },
-                  {
-                    name: "sizes",
-                    type: "text",
-                  },
-                  {
-                    name: "name",
-                    type: "text",
-                  },
-                  {
                     name: "alt",
                     type: "text",
                   },
                 ],
-              },
-              {
-                name: "review_count",
-                type: "number",
-              },
-              {
-                name: "permalink",
-                type: "text",
               },
             ],
             admin: {

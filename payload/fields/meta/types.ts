@@ -26,6 +26,7 @@ export interface PluginConfig {
   uploadsCollection?: string
   fields?: Field[]
   tabbedUI?: boolean
+  hideLabel?: boolean
   generateTitle?: GenerateTitle
   generateDescription?: GenerateDescription
   generateImage?: GenerateImage

@@ -9,7 +9,7 @@ import { getPreviewField } from "./ui/Preview"
 export const meta: (config: PluginConfig) => Field = (config) => ({
   name: "meta",
   interfaceName: "Meta",
-  label: "SEO",
+  label: config.hideLabel ? false : "SEO",
   type: "group",
   admin: { position: "sidebar" },
   fields: [

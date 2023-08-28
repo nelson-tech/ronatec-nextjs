@@ -275,6 +275,7 @@ export interface Document {
 export interface Product {
   id: string
   title: string
+  slug?: string
   shortDescription?: string
   description?: string
   gallery?: {
@@ -292,51 +293,37 @@ export interface Product {
     id?: string
   }[]
   hasVariation?: boolean
+  purchaseNote?: string
+  saleStartDate?: string
+  saleEndDate?: string
+  isTaxable?: boolean
+  taxClass?: string
+  downloadable?: boolean
+  downloadLimit?: number
+  downloadExpiry?: number
+  upsellIds?: string[] | Product[]
+  crossSellIds?: string[] | Product[]
+  sku?: string
+  manageStock?: boolean
+  stock?: number
+  used?: boolean
+  inStock?: boolean
+  shippingRequired?: boolean
+  shippingTaxable?: boolean
+  shippingClass?: string
+  weight?: string
+  dimensions?: {
+    length?: string
+    width?: string
+    height?: string
+  }
   wc?: {
     wc_id?: number
-    name?: string
-    slug?: string
-    parent?: number
-    type?: string
-    permalink?: string
-    sku?: string
-    short_description?: string
     description?: string
-    on_sale?: boolean
-    prices?: {
-      price?: string
-      regular_price?: string
-      sale_price?: string
-      price_range?: string
-      currency_code?: string
-      currency_symbol?: string
-      currency_minor_unit?: number
-      currency_decimal_separator?: string
-      currency_thousand_separator?: string
-      currency_prefix?: string
-      currency_suffix?: string
-    }
-    price_html?: string
-    average_rating?: string
-    review_count?: number
     images?: {
       wc_id?: number
       src?: string
-      thumbnail?: string
-      srcset?: string
-      sizes?: string
-      name?: string
       alt?: string
-      id?: string
-    }[]
-    categories?: {
-      wc_id?: number
-      name?: string
-      slug?: string
-      link?: string
-      id?: string
-    }[]
-    tags?: {
       id?: string
     }[]
     attributes?: {
@@ -352,60 +339,17 @@ export interface Product {
       }[]
       id?: string
     }[]
-    variations?: {
-      id?: string
-    }[]
-    has_options?: boolean
-    is_purchasable?: boolean
-    is_in_stock?: boolean
-    is_on_backorder?: boolean
-    low_stock_remaining?: boolean
-    sold_individually?: boolean
-    add_to_cart?: {
-      text?: string
-      description?: string
-      url?: string
-      minimum?: number
-      maximum?: number
-      multiple_of?: number
-      extensions?: string
-    }
   }
-  weight?: string
-  dimensions?: {
-    length?: string
-    width?: string
-    height?: string
-  }
-  used?: boolean
-  sku?: string
-  manageStock?: boolean
-  stock?: number
-  inStock?: boolean
-  saleStartDate?: string
-  saleEndDate?: string
-  isTaxable?: boolean
-  taxClass?: string
-  shippingRequired?: boolean
-  shippingTaxable?: boolean
-  shippingClass?: string
-  downloadable?: boolean
-  downloadLimit?: number
-  downloadExpiry?: number
   ordered?: number
   sold?: number
-  slug?: string
+  featured?: boolean
+  type?: "simple" | "variable" | "grouped" | "virtual"
   featuredImage?: string | ProductImage
   categories?: string[] | Category[]
   tags?: string[] | Tag[]
-  featured?: boolean
-  type?: "simple" | "variable" | "grouped" | "virtual"
   prices?: Prices
   onSale?: boolean
-  purchaseNote?: string
   meta?: Meta
-  upsellIds?: string[] | Product[]
-  crossSellIds?: string[] | Product[]
   lanco?: boolean
   updatedAt: string
   createdAt: string
@@ -427,22 +371,12 @@ export interface Category {
   }[]
   wc?: {
     wc_id?: number
-    name?: string
-    slug?: string
-    description?: string
     parent?: number
-    count?: number
     image?: {
       wc_id?: number
       src?: string
-      thumbnail?: string
-      srcset?: string
-      sizes?: string
-      name?: string
       alt?: string
     }
-    review_count?: number
-    permalink?: string
   }
   tags?: string[] | Tag[]
   updatedAt: string

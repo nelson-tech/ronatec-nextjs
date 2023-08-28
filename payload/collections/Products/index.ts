@@ -2,7 +2,7 @@ import type { CollectionConfig } from "payload/types"
 
 import { admins } from "../../access/admins"
 import { anyone } from "../../access/anyone"
-import { ProductFields } from "./fields"
+import productFields from "./fields"
 import endpoints from "./endpoints"
 import SyncButton from "./SyncButton"
 import hooks from "./hooks"
@@ -28,7 +28,7 @@ const Products: CollectionConfig = {
     update: admins,
     delete: admins,
   },
-  fields: ProductFields,
+  fields: productFields,
   endpoints,
 }
 

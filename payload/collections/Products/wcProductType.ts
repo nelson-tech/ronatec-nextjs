@@ -62,7 +62,7 @@ export type WCProduct = {
   name: string
   slug: string
   parent: number
-  type: string
+  type: "simple" | "variable" | "grouped"
   variation: string
   permalink: string
   sku: string
