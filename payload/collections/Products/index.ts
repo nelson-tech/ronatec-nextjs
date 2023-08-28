@@ -27,3 +27,5 @@ const Products: CollectionConfig = {
 }
 
 export default Products
+
+// TODO: Remove product from all carts if out of stock (or design out of stock section to cart a la Amazon)

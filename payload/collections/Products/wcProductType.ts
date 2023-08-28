@@ -82,7 +82,7 @@ export type WCProduct = {
   is_purchasable: boolean
   is_in_stock: boolean
   is_on_backorder: boolean
-  low_stock_remaining?: boolean
+  low_stock_remaining?: number
   sold_individually: boolean
   add_to_cart: WCAddToCart
 }
