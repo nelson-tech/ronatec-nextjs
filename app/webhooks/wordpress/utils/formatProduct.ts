@@ -78,7 +78,7 @@ const formatProduct = async ({
       : "published",
     featured: webhook ? incoming.featured : undefined,
     shortDescription: he.decode(incoming.short_description),
-    sku: incoming.sku,
+    sku: incoming.sku || incoming.slug,
     saleStartDate: webhook
       ? incoming.date_on_sale_from || undefined
       : undefined,
@@ -96,8 +96,17 @@ const formatProduct = async ({
       : undefined,
     isTaxable: webhook ? incoming.tax_status === "taxable" : undefined,
     taxClass: webhook ? incoming.tax_class : undefined,
-    manageStock: webhook ? incoming.manage_stock : undefined,
-    stock: webhook ? incoming.stock_quantity || undefined : undefined,
+    manageStock: webhook
+      ? incoming.manage_stock
+      : incoming.low_stock_remaining !== null ||
+        incoming.add_to_cart.maximum !== 9999,
+    stock: webhook
+      ? incoming.stock_quantity || undefined
+      : incoming.low_stock_remaining !== null
+      ? incoming.low_stock_remaining
+      : incoming.add_to_cart.maximum !== 9999
+      ? incoming.add_to_cart.maximum
+      : undefined,
     weight: webhook ? incoming.weight : undefined,
     dimensions: webhook
       ? {
