@@ -10,6 +10,7 @@ import LoadingSpinner from "@components/ui/LoadingSpinner"
 import { ShoppingCartIcon } from "@heroicons/react/24/outline"
 import { ArrowLeftIcon } from "@heroicons/react/20/solid"
 import range from "@utils/range"
+import StockBadge from "@components/StockBadge/StockBadge"
 
 type AddToCartButtonProps = {
   product: Product
@@ -67,6 +68,9 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
       }
     }
   }
+
+  console.log(product)
+
   return (
     <form className="" onSubmit={handleSubmit}>
       {/* {product?.has_options &&
@@ -133,9 +137,7 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
         </RadioGroup>
       )
     })} */}
-      {product.manageStock && (
-        <div className="mt-8 text-highlight">{quantityAvailable} in stock</div>
-      )}
+      <StockBadge product={product} />
       <div className="flex justify-center items-center mt-4">
         {!inCart && (quantityAvailable ?? 0) > 1 && (
           <>
@@ -163,8 +165,9 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
         <button
           type="submit"
           className={`relative w-full bg-accent rounded py-3 px-8 flex items-center justify-center 
-          hover:bg-highlight focus:outline-none focus:ring-0 transition-colors group`}
-          disabled={loading}
+          ${product.inStock ? "hover:bg-highlight" : " bg-gray-400"}
+          focus:outline-none focus:ring-0 transition-colors group`}
+          disabled={loading || !product.inStock}
         >
           {loading ? (
             <span>
@@ -173,10 +176,14 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
           ) : (
             <>
               <span className="text-base font-medium text-white">
-                {inCart ? "View in cart" : "Add to cart"}
+                {product.inStock
+                  ? inCart
+                    ? "View in cart"
+                    : "Add to cart"
+                  : "Out of stock"}
               </span>
 
-              {inCart && (
+              {product.inStock && inCart && (
                 <div className="absolute -right-8 opacity-0 text-white group-hover:right-8 group-hover:opacity-100 transition-all flex">
                   <ArrowLeftIcon className="w-4 mr-2" />
                   <ShoppingCartIcon className="w-4 " />
