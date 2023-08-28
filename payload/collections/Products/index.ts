@@ -3,8 +3,6 @@ import type { CollectionConfig } from "payload/types"
 import { admins } from "../../access/admins"
 import { anyone } from "../../access/anyone"
 import productFields from "./fields"
-import endpoints from "./endpoints"
-import SyncButton from "./SyncButton"
 import hooks from "./hooks"
 
 const Products: CollectionConfig = {
@@ -13,9 +11,6 @@ const Products: CollectionConfig = {
     group: "Shop",
     useAsTitle: "title",
     defaultColumns: ["title", "_status"],
-    components: {
-      AfterList: [SyncButton],
-    },
   },
   hooks,
   versions: {
@@ -29,7 +24,6 @@ const Products: CollectionConfig = {
     delete: admins,
   },
   fields: productFields,
-  endpoints,
 }
 
 export default Products
