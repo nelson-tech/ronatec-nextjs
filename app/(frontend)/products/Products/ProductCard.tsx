@@ -66,10 +66,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               <div
                 className="p-4 w-full text-sm max-h-[140px] line-clamp-[6] md:max-h-full md:line-clamp-none text-gray-500"
                 dangerouslySetInnerHTML={{
-                  __html:
-                    product?.shortDescription ??
-                    product.wc?.short_description ??
-                    "",
+                  __html: product?.shortDescription ?? "",
                 }}
               />
             )}
@@ -111,12 +108,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             ></p>
             <div className="flex justify-between items-center">
               <div className="pt-2">
-                {(product?.shortDescription ||
-                  product.wc?.short_description) && (
+                {product?.shortDescription && (
                   <p
                     className="text-sm text-gray-500"
                     dangerouslySetInnerHTML={{
-                      __html: product.wc?.short_description ?? "",
+                      __html: product.shortDescription ?? "",
                     }}
                   />
                 )}

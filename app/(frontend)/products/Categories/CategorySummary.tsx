@@ -57,7 +57,7 @@ const CategorySummary = ({
             prose-headings:border-t prose-headings:pt-2 prose-headings:mt-4 
             prose-a:text-accent hover:prose-a:text-highlight prose-p:mt-4"
             dangerouslySetInnerHTML={{
-              __html: category?.description ?? category.wc?.description ?? "",
+              __html: category?.description ?? "",
             }}
           />
         </div>

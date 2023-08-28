@@ -72,7 +72,7 @@ const CartItem = ({
 
   const price = lineItem.totals?.formatted?.total
 
-  const quantityAvailable = product.wc?.add_to_cart?.maximum
+  const quantityAvailable = product.manageStock ? product.stock : 9999
 
   const handleRemoveItem = async (key: string | null | undefined) => {
     setCartLoading(true)

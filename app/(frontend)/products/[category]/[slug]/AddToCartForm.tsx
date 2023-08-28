@@ -37,9 +37,7 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
     )
     .includes(product?.id ?? "")
 
-  const quantityAvailable = product.wc?.add_to_cart?.maximum
-
-  const showStock = (quantityAvailable ?? 10000) < 9999
+  const quantityAvailable = product.manageStock ? product.stock : 9999
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     console.log("Product page adding")
@@ -135,7 +133,7 @@ const AddToCartForm = ({ product }: AddToCartButtonProps) => {
         </RadioGroup>
       )
     })} */}
-      {showStock && (
+      {product.manageStock && (
         <div className="mt-8 text-highlight">{quantityAvailable} in stock</div>
       )}
       <div className="flex justify-center items-center mt-4">

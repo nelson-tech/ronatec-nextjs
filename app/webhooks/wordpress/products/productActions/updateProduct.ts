@@ -21,6 +21,7 @@ export const updateProduct = async (data: WCWH_Product, lanco?: boolean) => {
       existingProduct,
       lanco,
       payload,
+      webhook: true,
     })
 
     console.log("Formatted Product", formattedProduct)
@@ -39,6 +40,7 @@ export const updateProduct = async (data: WCWH_Product, lanco?: boolean) => {
       incoming: data,
       lanco: true,
       payload,
+      webhook: true,
     })
 
     const newProduct = await payload.create({

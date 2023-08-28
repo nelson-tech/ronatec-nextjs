@@ -104,10 +104,7 @@ const ProductDetails = ({ product }: DefaultProductProps) => {
               <div
                 className="prose mt-4"
                 dangerouslySetInnerHTML={{
-                  __html:
-                    product.shortDescription ??
-                    product.wc?.short_description ??
-                    "",
+                  __html: product.shortDescription ?? "",
                 }}
               />
               <AddToCartForm product={product} />

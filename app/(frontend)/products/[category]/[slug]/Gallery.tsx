@@ -59,7 +59,7 @@ const ProductGallery = ({
                           src={image.src}
                           alt={image.alt ?? ""}
                           fill
-                          sizes={image.sizes}
+                          sizes="50vw"
                           className="rounded object-contain w-full aspect-square"
                         />
                       </Tab.Panel>
