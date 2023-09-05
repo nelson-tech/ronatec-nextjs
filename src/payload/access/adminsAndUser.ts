@@ -8,7 +8,7 @@ const adminsAndUser: <T extends keyof Config["collections"]>(
   userIdField: string,
   loggingLabel?: string
 ) => Access<Config["collections"][T], User> =
-  (collection, userIdField, loggingLabel) =>
+  (collection, userIdField, loggingLabel = "") =>
   ({ req: { user }, id }) => {
     loggingLabel && console.log("User", collection, loggingLabel, user)
 
