@@ -1,44 +1,46 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "baseUrl": ".",
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "noEmit": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "strictNullChecks": true,
     "paths": {
-      "@components/*": ["components/*"],
-      "@assets/*": ["assets/*"],
-      "@pages/*": ["pages/*"],
-      "@styles/*": ["styles/*"],
-      "@hooks/*": ["lib/hooks/*"],
-      "@server/*": ["lib/server/*"],
-      "@store": ["lib/store"],
-      "@store/*": ["lib/store/*"],
-      "@lib/types": ["lib/types"],
-      "@lib/types/*": ["lib/types/*"],
-      "@utils/*": ["lib/utils/*"],
       "@mocks/*": ["__mocks__/*"],
-      "payload/generated-types": ["./payload/payload-types.ts"],
-      "payload-config": ["./payload/payload.config.ts"],
-      "~payload/*": ["./payload/*"]
-    },
-    "strictNullChecks": true
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@styles/*": ["src/styles/*"],
+      "@hooks/*": ["src/lib/hooks/*"],
+      "@server/*": ["src/lib/server/*"],
+      "@store": ["src/lib/store"],
+      "@store/*": ["src/lib/store/*"],
+      "@lib/types": ["src/lib/types"],
+      "@lib/types/*": ["src/lib/types/*"],
+      "@utils/*": ["src/lib/utils/*"],
+      "~payload-types": ["src/payload/payload-types.ts"],
+      "~payload/*": ["src/payload/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "transpileOnly": true,
+    "swc": true
+  }
 }

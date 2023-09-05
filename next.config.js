@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const path = require("path")
-const { withPayload } = require("@payloadcms/next-payload")
+// const { withPayload } = require("@payloadcms/next-payload")
 
 const nextConfig = {
   // experimental: {
@@ -12,8 +12,8 @@ const nextConfig = {
   transpilePackages: ["@payloadcms/plugin-nested-docs"],
   pageExtensions: ["js", "jsx", "ts", "tsx", "mdx"],
   // output: "standalone",
-  // reactStrictMode: true,
-  // swcMinify: true,
+  reactStrictMode: true,
+  swcMinify: true,
   images: {
     domains: [
       "cdn.ronatec.us",
@@ -29,27 +29,27 @@ const nextConfig = {
   },
 }
 
-// const withBundleAnalyzer = require("@next/bundle-analyzer")({
-//   enabled: process.env.ANALYZE === "true",
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+})
+
+module.exports = withBundleAnalyzer(nextConfig)
+// withPayload(nextConfig, {
+//   // The second argument to `withPayload`
+//   // allows you to specify paths to your Payload dependencies
+//   // and configure the admin route to your Payload CMS.
+
+//   // Point to your Payload config (Required)
+//   configPath: path.resolve(__dirname, "./payload/payload.config.ts"),
+
+//   // Point to custom Payload CSS (optional)
+//   // cssPath: path.resolve(__dirname, "./css/my-custom-payload-styles.css"),
+
+//   // Point to your exported, initialized Payload instance (optional, default shown below`)
+//   payloadPath: path.resolve(process.cwd(), "./payload/payloadClient.ts"),
+
+//   // Set a custom Payload admin route (optional, default is `/admin`)
+//   // NOTE: Read the "Set a custom admin route" section in the payload/next-payload README.
+//   adminRoute: "/admin",
 // })
-
-module.exports = //withBundleAnalyzer(
-  withPayload(nextConfig, {
-    // The second argument to `withPayload`
-    // allows you to specify paths to your Payload dependencies
-    // and configure the admin route to your Payload CMS.
-
-    // Point to your Payload config (Required)
-    configPath: path.resolve(__dirname, "./payload/payload.config.ts"),
-
-    // Point to custom Payload CSS (optional)
-    // cssPath: path.resolve(__dirname, "./css/my-custom-payload-styles.css"),
-
-    // Point to your exported, initialized Payload instance (optional, default shown below`)
-    payloadPath: path.resolve(process.cwd(), "./payload/payloadClient.ts"),
-
-    // Set a custom Payload admin route (optional, default is `/admin`)
-    // NOTE: Read the "Set a custom admin route" section in the payload/next-payload README.
-    adminRoute: "/admin",
-  })
 //)
