@@ -34,7 +34,7 @@ const Users: CollectionConfig = {
   hooks: {
     beforeChange,
     afterChange: [loginAfterCreate],
-    afterLogin: [purgeOldCarts],
+    // afterLogin: [purgeOldCarts],
     beforeLogin,
   },
   fields: UserFields,

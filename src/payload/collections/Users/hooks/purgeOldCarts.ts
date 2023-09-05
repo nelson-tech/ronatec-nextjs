@@ -17,12 +17,7 @@ const purgeOldCarts: CollectionAfterLoginHook<User> = async ({
       where: {
         and: [
           { user: { exists: false } },
-          {
-            or: [
-              { lastEdit: { exists: false } },
-              { lastEdit: { less_than: oldestOkay } },
-            ],
-          },
+          { updatedAt: { less_than: oldestOkay } },
         ],
       },
       depth: 0,
