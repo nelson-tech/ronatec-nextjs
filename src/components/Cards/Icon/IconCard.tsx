@@ -40,16 +40,18 @@ const IconCard = ({ card, centerText = true, contentStyle }: PropsType) => {
             </span>
           </div>
         )}
-        {card.title && (
-          <h3 className="mt-8 text-lg font-medium text-blue-dark tracking-tight">
-            {card.title}
-          </h3>
-        )}
-        {card.content && (
-          <span className={"mt-5 text-base text-gray-500 " + contentStyle}>
-            {parseNewLines(card.content)}
-          </span>
-        )}
+        <div className="mt-8">
+          {card.title && (
+            <h3 className="text-lg font-medium text-blue-dark tracking-tight">
+              {card.title}
+            </h3>
+          )}
+          {card.content && (
+            <p className={"pt-5 text-base text-gray-500 " + contentStyle}>
+              {parseNewLines(card.content)}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

@@ -60,6 +60,7 @@ const SupplierCard = ({
                 height={image.height ?? undefined}
                 alt={image.alt ?? ""}
                 title={title ?? undefined}
+                className="mx-auto"
               />
             </div>
           )}
