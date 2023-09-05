@@ -36,6 +36,13 @@ const adminsAndUser: <T extends keyof Config["collections"]>(
     }
     loggingLabel &&
       console.log("User failed auth checks", collection, loggingLabel)
+
+    loggingLabel &&
+      console.log(
+        "Verifying null field:",
+        userIdField.split(".id").at(0) ?? "user"
+      )
+
     return {
       [userIdField.split(".id").at(0) ?? "user"]: { equals: null },
     }
