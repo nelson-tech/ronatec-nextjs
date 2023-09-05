@@ -9,6 +9,7 @@ import Link from "@components/Link"
 import VideoCard from "@components/VideoCard"
 import SupplierCard from "@components/Cards/Supplier"
 import IconCard from "@components/Cards/Icon"
+import WarehousesCards from "@components/WarehousesCards"
 
 const HomePage = async () => {
   const data = await getHomeData()
@@ -34,7 +35,8 @@ const HomePage = async () => {
             <div className="shadow">
               <Link
                 href="/products"
-                className="w-full flex items-center justify-center px-8 py-3 border border-transparent rounded text-white bg-accent hover:bg-blue-dark md:py-4 md:text-lg md:px-10"
+                className="w-full flex items-center justify-center px-8 py-3 border border-transparent \
+                rounded text-white bg-accent hover:bg-blue-dark md:py-4 md:text-lg md:px-10 transition-colors"
               >
                 Shop Now
               </Link>
@@ -42,7 +44,8 @@ const HomePage = async () => {
             <div className="rounded shadow ml-3">
               <Link
                 href="/about/contact"
-                className="w-full flex items-center justify-center px-8 py-3 border border-transparent rounded text-accent bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
+                className="w-full flex items-center justify-center px-8 py-3 border border-transparent \
+                rounded text-accent bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-colors"
               >
                 Contact Us
               </Link>
@@ -50,6 +53,8 @@ const HomePage = async () => {
           </div>
         </div>
       </div>
+
+      <WarehousesCards />
 
       {home?.carousels && (
         <div className="mt-4">
