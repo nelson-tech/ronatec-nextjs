@@ -45,7 +45,12 @@ const getCategoryBySlug = async (slug: string) => {
     try {
       const categories = (await client.find({
         collection: "categories",
-        where: { slug: { equals: slug } },
+        where: {
+          and: [
+            { slug: { equals: slug } },
+            { _status: { equals: "published" } },
+          ],
+        },
       })) as PaginatedDocs<Category>
 
       const category = categories?.docs?.length > 0 && categories.docs[0]
@@ -54,7 +59,12 @@ const getCategoryBySlug = async (slug: string) => {
         data.category = category
         const childMatches = (await client.find({
           collection: "categories",
-          where: { parent: { equals: category.id } },
+          where: {
+            and: [
+              { parent: { equals: category.id } },
+              { _status: { equals: "published" } },
+            ],
+          },
         })) as PaginatedDocs<Category>
         data.childCategories = childMatches.docs
 
