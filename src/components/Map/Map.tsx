@@ -29,7 +29,7 @@ type CoordinatesType = {
 }
 
 type Props = {
-  map: MapType
+  map: MapType | undefined
   className?: string | null | undefined
   style?: CSSProperties
 }
@@ -61,8 +61,8 @@ const Map = ({ map, className, style }: Props) => {
           })
         }
       </Geographies>
-      {map.markers &&
-        map.markers.map((marker) => {
+      {map?.markers &&
+        map?.markers.map((marker) => {
           return (
             <Marker
               coordinates={[marker?.lon ?? 0, marker?.lat ?? 0]}

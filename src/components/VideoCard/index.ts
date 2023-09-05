@@ -1,1 +1,1 @@
-export { default } from "./VideoCard"
+export { default } from "./LazyVideoCard"
