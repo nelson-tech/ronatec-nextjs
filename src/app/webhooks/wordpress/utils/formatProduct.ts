@@ -44,7 +44,7 @@ const formatProduct = async ({
 
   const regularPrice = webhook
     ? incoming.regular_price
-      ? Number.parseInt(incoming.regular_price)
+      ? Number.parseFloat(incoming.regular_price) * 100
       : undefined
     : incoming.prices.regular_price
     ? Number.parseInt(incoming.prices.regular_price)
@@ -52,7 +52,7 @@ const formatProduct = async ({
 
   const salePrice = webhook
     ? incoming.sale_price
-      ? Number.parseInt(incoming.sale_price)
+      ? Number.parseFloat(incoming.sale_price) * 100
       : undefined
     : incoming.prices.sale_price
     ? Number.parseInt(incoming.prices.sale_price)
