@@ -1,5 +1,5 @@
 import { SEO_TITLE } from "@utils/constants"
-import CategoryLayout from "./Categories"
+import ShopLayout from "./ShopLayout"
 import getShopData from "./products.load"
 
 // ####
@@ -9,13 +9,7 @@ import getShopData from "./products.load"
 const ProductsPage = async () => {
   const { categories, productsData } = await getShopData()
 
-  return (
-    <CategoryLayout
-      categories={categories}
-      productsData={productsData}
-      isCategories={true}
-    />
-  )
+  return <ShopLayout subCategories={categories} productsData={productsData} />
 }
 
 export default ProductsPage

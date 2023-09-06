@@ -1,18 +1,20 @@
 "use client"
 
-import Breadcrumbs from "../Breadcrumbs"
+import Breadcrumbs from "./Breadcrumbs"
 import CategorySummary from "./CategorySummary"
 import { useEffect, useRef, useState } from "react"
 
 import type { PaginatedDocs } from "payload/dist/mongoose/types"
-import ProductGrid from "../Products"
-import Pagination from "../Pagination"
-import Sort from "../Sort"
+import ProductGrid from "./Products"
+import Pagination from "./Pagination"
+import Sort from "./Sort"
 import type { Category, Product } from "~payload-types"
 import useStore from "@hooks/useStore"
 import { SortOptionType } from "@store/slices/shop"
 import qs from "qs"
 import productWhere from "@server/utils/productWhere"
+import CategoryLink from "./CategoryLink"
+import Link from "@components/Link"
 
 // ####
 // #### Types
@@ -35,14 +37,17 @@ type PaginationMetadataType = {
 type CategoryPropsType = {
   category: Category | null | undefined
   childCategories: Category[] | null
+  isCategories?: false
 }
 
 type CategoriesPropsType = {
   categories: Category[] | null | undefined
+  isCategories?: true
 }
 
-type CategoryLayoutProps = (CategoryPropsType | CategoriesPropsType) & {
-  isCategories?: boolean | undefined
+type CategoryLayoutProps = {
+  category?: Category | null | undefined
+  subCategories?: Category[] | null
   productsData: PaginatedDocs<Product> | null
 }
 
@@ -51,9 +56,9 @@ type CategoryLayoutProps = (CategoryPropsType | CategoriesPropsType) & {
 // ####
 
 const CategoryLayout = ({
-  isCategories,
   productsData,
-  ...props
+  category,
+  subCategories,
 }: CategoryLayoutProps) => {
   const productRef = useRef<HTMLDivElement>(null)
 
@@ -63,14 +68,10 @@ const CategoryLayout = ({
   )
   const [pageData, setPageData] = useState<PageDataType>()
   const [selectedSort, setSelectedSort] = useState<SortOptionType>()
-  const [selectedCategories, setSelectedCategories] = useState(
-    isCategories
-      ? (props as CategoriesPropsType).categories
-      : [
-          (props as CategoryPropsType).category,
-          ...((props as CategoryPropsType).childCategories ?? []),
-        ]
-  )
+  const [selectedCategories, setSelectedCategories] = useState([
+    category,
+    ...(subCategories ?? []),
+  ])
 
   const [page, setPage] = useState(productsData?.page ?? 1)
 
@@ -117,50 +118,72 @@ const CategoryLayout = ({
 
   return (
     <main>
-      {!isCategories && (
-        <Breadcrumbs
-          breadcrumbs={(props as CategoryPropsType).category?.breadcrumbs}
-        />
+      {category?.breadcrumbs && (
+        <Breadcrumbs breadcrumbs={category?.breadcrumbs} />
       )}
-      <CategorySummary
-        category={
-          isCategories
-            ? ({
-                title: "Categories",
-                id: "",
-                createdAt: "",
-                updatedAt: "",
-              } as Category)
-            : (props as CategoryPropsType).category
-        }
-        main={isCategories}
-        childCategories={
-          isCategories
-            ? (props as CategoriesPropsType).categories
-            : (props as CategoryPropsType).childCategories
-        }
-        productRef={productRef}
-      />
+      {category?.title && (
+        <div className="p-4" data-testid="category-summary">
+          <h2
+            className="text-4xl w-full text-center font-extrabold tracking-tight text-gray-900"
+            dangerouslySetInnerHTML={{ __html: category?.title }}
+          ></h2>
+        </div>
+      )}
+
       <Sort
         productRef={productRef}
         loading={loading}
+        subCategories={subCategories}
         selectedSort={selectedSort}
+        main={!category}
         setSelectedSort={setSelectedSort}
         selectedCategories={selectedCategories}
       />
-      {products && (
-        <div className="products">
-          <ProductGrid products={products} />
+      <div className="flex">
+        {(subCategories?.length ?? 0) > 0 && (
+          <div className="hidden md:block basis-1/4 pl-6 my-4">
+            <h3 className="text-lg font-bold py-4 border-b">
+              {!category ? "Categories" : "Sub Categories"}
+            </h3>
 
-          {productsData && (
-            <Pagination
-              setPage={setPage}
-              productRef={productRef}
-              pageData={pageData ?? productsData}
-            />
-          )}
-        </div>
-      )}
+            <div className="" data-testid="categories-drawer">
+              <div className="text-sm font-[600] text-gray-700 divide-y">
+                {subCategories?.map((subCategory) => {
+                  if (subCategory) {
+                    return (
+                      <Link
+                        href={`/products/${subCategory.slug}`}
+                        className="block py-2 w-full hover:text-accent hover:tracking-wide transition-all"
+                        key={subCategory?.id}
+                        dangerouslySetInnerHTML={{
+                          __html: subCategory.title ?? "",
+                        }}
+                      />
+                    )
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+        {products && (
+          <div
+            className={`products${
+              (subCategories?.length ?? 0) > 0 ? " md:basis-3/4" : " basis-full"
+            }`}
+          >
+            <ProductGrid products={products} />
+
+            {productsData && (
+              <Pagination
+                setPage={setPage}
+                productRef={productRef}
+                pageData={pageData ?? productsData}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </main>
   )
 }

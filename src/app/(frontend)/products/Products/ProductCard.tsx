@@ -40,31 +40,31 @@ const ProductCard = ({ product }: ProductCardProps) => {
   if (viewMode === "grid") {
     return (
       <div className="group relative bg-white border border-gray-200 rounded w-full flex flex-col overflow-hidden">
-        <PriceBadge
+        {/* <PriceBadge
           product={product}
-          className="absolute top-2 right-2 z-10 bg-highlight text-white rounded-full p-2 text-sm"
-        />
+          className="absolute top-2 right-2 z-[3] bg-highlight text-white rounded-full p-2 text-sm"
+        /> */}
         <div className="group-hover:opacity-75 transition-opacity">
-          <div className="w-full object-center object-cover sm:w-full sm:h-full aspect-square relative overflow-hidden">
+          <div className="w-full object-center object-cover aspect-square  flex items-center relative overflow-hidden">
             {image?.url ? (
               <Image
                 src={image.url}
                 alt={image.alt ?? ""}
                 width={image.width ?? undefined}
                 height={image.height ?? undefined}
-                className="object-contain w-full h-full"
+                className="object-cover w-full h-full"
               />
             ) : wcImage?.src ? (
               <Image
                 src={wcImage.src}
                 alt={wcImage.alt ?? ""}
-                width={100}
-                height={100}
-                className="object-contain w-full h-full"
+                width={1080}
+                height={720}
+                className="object-cover w-full h-full"
               />
             ) : (
               <div
-                className="p-4 w-full text-sm max-h-[140px] line-clamp-[6] md:max-h-full md:line-clamp-none text-gray-500"
+                className="px-4 text-sm max-h-[140px] line-clamp-[6] md:line-clamp-[7] text-gray-500"
                 dangerouslySetInnerHTML={{
                   __html: product?.shortDescription ?? "",
                 }}
@@ -87,8 +87,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
             </Link>
           </h3>
           <div className="px-4 pb-2 flex-1 flex flex-col justify-end"></div>
-          <div className="bg-accent group-hover:bg-highlight transition-colors w-full text-white py-2 text-center">
-            View details
+          <div className="bg-accent h-10 group-hover:bg-highlight transition-colors w-full text-white py-2 relative duration-300">
+            <span className="absolute left-0 top-0 w-full mt-2.5 transition-all text-center group-hover:opacity-0 duration-300 text-sm">
+              {product?.prices?.formatted?.price || "View details"}
+            </span>
+            <span
+              className="absolute left-0 top-0 w-full mt-2.5 transition-all text-center
+             translate-y-10 group-hover:translate-y-0 duration-300 opacity-0 group-hover:opacity-100 text-sm"
+            >
+              View details
+            </span>
           </div>
         </div>
       </div>

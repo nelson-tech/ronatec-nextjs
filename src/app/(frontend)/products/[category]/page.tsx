@@ -6,7 +6,8 @@ import getCategoryBySlug from "./products.category.load"
 import getPayloadClient from "~payload/payloadClient"
 import type { Meta } from "~payload-types"
 
-import CategoryLayout from "../Categories"
+import ShopLayout from "../LazyShopLayout"
+import CategorySummary from "../CategorySummary"
 
 // ####
 // #### Types
@@ -24,11 +25,10 @@ const CategoryPage = async ({ params }: CategoryPageParamsType) => {
   )
 
   return (
-    <CategoryLayout
+    <ShopLayout
       category={category}
-      isCategories={false}
       productsData={productsData}
-      childCategories={childCategories}
+      subCategories={childCategories}
     />
   )
 }

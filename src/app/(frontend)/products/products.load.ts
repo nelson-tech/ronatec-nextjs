@@ -21,6 +21,7 @@ const getShopData = async () => {
       where: {
         or: [{ parent: { exists: false } }, { parent: { equals: null } }],
       },
+      sort: "title",
     })) as PaginatedDocs<Category>
 
     if (categories.totalDocs > 0) {
