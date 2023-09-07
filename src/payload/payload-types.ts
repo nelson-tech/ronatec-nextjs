@@ -689,6 +689,7 @@ export interface NavLink {
 export interface Settings {
   id: string
   seoTitle?: string
+  debugEmail?: string
   logos: {
     main?: string | Image
     favIcon?: string | Image

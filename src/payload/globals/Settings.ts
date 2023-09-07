@@ -21,7 +21,10 @@ export const Settings: GlobalConfig = {
       tabs: [
         {
           label: "Site Settings",
-          fields: [{ name: "seoTitle", label: "SEO Title", type: "text" }],
+          fields: [
+            { name: "seoTitle", label: "SEO Title", type: "text" },
+            { name: "debugEmail", type: "text" },
+          ],
         },
         {
           name: "logos",
