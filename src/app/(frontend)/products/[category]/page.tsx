@@ -6,8 +6,7 @@ import getCategoryBySlug from "./products.category.load"
 import getPayloadClient from "~payload/payloadClient"
 import type { Meta } from "~payload-types"
 
-import ShopLayout from "../LazyShopLayout"
-import CategorySummary from "../CategorySummary"
+import ShopLayout from "../ShopLayout"
 
 // ####
 // #### Types
