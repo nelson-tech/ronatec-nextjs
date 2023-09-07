@@ -64,6 +64,13 @@ const productManagementTab: Tab = {
               hasMany: true,
               admin: { isSortable: true },
             },
+            {
+              name: "relatedIds",
+              type: "relationship",
+              relationTo: "products",
+              hasMany: true,
+              admin: { isSortable: true },
+            },
           ],
         },
         {

@@ -6,6 +6,11 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+export type ProductAttributes = {
+  label?: string
+  value?: string
+  id?: string
+}[]
 export type ProductItems = {
   product: string | Product
   variation?: {
@@ -278,6 +283,7 @@ export interface Product {
   slug?: string
   shortDescription?: string
   description?: string
+  attributes?: ProductAttributes
   gallery?: {
     image?: string | ProductImage
     id?: string
@@ -303,6 +309,7 @@ export interface Product {
   downloadExpiry?: number
   upsellIds?: string[] | Product[]
   crossSellIds?: string[] | Product[]
+  relatedIds?: string[] | Product[]
   sku?: string
   manageStock?: boolean
   stock?: number

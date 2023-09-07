@@ -22,6 +22,19 @@ const productTabs: Field = {
           required: false,
           admin: { description: "Shown on product details page." },
         },
+        {
+          name: "attributes",
+          type: "array",
+          interfaceName: "ProductAttributes",
+          fields: [
+            { name: "label", type: "text" },
+            { name: "value", type: "text" },
+          ],
+          admin: {
+            description:
+              "Appears as a table below description on product page.",
+          },
+        },
       ],
     },
     {
