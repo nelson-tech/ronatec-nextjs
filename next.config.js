@@ -20,6 +20,7 @@ const nextConfig = {
       "api.ronatec.us",
       "ronatec.us",
       "assets.ronatec.us",
+      "lanco-corp.com",
     ],
     // loader: "custom",
     // loaderFile: "lib/utils/imageLoader.ts",
