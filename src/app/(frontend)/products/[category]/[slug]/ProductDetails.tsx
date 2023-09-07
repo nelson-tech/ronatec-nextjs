@@ -3,6 +3,7 @@ import type { Product } from "~payload-types"
 import PriceBadge from "@components/PriceBadge/PriceBadge"
 // import parse, { htmlParserOptions } from "@utils/htmlParser"
 import AddToCartForm from "./AddToCartForm"
+import ProductTabs from "./ProductTabs"
 
 // ####
 // #### Types
@@ -10,13 +11,14 @@ import AddToCartForm from "./AddToCartForm"
 
 type DefaultProductProps = {
   product: Product
+  children?: React.ReactNode
 }
 
 // ####
 // #### Component
 // ####
 
-const ProductDetails = ({ product }: DefaultProductProps) => {
+const ProductDetails = ({ product, children }: DefaultProductProps) => {
   // const getAttributes = (product: REST_WC_Product) => {
   //   let allAttributes: AttributeType[] = []
 
@@ -133,21 +135,11 @@ const ProductDetails = ({ product }: DefaultProductProps) => {
                 </>
               </div>
             )} */}
-            {product?.description ||
-              (product?.wc?.description && (
-                <div
-                  id="product-description"
-                  className="prose max-w-none mt-8 [&>p>iframe]:w-full"
-                  dangerouslySetInnerHTML={{
-                    __html: product?.description ?? product?.wc?.description,
-                  }}
-                >
-                  {/* {parse(
-                    product?.description ?? product?.wc?.description,
-                    htmlParserOptions
-                  )} */}
-                </div>
-              ))}
+
+            <div className="py-4">
+              <ProductTabs product={product} />
+              {children}
+            </div>
           </div>
         </div>
       </div>
