@@ -59,7 +59,6 @@ export const GET = async (req: Request, res: Response) => {
               const formattedProduct = await formatProduct({
                 incoming: rawProduct,
                 existingProduct: matchedBySlug,
-                payload,
                 webhook: false,
                 lanco,
               })
@@ -74,7 +73,6 @@ export const GET = async (req: Request, res: Response) => {
 
               const formattedProduct = await formatProduct({
                 incoming: rawProduct,
-                payload,
                 webhook: false,
                 lanco,
               })
@@ -98,7 +96,6 @@ export const GET = async (req: Request, res: Response) => {
             const formattedProduct = await formatProduct({
               incoming: rawProduct,
               existingProduct: matchedByID,
-              payload,
               webhook: false,
               lanco,
             })
