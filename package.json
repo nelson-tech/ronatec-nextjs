@@ -44,6 +44,7 @@
     "@payloadcms/plugin-cloud-storage": "^1.0.19",
     "@payloadcms/plugin-nested-docs": "^1.0.6",
     "@websolutespa/payload-plugin-localization": "^0.1.0",
+    "completions": "^2.7.0",
     "dotenv": "^16.3.1",
     "html-react-parser": "^4.2.2",
     "jwt-decode": "^3.1.2",

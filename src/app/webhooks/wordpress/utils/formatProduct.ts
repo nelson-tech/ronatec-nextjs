@@ -4,6 +4,7 @@ import { UpdateProduct } from "@lib/types/product"
 import he from "he"
 import { WCProduct } from "~payload/collections/Products/wcProductType"
 import findMatchingWCIds from "./findMatchingWCIds"
+import generateMetadata from "./generateMetadata"
 
 type FormatProductArgs = {
   existingProduct?: Product | null
@@ -19,7 +20,7 @@ const formatProduct = async ({
   lanco,
   webhook,
 }: FormatProductArgs) => {
-  // TODO: Alert with product info
+  // TODO: Update SEO fields
 
   // Find matching tags
   const tagIds = await findMatchingWCIds({
@@ -187,6 +188,16 @@ const formatProduct = async ({
       })),
     },
     // TODO: Improve attributes/variations
+  }
+
+  // SEO Metadata
+  const meta = await generateMetadata({ product })
+
+  console.log("Meta from formatter", meta)
+
+  product.meta = {
+    ...meta,
+    keywords: meta.keywords.map((key) => ({ keyword: key })),
   }
 
   return product
