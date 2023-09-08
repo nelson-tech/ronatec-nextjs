@@ -23,7 +23,7 @@ export const POST = async (req: Request, res: Response) => {
   const payload = await getPayloadClient()
 
   const debugEmail = (
-    (await payload.findGlobal({ slug: "Settings" })) as Settings
+    (await payload.findGlobal({ slug: "settings" })) as Settings
   ).debugEmail
 
   const adminEmail: SendMailOptions = {

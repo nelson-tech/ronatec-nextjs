@@ -9,7 +9,7 @@ export const updateProduct = async (data: WCWH_Product, lanco?: boolean) => {
   const payload = await getPayloadClient()
 
   const debugEmail = (
-    (await payload.findGlobal({ slug: "Settings" })) as Settings
+    (await payload.findGlobal({ slug: "settings" })) as Settings
   ).debugEmail
 
   // check if WC data has been imported before
