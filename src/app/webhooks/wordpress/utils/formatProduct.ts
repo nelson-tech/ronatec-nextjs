@@ -86,6 +86,7 @@ const formatProduct = async ({
   const product: UpdateProduct = {
     ...existingProduct,
     ...(lanco ? { lanco } : {}),
+    ...(existingProduct?.meta?.title ? { meta: existingProduct.meta } : {}),
     title: he.decode(incoming.name),
     slug: incoming.slug,
     createdAt: webhook ? incoming.date_created : undefined,
@@ -191,13 +192,15 @@ const formatProduct = async ({
   }
 
   // SEO Metadata
-  const meta = await generateMetadata({ product })
+  if (!product.meta) {
+    const meta = await generateMetadata({ product })
 
-  console.log("Meta from formatter", meta)
+    console.log("Meta from formatter", meta)
 
-  product.meta = {
-    ...meta,
-    keywords: meta.keywords.map((key) => ({ keyword: key })),
+    product.meta = {
+      ...meta,
+      keywords: meta.keywords.map((key) => ({ keyword: key })),
+    }
   }
 
   return product
