@@ -4,6 +4,7 @@ import { Field } from "payload/types"
 import { slugField } from "~payload/fields/slug"
 import virtualField from "~payload/fields/virtual"
 import productManagementTab from "./management"
+import lexicalField from "~payload/fields/lexical"
 
 const productTabs: Field = {
   type: "tabs",
@@ -16,12 +17,13 @@ const productTabs: Field = {
           type: "textarea",
           admin: { description: "Shown on product card." },
         },
-        {
-          name: "description",
-          type: "textarea",
-          required: false,
-          admin: { description: "Shown on product details page." },
-        },
+        lexicalField({ name: "description", localized: true }),
+        // {
+        //   name: "description",
+        //   type: "textarea",
+        //   required: false,
+        //   admin: { description: "Shown on product details page." },
+        // },
         {
           name: "attributes",
           type: "array",

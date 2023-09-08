@@ -282,7 +282,9 @@ export interface Product {
   title: string
   slug?: string
   shortDescription?: string
-  description?: string
+  description?: {
+    [k: string]: unknown
+  }[]
   attributes?: ProductAttributes
   gallery?: {
     image?: string | ProductImage
