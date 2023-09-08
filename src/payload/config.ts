@@ -32,7 +32,9 @@ const S3_CDN_URL = process.env.S3_CDN_URL || ""
 
 const CORS_SERVERS = [
   `https://${SERVER_CORS_BASE}`,
+  `https://www.${SERVER_CORS_BASE}`,
   `http://${SERVER_CORS_BASE}`,
+  `http://www.${SERVER_CORS_BASE}`,
   `https://${LOCAL_CORS_BASE}`,
   `http://${LOCAL_CORS_BASE}`,
 ]
