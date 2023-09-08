@@ -196,7 +196,7 @@ const formatProduct = async ({
   console.log("Formatted product (pre meta)", product)
 
   // SEO Metadata
-  if (!product.meta?.title) {
+  if (!product.meta?.keywords || product.meta.keywords.length < 1) {
     const meta = await generateMetadata({ product })
 
     console.log("Meta from formatter", meta)
