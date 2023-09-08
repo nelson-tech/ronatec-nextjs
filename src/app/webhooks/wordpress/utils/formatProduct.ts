@@ -20,7 +20,7 @@ const formatProduct = async ({
   lanco,
   webhook,
 }: FormatProductArgs) => {
-  // TODO: Update SEO fields
+  console.log("Formatting...")
 
   // Find matching tags
   const tagIds = await findMatchingWCIds({
@@ -81,6 +81,8 @@ const formatProduct = async ({
       (att) => !attKeys.has(att.label)
     ),
   ]
+
+  console.log("Attributes", attributes)
 
   // Format final product
   const product: UpdateProduct = {
@@ -191,6 +193,8 @@ const formatProduct = async ({
     // TODO: Improve attributes/variations
   }
 
+  console.log("Formatted product (pre meta)", product)
+
   // SEO Metadata
   if (!product.meta) {
     const meta = await generateMetadata({ product })
@@ -202,6 +206,8 @@ const formatProduct = async ({
       keywords: meta.keywords.map((key) => ({ keyword: key })),
     }
   }
+
+  console.log("Final formatted product", product)
 
   return product
 }

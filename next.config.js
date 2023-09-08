@@ -26,7 +26,7 @@ const nextConfig = {
     // loaderFile: "lib/utils/imageLoader.ts",
   },
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    // removeConsole: process.env.NODE_ENV === "production",
   },
 }
 
