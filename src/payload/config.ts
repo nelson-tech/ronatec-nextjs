@@ -25,9 +25,17 @@ import { LexicalPlugin } from "payload-plugin-lexical"
 
 // const mockModulePath = path.resolve(__dirname, "./emptyModuleMock.js")
 
-const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? ""
-const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_URL ?? ""
-const S3_CDN_URL = process.env.S3_CDN_URL ?? ""
+const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL || ""
+const SERVER_CORS_BASE = process.env.NEXT_PUBLIC_SERVER_CORS_BASE || ""
+const LOCAL_CORS_BASE = process.env.NEXT_PUBLIC_LOCAL_CORS_BASE || ""
+const S3_CDN_URL = process.env.S3_CDN_URL || ""
+
+const CORS_SERVERS = [
+  `https://${SERVER_CORS_BASE}`,
+  `http://${SERVER_CORS_BASE}`,
+  `https://${LOCAL_CORS_BASE}`,
+  `http://${LOCAL_CORS_BASE}`,
+]
 
 const config = buildConfig({
   admin: {
@@ -48,7 +56,7 @@ const config = buildConfig({
     },
     webpack: webpackConfig,
   },
-  serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  serverURL: SITE_URL,
   cookiePrefix: process.env.PAYLOAD_COOKIE_PREFIX,
   collections: [
     // PagesCollection,
@@ -69,8 +77,8 @@ const config = buildConfig({
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
-  cors: [SITE_URL, LOCAL_URL].filter(Boolean),
-  csrf: [SITE_URL, LOCAL_URL].filter(Boolean),
+  cors: CORS_SERVERS,
+  csrf: CORS_SERVERS,
   localization: { locales: ["en", "es"], defaultLocale: "en", fallback: true },
   plugins: [
     // localization(),
@@ -78,7 +86,7 @@ const config = buildConfig({
     LexicalPlugin({
       // Only set this if you want to use the the AISuggest Feature
       ai: {
-        openai_key: process.env.OPENAI_API_KEY ?? "",
+        openai_key: process.env.OPENAI_API_KEY || "",
       },
     }),
 
