@@ -3,6 +3,7 @@
 import { Tab } from "@headlessui/react"
 import type { Product } from "~payload-types"
 import ProductAttributes from "./ProductAttributes"
+import Serialize from "@components/Serialize"
 
 type ProductTabsProps = {
   product: Product | null | undefined
@@ -36,8 +37,12 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
 
         <Tab.Panels className="prose mt-8 max-w-none">
           <Tab.Panel> */}
-      {product?.description ||
-        (product?.wc?.description && (
+      {product?.description ? (
+        <div className="prose mt-8 max-w-none [&>p>iframe]:w-full">
+          <Serialize lexical={product.description} />
+        </div>
+      ) : (
+        product?.wc?.description && (
           <div
             id="product-description"
             className="prose mt-8 max-w-none [&>p>iframe]:w-full"
@@ -50,7 +55,8 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
         htmlParserOptions
       )} */}
           </div>
-        ))}
+        )
+      )}
       {/* <ProductAttributes product={product} />
           </Tab.Panel>
           <Tab.Panel>More stuff</Tab.Panel>
