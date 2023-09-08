@@ -102,7 +102,7 @@ export const revalidate = 60 // revalidate this page every 60 seconds
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getGlobalData("consulting")
 
-  const metaData = parseMetaData(page?.meta)
+  const metaData = parseMetaData({ meta: page?.meta })
 
   return metaData
 }

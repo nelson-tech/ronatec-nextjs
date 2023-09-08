@@ -3,13 +3,14 @@ import type { Metadata } from "next"
 import parseMetaData from "@utils/parseMetaData"
 import getProductBySlug from "./products.category.slug.loader"
 import getPayloadClient from "~payload/payloadClient"
-import type { Category } from "~payload-types"
+import type { Category, ProductImage } from "~payload-types"
 
 import Link from "@components/Link"
 
 import Breadcrumbs from "../../Breadcrumbs"
 import ProductDetails from "./ProductDetails"
 import { SEO_TITLE } from "@utils/constants"
+import type { Twitter } from "next/dist/lib/metadata/types/twitter-types"
 
 // ####
 // #### Variables
@@ -93,10 +94,9 @@ export async function generateMetadata({
 }: ProductPageParamsType): Promise<Metadata> {
   const { product } = await getProductBySlug(params.slug)
 
-  const metaData = parseMetaData(product?.meta)
+  const metaData = parseMetaData({ meta: product?.meta, product })
 
-  !metaData.title &&
-    (metaData.title = `${product?.title ?? "Product Details"} ${SEO_TITLE}`)
+  console.log(metaData)
 
   return metaData
 }

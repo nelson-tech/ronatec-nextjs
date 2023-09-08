@@ -98,7 +98,7 @@ export async function generateMetadata({
 }: ProductPageParamsType): Promise<Metadata> {
   const { product } = await getProductBySlug(params.slug)
 
-  const metaData = parseMetaData(product?.meta)
+  const metaData = parseMetaData({ meta: product?.meta, product })
 
   !metaData.title &&
     (metaData.title = `${product?.title ?? "Product Details"} ${SEO_TITLE}`)

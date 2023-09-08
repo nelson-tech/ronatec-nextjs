@@ -120,8 +120,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await getHomeData()
 
   const metaData = parseMetaData({
-    ...data?.home.meta,
-    title: "Ronatec C2C, Inc.",
+    meta: data?.home.meta,
   })
 
   return metaData
