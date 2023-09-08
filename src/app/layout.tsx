@@ -19,6 +19,7 @@ export const metadata = {
     default: "Ronatec C2C, Inc.",
     template: "%s",
   },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL ?? ""),
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -28,17 +29,17 @@ export const metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
-  // robots: {
-  //   index: true,
-  //   follow: true,
-  //   nocache: false,
-  //   googleBot: {
-  //     index: true,
-  //     follow: true,
-  //     noimageindex: false,
-  //     "max-video-preview": -1,
-  //     "max-image-preview": "large",
-  //     "max-snippet": -1,
-  //   },
-  // },
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: false,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 }
