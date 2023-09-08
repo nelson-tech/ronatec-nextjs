@@ -96,7 +96,5 @@ export async function generateMetadata({
 
   const metaData = parseMetaData({ meta: product?.meta, product })
 
-  console.log(metaData)
-
   return metaData
 }
