@@ -5,6 +5,6 @@ export const defaults = {
   },
   description: {
     minLength: 100,
-    maxLength: 150,
+    maxLength: 160,
   },
 }

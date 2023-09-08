@@ -414,6 +414,10 @@ export interface Meta {
   title?: string
   description?: string
   image?: string | Image
+  keywords?: {
+    keyword?: string
+    id?: string
+  }[]
 }
 export interface Cart {
   id: string

@@ -5,6 +5,7 @@ import { PluginConfig } from "./types"
 import { getMetaDescriptionField } from "./fields/MetaDescription"
 import { getMetaImageField } from "./fields/MetaImage"
 import { getPreviewField } from "./ui/Preview"
+import { RowLabelArgs } from "payload/dist/admin/components/forms/RowLabel/types"
 
 export const meta: (config: PluginConfig) => Field = (config) => ({
   name: "meta",
@@ -53,6 +54,18 @@ export const meta: (config: PluginConfig) => Field = (config) => ({
         components: {
           Field: (props) =>
             getMetaImageField({ ...props, pluginConfig: config }),
+        },
+      },
+    },
+    {
+      name: "keywords",
+      type: "array",
+      fields: [{ name: "keyword", type: "text" }],
+      admin: {
+        components: {
+          RowLabel: ({ data, index }: RowLabelArgs) => {
+            return data?.keyword || `Keyword ${String(index).padStart(2, "0")}`
+          },
         },
       },
     },
