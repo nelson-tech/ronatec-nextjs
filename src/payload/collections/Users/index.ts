@@ -28,8 +28,6 @@ const Users: CollectionConfig = {
   auth: {
     cookies: {
       domain: process.env.COOKIE_DOMAIN,
-      sameSite: "none",
-      secure: true,
     },
     tokenExpiration: 3 * 24 * 60 * 60, // 3 days
   },
