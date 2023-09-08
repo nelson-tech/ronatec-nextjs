@@ -139,7 +139,7 @@ const CartItem = ({
                       setQuantity(Number.parseInt(v.target.value))
                     }
                     className="max-w-full rounded-md border border-gray-300 text-left text-base font-medium leading-5 text-gray-700
-                        shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent sm:text-sm"
+                        shadow-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent sm:text-sm cursor-pointer"
                   >
                     {range(1, Math.min(10, quantityAvailable ?? 9999)).map(
                       (num, i) => (
