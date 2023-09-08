@@ -91,7 +91,11 @@ const productFields: CollectionConfig["fields"] = [
     ],
     admin: { position: "sidebar", initCollapsed: true },
   },
-  { name: "lanco", type: "checkbox", admin: { hidden: true } },
+  {
+    name: "lanco",
+    type: "checkbox",
+    admin: { hidden: false, position: "sidebar" },
+  },
 ]
 
 export default productFields
