@@ -21,6 +21,7 @@ import Employees from "./collections/Employees"
 import Tags from "./collections/Tags"
 import { localization } from "@websolutespa/payload-plugin-localization"
 import webpackConfig from "./webpack"
+import { LexicalPlugin } from "payload-plugin-lexical"
 
 // const mockModulePath = path.resolve(__dirname, "./emptyModuleMock.js")
 
@@ -71,7 +72,15 @@ const config = buildConfig({
   csrf: [SITE_URL, "http://localhost:8140"].filter(Boolean),
   localization: { locales: ["en", "es"], defaultLocale: "en", fallback: true },
   plugins: [
-    localization(),
+    // localization(),
+
+    LexicalPlugin({
+      // Only set this if you want to use the the AISuggest Feature
+      ai: {
+        openai_key: process.env.OPENAI_API_KEY ?? "",
+      },
+    }),
+
     nestedDocs({
       collections: ["categories"],
       parentFieldSlug: "parent",
@@ -79,6 +88,7 @@ const config = buildConfig({
       generateLabel: (_, doc) => doc.title as string,
       generateURL: (docs) => `/products/${docs.at(-1)?.slug}`,
     }),
+
     cloudStorage({
       collections: {
         images: {
