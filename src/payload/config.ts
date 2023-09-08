@@ -26,6 +26,7 @@ import { LexicalPlugin } from "payload-plugin-lexical"
 // const mockModulePath = path.resolve(__dirname, "./emptyModuleMock.js")
 
 const SITE_URL = process.env.NEXT_PUBLIC_SERVER_URL ?? ""
+const LOCAL_URL = process.env.NEXT_PUBLIC_LOCAL_URL ?? ""
 const S3_CDN_URL = process.env.S3_CDN_URL ?? ""
 
 const config = buildConfig({
@@ -68,8 +69,8 @@ const config = buildConfig({
   typescript: {
     outputFile: path.resolve(__dirname, "payload-types.ts"),
   },
-  cors: [SITE_URL, "http://localhost:8140"].filter(Boolean),
-  csrf: [SITE_URL, "http://localhost:8140"].filter(Boolean),
+  cors: [SITE_URL, LOCAL_URL].filter(Boolean),
+  csrf: [SITE_URL, LOCAL_URL].filter(Boolean),
   localization: { locales: ["en", "es"], defaultLocale: "en", fallback: true },
   plugins: [
     // localization(),
