@@ -8,7 +8,7 @@ const getHomeData = async () => {
     const topSellersData = await payload.find({
       collection: "products",
       limit: 8,
-      sort: "-updatedAt",
+      sort: "-ordered",
       where: productWhere(),
     })
 
