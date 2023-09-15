@@ -1,4 +1,11 @@
-import { Product, ProductAttributes } from "~payload-types"
+import probe from "probe-image-size"
+
+import {
+  Product,
+  ProductAttributes,
+  WCImageProbe,
+  WCImages,
+} from "~payload-types"
 import { WCWH_Product } from "./types"
 import { UpdateProduct } from "@lib/types/product"
 import he from "he"
@@ -82,7 +89,18 @@ const formatProduct = async ({
     ),
   ]
 
-  console.log("Attributes", attributes)
+  const wcImages: WCImages = await Promise.all(
+    incoming.images.map(async (image) => {
+      // probe image sizes
+      const probeData: WCImageProbe = await probe(image.src)
+      return {
+        wc_id: image.id,
+        src: image.src,
+        alt: image.alt || image.name,
+        ...(probeData.width && probeData.height ? { probe: probeData } : {}),
+      }
+    })
+  )
 
   // Format final product
   const product: UpdateProduct = {
@@ -184,13 +202,8 @@ const formatProduct = async ({
     wc: {
       wc_id: incoming.id,
       description: he.decode(incoming.description),
-      images: incoming.images.map((image) => ({
-        wc_id: image.id,
-        src: image.src,
-        alt: image.alt || image.name,
-      })),
+      images: wcImages,
     },
-    // TODO: Improve attributes/variations
   }
 
   console.log("Formatted product (pre meta)", product)
