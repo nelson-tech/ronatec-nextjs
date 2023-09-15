@@ -18,15 +18,15 @@ const classNames = (...classes) => {
 const ProductTabs = ({ product }: ProductTabsProps) => {
   const tabStyling = ({ selected }) =>
     classNames(
-      "w-full rounded py-2.5 text-sm font-medium leading-5 text-accent",
-      "ring-white ring-opacity-60 ring-offset-1 ring-offset-transparent focus:outline-none focus:ring-1",
+      "w-full rounded py-2.5 text-sm  leading-5 text-accent",
+      "ring-white ring-opacity-60 ring-offset-1 ring-offset-transparent tracking-wide font-bold focus:outline-none focus:ring-1",
       selected
-        ? "bg-white shadow text-highlight"
-        : "text-accent hover:bg-white/[0.2] hover:text-highlight transition-all"
+        ? "bg-white shadow text-gray-500"
+        : "text-gray-400 hover:bg-white/[0.3] hover:text-gray-500 transition-all"
     )
 
   return (
-    <>
+    <div id="product-tabs" className="">
       {/* <Tab.Group>
         <Tab.List className="flex flex-col md:flex-row p-2 rounded bg-accent/10">
           <Tab className={({ selected }) => tabStyling({ selected })}>
@@ -35,7 +35,7 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
           <Tab className={({ selected }) => tabStyling({ selected })}>More</Tab>
         </Tab.List>
 
-        <Tab.Panels className="prose mt-8 max-w-none">
+        <Tab.Panels className="prose mt-8 max-w-none text-gray-600">
           <Tab.Panel> */}
       {product?.description ? (
         <div className="prose mt-8 max-w-none [&>p>iframe]:w-full">
@@ -57,12 +57,12 @@ const ProductTabs = ({ product }: ProductTabsProps) => {
           </div>
         )
       )}
-      {/* <ProductAttributes product={product} />
-          </Tab.Panel>
+      <ProductAttributes product={product} />
+      {/* </Tab.Panel>
           <Tab.Panel>More stuff</Tab.Panel>
         </Tab.Panels>
       </Tab.Group> */}
-    </>
+    </div>
   )
 }
 

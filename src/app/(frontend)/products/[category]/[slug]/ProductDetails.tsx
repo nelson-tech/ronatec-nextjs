@@ -72,7 +72,7 @@ const ProductDetails = ({ product, children }: DefaultProductProps) => {
           }}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 w-full divide-x">
           <div
             id="image-and-options"
             className="w-full col-span-1 p-8 flex flex-col md:flex-row lg:flex-col md:justify-center lg:justify-start"

@@ -8,7 +8,7 @@ type ProductAttributesProps = {
 
 const ProductAttributes = ({ product }: ProductAttributesProps) => {
   return (
-    <>
+    <div id="product-attributes" className="mt-4">
       {product?.attributes
         ? product.attributes.map((attribute) => (
             <div key={attribute.id} className="flex justify-between">
@@ -30,7 +30,7 @@ const ProductAttributes = ({ product }: ProductAttributesProps) => {
               })}
             </div>
           )}
-    </>
+    </div>
   )
 }
 
