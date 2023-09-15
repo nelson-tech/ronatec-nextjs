@@ -11,6 +11,13 @@ export type ProductAttributes = {
   value?: string
   id?: string
 }[]
+export type WCImages = {
+  wc_id?: number
+  src?: string
+  alt?: string
+  probe?: WCImageProbe
+  id?: string
+}[]
 export type ProductItems = {
   product: string | Product
   variation?: {
@@ -202,6 +209,7 @@ export type MobileMenuLink = {
 
 export interface Config {
   collections: {
+    pages: Page
     images: Image
     videos: Video
     productImages: ProductImage
@@ -214,6 +222,8 @@ export interface Config {
     users: User
     employees: Employee
     suppliers: Supplier
+    forms: Form
+    "form-submissions": FormSubmission
   }
   globals: {
     home: Home
@@ -224,6 +234,142 @@ export interface Config {
     menus: Menu
     settings: Settings
   }
+}
+export interface Page {
+  id: string
+  title: string
+  layout: {
+    form: string | Form
+    enableIntro?: boolean
+    introContent: {
+      [k: string]: unknown
+    }[]
+    id?: string
+    blockName?: string
+    blockType: "formBlock"
+  }[]
+  slug?: string
+  updatedAt: string
+  createdAt: string
+  _status?: "draft" | "published"
+}
+export interface Form {
+  id: string
+  title: string
+  fields?: (
+    | {
+        name: string
+        label?: string
+        width?: number
+        defaultValue?: string
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "text"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        defaultValue?: string
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "textarea"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        defaultValue?: string
+        options?: {
+          label: string
+          value: string
+          id?: string
+        }[]
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "select"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "email"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "state"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "country"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        defaultValue?: number
+        required?: boolean
+        id?: string
+        blockName?: string
+        blockType: "number"
+      }
+    | {
+        name: string
+        label?: string
+        width?: number
+        required?: boolean
+        defaultValue?: boolean
+        id?: string
+        blockName?: string
+        blockType: "checkbox"
+      }
+    | {
+        message?: {
+          [k: string]: unknown
+        }[]
+        id?: string
+        blockName?: string
+        blockType: "message"
+      }
+  )[]
+  submitButtonLabel?: string
+  confirmationType?: "message" | "redirect"
+  confirmationMessage: {
+    [k: string]: unknown
+  }[]
+  redirect?: {
+    url: string
+  }
+  emails?: {
+    emailTo?: string
+    cc?: string
+    bcc?: string
+    replyTo?: string
+    emailFrom?: string
+    subject: string
+    message?: {
+      [k: string]: unknown
+    }[]
+    id?: string
+  }[]
+  updatedAt: string
+  createdAt: string
 }
 export interface Image {
   id: string
@@ -329,12 +475,7 @@ export interface Product {
   wc?: {
     wc_id?: number
     description?: string
-    images?: {
-      wc_id?: number
-      src?: string
-      alt?: string
-      id?: string
-    }[]
+    images?: WCImages
     attributes?: {
       wc_id?: number
       name?: string
@@ -363,6 +504,17 @@ export interface Product {
   updatedAt: string
   createdAt: string
   _status?: "draft" | "published"
+}
+export interface WCImageProbe {
+  width?: number
+  height?: number
+  length?: number
+  type?: string
+  mime?: string
+  wUnits?: string
+  hUnits?: string
+  url?: string
+  orientation?: number
 }
 export interface Category {
   id: string
@@ -568,6 +720,17 @@ export interface Supplier {
   updatedAt: string
   createdAt: string
   _status?: "draft" | "published"
+}
+export interface FormSubmission {
+  id: string
+  form: string | Form
+  submissionData?: {
+    field: string
+    value: string
+    id?: string
+  }[]
+  updatedAt: string
+  createdAt: string
 }
 export interface Home {
   id: string

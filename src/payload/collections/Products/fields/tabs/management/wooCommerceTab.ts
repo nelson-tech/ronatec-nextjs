@@ -20,10 +20,27 @@ const wcFields: CollectionConfig["fields"] = [
       {
         name: "images",
         type: "array",
+        interfaceName: "WCImages",
         fields: [
           { name: "wc_id", type: "number" },
           { name: "src", type: "text" },
           { name: "alt", type: "text" },
+          {
+            name: "probe",
+            type: "group",
+            interfaceName: "WCImageProbe",
+            fields: [
+              { name: "width", type: "number" },
+              { name: "height", type: "number" },
+              { name: "length", type: "number" },
+              { name: "type", type: "text" },
+              { name: "mime", type: "text" },
+              { name: "wUnits", type: "text" },
+              { name: "hUnits", type: "text" },
+              { name: "url", type: "text" },
+              { name: "orientation", type: "number" },
+            ],
+          },
         ],
         admin: {
           components: {

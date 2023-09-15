@@ -8,7 +8,7 @@ import afterRead from "./hooks/afterRead"
 import beforeRead from "./hooks/beforeRead"
 import fields from "./fields"
 
-export const Carts: CollectionConfig = {
+const Carts: CollectionConfig = {
   slug: "carts",
   fields,
   access: {
@@ -20,3 +20,5 @@ export const Carts: CollectionConfig = {
   hooks: { afterRead, beforeChange, afterChange, afterDelete, beforeRead },
   admin: { group: "Shop", hidden: false },
 }
+
+export default Carts
