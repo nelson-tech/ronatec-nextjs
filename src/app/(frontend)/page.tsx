@@ -2,7 +2,7 @@ import type { Metadata } from "next/types"
 
 import getHomeData from "./page.load"
 import parseMetaData from "@utils/parseMetaData"
-import type { Category } from "~payload-types"
+import type { Category, Image as ImageType } from "~payload-types"
 
 import CardCarousel from "@components/CardCarousel"
 import Link from "@components/Link"
@@ -10,9 +10,17 @@ import VideoCard from "@components/VideoCard"
 import SupplierCard from "@components/Cards/Supplier"
 import IconCard from "@components/Cards/Icon"
 import WarehousesCards from "@components/WarehousesCards"
+import getPayloadClient from "~payload/payloadClient"
 
 const HomePage = async () => {
   const data = await getHomeData()
+
+  const client = await getPayloadClient()
+
+  const heroImage = (await client.findByID({
+    collection: "images",
+    id: "653d53fbc381b5fb6cfe0420",
+  })) as ImageType
 
   const home = data?.home
   const topSellers = data?.topSellers
@@ -50,6 +58,33 @@ const HomePage = async () => {
                 Contact Us
               </Link>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        <div
+          className="relative h-[40rem] md:h-96 bg-cover bg-bottom bg-no-repeat z-10 xl:rounded-lg overflow-hidden"
+          style={{ backgroundImage: `url(${heroImage.url})` }}
+        >
+          <div className=" bg-black/50 h-full w-full z-0" />
+          <div
+            className={` absolute p-8 text-white text-center inset-0 w-full py-4 z-10 h-full flex flex-col justify-center items-center`}
+          >
+            <h1 className={` text-4xl uppercase font-bold mb-8`}>
+              Process Tank Lines
+            </h1>
+            <p className="text-lg px-8 mb-8">
+              Ronatec C2C, Inc. has a history of being at the forefront and
+              introducing innovative concepts in the planning, construction, and
+              installation of process tank systems.
+            </p>
+            <a
+              href="/services/process-tank-lines"
+              className="text-lg px-8 bg-white text-accent py-4 rounded hover:text-highlight transition-all duration-300"
+            >
+              Learn More
+            </a>
           </div>
         </div>
       </div>
