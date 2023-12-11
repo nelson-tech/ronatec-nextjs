@@ -105,24 +105,36 @@ const QuoteForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {
+      onSubmit={handleSubmit(async (data) => {
         setLoading(true)
-        fetch("/api/tank-quote", {
+
+        const url = process.env.NEXT_PUBLIC_SERVER_URL + "/forms/tank-quote"
+        console.log("Sending it out", url)
+
+        const response = await fetch(url, {
           method: "POST",
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }).then((res) => {
-          if (res.status === 200) {
-            setFormStatus("Quote request sent.")
-          } else {
-            setFormStatus("Error sending quote request.")
-          }
-
-          setLoading(false)
         })
+          .then((res) => {
+            if (res.status === 200) {
+              setFormStatus("Quote request sent.")
+            } else {
+              setFormStatus("Error in response after sending quote request.")
+            }
+
+            return res
+          })
+          .catch((err) => {
+            console.log("Error sending quote request.", err)
+            setFormStatus("Error sending quote request.")
+            return null
+          })
+        console.log("Sent it out", response && (await response.text()))
+        setLoading(false)
       })}
       className="space-y-6"
       action="#"
