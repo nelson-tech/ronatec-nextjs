@@ -33,13 +33,11 @@ const ProcessTankLinesPage = async () => {
   })) as ImageType
 
   const videoLink: VideoLink[0] = {
-    title: "BMP Process Line",
+    title: "Process Line",
     provider: "direct",
     video,
     placeholderImage,
   }
-
-  console.log(video)
 
   return (
     <>
