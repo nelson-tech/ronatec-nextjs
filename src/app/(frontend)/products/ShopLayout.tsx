@@ -114,7 +114,14 @@ const CategoryLayout = ({
     })
 
     setLoading(false)
-  }, [selectedSort, page, pageData?.page, productsPerPage, selectedCategories])
+  }, [
+    selectedSort,
+    page,
+    pageData?.page,
+    productsPerPage,
+    selectedCategories,
+    used,
+  ])
 
   return (
     <main>
