@@ -36,7 +36,7 @@ const MainMenuLink = ({
       <Wrapper
         href={linkUrl}
         title={link.label}
-        className={`transition-colors ease-out duration-200 py-2 px-3 rounded outline-none ${
+        className={`transition-colors ease-out duration-200 py-2 px-3 text-lg tracking-wide rounded outline-none ${
           open || current ? "bg-gray-100" : "hover:bg-gray-100"
         } text-gray-900 font-medium inline-flex items-center`}
       >

@@ -9,13 +9,14 @@ import type { Product } from "~payload-types"
 
 type PropsType = {
   products: Product[]
+  used?: boolean
 }
 
 // ####
 // #### Component
 // ####
 
-const ProductGrid = ({ products }: PropsType) => {
+const ProductGrid = ({ products, used }: PropsType) => {
   const viewMode = useStore((state) => state.shop.viewMode)
 
   return (
@@ -36,7 +37,13 @@ const ProductGrid = ({ products }: PropsType) => {
             {products &&
               products.map((product) => {
                 if (product) {
-                  return <ProductCard product={product} key={product.id} />
+                  return (
+                    <ProductCard
+                      product={product}
+                      key={product.id}
+                      used={used}
+                    />
+                  )
                 }
               })}
           </div>

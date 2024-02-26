@@ -540,6 +540,8 @@ export interface Category {
     }
   }
   tags?: string[] | Tag[]
+  productCount?: number
+  usedProductCount?: number
   updatedAt: string
   createdAt: string
   _status?: "draft" | "published"

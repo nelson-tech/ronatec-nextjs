@@ -120,6 +120,16 @@ const fields: Field[] = [
     hasMany: true,
     admin: { position: "sidebar", isSortable: true },
   },
+  {
+    name: "productCount",
+    type: "number",
+    admin: { readOnly: true, position: "sidebar" },
+  },
+  {
+    name: "usedProductCount",
+    type: "number",
+    admin: { readOnly: true, position: "sidebar" },
+  },
 ]
 
 export default fields

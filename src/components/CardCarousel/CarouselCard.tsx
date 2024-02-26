@@ -44,6 +44,7 @@ const CarouselCard = memo(({ name, slug, image, wcImage }: PropsType) => {
               src={image.url}
               alt={image.alt ?? ""}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               title={name}
               className="object-cover w-full h-full"
             />
@@ -55,6 +56,7 @@ const CarouselCard = memo(({ name, slug, image, wcImage }: PropsType) => {
                 src={wcImage.src}
                 alt={wcImage.alt ?? ""}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 title={name}
                 className="object-cover w-full h-full"
               />

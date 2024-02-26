@@ -37,10 +37,10 @@ const MainMenu = ({ menuItems }: MainMenuInputType) => {
   return (
     <>
       {menuItems && (
-        <div className="hidden h-full lg:flex items-center">
+        <div className="hidden h-full lg:flex items-center justify-center w-full">
           {/* Mega menus */}
           <Popover.Group className="ml-8">
-            <div className="h-full flex items-center space-x-2 text-sm font-medium text-gray-600">
+            <div className="h-full flex items-center space-x-8 text-sm font-medium text-gray-600">
               {menuItems.map((menuItem) => {
                 const { link, id } = menuItem
 

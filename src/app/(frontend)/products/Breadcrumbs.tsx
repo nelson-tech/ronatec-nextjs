@@ -11,6 +11,7 @@ export type PropsType = {
   breadcrumbs: Category["breadcrumbs"]
   product?: Product | null
   info?: boolean
+  used?: boolean
 }
 
 // ####
@@ -20,6 +21,7 @@ export type PropsType = {
 const Breadcrumbs = ({
   category,
   product,
+  used,
   info = false,
   breadcrumbs,
 }: PropsType) => {
@@ -36,12 +38,12 @@ const Breadcrumbs = ({
           <li>
             <div className="flex items-center">
               <Link
-                href={"/products"}
+                href={used ? "/used" : "/products"}
                 data-testid="shop-link"
                 className="mr-2 md:mr-4 text-sm font-medium text-gray-900"
                 title="View all products"
               >
-                Shop
+                {used ? "Used Equipment" : "Shop"}
               </Link>
               <svg
                 viewBox="0 0 6 20"
@@ -62,7 +64,12 @@ const Breadcrumbs = ({
                 <li key={breadcrumb.id}>
                   <div className="flex items-center">
                     <Link
-                      href={breadcrumb.url ?? "/products"}
+                      href={
+                        used
+                          ? breadcrumb.url?.replace("products", "used") ??
+                            "/used"
+                          : breadcrumb.url ?? "/products"
+                      }
                       data-testid={breadcrumb.label}
                       title={`View all ${breadcrumb.label} products`}
                       className="mr-2 md:mr-4 text-sm font-medium text-gray-900 hover:text-accent transition-colors"

@@ -60,7 +60,7 @@ const WarehousesCards = () => {
                       leaveTo="transform scale-95 opacity-0"
                     >
                       <Disclosure.Panel>
-                        <p className={"text-gray-500 "}>
+                        <div className={"text-gray-500 "}>
                           <ul>
                             {[
                               "Los Angeles CA",
@@ -76,7 +76,7 @@ const WarehousesCards = () => {
                               <li key={location}>{location}</li>
                             ))}
                           </ul>
-                        </p>
+                        </div>
                       </Disclosure.Panel>
                     </Transition>
                   </>

@@ -11,13 +11,14 @@ import Image from "@components/Image/Image"
 
 type ProductCardProps = {
   product: Product
+  used?: boolean
 }
 
 // ####
 // #### Component
 // ####
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, used }: ProductCardProps) => {
   const viewMode = useStore((state) => state.shop.viewMode)
 
   const categorySlug = product?.categories
@@ -76,7 +77,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <div className="flex-1 space-y-2 flex flex-col w-full">
           <h3 className="font-bold px-4 py-2 text-gray-900 group-hover:text-accent transition-colors text-base sm:text-xl">
             <Link
-              href={`/products/${categorySlug}/${product?.slug}`}
+              href={`/${
+                used ? "used" : "products"
+              }/${categorySlug}/${product?.slug}`}
               title={product?.title ?? ""}
               className="flex flex-col"
             >
@@ -105,7 +108,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     return (
       <div className="group relative py-4" key={product?.id}>
         <Link
-          href={`/products/${categorySlug}/${product?.slug}`}
+          href={`/${
+            used ? "used" : "products"
+          }/${categorySlug}/${product?.slug}`}
           title={product?.title ?? ""}
           className="flex items-center"
         >

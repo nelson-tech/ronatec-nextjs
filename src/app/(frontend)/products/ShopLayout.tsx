@@ -15,6 +15,7 @@ import qs from "qs"
 import productWhere from "@server/utils/productWhere"
 import CategoryLink from "./CategoryLink"
 import Link from "@components/Link"
+import usedProductWhere from "@server/utils/usedProductWhere"
 
 // ####
 // #### Types
@@ -34,21 +35,11 @@ type PaginationMetadataType = {
   nextPage: number | null
 }
 
-type CategoryPropsType = {
-  category: Category | null | undefined
-  childCategories: Category[] | null
-  isCategories?: false
-}
-
-type CategoriesPropsType = {
-  categories: Category[] | null | undefined
-  isCategories?: true
-}
-
 type CategoryLayoutProps = {
   category?: Category | null | undefined
   subCategories?: Category[] | null
   productsData: PaginatedDocs<Product> | null
+  used?: boolean
 }
 
 // ####
@@ -59,6 +50,7 @@ const CategoryLayout = ({
   productsData,
   category,
   subCategories,
+  used,
 }: CategoryLayoutProps) => {
   const productRef = useRef<HTMLDivElement>(null)
 
@@ -84,9 +76,17 @@ const CategoryLayout = ({
 
     const query = qs.stringify(
       {
-        where: productWhere({
-          categoriesIds: selectedCategories?.map((category) => category?.id),
-        }),
+        where: used
+          ? usedProductWhere({
+              categoriesIds: selectedCategories?.map(
+                (category) => category?.id
+              ),
+            })
+          : productWhere({
+              categoriesIds: selectedCategories?.map(
+                (category) => category?.id
+              ),
+            }),
       },
       { addQueryPrefix: false }
     )
@@ -119,7 +119,7 @@ const CategoryLayout = ({
   return (
     <main>
       {category?.breadcrumbs && (
-        <Breadcrumbs breadcrumbs={category?.breadcrumbs} />
+        <Breadcrumbs breadcrumbs={category?.breadcrumbs} used={used} />
       )}
       {category?.title && (
         <div className="p-4" data-testid="category-summary">
@@ -152,7 +152,9 @@ const CategoryLayout = ({
                   if (subCategory) {
                     return (
                       <Link
-                        href={`/products/${subCategory.slug}`}
+                        href={`/${used ? "used" : "products"}/${
+                          subCategory.slug
+                        }`}
                         className="block py-2 w-full hover:text-accent hover:tracking-wide transition-all"
                         key={subCategory?.id}
                         dangerouslySetInnerHTML={{
@@ -172,7 +174,7 @@ const CategoryLayout = ({
               (subCategories?.length ?? 0) > 0 ? " md:basis-3/4" : " basis-full"
             }`}
           >
-            <ProductGrid products={products} />
+            <ProductGrid products={products} used={used} />
 
             {productsData && (
               <Pagination

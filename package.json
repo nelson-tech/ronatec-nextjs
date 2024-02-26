@@ -13,6 +13,7 @@
     "copyfiles": "copyfiles -u 1 \"src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png}\" dist/",
     "start": "cross-env PAYLOAD_CONFIG_PATH=dist/payload/config.js NODE_ENV=production node dist/server.js",
     "lint": "next lint",
+    "resave": "npm run build && PAYLOAD_CONFIG_PATH=dist/payload/config.js node scripts/resaveCollection",
     "pm2-dev-start": "pm2 start npm --name \"Ronatec Next.js Dev\" -- run dev",
     "pm2-dev-stop": "pm2 stop \"Ronatec Next.js Dev\" && pm2 delete \"Ronatec Next.js Dev\"",
     "pm2-dev-restart": "pm2 restart \"Ronatec Next.js Dev\"",

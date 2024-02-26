@@ -1,6 +1,8 @@
-import { BeforeChangeHook } from "payload/dist/collections/config/types"
 import checkVariations from "./checkVariations"
+import setUsed from "./setUsed"
 
-const beforeChange: BeforeChangeHook[] = [checkVariations]
+import type { CollectionBeforeChangeHook } from "payload/types"
+
+const beforeChange: CollectionBeforeChangeHook[] = [checkVariations, setUsed]
 
 export default beforeChange

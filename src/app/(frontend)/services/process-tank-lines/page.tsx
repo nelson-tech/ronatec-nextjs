@@ -1,5 +1,4 @@
 import Image from "@components/Image"
-import PageHeader from "@components/PageHeader"
 import VideoCard from "@components/VideoCard"
 import { SEO_TITLE } from "@utils/constants"
 import type { Image as ImageType, VideoLink } from "~payload-types"
