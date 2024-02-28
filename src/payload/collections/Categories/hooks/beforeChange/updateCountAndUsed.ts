@@ -1,3 +1,4 @@
+import whereInStock from "@server/utils/whereInStock"
 import type { PaginatedDocs } from "payload/dist/mongoose/types"
 import type { Payload } from "payload/dist/payload"
 import type { CollectionBeforeChangeHook } from "payload/types"
@@ -19,9 +20,15 @@ const updateCountAndUsed: CollectionBeforeChangeHook<Category> = async ({
   const productsInCategory = (await payload.find({
     collection: "products",
     where: {
-      categories: {
-        contains: id,
-      },
+      and: [
+        {
+          categories: {
+            contains: id,
+          },
+        },
+        whereInStock,
+        { _status: { equals: "published" } },
+      ],
     },
     limit: 9999,
   })) as PaginatedDocs<Product>

@@ -38,7 +38,18 @@ export const revalidate = 60 // revalidate this page every 60 seconds
 
 export async function generateStaticParams() {
   const client = await getPayloadClient()
-  const data = await client.find({ collection: "categories", limit: 999 })
+  const data = await client.find({
+    collection: "categories",
+    where: {
+      and: [
+        {
+          and: [{ productCount: { greater_than: 0 } }],
+        },
+        { _status: { equals: "published" } },
+      ],
+    },
+    limit: 999,
+  })
 
   return (
     data.docs.map((category) => ({

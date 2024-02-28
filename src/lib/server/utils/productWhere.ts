@@ -1,16 +1,8 @@
-import { Where } from "payload/types"
+import type { Where } from "payload/types"
+import whereInStock from "./whereInStock"
 
 type ProductWhereArgs = {
   categoriesIds?: (string | null | undefined)[] | undefined
-}
-
-export const whereInStock: Where = {
-  or: [
-    { manageStock: { not_equals: true } },
-    {
-      and: [{ manageStock: { equals: true } }, { stock: { greater_than: 0 } }],
-    },
-  ],
 }
 
 const productWhere = (args?: ProductWhereArgs) =>

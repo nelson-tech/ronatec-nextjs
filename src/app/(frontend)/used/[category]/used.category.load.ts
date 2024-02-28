@@ -84,11 +84,13 @@ const getCategoryBySlug = async (slug: string) => {
 
   if (data.category) {
     try {
+      const where = usedProductWhere({
+        categoriesIds: [data.category.id, ...data.childIds],
+      })
+
       const productsByCategory = (await client.find({
         collection: "products",
-        where: usedProductWhere({
-          categoriesIds: [data.category.id, ...data.childIds],
-        }),
+        where,
         page: 1,
       })) as PaginatedDocs<Product>
 
@@ -97,6 +99,7 @@ const getCategoryBySlug = async (slug: string) => {
       console.warn("Error fetching products", data.category, error)
     }
   }
+
   return data
 }
 

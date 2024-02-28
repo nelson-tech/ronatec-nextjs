@@ -9,6 +9,7 @@ import Link from "@components/Link"
 
 import ProductDetails from "./ProductDetails"
 import Breadcrumbs from "src/app/(frontend)/products/Breadcrumbs"
+import usedProductWhere from "@server/utils/usedProductWhere"
 
 // ####
 // #### Variables
@@ -74,7 +75,8 @@ export async function generateStaticParams() {
   const productsData = await client.find({
     collection: "products",
     sort: "purchased",
-    limit: 100,
+    where: { ...usedProductWhere() },
+    limit: 9999,
   })
 
   return (

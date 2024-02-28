@@ -3,7 +3,6 @@ import fields from "./fields"
 import afterDelete from "./hooks/afterDelete"
 import afterRead from "./hooks/afterRead"
 import beforeChange from "./hooks/beforeChange"
-import type { Payload } from "payload/dist/payload"
 
 const Categories: CollectionConfig = {
   slug: "categories",
@@ -15,32 +14,32 @@ const Categories: CollectionConfig = {
     afterRead,
     afterDelete,
     beforeChange,
-    afterChange: [
-      async ({ operation, req }) => {
-        if (operation !== "create") {
-          return
-        }
+    // afterChange: [
+    //   async ({ operation, req }) => {
+    //     if (operation !== "create") {
+    //       return
+    //     }
 
-        const payload = req.payload as Payload
+    //     const payload = req.payload as Payload
 
-        const allCats = await payload.find({
-          collection: "categories",
-          limit: 999,
-        })
+    //     const allCats = await payload.find({
+    //       collection: "categories",
+    //       limit: 999,
+    //     })
 
-        const allCatIds = allCats.docs.map((cat) => cat.id)
+    //     const allCatIds = allCats.docs.map((cat) => cat.id)
 
-        console.log("All cat ids", allCatIds)
+    //     console.log("All cat ids", allCatIds)
 
-        for (const id of allCatIds) {
-          await payload.update({
-            collection: "categories",
-            id,
-            data: {},
-          })
-        }
-      },
-    ],
+    //     for (const id of allCatIds) {
+    //       await payload.update({
+    //         collection: "categories",
+    //         id,
+    //         data: {},
+    //       })
+    //     }
+    //   },
+    // ],
   },
   versions: {
     drafts: { autosave: true },

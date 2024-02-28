@@ -11,6 +11,7 @@ import Breadcrumbs from "../../Breadcrumbs"
 import ProductDetails from "./ProductDetails"
 import { SEO_TITLE } from "@utils/constants"
 import type { Twitter } from "next/dist/lib/metadata/types/twitter-types"
+import productWhere from "@server/utils/productWhere"
 
 // ####
 // #### Variables
@@ -75,7 +76,8 @@ export async function generateStaticParams() {
   const productsData = await client.find({
     collection: "products",
     sort: "purchased",
-    limit: 100,
+    where: productWhere(),
+    limit: 9999,
   })
 
   return (
