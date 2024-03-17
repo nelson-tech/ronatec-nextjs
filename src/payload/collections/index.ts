@@ -10,6 +10,10 @@ import Tags from "./Tags"
 import Pages from "./Pages"
 
 import type { CollectionConfig } from "payload/types"
+import Chemicals from "./Chemicals"
+import NewsArticles from "./NewsArticles"
+import Manufacturers from "./Manufacturers"
+import Industries from "./Industries"
 
 const collections: CollectionConfig[] = [
   Pages,
@@ -23,6 +27,10 @@ const collections: CollectionConfig[] = [
   Carts,
   Orders,
   Users,
+  Manufacturers,
+  Industries,
+  Chemicals,
+  NewsArticles,
   Employees,
   Suppliers,
 ]
