@@ -26,16 +26,23 @@ export const GET = async (req: Request, res: Response) => {
 }
 
 export const POST = async (req: Request, res: Response) => {
-  const { isValid, data, resource, event } = await getWebhookData<WCWH_Product>(
-    req,
-    secret
-  )
-
   const payload = await getPayloadClient()
 
   const debugEmail = (
     (await payload.findGlobal({ slug: "settings" })) as Settings
   ).debugEmail
+
+  const testEmail: SendMailOptions = {
+    to: debugEmail || "michael@ronatec.us",
+    subject: `Lanco product POST event`,
+    text: JSON.stringify(req || "{}"),
+  }
+  payload.sendEmail(testEmail)
+
+  const { isValid, data, resource, event } = await getWebhookData<WCWH_Product>(
+    req,
+    secret
+  )
 
   const adminEmail: SendMailOptions = {
     to: debugEmail || "michael@ronatec.us",
