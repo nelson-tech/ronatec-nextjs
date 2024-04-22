@@ -10,17 +10,6 @@ const secret = process.env.LANCO_WEBHOOK_SECRET
 
 export const GET = async (req: Request, res: Response) => {
   console.log("Incoming Lanco Product Update Ping", req)
-  const payload = await getPayloadClient()
-  const debugEmail = (
-    (await payload.findGlobal({ slug: "settings" })) as Settings
-  ).debugEmail
-
-  const adminEmail: SendMailOptions = {
-    to: debugEmail || "michael@ronatec.us",
-    subject: `Lanco product GET event`,
-    text: JSON.stringify(req || "{}"),
-  }
-  payload.sendEmail(adminEmail)
 
   return NextResponse.json({ ping: "success" })
 }
@@ -31,13 +20,6 @@ export const POST = async (req: Request, res: Response) => {
   const debugEmail = (
     (await payload.findGlobal({ slug: "settings" })) as Settings
   ).debugEmail
-
-  const testEmail: SendMailOptions = {
-    to: debugEmail || "michael@ronatec.us",
-    subject: `Lanco product POST event`,
-    text: JSON.stringify(req || "{}"),
-  }
-  payload.sendEmail(testEmail)
 
   const { isValid, data, resource, event } = await getWebhookData<WCWH_Product>(
     req,

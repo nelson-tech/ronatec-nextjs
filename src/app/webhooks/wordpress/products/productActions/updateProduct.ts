@@ -30,14 +30,14 @@ export const updateProduct = async (data: WCWH_Product, lanco?: boolean) => {
       webhook: true,
     })
 
-    if (debugEmail) {
-      const adminEmail: SendMailOptions = {
-        to: debugEmail,
-        subject: `Lanco product updating: ${formattedProduct.title}`,
-        text: JSON.stringify(formattedProduct || "{}"),
-      }
-      payload.sendEmail(adminEmail)
-    }
+    // if (debugEmail) {
+    //   const adminEmail: SendMailOptions = {
+    //     to: debugEmail,
+    //     subject: `Lanco product updating: ${formattedProduct.title}`,
+    //     text: JSON.stringify(formattedProduct || "{}"),
+    //   }
+    //   payload.sendEmail(adminEmail)
+    // }
 
     const updatedProduct = await payload.update({
       collection: "products",
@@ -55,14 +55,14 @@ export const updateProduct = async (data: WCWH_Product, lanco?: boolean) => {
       webhook: true,
     })
 
-    if (debugEmail) {
-      const adminEmail: SendMailOptions = {
-        to: debugEmail,
-        subject: `Lanco product created: ${formattedProduct.title}`,
-        text: JSON.stringify(formattedProduct || "{}"),
-      }
-      payload.sendEmail(adminEmail)
-    }
+    // if (debugEmail) {
+    //   const adminEmail: SendMailOptions = {
+    //     to: debugEmail,
+    //     subject: `Lanco product created: ${formattedProduct.title}`,
+    //     text: JSON.stringify(formattedProduct || "{}"),
+    //   }
+    //   payload.sendEmail(adminEmail)
+    // }
 
     const newProduct = await payload.create({
       collection: "products",
