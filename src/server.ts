@@ -40,6 +40,10 @@ const start = async (): Promise<void> => {
 
   const nextHandler = nextApp.getRequestHandler()
 
+  console.log("Path", path.resolve(__dirname, "../public"))
+
+  app.use("/public", express.static(path.resolve(__dirname, "../public")))
+
   app.use((req, res) => nextHandler(req, res))
 
   nextApp.prepare().then(() => {

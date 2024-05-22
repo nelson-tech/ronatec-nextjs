@@ -11,6 +11,7 @@ import SupplierCard from "@components/Cards/Supplier"
 import IconCard from "@components/Cards/Icon"
 import WarehousesCards from "@components/WarehousesCards"
 import getPayloadClient from "~payload/payloadClient"
+import Image from "@components/Image"
 
 const HomePage = async () => {
   const data = await getHomeData()
@@ -121,6 +122,20 @@ const HomePage = async () => {
           </div>
         </div>
       )}
+
+      <div className="w-1/2 mx-auto p-4 mb-16">
+        <div className="text-center pb-4 text-2xl divide-y-4 divide-gray-150 divide-double relative px-6 undefined">
+          <h2 className="pb-2">Featured in MFANC</h2>
+          <div></div>
+        </div>
+        <Image
+          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/public/mfanc.jpg`}
+          alt="Metal Finishing Association of Northern California"
+          width={1200}
+          height={1522}
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       {home?.videos?.map((videoLink) => {
         if (videoLink?.id)
