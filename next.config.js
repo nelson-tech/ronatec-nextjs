@@ -7,6 +7,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: [
+      "localhost",
       "cdn.ronatec.us",
       "api.ronatec.us",
       "ronatec.us",
