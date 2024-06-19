@@ -110,6 +110,7 @@ const CarbonateRemovalSystemComponent = () => {
             videoLink={{
               title: "Carbonate Removal System",
               videoId: "tb54hMJb1jE",
+              provider: "youtube",
               video: {
                 id: "tb54hMJb1jE",
                 alt: "Carbonate Removal System",
@@ -119,7 +120,6 @@ const CarbonateRemovalSystemComponent = () => {
               },
             }}
             cardStyle="pb-12 px-5 w-full md:w-4/5 lg:w-2/3 mx-auto"
-            light
           />
         </div>
       </div>
