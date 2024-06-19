@@ -32,6 +32,7 @@ const navigation = {
     { name: "Contact Us", href: "/about/contact" },
     { name: "Distribution", href: "/about/distribution" },
     { name: "Warehouses", href: "/about/warehouses" },
+    { name: "News", href: "/news" },
     // { name: "Request A Quote", href: "/ronatank/quote" },
   ],
   legal: [
