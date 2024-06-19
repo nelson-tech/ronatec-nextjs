@@ -146,7 +146,7 @@ const CategoryLayout = ({
         setSelectedSort={setSelectedSort}
         selectedCategories={selectedCategories}
       />
-      <div className="flex">
+      <div className="flex max-w-7xl mx-auto ">
         {(subCategories?.length ?? 0) > 0 && (
           <div className="hidden md:block basis-1/4 pl-6 my-4">
             <h3 className="text-lg font-bold py-4 border-b">
