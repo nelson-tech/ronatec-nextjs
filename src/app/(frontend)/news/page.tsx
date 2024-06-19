@@ -7,7 +7,7 @@ const getNewsArticles = async () => {
 
   const data = await client.find({
     collection: "newsArticles",
-    sort: "date",
+    sort: "-updatedAt",
     limit: 100,
   })
 
