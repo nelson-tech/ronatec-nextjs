@@ -167,8 +167,8 @@ const formatProduct = async ({
     }),
     tags: tagIds,
     prices: {
-      regularPrice: lanco && regularPrice ? regularPrice * 0.97 : regularPrice,
-      salePrice: lanco && salePrice ? salePrice * 0.97 : salePrice,
+      regularPrice: lanco && regularPrice ? regularPrice : regularPrice,
+      salePrice: lanco && salePrice ? salePrice : salePrice,
     },
     upsellIds: webhook
       ? await findMatchingWCIds({
