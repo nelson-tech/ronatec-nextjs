@@ -2,6 +2,7 @@
 
 import { Cart, User } from "~payload-types"
 import StoreContext from "./StoreContext"
+import { Analytics } from "./Analytics"
 
 //
 // Types
@@ -23,11 +24,14 @@ const RootClientContext = ({
   cart,
 }: RootClientContextProps) => {
   return (
-    <StoreContext user={user} cart={cart}>
-      {/* <AuthContext invalidToken={invalidToken}> */}
-      {children}
-      {/* </AuthContext> */}
-    </StoreContext>
+    <>
+      <StoreContext user={user} cart={cart}>
+        {/* <AuthContext invalidToken={invalidToken}> */}
+        {children}
+        {/* </AuthContext> */}
+      </StoreContext>
+      <Analytics />
+    </>
   )
 }
 

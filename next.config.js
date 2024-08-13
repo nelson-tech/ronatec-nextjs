@@ -13,6 +13,7 @@ const nextConfig = {
       "ronatec.us",
       "assets.ronatec.us",
       "lanco-corp.com",
+      "px.ads.linkedin.com",
     ],
   },
   compiler: {
