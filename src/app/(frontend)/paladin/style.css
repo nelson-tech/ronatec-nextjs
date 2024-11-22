@@ -1,0 +1,11 @@
+.text-outline {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+}
+
+@media (min-width: 1100px) {
+  .text-outline {
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke-width: 3px;
+  }
+}
