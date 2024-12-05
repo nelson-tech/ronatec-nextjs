@@ -1,13 +1,15 @@
 import React from "react"
 import "./style.css" // Add custom styles for colors, fonts, and layout.
 import { CheckIcon } from "@heroicons/react/20/solid"
+import Image from "@components/Image"
+import Link from "@components/Link"
 
 const Check = () => <CheckIcon className="inline w-6 h-6 mr-2 text-[#67e6a9]" />
 
 const PromotionalPage = () => {
   return (
     <div className="p-5 text-center text-white promo-container bg-blue-main">
-      <div className="w-fit mx-auto relative bg-[url('/paladin.webp')] bg-center aspect-video bg-cover rounded-lg p-12">
+      {/* <div className="w-fit mx-auto relative bg-[url('/pls.png')] bg-center aspect-video bg-cover rounded-lg p-12">
         <div
           style={styles.header}
           className="flex flex-col items-center justify-center h-full font-bold"
@@ -19,9 +21,17 @@ const PromotionalPage = () => {
             THE FUTURE IS HERE!!!
           </h2>
         </div>
-      </div>
+      </div> */}
 
-      <div style={styles.content} className="mb-8">
+      <Image
+        src={`${process.env.NEXT_PUBLIC_SERVER_URL}/PLS.png`}
+        alt="Paladin Shield"
+        width={628}
+        height={628}
+        className="w-full mx-auto max-h-[500px] object-contain lg:p-12"
+      />
+
+      <div style={styles.content} className="pb-8">
         <h3 className="my-8 text-2xl font-bold">
           Ronatec introduces the Paladin Line of High Phos Electroless Nickel
         </h3>
@@ -50,12 +60,19 @@ const PromotionalPage = () => {
         </ul>
       </div>
 
+      <Link
+        href="tel:+1-855-928-9904"
+        className="px-4 py-2 text-lg font-semibold tracking-widest bg-white rounded text-blue-main"
+      >
+        Call Now
+      </Link>
+
       <div
         // style={styles.comingSoon}
-        className="pt-8 mt-16 border-t text-[#67e6a9]"
+        className="pt-8 mt-16 border-t text-[#87f6c9]"
       >
         <p>
-          <strong>COMING SOON!</strong>
+          <span className="font-semibold tracking-widest">COMING SOON!</span>
           <br />
           The Paladin Shield for Mid-Phos EN - Up to 400 hours salt spray
           protection
