@@ -147,7 +147,7 @@ const formatProduct = async ({
       : incoming.low_stock_remaining !== null ||
         incoming.add_to_cart.maximum !== 9999,
     stock: webhook
-      ? incoming.stock_quantity || undefined
+      ? incoming.stock_quantity ?? undefined
       : incoming.low_stock_remaining !== null
       ? incoming.low_stock_remaining
       : incoming.add_to_cart.maximum !== 9999
