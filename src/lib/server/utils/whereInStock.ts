@@ -4,7 +4,7 @@ const whereInStock: Where = {
   or: [
     { manageStock: { not_equals: true } },
     {
-      and: [{ manageStock: { equals: true } }, { stock: { greater_than: 0 } }],
+      and: [{ stock: { greater_than: 0 } }],
     },
   ],
 }

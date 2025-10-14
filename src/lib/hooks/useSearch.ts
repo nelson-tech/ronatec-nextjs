@@ -12,7 +12,22 @@ const useSearch = () => {
   const fetchSearchResults = async (search: string) => {
     setLoading(true)
     const query = qs.stringify(
-      { where: { title: { like: search } } },
+      {
+        where: {
+          and: [
+            { title: { like: search } },
+            {
+              or: [
+                { manageStock: { not_equals: true } },
+                { stock: { greater_than: 0 } },
+              ],
+            },
+            {
+              _status: { equals: "published" },
+            },
+          ],
+        },
+      },
       { addQueryPrefix: true }
     )
     const response = await fetch(`/api/products${query}`)
