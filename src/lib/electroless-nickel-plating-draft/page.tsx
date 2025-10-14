@@ -1,14 +1,14 @@
 import type { Metadata } from "next"
 
 import parseMetaData from "@utils/parseMetaData"
-import getProductBySlug from "../[slug]/products.category.slug.loader"
+import getProductBySlug from "../../app/(frontend)/products/[category]/[slug]/products.category.slug.loader"
 import getPayloadClient from "~payload/payloadClient"
 import type { Category } from "~payload-types"
 
 import Link from "@components/Link"
 
-import Breadcrumbs from "../../Breadcrumbs"
-import ProductDetails from "../[slug]/ProductDetails"
+import Breadcrumbs from "../../app/(frontend)/products/Breadcrumbs"
+import ProductDetails from "../../app/(frontend)/products/[category]/[slug]/ProductDetails"
 import { SEO_TITLE } from "@utils/constants"
 import ENDescription from "./ENDescription"
 
