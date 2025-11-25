@@ -9,6 +9,7 @@ import type {
 import type { WCWH_Product } from "../../utils/types"
 import type { UpdateProduct } from "@lib/types/product"
 import findMatchingWCIds from "../../utils/findMatchingWCIds"
+import getPayloadClient from "~payload/payloadClient"
 
 export type MappedProductData = UpdateProduct
 
@@ -28,12 +29,20 @@ export async function mapWooCommerceToPayload({
   event,
 }: MapProductOptions): Promise<MappedProductData> {
   // Determine stock status using both stock_quantity and stock_status
+  // CRITICAL: Only products with stock > 0 can be published
+  const stockQuantity = wcData.stock_quantity ?? 0
   const isInStock =
     wcData.stock_status === "instock" &&
-    (!wcData.manage_stock || (wcData.stock_quantity ?? 0) > 0)
+    stockQuantity > 0 &&
+    (!wcData.manage_stock || stockQuantity > 0)
 
-  // Set product status based on stock
+  // Set product status: published ONLY if in stock with quantity > 0
+  // Otherwise set to draft (hidden from customers)
   const productStatus = isInStock ? "published" : "draft"
+
+  console.log(
+    `[${wcData.sku}] Stock: ${stockQuantity}, Status: ${wcData.stock_status}, Result: ${productStatus}`
+  )
 
   // Map prices (WooCommerce uses string, Payload uses cents as number)
   const regularPrice = wcData.regular_price
@@ -88,11 +97,55 @@ export async function mapWooCommerceToPayload({
     })
   )
 
-  // Find matching categories
-  const categoryIds = await findMatchingWCIds({
-    collection: "categories",
-    where: { slug: { in: wcData.categories.map((cat) => cat.slug) } },
-  })
+  // Find or create matching categories
+  const categoryIds: string[] = []
+  const missingCategories: string[] = []
+
+  for (const wcCategory of wcData.categories) {
+    try {
+      // Try to find existing category
+      const payload = await getPayloadClient()
+      const existing = await payload.find({
+        collection: "categories",
+        where: { slug: { equals: wcCategory.slug } },
+        limit: 1,
+      })
+
+      if (existing.docs.length > 0) {
+        categoryIds.push(existing.docs[0].id)
+      } else {
+        // Category doesn't exist - try to create it
+        console.log(
+          `[${wcData.sku}] Creating missing category: ${wcCategory.name} (${wcCategory.slug})`
+        )
+
+        try {
+          const newCategory = await payload.create({
+            collection: "categories",
+            data: {
+              title: wcCategory.name,
+              slug: wcCategory.slug,
+              _status: "published",
+            },
+          })
+          categoryIds.push(newCategory.id)
+          console.log(`[${wcData.sku}] ✅ Created category: ${wcCategory.name}`)
+        } catch (createError) {
+          console.error(
+            `[${wcData.sku}] ❌ Failed to create category ${wcCategory.name}:`,
+            createError
+          )
+          if (wcCategory.name) missingCategories.push(wcCategory.name)
+        }
+      }
+    } catch (error) {
+      console.error(
+        `[${wcData.sku}] Error processing category ${wcCategory.name}:`,
+        error
+      )
+      if (wcCategory.name) missingCategories.push(wcCategory.name)
+    }
+  }
 
   // Find matching tags
   const tagIds = await findMatchingWCIds({
@@ -122,6 +175,22 @@ export async function mapWooCommerceToPayload({
     },
   })
 
+  // Determine final product status
+  // Force draft if:
+  // 1. Out of stock OR
+  // 2. Missing required categories (build will fail without categories)
+  let finalStatus = productStatus
+  if (missingCategories.length > 0) {
+    finalStatus = "draft"
+    console.log(
+      `[${
+        wcData.sku
+      }] ⚠️  Setting to DRAFT - missing categories: ${missingCategories.join(
+        ", "
+      )}`
+    )
+  }
+
   // Build the complete product data
   const mappedProduct: MappedProductData = {
     ...existingProduct,
@@ -136,11 +205,14 @@ export async function mapWooCommerceToPayload({
     // Product type
     type: wcData.virtual ? "virtual" : wcData.type,
 
-    // Status (draft if out of stock, published if in stock)
-    _status: productStatus as "published" | "draft",
+    // Status (draft if out of stock OR missing categories)
+    _status: finalStatus as "published" | "draft",
 
     // Lanco flag
     lanco: true,
+
+    // Mark as used (Lanco sells used equipment)
+    used: true,
 
     // Visibility
     featured: wcData.featured,
@@ -180,12 +252,14 @@ export async function mapWooCommerceToPayload({
       height: wcData.dimensions.height,
     },
 
-    // Relationships
-    categories: categoryIds,
-    tags: tagIds,
-    upsellIds,
-    crossSellIds,
-    relatedIds,
+    // Relationships (only set if values exist to avoid clearing existing data)
+    ...(categoryIds && categoryIds.length > 0
+      ? { categories: categoryIds }
+      : {}),
+    ...(tagIds && tagIds.length > 0 ? { tags: tagIds } : {}),
+    ...(upsellIds && upsellIds.length > 0 ? { upsellIds } : {}),
+    ...(crossSellIds && crossSellIds.length > 0 ? { crossSellIds } : {}),
+    ...(relatedIds && relatedIds.length > 0 ? { relatedIds } : {}),
 
     // Attributes
     attributes,

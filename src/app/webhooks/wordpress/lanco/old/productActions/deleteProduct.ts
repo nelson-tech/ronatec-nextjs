@@ -1,4 +1,4 @@
-import { WCWH_Product } from "../../utils/types"
+import { WCWH_Product } from "../../../utils/types"
 import getPayloadClient from "~payload/payloadClient"
 
 const deleteProduct = async (data: WCWH_Product) => {

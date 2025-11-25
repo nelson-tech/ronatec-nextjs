@@ -216,7 +216,7 @@ const formatProduct = async ({
 
     product.meta = {
       ...meta,
-      keywords: meta.keywords.map((key) => ({ keyword: key })),
+      keywords: (meta as any)?.keywords.map((key) => ({ keyword: key })),
     }
   }
 

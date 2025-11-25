@@ -6,12 +6,12 @@ import {
   WCImageProbe,
   WCImages,
 } from "~payload-types"
-import { WCWH_Product } from "./types"
+import { WCWH_Product } from "../../utils/types"
 import { UpdateProduct } from "@lib/types/product"
 import he from "he"
 import { WCProduct } from "~payload/collections/Products/wcProductType"
-import findMatchingWCIds from "./findMatchingWCIds"
-import generateMetadata from "./generateMetadata"
+import findMatchingWCIds from "../../utils/findMatchingWCIds"
+import generateMetadata from "../../utils/generateMetadata"
 
 type FormatProductArgs = {
   existingProduct?: Product | null
@@ -209,20 +209,18 @@ const formatProduct = async ({
   console.log("Formatted product (pre meta)", product)
 
   // SEO Metadata
-  if (!product.meta?.keywords || product.meta.keywords.length < 1) {
+  if (!product.meta?.keywords || (product.meta as any).keywords?.length < 1) {
     const meta = await generateMetadata({ product })
 
     console.log("Meta from formatter", meta)
 
     product.meta = {
-      ...meta,
-      keywords: meta.keywords.map((key) => ({ keyword: key })),
-    }
+      ...(meta ?? {}),
+      keywords: Array.isArray((meta as any)?.keywords)
+        ? (meta as any).keywords.map((key: string) => ({ keyword: key }))
+        : [],
+    } as any
   }
-
-  console.log("Final formatted product", product)
 
   return product
 }
-
-export default formatProduct

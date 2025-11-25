@@ -1,4 +1,4 @@
-import { WCWH_Event, WCWH_Product } from "../../utils/types"
+import { WCWH_Event, WCWH_Product } from "../../../utils/types"
 import deleteProduct from "./deleteProduct"
 import { updateProduct } from "./updateProduct"
 

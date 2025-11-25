@@ -62,10 +62,13 @@ async function handleDeleteEvent(
   wcData: WCWH_Product,
   logId?: string
 ): Promise<ProcessorResult> {
-  // Find existing product by WooCommerce ID
+  // Find existing product by WooCommerce ID AND lanco flag
+  // CRITICAL: Must also check lanco:true to avoid deleting non-Lanco products!
   const existingProduct = await findMatchingDocument({
     collection: "products",
-    where: { "wc.wc_id": { equals: wcData.id } },
+    where: {
+      and: [{ "wc.wc_id": { equals: wcData.id } }, { lanco: { equals: true } }],
+    },
     payload,
   })
 
@@ -130,10 +133,13 @@ async function handleUpsertEvent(
     )
   }
 
-  // Find existing product by WooCommerce ID
+  // Find existing product by WooCommerce ID AND lanco flag
+  // CRITICAL: Must also check lanco:true to avoid updating non-Lanco products!
   const existingProduct = await findMatchingDocument({
     collection: "products",
-    where: { "wc.wc_id": { equals: wcData.id } },
+    where: {
+      and: [{ "wc.wc_id": { equals: wcData.id } }, { lanco: { equals: true } }],
+    },
     payload,
   })
 

@@ -1,7 +1,7 @@
 import getPayloadClient from "~payload/payloadClient"
-import type { WCWH_Product } from "../../utils/types"
-import formatProduct from "../../utils/formatProduct"
-import findMatchingDocument from "../../utils/findMatchingDocument"
+import type { WCWH_Product } from "../../../utils/types"
+import formatProduct from "../../../utils/formatProduct"
+import findMatchingDocument from "../../../utils/findMatchingDocument"
 import type { SendMailOptions } from "nodemailer"
 import type { Settings } from "~payload-types"
 
