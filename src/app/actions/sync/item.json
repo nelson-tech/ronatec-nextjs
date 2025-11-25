@@ -1,0 +1,349 @@
+{
+  "id": 31863,
+  "name": "Crizaf Model L-24\" x 10' Belt Conveyor MH2356C",
+  "slug": "crizaf-model-l-24-x-10-belt-conveyor-mh2356c",
+  "permalink": "https://lanco-corp.com/product/crizaf-model-l-24-x-10-belt-conveyor-mh2356c/",
+  "date_created": "2024-02-20T14:00:50",
+  "date_created_gmt": "2024-02-20T19:00:50",
+  "date_modified": "2024-05-29T13:05:42",
+  "date_modified_gmt": "2024-05-29T17:05:42",
+  "type": "simple",
+  "status": "publish",
+  "featured": false,
+  "catalog_visibility": "visible",
+  "description": "<p>Crizaf Model L-24\" x 10' Belt Conveyor MH2356C</p>\n",
+  "short_description": "<p>Belt Size:  24&#8243; x 10&#8242;.  Adjustable Height.  Rubber Belt.  Tested.</p>\n",
+  "sku": "MH2356C",
+  "price": "2450",
+  "regular_price": "2450",
+  "sale_price": "",
+  "date_on_sale_from": null,
+  "date_on_sale_from_gmt": null,
+  "date_on_sale_to": null,
+  "date_on_sale_to_gmt": null,
+  "on_sale": false,
+  "purchasable": true,
+  "total_sales": 0,
+  "virtual": false,
+  "downloadable": false,
+  "downloads": [],
+  "download_limit": -1,
+  "download_expiry": -1,
+  "external_url": "",
+  "button_text": "",
+  "tax_status": "taxable",
+  "tax_class": "",
+  "manage_stock": true,
+  "stock_quantity": 0,
+  "backorders": "no",
+  "backorders_allowed": false,
+  "backordered": false,
+  "low_stock_amount": null,
+  "sold_individually": false,
+  "weight": "9999",
+  "dimensions": {
+    "length": "",
+    "width": "",
+    "height": ""
+  },
+  "shipping_required": true,
+  "shipping_taxable": true,
+  "shipping_class": "",
+  "shipping_class_id": 0,
+  "reviews_allowed": false,
+  "average_rating": "0.00",
+  "rating_count": 0,
+  "upsell_ids": [],
+  "cross_sell_ids": [],
+  "parent_id": 0,
+  "purchase_note": "",
+  "categories": [
+    {
+      "id": 85,
+      "name": "Material Handling",
+      "slug": "material-handling"
+    }
+  ],
+  "tags": [],
+  "images": [
+    {
+      "id": 33855,
+      "date_created": "2024-05-15T05:52:38",
+      "date_created_gmt": "2024-05-15T13:52:38",
+      "date_modified": "2024-05-15T05:53:03",
+      "date_modified_gmt": "2024-05-15T13:53:03",
+      "src": "https://lanco-corp.com/wp-content/uploads/2024/05/MH2356C-scaled.jpg",
+      "name": "MH2356C",
+      "alt": ""
+    },
+    {
+      "id": 33856,
+      "date_created": "2024-05-15T05:52:43",
+      "date_created_gmt": "2024-05-15T13:52:43",
+      "date_modified": "2024-05-15T05:53:03",
+      "date_modified_gmt": "2024-05-15T13:53:03",
+      "src": "https://lanco-corp.com/wp-content/uploads/2024/05/MH2356Ca-scaled.jpg",
+      "name": "MH2356Ca",
+      "alt": ""
+    },
+    {
+      "id": 33858,
+      "date_created": "2024-05-15T05:52:50",
+      "date_created_gmt": "2024-05-15T13:52:50",
+      "date_modified": "2024-05-15T05:53:03",
+      "date_modified_gmt": "2024-05-15T13:53:03",
+      "src": "https://lanco-corp.com/wp-content/uploads/2024/05/MH2356Cc-scaled.jpg",
+      "name": "MH2356Cc",
+      "alt": ""
+    },
+    {
+      "id": 33857,
+      "date_created": "2024-05-15T05:52:46",
+      "date_created_gmt": "2024-05-15T13:52:46",
+      "date_modified": "2024-05-15T05:53:03",
+      "date_modified_gmt": "2024-05-15T13:53:03",
+      "src": "https://lanco-corp.com/wp-content/uploads/2024/05/MH2356Cb-scaled.jpg",
+      "name": "MH2356Cb",
+      "alt": ""
+    }
+  ],
+  "attributes": [
+    {
+      "id": 113,
+      "name": "New / Used",
+      "slug": "pa_new-used",
+      "position": 0,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "Used"
+      ]
+    },
+    {
+      "id": 39,
+      "name": "serial-num",
+      "slug": "pa_serial-num",
+      "position": 1,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "CE-9440"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "inventory",
+      "slug": "pa_inventory",
+      "position": 2,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "MH2356C"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Manufacturer",
+      "slug": "pa_manufacturer",
+      "position": 3,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "Crizaf"
+      ]
+    },
+    {
+      "id": 129,
+      "name": "Tested By",
+      "slug": "pa_tested-by",
+      "position": 4,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "DB"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "model",
+      "slug": "pa_model",
+      "position": 5,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "24\" x 10'"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Type",
+      "slug": "pa_type-2",
+      "position": 6,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "Belt Conveyor"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Volts",
+      "slug": "pa_volts",
+      "position": 7,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "115"
+      ]
+    },
+    {
+      "id": 108,
+      "name": "Amps",
+      "slug": "pa_amps",
+      "position": 8,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "6.6"
+      ]
+    },
+    {
+      "id": 41,
+      "name": "dimensions",
+      "slug": "pa_dimensions",
+      "position": 9,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "120\"L x 33\"W x 40\"H"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "hp",
+      "slug": "pa_hp",
+      "position": 10,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "0.33"
+      ]
+    },
+    {
+      "id": 112,
+      "name": "Capacity",
+      "slug": "pa_capacity",
+      "position": 11,
+      "visible": true,
+      "variation": false,
+      "options": [
+        "70"
+      ]
+    }
+  ],
+  "default_attributes": [],
+  "variations": [],
+  "grouped_products": [],
+  "menu_order": 301,
+  "price_html": "<span class=\"woocommerce-Price-amount amount\"><bdi><span class=\"woocommerce-Price-currencySymbol\">&#36;</span>2,450.00</bdi></span>",
+  "related_ids": [
+    8962,
+    6047,
+    5185,
+    4835,
+    3032
+  ],
+  "meta_data": [
+    {
+      "id": 581567,
+      "key": "rank_math_internal_links_processed",
+      "value": "1"
+    },
+    {
+      "id": 581583,
+      "key": "_woonet_settings",
+      "value": {
+        "_woonet_publish_to_5102f837351e7c5eab909e8519f768c46bc9c7e2": "yes",
+        "_woonet_5102f837351e7c5eab909e8519f768c46bc9c7e2_child_stock_synchronize": "no"
+      }
+    },
+    {
+      "id": 581584,
+      "key": "_woonet_network_main_product",
+      "value": "1"
+    },
+    {
+      "id": 581588,
+      "key": "acqdate",
+      "value": "02/19/2024"
+    },
+    {
+      "id": 581589,
+      "key": "acqfrom",
+      "value": "Lacks"
+    },
+    {
+      "id": 581700,
+      "key": "rank_math_seo_score",
+      "value": "4"
+    },
+    {
+      "id": 581701,
+      "key": "wc_productdata_options",
+      "value": [
+        {
+          "_product_block": "0",
+          "_top_content": "",
+          "_bottom_content": "",
+          "_bubble_new": "",
+          "_bubble_text": "",
+          "_custom_tab_title": "",
+          "_custom_tab": "",
+          "_product_video": "",
+          "_product_video_size": "",
+          "_product_video_placement": ""
+        }
+      ]
+    },
+    {
+      "id": 581702,
+      "key": "ced_ebay_plugin_profile_template",
+      "value": ""
+    },
+    {
+      "id": 581703,
+      "key": "ced_ebay_plugin_profile_condition",
+      "value": ""
+    },
+    {
+      "id": 581704,
+      "key": "ced_ebay_plugin_profile_condition_descriptor",
+      "value": ""
+    },
+    {
+      "id": 581705,
+      "key": "ced_ebay_plugin_profile_condition_descriptor_values",
+      "value": ""
+    },
+    {
+      "id": 583445,
+      "key": "_ced_ebay_listing_id_lanco.corp",
+      "value": "156085883530"
+    }
+  ],
+  "stock_status": "outofstock",
+  "has_options": false,
+  "post_password": "",
+  "_links": {
+    "self": [
+      {
+        "href": "https://lanco-corp.com/wp-json/wc/v3/products/31863"
+      }
+    ],
+    "collection": [
+      {
+        "href": "https://lanco-corp.com/wp-json/wc/v3/products"
+      }
+    ]
+  }
+}
