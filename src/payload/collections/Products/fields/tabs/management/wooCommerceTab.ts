@@ -12,6 +12,9 @@ const wcFields: CollectionConfig["fields"] = [
         name: "wc_id",
         label: "ID",
         type: "number",
+        admin: {
+          hidden: true,
+        },
       },
       {
         name: "description",
@@ -94,7 +97,11 @@ const wcFields: CollectionConfig["fields"] = [
 const wooCommerceTab: Tab = {
   label: "WC Import",
   description: "Data imported from WooCommerce",
-  fields: wcFields,
+  fields: [
+    { name: "wc_id", type: "number", unique: true },
+    ...wcFields,
+    { name: "wc_modified_at", type: "date" },
+  ],
   admin: {
     condition: (data) => {
       if (data?.wc?.wc_id) {

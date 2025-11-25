@@ -76,7 +76,7 @@ const productManagementTab: Tab = {
         {
           label: "Stock",
           fields: [
-            { name: "sku", type: "text", unique: true },
+            { name: "sku", type: "text", unique: false },
             { name: "manageStock", type: "checkbox" },
             {
               name: "stock",

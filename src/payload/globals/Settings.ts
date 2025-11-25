@@ -52,6 +52,11 @@ export const Settings: GlobalConfig = {
             { name: "startingNumber", type: "number" },
           ],
         },
+        {
+          name: "lanco",
+          label: "Lanco",
+          fields: [{ name: "logLancoWebhooks", type: "checkbox" }],
+        },
       ],
     },
   ],

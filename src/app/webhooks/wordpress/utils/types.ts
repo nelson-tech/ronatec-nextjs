@@ -74,6 +74,7 @@ export type WCWH_Product = {
   tax_class: string
   manage_stock: boolean
   stock_quantity: number | null
+  stock_status: "instock" | "outofstock" | "onbackorder"
   in_stock: boolean
   backorders: string
   backorders_allowed: boolean

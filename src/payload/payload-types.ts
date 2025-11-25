@@ -220,6 +220,10 @@ export interface Config {
     carts: Cart
     orders: Order
     users: User
+    manufacturers: Manufacturer
+    industries: Industry
+    chemicals: Chemical
+    newsArticles: NewsArticle
     employees: Employee
     suppliers: Supplier
     forms: Form
@@ -472,6 +476,7 @@ export interface Product {
     width?: string
     height?: string
   }
+  wc_id?: number
   wc?: {
     wc_id?: number
     description?: string
@@ -490,6 +495,7 @@ export interface Product {
       id?: string
     }[]
   }
+  wc_modified_at?: string
   ordered?: number
   sold?: number
   featured?: boolean
@@ -695,6 +701,41 @@ export interface Order {
   updatedAt: string
   createdAt: string
 }
+export interface Manufacturer {
+  id: string
+  name: string
+  description?: string
+  logo?: string | Image
+  link: string
+  updatedAt: string
+  createdAt: string
+}
+export interface Industry {
+  id: string
+  name?: string
+  description?: string
+  updatedAt: string
+  createdAt: string
+}
+export interface Chemical {
+  id: string
+  name?: string
+  description?: string
+  manufacturer?: string | Manufacturer
+  industry?: string | Industry
+  image?: string | Image
+  tags?: string[] | Tag[]
+  updatedAt: string
+  createdAt: string
+}
+export interface NewsArticle {
+  id: string
+  title: string
+  text: string
+  url?: string
+  updatedAt: string
+  createdAt: string
+}
 export interface Employee {
   id: string
   name?: string
@@ -875,6 +916,9 @@ export interface Settings {
   orders: {
     adminEmail?: string
     startingNumber?: number
+  }
+  lanco: {
+    logLancoWebhooks?: boolean
   }
   updatedAt?: string
   createdAt?: string
