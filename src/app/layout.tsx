@@ -7,7 +7,20 @@ const font = localFont({
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en-us">
-      <body className={font.className}>{children}</body>
+      <body className={font.className}>
+        {children}
+        <script
+          type="text/javascript"
+          src="https://enterprise52.com/js/813286.js"
+          defer
+        ></script>
+        <noscript>
+          <img
+            src="https://enterprise52.com/813286.png"
+            style={{ display: "none" }}
+          />
+        </noscript>
+      </body>
     </html>
   )
 }
