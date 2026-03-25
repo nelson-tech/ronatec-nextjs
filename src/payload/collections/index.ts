@@ -14,6 +14,7 @@ import Chemicals from "./Chemicals"
 import NewsArticles from "./NewsArticles"
 import Manufacturers from "./Manufacturers"
 import Industries from "./Industries"
+import { LancoWebhooks } from "./LancoWebhooks"
 
 const collections: CollectionConfig[] = [
   Pages,
@@ -33,6 +34,7 @@ const collections: CollectionConfig[] = [
   NewsArticles,
   Employees,
   Suppliers,
+  LancoWebhooks,
 ]
 
 export default collections

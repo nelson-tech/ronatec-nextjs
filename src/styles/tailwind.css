@@ -14,7 +14,7 @@
   --text-primary: #000000;
   --text-secondary: white;
 
-  --accent: #5375a0;
+  --accent: #0f2a43;
   --highlight: #37b679;
   --hover: rgba(0, 0, 0, 0.075);
   --hover-1: rgba(0, 0, 0, 0.15);
@@ -42,7 +42,7 @@
 }
 
 body {
-  -webkit-tap-highlight-color: #5375a0;
+  -webkit-tap-highlight-color: #0f2a43;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

@@ -29,18 +29,22 @@ const Header = ({ promo = false, menus }: HeaderProps) => {
   const { scrollDirection, atTop } = useScrollDirection()
 
   const logo = (
-    <>
-      <div className={`w-10 h-10 text-center text-accent relative`}>
-        <Image src="/images/ronatec.svg" alt="Ronatec Logo" fill sizes="10vw" />
-      </div>
-    </>
+    <div className="relative h-[98px] w-[245px]">
+      <Image
+        src="/logo.svg"
+        alt="Ronatec Logo"
+        fill
+        sizes="10vw"
+        className="object-contain"
+      />
+    </div>
   )
 
   return (
     <>
       <header
         className={`z-30 sticky ${
-          scrollDirection === "down" ? "-top-20" : "top-0"
+          scrollDirection === "down" ? "-top-[118px]" : "top-0"
         } transition-all duration-500`}
       >
         <nav aria-label="Top" className="border-b bg-white border-gray-200">
@@ -57,7 +61,7 @@ const Header = ({ promo = false, menus }: HeaderProps) => {
           <div className="bg-white mx-auto lg:max-w-7xl">
             <div className="mx-auto px-4 sm:px-6 lg:px-8">
               <div className="">
-                <div className="h-16 flex items-center justify-between">
+                <div className="h-[118px] flex items-center justify-between">
                   {/* Logo (lg+) */}
                   <div className="hidden lg:flex lg:items-center">
                     <Link href="/" className="text-accent">
@@ -72,8 +76,8 @@ const Header = ({ promo = false, menus }: HeaderProps) => {
                   <MobileNav />
 
                   {/* Logo (lg-) */}
-                  <div className="h-8 w-8 lg:hidden">
-                    <Link href="/" className="text-accent">
+                  <div className="lg:hidden">
+                    <Link href="https://ronatec.us" className="text-accent">
                       <span className="sr-only">Ronatec C2C, Inc.</span>
                       {logo}
                     </Link>
