@@ -26,7 +26,7 @@ const Promo = ({ className }: { className?: string }) => {
       <div className="h-10 px-4 flex items-center justify-center md:justify-end text-white">
         <div className="hidden md:block h-6 w-6 mr-6 mt-1 hover:text-red-400 transition-colors">
           <a
-            href="https://www.youtube.com/channel/UCxmKm_9iLJ2skg39mmoKYnA"
+            href="https://www.youtube.com/@RonatecC2C"
             target="_blank"
             rel="noreferrer"
             title="Visit our YouTube Channel"

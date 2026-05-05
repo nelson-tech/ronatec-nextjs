@@ -86,6 +86,8 @@ const ProductGallery = ({
                               src={image.url}
                               alt={image.alt ?? ""}
                               sizes="33vw"
+                              width={image.width ?? 0}
+                              height={image.height ?? 0}
                               className="h-full w-full object-cover object-center"
                             />
                           </span>
@@ -129,8 +131,8 @@ const ProductGallery = ({
         <Image
           src={images.at(0)?.url ?? ""}
           alt={images.at(0)?.alt ?? ""}
-          height={images.at(0)?.height ?? undefined}
-          width={images.at(0)?.width ?? undefined}
+          height={images.at(0)?.height ?? 0}
+          width={images.at(0)?.width ?? 0}
           className="object-contain rounded overflow-hidden w-full h-full"
           // sizes={images.at(0).sizes ?? ""}
         />

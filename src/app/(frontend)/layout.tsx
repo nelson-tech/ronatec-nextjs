@@ -10,6 +10,7 @@ import Modals from "@components/ui/Layout/Modals"
 import Alerts from "@components/ui/Alerts"
 
 import RootClientContext from "./RootClientContext"
+import { CookieBanner } from "./cookie-banner"
 
 // ####
 // #### Variables
@@ -30,6 +31,7 @@ const FrontendLayout = async ({ children }: { children: React.ReactNode }) => {
       <Modals menuItems={menus?.mobileMenu.links} />
 
       <Alerts />
+      <CookieBanner />
       <ScrollToTop />
       {/* <Analytics /> */}
     </RootClientContext>

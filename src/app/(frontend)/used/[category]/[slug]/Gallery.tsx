@@ -85,6 +85,8 @@ const ProductGallery = ({
                             <Image
                               src={image.url}
                               alt={image.alt ?? ""}
+                              width={image.width ?? 0}
+                              height={image.height ?? 0}
                               sizes="33vw"
                               className="h-full w-full object-cover object-center"
                             />

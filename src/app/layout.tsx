@@ -9,7 +9,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
     <html lang="en-us">
       <body className={font.className}>
         {children}
-        <script defer src="https://ronatecnews.us/tracker/tracker.js"></script>
+        <script defer src="https://ronatec.us/tracker/tracker.js"></script>
       </body>
     </html>
   )
