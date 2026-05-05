@@ -64,7 +64,7 @@ const Header = ({ promo = false, menus }: HeaderProps) => {
                 <div className="h-[118px] flex items-center justify-between">
                   {/* Logo (lg+) */}
                   <div className="hidden lg:flex lg:items-center">
-                    <Link href="/" className="text-accent">
+                    <Link href="https://ronatec.us" className="text-accent">
                       <span className="sr-only">Ronatec C2C, Inc.</span>
                       {logo}
                     </Link>
